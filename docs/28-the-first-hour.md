@@ -449,7 +449,7 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 
 What `doug-md` asked for in play-test 8 ([transcript](worldbuilding/voice-notes/2026-10-21-doug-md-play-test-8.md))
 that needs more than a fix, **planned**, in the order of call BX ([D325](06-decisions.md), 2026-10-21): 4, 6, 10 and
-11 now (held until milestone B is in); after B the 2× cap (built, [D329](06-decisions.md)), 3 and 5; later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
+11 now (held until milestone B is in); after B the 2× cap (built, [D329](06-decisions.md)), 3 (built, [D330](06-decisions.md)) and 5; later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
 ([D324](06-decisions.md)): a fighter taken off the field seen to go, food eaten not drunk, foes' moves
 loaded ahead. Some repeat earlier asks (noted).
 1. **The opening cinematic**, "a major update".
@@ -461,7 +461,9 @@ loaded ahead. Some repeat earlier asks (noted).
    on a floor have eight more things to say between them, the host and the trader two each.
 3. **A nemesis system** after Shadow of Mordor: people remember what you did, hold grudges or thanks, and
    some come for you. A first version is built and hidden for the First Hour ([D97](06-decisions.md):
-   `nemesis` in `first_hour.hidden`, a broken band's survivor who takes an epithet and comes back).
+   `nemesis` in `first_hour.hidden`, a broken band's survivor who takes an epithet and comes back). **Built**
+   ([D330](06-decisions.md)): back in the game, a survivor a level up each return and finished when beaten again;
+   an errand's giver who remembers meets the company on the road with thanks and coin.
 4. **Letting people go**: disband a companion so they go their own way in the world. **Built** ([D326](06-decisions.md)):
    Let go beside each card, asked once, gone from the roster.
 5. **A hunger bar** under every member, and **Auto eating and using what it carries** when it needs to.
@@ -469,7 +471,9 @@ loaded ahead. Some repeat earlier asks (noted).
    instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)). **Built**
    ([D326](06-decisions.md)): held still 0.3 s, Eat, Party, Send away, Formation, Map, Journal and Auto on the land; Eat, Stance and Auto in a fight.
 7. **Text boxes sized right, and panels moved and resized** in the game (repeats play-test 7, item 12).
-8. **More buildings to go into** in the city; most doors are shut.
+8. **More buildings to go into** in the city; most doors are shut. **Built** ([D342](06-decisions.md)): six more
+   doors open, the Cathedral of the Ascent (a blessing before the climb), the apothecary, the smithy (an edge
+   on your weapons), the old shrine, the ruined bathhouse and the Sign of the Fish, each with its people.
 9. **Groves that look like groves**, hard to find, with good things in them, even if their keeper has to be fought.
 10. **A sent-away band seen on its way**: how far off and how long until it is back ([D294](06-decisions.md)'s band on the map).
     **Built** ([D326](06-decisions.md)): tiles off and steps to come, under the cards and beside its face on the map.

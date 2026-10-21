@@ -23,6 +23,7 @@ const AREAS := [
 	"tower_floor_1", "tower_floor_2", "tower_floor_3", "tower_floor_4", "tower_floor_5",
 	"camp", "tutorial",
 	"city", "city_streets", "city_tavern", "city_house",
+	"city_cathedral", "city_apothecary", "city_smithy", "city_shrine", "city_bathhouse", "city_fish",
 ]
 ## Longest a staged meeting is allowed to take before the talking starts.
 const CUTSCENE_PATIENCE := 20.0
@@ -77,6 +78,7 @@ func _ready() -> void:
 	_check_story_npcs()
 	_check_recruiting()
 	_check_company_voices()
+	_check_city_doors()
 	_check_crafting()
 	await _check_caves()
 	_check_rises()
@@ -249,6 +251,25 @@ func _distinct(items: Array) -> int:
 	for item: Variant in items:
 		seen[item] = true
 	return seen.size()
+## More of Stormreach's doors open (play-test 8, ask 8; call BX): every door with an `area` leads into a
+## room that is there, the six opened for play-test 8 among them.
+func _check_city_doors() -> void:
+	var open: Array = []
+	for building: Dictionary in AreaMap.load_area("city_streets").buildings:
+		var area_id := str(building.get("area", ""))
+		if area_id == "":
+			continue
+		open.append(area_id)
+		if not Database.has_area(area_id):
+			_fail("city doors: %s opens on %s, which is not there" % [building.get("name", ""), area_id])
+			continue
+		var room := AreaMap.load_area(area_id)
+		if room.exits.is_empty() or not room.is_walkable(AreaMap.to_cell(Database.area(area_id).get("spawn", [0, 0]))):
+			_fail("city doors: %s has no way in or out" % area_id)
+	for wanted: String in ["city_cathedral", "city_apothecary", "city_smithy", "city_shrine", "city_bathhouse", "city_fish"]:
+		if not open.has(wanted):
+			_fail("city doors: no door in Stormreach opens on %s" % wanted)
+	print("city doors: %d of Stormreach's doors open (%s)" % [open.size(), ", ".join(open)])
 
 
 ## Asking anyone to walk with the company ([D277]): a Charisma check, a no that names what would

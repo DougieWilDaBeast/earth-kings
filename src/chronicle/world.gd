@@ -88,6 +88,8 @@ var happening_at: int = 0
 var happening_last: String = ""
 ## Enemies who crawled away alive and wander with a grudge (see [Nemesis]).
 var survivors: Array = []
+## Errand givers who remember the company kindly and have yet to meet it on the road again ([Nemesis], [D330]).
+var thankful: Array = []
 ## Guild musters gathering for S-rank gates (see `src/chronicle/guild.gd`).
 var musters: Array = []
 ## The others of the sixteen, living their own lives (see `src/chronicle/wanderers.gd`).
@@ -372,6 +374,7 @@ func to_dict() -> Dictionary:
 		"happening_at": happening_at,
 		"happening_last": happening_last,
 		"survivors": survivors,
+		"thankful": thankful,
 		"musters": musters,
 		"wanderers": wanderers,
 		"echoes": echoes,
@@ -428,6 +431,7 @@ static func from_dict(payload: Dictionary) -> World:
 	world.happening_at = int(payload.get("happening_at", world.steps))
 	world.happening_last = str(payload.get("happening_last", ""))
 	world.survivors = payload.get("survivors", [])
+	world.thankful = payload.get("thankful", [])
 	world.musters = payload.get("musters", [])
 	world.wanderers = payload.get("wanderers", [])
 	world.echoes = payload.get("echoes", {})

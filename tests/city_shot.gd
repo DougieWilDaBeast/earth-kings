@@ -1,7 +1,8 @@
 extends Node
 ## Photograph the great city ([D85], walked outside since [D247]): Stormreach laid out on the land
 ## over four tiles, from high up with the Tower at its north gate; the south gate, the high street,
-## the market a little later, the north gate with the Tower beyond; and the Gilded Flagon. Needs a
+## the market a little later, the north gate with the Tower beyond; the Gilded Flagon, and the six
+## rooms opened for play-test 8. Needs a
 ## display (xvfb-run).
 ##
 ##   xvfb-run godot --path . --rendering-driver opengl3 res://tests/city_shot.tscn
@@ -61,6 +62,11 @@ func _ready() -> void:
 	EventBus.request_scene.emit("area", { "area_id": "city_tavern", "title": "the Gilded Flagon", "return_scene": "world" })
 	await _frames(60)
 	await _shoot("tavern")
+	# The doors opened for play-test 8 (ask 8, call BX).
+	for room: String in ["city_cathedral", "city_apothecary", "city_smithy", "city_shrine", "city_bathhouse", "city_fish"]:
+		EventBus.request_scene.emit("area", { "area_id": room, "title": str(Database.area(room).get("display_name", room)), "return_scene": "world" })
+		await _frames(60)
+		await _shoot(room.trim_prefix("city_"))
 	get_tree().quit(0)
 
 

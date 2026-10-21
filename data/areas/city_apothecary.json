@@ -1,0 +1,252 @@
+{
+    "display_name": "the apothecary",
+    "_doc": "Play-test 8, ask 8 (call BX): the apothecary off the Guild's street, open. Laid out by tools/build_interiors.py.",
+    "people": [
+        {
+            "name": "Hester the Apothecary",
+            "unit": "town_spice_seller",
+            "facing": [
+                0,
+                1
+            ],
+            "recruit": false,
+            "talk": {
+                "hello": [
+                    "Mind the jars. The blue ones bite back.",
+                    "Back, as you see. The picking went well. What ails you?"
+                ],
+                "ask": [
+                    {
+                        "q": "What's in the blue jars?",
+                        "a": "Frostmoss in vinegar. It keeps the cold in. Don't open one indoors."
+                    },
+                    {
+                        "q": "Where do you pick?",
+                        "a": "Along the hedges outside the walls, and in the fen when I'm brave. I'm not often brave."
+                    },
+                    {
+                        "q": "Can you make a draught stronger?",
+                        "a": "I can make it dearer. Stronger takes a better root than you'll find in town."
+                    }
+                ],
+                "sells": [
+                    {
+                        "item": "herbs",
+                        "restock": true
+                    },
+                    {
+                        "item": "red_draught",
+                        "restock": true
+                    },
+                    {
+                        "item": "blue_draught"
+                    },
+                    {
+                        "item": "green_draught"
+                    },
+                    {
+                        "item": "redcap"
+                    },
+                    {
+                        "item": "frostmoss"
+                    }
+                ],
+                "shop": "Draughts on the top shelf, roots on the bottom, and nothing on the counter you haven't paid for.",
+                "bye": "Drink it all at once. They taste worse in sips."
+            },
+            "cell": [
+                5,
+                2
+            ]
+        }
+    ],
+    "spots": [
+        {
+            "line": "It smells of mint and vinegar, and of something under both that you can't name.",
+            "cell": [
+                4,
+                5
+            ]
+        }
+    ],
+    "chests": [
+        {
+            "line": "A jar marked DO NOT, with coins in it instead.",
+            "gold": 300,
+            "item": "herbs",
+            "cell": [
+                9,
+                6
+            ]
+        }
+    ],
+    "rows": [
+        "###########",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#####.#####"
+    ],
+    "legend": {
+        ".": "floor",
+        "#": "wall"
+    },
+    "layers": [],
+    "spawn": [
+        5,
+        7
+    ],
+    "exits": [
+        [
+            5,
+            8
+        ]
+    ],
+    "tint": "#e4ecd8",
+    "interior": {
+        "floor": "oak",
+        "wall": "timber",
+        "rugs": [
+            {
+                "rect": [
+                    3,
+                    5,
+                    5,
+                    2
+                ],
+                "colour": "#3c4a34",
+                "trim": "#8a9a6a"
+            }
+        ],
+        "glows": [
+            {
+                "cell": [
+                    5,
+                    2
+                ],
+                "radius": 3,
+                "colour": "#ffcf80",
+                "strength": 0.3
+            },
+            {
+                "cell": [
+                    8,
+                    5
+                ],
+                "radius": 2,
+                "colour": "#c0ffb0",
+                "strength": 0.18
+            }
+        ]
+    },
+    "props": [
+        {
+            "art": "interior/shelf_bottles",
+            "cell": [
+                2,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/shelf_bottles",
+            "cell": [
+                7,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_green",
+            "cell": [
+                5,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/bar_counter",
+            "cell": [
+                5,
+                3
+            ]
+        },
+        {
+            "art": "interior/amphorae",
+            "cell": [
+                1,
+                1
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                9,
+                1
+            ]
+        },
+        {
+            "art": "cabinet",
+            "cell": [
+                9,
+                4
+            ]
+        },
+        {
+            "art": "drawers_wood",
+            "cell": [
+                1,
+                5
+            ]
+        },
+        {
+            "art": "oil_lamp",
+            "cell": [
+                1,
+                3
+            ]
+        },
+        {
+            "art": "interior/table_round",
+            "cell": [
+                7,
+                6
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                8,
+                6
+            ]
+        },
+        {
+            "art": "potted_plant",
+            "cell": [
+                1,
+                7
+            ]
+        },
+        {
+            "art": "potted_plant",
+            "cell": [
+                9,
+                7
+            ]
+        }
+    ],
+    "dressing": []
+}
