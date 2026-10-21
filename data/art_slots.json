@@ -289,6 +289,41 @@
 				}
 			],
 			"shows": "The ash staves and iron ore on the open land (world_rules.json -> makings_on_land, art_wanted; src/area/ground_gen.gd _herbs), D346."
+		},
+		"A64": {
+			"what": "Armour seen on the fighter",
+			"files": [
+				{
+					"each": [
+						"padded_coat",
+						"scale_shirt",
+						"bark_harness",
+						"filigree_plate",
+						"gilded_plate",
+						"feather_mail",
+						"halo_robe",
+						"owl_helm"
+					],
+					"rotations": [
+						"south",
+						"south-east",
+						"east",
+						"north-east",
+						"north",
+						"north-west",
+						"west",
+						"south-west"
+					],
+					"name": "{each}",
+					"to": "art/units/worn/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "a plate of the armour's colour over the chest (a helm's cap over the head)"
+				}
+			],
+			"shows": "Every fighter wearing armour, drawn over the body at its size (data/skirmish.json -> worn, src/battle/units/unit.gd draw_worn), and the party screen's equipment figure (D357)."
 		}
 	}
 }

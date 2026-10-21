@@ -406,7 +406,10 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    of its own from the hob up, built ([D276](06-decisions.md)): goblins' Spite, the wolves' Howl, the slime's Ooze Back. S gates stay at five floors for now (`dougie`, 2026-10-19, call BS).
 5. **Bodies that stay** after a fight, searched for loot.
 6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
-   an icon beside each item (art from PixelLab).
+   an icon beside each item (art from PixelLab). **Built** ([D357](06-decisions.md)): armour worn beside the weapon
+   held, both counted in a fight; the Gear page is an equipment screen, the fighter drawn large in what they wear
+   with a row for the hand and one for the body; armour seen on the fighter in its colour until its art (A64) is in;
+   a weapon in hand waits on A52.
 7. **Crafting**: herbs into potions, a blacksmith who makes and upgrades weapons; and who can wield what
    (he said both "only weapons they're affiliated with" and "everyone can use the same weapons"). Built
    ([D280](06-decisions.md)): four draughts mixed from herbs on the party screen, and three smiths who hone a

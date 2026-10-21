@@ -505,6 +505,9 @@ each, each ending playable:
       ([D345](06-decisions.md), 2026-10-21): sellswords for coin off the Gilded Flagon's book, who go when the
       job is done, and the Flagon as where the roaming leads are met. The tavern on your own land and the
       four new people of the 32 wait on G and the writers.
+   Also built, from play-test 7's item 6 ([D357](06-decisions.md), 2026-10-21): armour worn as well as a weapon held,
+   an equipment screen with the fighter drawn in what they wear, and armour seen on fighters in its colour until
+   A64's pictures are in. Not yet: more places to wear things (a helm and a coat at once), the art (A52, A64).
    Also built, outside the order, from `doug-md`'s older asks: the sword in the Tower's yard, one pull a run
    ([D318](06-decisions.md), #249), and a fight you can walk out of, at a cost ([D319](06-decisions.md), #243), both
    2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), after B and before C's rest

@@ -43,8 +43,7 @@ static func take(equipment_id: String, roster: Roster) -> String:
 	if taker == null:
 		return stow(equipment_id, roster)
 
-	var displaced := taker.equipment
-	taker.equipment = equipment_id
+	var displaced := Gear.put_on(taker, equipment_id)
 	if displaced == "":
 		return "%s takes up the %s." % [taker.display_name, name_]
 	GameState.stores.append(displaced)
