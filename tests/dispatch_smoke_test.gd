@@ -11,6 +11,7 @@ const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Company := preload("res://tests/company.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Wilds := preload("res://src/chronicle/wilds.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
 const QuickWheel := preload("res://src/ui/quick_wheel.gd")
 
@@ -107,6 +108,7 @@ func _ready() -> void:
 	_expect(soaked_back > soaked_dead, "sending someone away is more likely to kill them than not")
 	_check_muster(world)
 	_check_gate_band(world)
+	_check_wild_band(world)
 	_check_moods(world)
 	_check_moods_more(world)
 	_check_rumour_jobs(world, roster)
@@ -176,6 +178,76 @@ func _check_muster(world: World) -> void:
 	gate.broken = restored.broken
 	gate.cleared = restored.cleared
 	world.musters = kept_musters
+
+
+## A band of the company's own sent to clear a wild place ([D348]): only one heard of whose guard
+## stands, two go together, and won, the guard is beaten, the chests come home and a job to clear it
+## is done; lost, the guard still stands.
+func _check_wild_band(world: World) -> void:
+	var wild: Site = null
+	for site: Site in Wilds.all(world):
+		if Wilds.guarded(site):
+			wild = site
+			break
+	if wild == null:
+		_expect(false, "no guarded wild place on the map")
+		return
+	var flag := Wilds.guard_flag(wild)
+	var kept_flags := GameState.flags.duplicate()
+	var kept_rng := world.rng.state
+	var kept_marked := world.marked.duplicate()
+	var kept_gold := GameState.gold
+	var kept_stores := GameState.stores.duplicate()
+	GameState.flags.erase(flag)
+	Atlas.mark(world, wild)
+	_expect(Dispatch.open_wilds(world).has(wild), "a wild place heard of could not be sent to")
+	var map := AreaMap.load_area(str(wild.data.get("area", "")))
+	for won: bool in [true, false]:
+		GameState.flags = kept_flags.duplicate()
+		GameState.flags.erase(flag)
+		var roster := Company.found()
+		var lead := roster.player()
+		var first: Character = roster.party_members()[1]
+		var second: Character = roster.party_members()[2]
+		var away: Array = []
+		var errand := { "kind": Errand.WILD, "flag": flag, "title": "Clear it", "from_name": "the board" }
+		var errands: Array = [errand]
+		var alone := Dispatch.wild_chance([first], roster.player().level)
+		_expect(Dispatch.send_to_wild(world, roster, away, first, wild) != "", "nobody could be sent to a wild place")
+		_expect(Dispatch.send_to_wild(world, roster, away, second, wild) != "", "a second could not follow the first to a wild place")
+		_expect(away.size() == 1 and (away[0]["band"] as Array).size() == 2, "two sent to one wild place did not go together")
+		_expect(Dispatch.wild_chance([first, second], int(away[0]["guard_level"])) > alone, "a second pair of hands did not help against a guard")
+		_expect(roster.party_members() == [lead], "the band did not leave the marching order")
+		var rules: Dictionary = Database.world_rules["dispatch"]
+		var kept_rules := rules.duplicate()
+		rules["gate_min"] = 1.0 if won else 0.0
+		rules["gate_max"] = 1.0 if won else 0.0
+		var gold := GameState.gold
+		var packs := GameState.stores.size()
+		world.steps = int(away[0]["out_at"])
+		var lines := Dispatch.walk(world, roster, away, errands)
+		print("  wild band %s: %s" % ["won" if won else "lost", " / ".join(lines)])
+		_expect(Wilds.cleared(wild) == won, "a band that %s left the guard %s" % ["won" if won else "lost", "beaten" if Wilds.cleared(wild) else "standing"])
+		_expect(Errand.is_complete(errand) == won, "a job to clear the wild place was %s" % ("done" if Errand.is_complete(errand) else "not done"))
+		if won and map != null and not map.chests.is_empty():
+			var opened := 0
+			for cell: Vector2i in map.chests:
+				opened += 1 if GameState.has_flag(map.chest_flag(cell)) else 0
+			_expect(opened == map.chests.size(), "the band left %d of %d chests shut" % [map.chests.size() - opened, map.chests.size()])
+			_expect(GameState.gold > gold or GameState.stores.size() > packs or lead.charms.size() > 0 or lines.size() > 2, "the chests brought nothing home")
+		if not away.is_empty():
+			world.steps = int(away[0]["back_at"])
+			Dispatch.walk(world, roster, away, errands)
+		if won:
+			_expect(away.is_empty() and roster.party.has(first.id) and roster.party.has(second.id), "a band that cleared the wild place did not come back")
+			_expect(not Dispatch.open_wilds(world).has(wild), "a cleared wild place could still be sent to")
+		for key: String in kept_rules:
+			rules[key] = kept_rules[key]
+	GameState.flags = kept_flags
+	world.rng.state = kept_rng
+	world.marked = kept_marked
+	GameState.gold = kept_gold
+	GameState.stores = kept_stores
 
 
 ## A band of the company's own sent to shut a gate ([D278]): closed until a gate has been shut,
