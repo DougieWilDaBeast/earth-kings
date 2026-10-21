@@ -290,9 +290,49 @@ func _draw_ground(world: World, first: Vector2i, last: Vector2i) -> void:
 			if not seen and not Atlas.is_charted(world, cell):
 				continue
 			var colour := _land_colour(world, cell)
+			var light := relief(world, cell)
+			colour = colour.lightened(light) if light > 0.0 else colour.darkened(-light)
 			if not seen:
 				colour = colour.darkened(1.0 - CHARTED)
 			draw_rect(Rect2(point_of(cell) - Vector2.ONE * cell_px * 0.5, cell_size), colour)
+			_draw_peaks(world, cell, colour)
+
+
+## How much lighter (or, below 0, darker) [param cell] is drawn for its height ([D343], the founders'
+## heights on the world map, [D287]): every height up a little lighter, and the land lit from the
+## north-west, so a slope facing it is light and one facing away is in shadow and a hill or a range
+## stands up off the flat. Water and the sea count as level. Rules in `world_rules.json` →
+## `heights.on_the_map`.
+static func relief(world: World, cell: Vector2i) -> float:
+	var rules: Dictionary = Database.world_rules.get("heights", {}).get("on_the_map", {})
+	var here := _height_of(world, cell)
+	var facing := _height_of(world, cell + Vector2i.ONE) - _height_of(world, cell - Vector2i.ONE)
+	var light := float(here) * float(rules.get("per_height", 0.0)) + float(facing) * float(rules.get("slope", 0.0))
+	var most := float(rules.get("most", 0.3))
+	return clampf(light, -most, most)
+
+
+static func _height_of(world: World, cell: Vector2i) -> int:
+	if cell.x < 0 or cell.y < 0 or cell.x >= world.size.x or cell.y >= world.size.y:
+		return 0
+	return maxi(0, int(world.terrain_at(cell).get("height", 0)))
+
+
+## A hill's one peak and a crag's two, drawn over the cell once cells are big enough to hold them.
+func _draw_peaks(world: World, cell: Vector2i, under: Color) -> void:
+	var rules: Dictionary = Database.world_rules.get("heights", {}).get("on_the_map", {})
+	var peaks := mini(_height_of(world, cell), int(rules.get("peaks_most", 2)))
+	if peaks <= 0 or cell_px < float(rules.get("peaks_from_px", 9)):
+		return
+	var ink := under.darkened(0.45)
+	var lit := under.lightened(0.35)
+	var mid := point_of(cell)
+	var w := cell_px * 0.6 / float(peaks)
+	for i in peaks:
+		var foot := mid + Vector2((float(i) - float(peaks - 1) * 0.5) * w, cell_px * 0.22)
+		var top := foot + Vector2(0, -cell_px * (0.32 + 0.1 * float(peaks - 1)))
+		draw_line(foot + Vector2(-w * 0.5, 0), top, lit, maxf(1.0, cell_px / 14.0))
+		draw_line(top, foot + Vector2(w * 0.5, 0), ink, maxf(1.0, cell_px / 14.0))
 
 
 ## The terrain's colour washed with its land's, as the old map drew it, so snow and blight read

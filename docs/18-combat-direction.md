@@ -290,6 +290,10 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   anywhere and up only at a slope, so the brains walk to the slopes; a body is never shoved up a ledge
   (**Pinned**), and shoved off one it falls, **Off the edge**, a tenth of its health for every height and
   knocked down 1.2 s where it lands. A hand-made field's heights stay the jump's. **Inferred** (agenda 221).
+- **From above** (2026-10-21, [D343](06-decisions.md), the founders' "a blow or a shot from above"). On such a
+  field a fighter standing higher than the one they hit lands harder: a blow at arm's length 15% more a
+  height up, a shot 10% a height, counted to two heights, tagged **From above** in the log. Nothing for a blow
+  upward or on level ground; the brains do not yet climb for it. **Inferred** (agenda 251).
 
 **Reach.** A blow at arm's length (`range` 1) reaches the eight cells round a fighter, the diagonals too
 ([D246](06-decisions.md)): with only the four beside, two fighters a diagonal apart stepped sideways

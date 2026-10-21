@@ -16,7 +16,8 @@ line take it as `%s` or `{gold}` / `{price}` / `{ransom}`, already said in coins
 ```
 
 Used by both the battle grid and the world map. `move_cost` is per tile entered; `height`
-differences are gated by a unit's `jump`.
+differences are gated by a unit's `jump`. On the map of the continent a cell's `height` lights it and draws
+its peaks (D343, `world_rules.json` → `heights.on_the_map`).
 
 ## `units.json` — unit templates
 
@@ -890,6 +891,12 @@ On ground with heights `find_cell_path` (a click, Auto, a band, a person at work
 `shoved_off` (D313): `share` of a body's health for every height it is shoved off, `down_seconds` it lies
 knocked down, `word` over it and `line` (`{who}`, `{fell}`) in the fight's log; `BattleGrid.may_step` and
 `may_shove` rule a ledged field.
+`from_above` (D343): on a ledged field a fighter higher than the one they hit lands `blow` more for every
+height up at arm's length and `shot` more a height for anything reaching further, counted to `most_heights`
+(`Skirmish.high_ground`; the log tags it *From above*). `on_the_map` (D343): the map of the continent draws a
+cell `per_height` lighter for every height of its terrain and `slope` lighter a height the ground climbs to
+the south-east (darker where it falls), held to `most`, and from `peaks_from_px` pixels a cell one peak a
+height, up to `peaks_most` (`LandMap.relief`).
 A terrain with `clouds: true` (`cloud`, D321) is the drop round a mountain's top: never walked
 (`AreaMap.is_cloud`, `has_clouds`), drawn by `src/area/area_clouds.gd`, and said once a cell as
 `cloud_line` when the lead walks at it. A fight laid over it writes `clouds` (cells) into the field, and a

@@ -1604,6 +1604,28 @@ func _check_heights_in_a_fight() -> void:
 	fight.conditions.shove(cato, foe, "knockback", 1)
 	_expect(foe.unit.cell == Vector2i(5, 5) and foe.unit.hp == 1000, "a shove at the shelf from below moved the foe up it, or hurt him for it")
 	_expect(_popped(fight, "Pinned"), "a shove into the shelf did not say Pinned")
+	# A blow or a shot from the shelf lands harder ([D343]); from below, level, or on a hand-made field, no more.
+	var above: Dictionary = Database.world_rules.get("heights", {}).get("from_above", {})
+	var swing := { "range": 1 }
+	var shot := { "range": 4 }
+	_expect(is_equal_approx(fight.high_ground(Vector2i(5, 3), Vector2i(5, 5), swing), float(above.get("blow", 0.0)))
+			and is_equal_approx(fight.high_ground(Vector2i(4, 3), Vector2i(4, 7), shot), float(above.get("shot", 0.0))),
+			"a blow or a shot from the shelf was not counted from above")
+	_expect(fight.high_ground(Vector2i(5, 5), Vector2i(5, 3), swing) == 0.0 and fight.high_ground(Vector2i(6, 5), Vector2i(7, 5), swing) == 0.0,
+			"a blow upward or on level ground was counted from above")
+	var heard: Array[String] = []
+	var hear := func(line: String) -> void: heard.append(line)
+	EventBus.battle_log.connect(hear)
+	place.call(cato, Vector2i(5, 4))
+	place.call(foe, Vector2i(5, 5))
+	tough.call(foe)
+	for _try in 6:
+		if fight._strike(cato, foe.unit, Database.ability(cato.basic), cato.basic):
+			break
+	EventBus.battle_log.disconnect(hear)
+	_expect(heard.any(func(line: String) -> bool: return line.to_lower().contains("from above")), "a blow from the shelf did not say From above: %s" % [heard])
+	print("heights in a fight: a blow from a height up lands %.0f%% harder, a shot %.0f%%, up to %d heights" % [
+		float(above.get("blow", 0.0)) * 100.0, float(above.get("shot", 0.0)) * 100.0, int(above.get("most_heights", 2))])
 	print("heights in a fight: a kick off the edge takes %.0f%% of the body's health and lays it flat %.1f s; nothing is shoved up a ledge" % [
 		share * 100.0, float(Database.world_rules.get("heights", {}).get("shoved_off", {}).get("down_seconds", 1.2))])
 	fight.queue_free()

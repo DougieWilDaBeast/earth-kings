@@ -15,7 +15,7 @@ const Company := preload("res://tests/company.gd")
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
 	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "arcs", "road", "edges", "scenery", "round_trip", "one_world", "tiers",
-	"road_clock", "fallen_gates", "wilds",
+	"road_clock", "fallen_gates", "wilds", "map_heights",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -74,6 +74,7 @@ func _ready() -> void:
 			"road": _check_road(world)
 			"road_clock": _check_road_clock()
 			"edges": _check_edges(world)
+			"map_heights": _check_map_heights(world)
 			"scenery": _check_scenery(world)
 			"round_trip": _check_round_trip(world, hero)
 			"tiers": _check_tiers()
@@ -1331,6 +1332,40 @@ func _check_road_clock() -> void:
 
 
 ## D128: where one land meets another, the next land's floor runs a few cells in, and no deeper.
+## D343: the map of the continent shows heights. A hill or crag cell is drawn lighter than level
+## ground round it, a slope facing the north-west lit and one facing away in shadow, and level
+## grass with level ground round it is drawn as it was.
+func _check_map_heights(world: World) -> void:
+	var LandMap := load("res://src/ui/land_map.gd")
+	var height := func(cell: Vector2i) -> int: return maxi(0, int(world.terrain_at(cell).get("height", 0)))
+	var flat := Vector2i(-1, -1)
+	var lit := Vector2i(-1, -1)
+	var shaded := Vector2i(-1, -1)
+	var high := 0
+	for y in range(1, world.size.y - 1):
+		for x in range(1, world.size.x - 1):
+			var cell := Vector2i(x, y)
+			var level := true
+			for dy in [-1, 0, 1]:
+				for dx in [-1, 0, 1]:
+					if height.call(cell + Vector2i(dx, dy)) != 0:
+						level = false
+			if level and flat.x < 0:
+				flat = cell
+			var facing: int = height.call(cell + Vector2i.ONE) - height.call(cell - Vector2i.ONE)
+			if height.call(cell) == 0 and facing > 0 and lit.x < 0:
+				lit = cell
+			if height.call(cell) == 0 and facing < 0 and shaded.x < 0:
+				shaded = cell
+			if height.call(cell) > 0 and facing == 0:
+				high += 1 if LandMap.relief(world, cell) > 0.0 else 0
+	_expect(flat.x >= 0 and LandMap.relief(world, flat) == 0.0, "map heights: level ground is drawn other than it was")
+	_expect(lit.x >= 0 and LandMap.relief(world, lit) > 0.0, "map heights: the foot of a slope facing the north-west is not lit")
+	_expect(shaded.x >= 0 and LandMap.relief(world, shaded) < 0.0, "map heights: the foot of a slope facing away is not in shadow")
+	_expect(high > 0, "map heights: no hill or crag on the map is drawn lighter than level ground")
+	print("map heights: hills and crags lit, %d high cells on a level crest drawn lighter" % high)
+
+
 func _check_edges(world: World) -> void:
 	var band := int(Database.biomes.get("edge_band", 3))
 	var seams := 0
