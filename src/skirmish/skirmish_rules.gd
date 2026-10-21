@@ -52,6 +52,11 @@ const ATTACK_SLOWEST := 3.0
 
 ## Seconds between basic attacks. Speed was charge time; now it is tempo.
 ## What getting clear of a fight costs ([D319]): `rules.flee` in `skirmish.json`.
+## Who goes to one of the company who is down ([D326]): `on`, `close_round`, and the `line` said.
+static func reach_rules() -> Dictionary:
+	return Database.skirmish.get("rules", {}).get("reach_the_fallen", {})
+
+
 static func flee_rules() -> Dictionary:
 	return Database.skirmish.get("rules", {}).get("flee", {})
 

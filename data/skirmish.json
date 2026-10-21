@@ -41,6 +41,12 @@
 			"dropped_line": "You get clear of them, {coin} the lighter for what was dropped in the running. They are still out there."
 		},
 		"_comment_heal": "A mend grows with its caster's level (D284): health grows every level and a spell's power did not, so Vesta's Mend (16) was a tenth of Juno at level 1 and a thirtieth at 17. From heal_from_level it heals heal_per_level more a level (level 17: 2.4 times); below it, as it was. Draughts already grow by kind and regen by share of health. Inferred: both numbers.",
+		"_comment_reach_the_fallen": "D326 (call BX, Ewan's play-test 8: 'when a party member goes down... someone to prioritise getting them back up while the other ones fight, and the formation will change'). When one of the company is down and nobody is on the way, the nearest member under no order of the player's and not busy goes to them; with close_round, the rest who are free turn on the foe nearest the fallen. An order the player gives always wins. Inferred: the nearest, not the healer first.",
+		"reach_the_fallen": {
+			"on": true,
+			"close_round": true,
+			"line": "{who} goes to {name}."
+		},
 		"heal_from_level": 3,
 		"heal_per_level": 0.1
 	},

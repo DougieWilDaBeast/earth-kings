@@ -164,6 +164,8 @@ Every fight: walk into a band, a gate or the Tower. Or Title → **Training** �
 | RT38 | In a fight, click the gold word beside a fighter's name; then pick someone and press **O F B G H** in turn | The word steps Own way, Close in, Keep away, Guard, Hold and round; each key sets its stance, said over their head and in the log; Close in walks off after foes, Keep away steps back, Guard walks back to the leader, Hold stands; the next fight opens with the same words; press **Q** and the words grey out ([D209](06-decisions.md)) |
 | RT39 | Meet a band of three or more on the ground and hang back a moment before closing | They walk up in a shape round their boss (three a wedge, four a diamond), "falls in" over the ones moving to their slots, the shape facing you; once any of them is on you they fight as before ([D315](06-decisions.md)) |
 | RT40 | Meet a band on the land with some coin in the purse; right-click beyond the field's edge with everyone picked | "Making for the edge of the field. Whatever is dropped in the running stays dropped."; each who reaches it loses a tenth of their health ("… gets clear, with a parting blow for it"), never falling; once all are clear the purse is a tenth lighter and the band is still out there ([D319](06-decisions.md)) |
+| RT41 | In a fight with two or more of the company, let one go down and give the others no orders | The nearest one says "goes to" and kneels by them; the rest turn on the foe nearest the fallen; they are back up in a few seconds (D326) |
+| RT42 | In a fight, pick one of the company, hold the middle button still, point at Stance and let go; then at Eat | Their stance moves on one; they reach for the least food in the pouch that mends them (D326) |
 
 ## F — Party menu (**P**)
 
@@ -301,6 +303,8 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.36 | Win three fights with the same company, then open the party sheet | One card says *leads the fights (3 won)*, not always the lead's; on the lead's sheet *Formation: Auto* names the shape they call for and whose call it is ([D306](06-decisions.md)) |
 | D3.37 | Fight a band with a mender or an archer in it, and watch the leader's target | "Get the healer!" or "On the archer!" over the leader's head and in the log, once; the one named backs off for a moment and a foe steps in front of them ([D306](06-decisions.md)) |
 | D3.38 | Watch a band of three or more patrol on open ground, then along a path through trees | In the open they walk as a wedge or a diamond round the one in front, facing the way they go; through the trees they file behind it; the fight opens with them in their shape ([D320](06-decisions.md)) |
+| D3.39 | On the land hold the middle button still a moment; point at each of Eat, Formation and Party in turn and let go; then hold and drag | A ring opens round the pointer; Eat feeds the worst hurt food first, Formation says the next shape, Party opens the party screen; a drag still moves the camera and no ring opens (D326) |
+| D3.40 | Send a companion on an errand with a town to meet in; open the party screen and the map; then press Let go beside another companion twice | Under the cards and beside the face on the map: tiles off and "back in about N steps"; Let go asks "Sure?", then the companion is gone and does not come back to the fire (D326) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
@@ -513,8 +517,8 @@ Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Squ
 
 ## Known to be untestable here
 
-- **W2** — the voice line at the end of the cinematic. The memo cuts off before saying what the
-  voice says, so there is nothing to test.
+- **W2** — the voice line at the end of the cinematic. The line is chosen (Bram's "Give me your hand.",
+  [D328](06-decisions.md)) but not built yet, so there is nothing to test.
 - Anything needing the other 68 units' run cycles (**E3** will stay "slides" until that art lands).
 
 ## What a fail should include

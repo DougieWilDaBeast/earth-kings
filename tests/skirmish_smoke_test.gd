@@ -205,6 +205,7 @@ func _run() -> void:
 	await _check_the_turn()
 	await _check_scars()
 	await _check_walking_out()
+	await _check_reaching_the_fallen()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -1930,3 +1931,31 @@ func _check_the_turn() -> void:
 	fight.queue_free()
 	Pace.auto = auto_was
 	GameState.gold = gold_was
+
+
+## D326 (call BX, play-test 8): one of the company down with nobody coming, the nearest who is
+## free goes to them without being told and gets them up; the quick wheel's Stance moves whoever
+## is picked on to their next stance.
+func _check_reaching_the_fallen() -> void:
+	var fight := await _new_fight()
+	var cato := _by_template(fight, "cato")
+	var vesta := _by_template(fight, "vesta")
+	vesta.unit.take_damage(vesta.unit.hp)
+	fight._drop(vesta)
+	fight.paused = false
+	cato.clear_order()
+	fight.tick()
+	_expect(cato.order == Fighter.Order.AID and cato.order_target == vesta.unit,
+			"nobody went to Vesta when she went down (Cato %s)" % cato.activity())
+	var ticks := 0
+	while vesta.is_downed() and ticks < 600:
+		fight.tick()
+		ticks += 1
+	_expect(vesta.is_standing(), "Vesta was gone to but never got up (%s)" % vesta.activity())
+	fight.selected.clear()
+	fight.selected.append(cato)
+	var was := cato.stance
+	EventBus.quick_wheel_chose.emit("stance")
+	_expect(cato.stance != was, "the wheel's Stance left Cato's stance as it was")
+	fight.queue_free()
+	await get_tree().process_frame
