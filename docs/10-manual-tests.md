@@ -162,6 +162,7 @@ Every fight: walk into a band, a gate or the Tower. Or Title → **Training** �
 | RT36 | Look at the skill tiles on a card with long names (Shield Bash, Warding Touch) | Each name fits its tile, shrunk or on two lines; none is cut off |
 | RT37 | Fight with the sound on: swing, shoot, use a skill with a wind-up, block with a shield bearer, stun, drink a draught, win and lose | Each is heard: swings and twangs, thumps on a hit and a crack on a critical, a clang on a block, a rising hum then a burst, a chime on a heal, gulps, a low fall when one of yours goes down, a fanfare or a sinking chord at the end; a crowd swinging is a clatter, not a roar ([D76](06-decisions.md)) |
 | RT38 | In a fight, click the gold word beside a fighter's name; then pick someone and press **O F B G H** in turn | The word steps Own way, Close in, Keep away, Guard, Hold and round; each key sets its stance, said over their head and in the log; Close in walks off after foes, Keep away steps back, Guard walks back to the leader, Hold stands; the next fight opens with the same words; press **Q** and the words grey out ([D209](06-decisions.md)) |
+| RT39 | Meet a band of three or more on the ground and hang back a moment before closing | They walk up in a shape round their boss (three a wedge, four a diamond), "falls in" over the ones moving to their slots, the shape facing you; once any of them is on you they fight as before ([D315](06-decisions.md)) |
 
 ## F — Party menu (**P**)
 

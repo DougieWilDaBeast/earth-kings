@@ -196,6 +196,7 @@ func _run() -> void:
 	await _check_stances()
 	await _check_keeping_together()
 	await _check_formations()
+	await _check_foes_in_formation()
 	await _check_leader_and_callouts()
 	_check_heal_growth()
 	await _check_the_turn()
@@ -1195,6 +1196,54 @@ func _check_formations() -> void:
 ## The leader, call-outs and fights shared ([D289], [D306]): the one with the most fights won leads
 ## and recommends a shape; the caller's shout warns the foe it names; fights won together are a
 ## little guard and might; a companion at the end of their rope holds no slot.
+## Foes in formation ([D289], [D315]): a band of three or more falls in round its caller in the shape its
+## size picks, facing the party, each dealt a slot by what it fights with; the caller has no slot, the
+## party's own slots are untouched, and a foe off its slot plans to fall in until the band is in contact.
+func _check_foes_in_formation() -> void:
+	var fight := await _new_fight()
+	fight.paused = true
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party() and f.is_standing())
+	var caller: Fighter = Formations.band_caller(fight.fighters)
+	_expect(foes.size() >= 3 and caller != null and foes.has(caller), "the proving ground has no band of three with a caller")
+	if caller == null:
+		fight.queue_free()
+		return
+	var shape := Formations.auto_for(foes.size())
+	var cells: Array = []
+	for foe: Fighter in foes:
+		var slot: Vector2i = Formations.band_slot_cell(foe, fight.fighters)
+		if foe == caller:
+			_expect(slot == Formations.NONE, "the band's caller was dealt a slot")
+			continue
+		_expect(slot != Formations.NONE and not cells.has(slot) and slot != caller.unit.cell,
+				"%s has no slot of its own in the band's %s: %s" % [foe.unit.display_name, shape, slot])
+		cells.append(slot)
+		_expect(Formations.slot_cell(foe, fight.fighters) == Formations.NONE, "a foe was dealt a slot in the party's shape")
+	_expect(cells.size() == foes.size() - 1, "%d slots for %d of the band" % [cells.size(), foes.size() - 1])
+	# The shape faces the party: its slots lie round the caller as the party's lie round the lead.
+	var toward: Fighter = Formations.nearest_of_the_party(caller.unit.cell, fight.fighters)
+	var first_slot: Dictionary = Formations.slots(shape, 1)[0]
+	var expected := Formations.cell_for(first_slot["at"], caller.unit.cell, toward.unit.cell - caller.unit.cell)
+	_expect(cells.has(expected), "the band's first slot is not where the %s facing the party puts it: %s" % [shape, expected])
+	# A foe off its slot plans to fall in while nobody of the band is in contact; the party's slots stay its own.
+	_expect(not Formations.band_in_contact(fight.fighters), "the band starts in contact")
+	var tactics: Dictionary = Database.skirmish["tactics"]
+	var away: Fighter = null
+	for foe: Fighter in foes:
+		if foe != caller and foe.unit.template_id == "brigand" \
+				and Pathfinder.distance(foe.unit.cell, Formations.band_slot_cell(foe, fight.fighters)) > int(Formations.rules().get("slack", 1)):
+			away = foe
+			break
+	if away != null:
+		away.tactic_wait = 0.0
+		var plan: Dictionary = SkirmishBrain.pick_tactic(away, fight.fighters, toward.unit, tactics)
+		_expect(str(plan.get("why", "")) == "form", "a foe off its slot does not fall in: %s" % [plan.get("why", "nothing")])
+	_expect(Formations.hold_guard(caller, fight.fighters) == 0.0, "the band's caller is guarded for a slot it has not got")
+	print("foes in formation: a band of %d falls in as a %s round %s, facing the party" % [foes.size(), Formations.word(shape), caller.unit.display_name])
+	fight.queue_free()
+	await get_tree().process_frame
+
+
 func _check_leader_and_callouts() -> void:
 	var fight := await _new_fight()
 	var cato := _by_template(fight, "cato")

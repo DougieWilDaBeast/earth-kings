@@ -1225,6 +1225,9 @@ saved); `auto_by_size` picks by the party's size (the lead counted), `fallback` 
 written, `auto_word` and `auto_tip` are the picker's words. `ground_spacing` is pixels a slot on the
 ground; `form_every` is the fall-in's wait, `slack` how near a slot counts as held, `hold_guard` the
 share of every blow a fighter holding its slot is spared; `tactics.words.form` is the word over its head.
+`foes` (D315): `on`, `from` (how many of a band standing before it falls in) and `hold_guard` (what a foe
+holding its slot is spared, none); a band's shape is `auto_by_size` for its size, round its boss or first
+standing (`Formations.band_slot_cell`, `band_in_contact`; the brain's `form_band` move).
 
 The leader, call-outs and fights shared (D306) live beside them. `leader`: `from_won` fights won before
 anyone leads (`Character.fights`, `{ won, lost }`, written by `Formations.record_fight` as a fight ends),
