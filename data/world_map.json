@@ -1168,6 +1168,82 @@
 			"open": false,
 			"opened_at": 0,
 			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				101,
+				76
+			],
+			"cleared": false,
+			"data": {
+				"area": "caravan_ilse",
+				"caravan": {
+					"leg": 0,
+					"rest": 0,
+					"route": [
+						[
+							98,
+							75
+						],
+						[
+							81,
+							88
+						],
+						[
+							71,
+							81
+						],
+						[
+							104,
+							79
+						]
+					]
+				}
+			},
+			"display_name": "Mother Ilse's wagons",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				29,
+				73
+			],
+			"cleared": false,
+			"data": {
+				"area": "caravan_red",
+				"caravan": {
+					"leg": 0,
+					"rest": 0,
+					"route": [
+						[
+							32,
+							105
+						],
+						[
+							66,
+							95
+						],
+						[
+							71,
+							81
+						],
+						[
+							32,
+							76
+						]
+					]
+				}
+			},
+			"display_name": "the Red Wagons",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
 		}
 	],
 	"size": [

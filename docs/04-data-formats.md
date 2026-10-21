@@ -539,6 +539,12 @@ forest and brush, `hamlet_salt` on sand, two of each, 24 tiles or more from the 
 folk, one who sells and one with a `job`. A wild area may carry its own `found_line` and `guard_label` (its
 trouble, where the guard stands, "{what} at the fold"), and a `map_art` it is drawn with on the map in place
 of the standing stone. An area with a `lure` is stocked with its guard whatever its id.
+**Caravans** (D330, `caravan_ilse`, `caravan_red`) are wild sites whose `data.caravan` is their round:
+`route` (town cells), `leg` (the town it is bound for) and `rest` (upkeeps it still stands). They have no
+chest, so no guard and no job to clear them (`Wilds.guarded`). `world_rules.json` → `caravans`:
+`tiles_per_upkeep` rolled on an upkeep by the party's way (looked for no further than `longest`), never
+within `clear_of_sites` of another place or `party_clear` of the party, nor while the party is that close;
+within `stand_off` of the town it stands `rest_upkeeps`, then sets off for the next (`src/chronicle/caravans.gd`).
 `errands.json` → `rumours.wild` (`title`, `text`, `posted`; `{place}`, `{lure}`) is the board's job to clear a
 wild the party has heard of (D310, `RumourJobs.compose`): an errand of kind `wild` pointed at the wild, paid for
 the walk times `rumour_reward_multiplier`, `flag` the guard's done flag (`Wilds.guard_flag`), complete when it is

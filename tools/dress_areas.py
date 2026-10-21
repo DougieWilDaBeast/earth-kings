@@ -89,6 +89,11 @@ OUTDOORS = {
     "hamlet_salt": dict(trees=["nature/dead_tree"], edge=0.06, inner=0.0, gap=3, bushes=["nature/rose_stem"], bush=0.01,
                         ground=SANDY, cover=0.08, critters=["nature/white_dove", "nature/snail", "nature/sparrow"],
                         count=4, on=["sand"], keep_clear=2, path=["dirt"]),
+    # D330: the caravans, drawn up on open grass off the road.
+    "caravan_ilse": dict(trees=LEAFY, edge=0.3, inner=0.0, gap=3, bushes=BUSHES, bush=0.02, ground=FLOWERS,
+                         cover=0.12, critters=CRITTERS, count=4, on=["grass", "meadow"], keep_clear=2),
+    "caravan_red": dict(trees=ORCHARD, edge=0.3, inner=0.0, gap=3, bushes=HEDGES, bush=0.02, ground=FLOWERS,
+                        cover=0.12, critters=CRITTERS, count=4, on=["grass", "meadow"], keep_clear=2),
     "village": dict(trees=ORCHARD + ["nature/sycamore_tree", "nature/great_oak"], edge=0.4, inner=0.0, gap=2,
                     bushes=HEDGES + ["nature/rose_stem", "nature/hazel_bush"], bush=0.025, ground=FLOWERS,
                     cover=0.12, critters=CRITTERS, count=6, on=["grass", "meadow"], keep_clear=2),

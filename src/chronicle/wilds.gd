@@ -76,6 +76,12 @@ static func guard_flag(site: Site) -> String:
 	return "done:wild_guard_%s_%d_%d" % [str(site.data.get("area", "")), site.cell.x, site.cell.y]
 
 
+## Whether [param site] is kept by a guard at all: a wild with no chest (a caravan, [D330]) has none,
+## so no job is posted or taken to clear it.
+static func guarded(site: Site) -> bool:
+	return site != null and not (Database.area(str(site.data.get("area", ""))).get("chests", []) as Array).is_empty()
+
+
 ## Whether the guard of [param site] has been beaten this run.
 static func cleared(site: Site) -> bool:
 	return GameState.has_flag(guard_flag(site))

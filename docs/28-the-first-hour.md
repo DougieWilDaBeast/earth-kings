@@ -393,7 +393,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     three heights up ([D321](06-decisions.md)), and rises of the land's own floor on every tile, a height up
     with a rock face below, climbed only at a slope, more on hills and crag ([D324](06-decisions.md)).
     Six hamlets to come upon, a sheepfold, a mill and salt pans, each with folk who sell, a job and a trouble
-    ([D329](06-decisions.md)).
+    ([D329](06-decisions.md)). Two caravans that walk between the towns, one selling the makings of runes
+    ([D330](06-decisions.md)).
 11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar (built,
     [D265](06-decisions.md): his figure beside the lead in blue light, his face the same in the box); walking
     into a gate or the grove, not cut to it; the chapter visions shown as pictures.

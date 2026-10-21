@@ -1,10 +1,11 @@
 extends Node
-## Photograph the three hamlets ([D329]): Ewe's Hollow, Millrace and Saltcote, each from the middle.
+## Photograph the three hamlets ([D329]): Ewe's Hollow, Millrace and Saltcote, and the two caravans
+## ([D330]), each from the middle.
 ## Needs a display (xvfb-run).
 ##
 ##   xvfb-run godot --path . --rendering-driver opengl3 res://tests/hamlet_shot.tscn
 ##
-## Shots land in .art_stage/hamlet_*.png.
+## Shots land in .art_stage/hamlet_*.png and .art_stage/hamlet_caravan_*.png.
 
 var _game: Node
 
@@ -17,7 +18,7 @@ func _ready() -> void:
 	GameState.new_game(20260829, "atlas")
 	GameState.set_flag("seen:prologue")
 	GameState.world.prowlers.clear()
-	for area_id: String in ["hamlet_fold", "hamlet_mill", "hamlet_salt"]:
+	for area_id: String in ["hamlet_fold", "hamlet_mill", "hamlet_salt", "caravan_ilse", "caravan_red"]:
 		EventBus.request_scene.emit("area", { "area_id": area_id, "return_scene": "world" })
 		await _frames(30)
 		var ground := _active()

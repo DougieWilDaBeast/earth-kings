@@ -13,6 +13,7 @@ const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Caravans := preload("res://src/chronicle/caravans.gd")
 
 ## Symbol -> terrain id from `data/terrain.json`.
 const LEGEND := {
@@ -328,6 +329,7 @@ func _upkeep() -> Array:
 	notices.append_array(Guild.upkeep(self, GameState.errands))
 	notices.append_array(Wanderers.upkeep(self))
 	notices.append_array(Siblings.upkeep(self))
+	notices.append_array(Caravans.upkeep(self))
 	return notices
 
 
