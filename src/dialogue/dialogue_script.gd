@@ -13,6 +13,7 @@ const DIE_SIDES := 20
 const Recruits := preload("res://src/chronicle/recruits.gd")
 const Crafting := preload("res://src/chronicle/crafting.gd")
 const Sellswords := preload("res://src/chronicle/sellswords.gd")
+const Moods := preload("res://src/chronicle/moods.gd")
 
 ## Check name -> how it reads on screen. The stat behind each is [method _skill_value].
 const SKILLS := {
@@ -187,6 +188,8 @@ static func apply_effects(source: Dictionary) -> void:
 	var honing := str(source.get("hone", ""))
 	if honing != "" and GameState.roster != null and GameState.roster.by_id(honing) != null:
 		EventBus.area_note.emit(Crafting.hone(GameState.roster.by_id(honing)))
+		if GameState.world != null:
+			Moods.think(GameState.roster.by_id(honing), "kitted", GameState.world.steps)
 	# A sellsword off the Flagon's book, paid for (D295).
 	if source.has("hire") and GameState.roster != null:
 		var hired := Sellswords.hire(GameState.world, GameState.roster, int(source["hire"]))
@@ -195,6 +198,10 @@ static func apply_effects(source: Dictionary) -> void:
 	if bool(source.get("heal", false)) and GameState.roster != null:
 		GameState.heal_party()
 		EventBus.area_note.emit("Everyone is patched up.")
+		# Paid for, by somebody who fussed over them ([D347]).
+		if GameState.world != null:
+			for character: Character in GameState.party_characters():
+				Moods.think(character, "looked_after", GameState.world.steps)
 
 
 static func _skill_value(character: Character, skill: String) -> int:

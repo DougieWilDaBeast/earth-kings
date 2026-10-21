@@ -8,6 +8,7 @@ const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
+const Moods := preload("res://src/chronicle/moods.gd")
 
 const SAVE_PATH := "user://earth-kings.save.json"
 ## 3: alignment retired in favour of creeds, and the four other authored history
@@ -131,6 +132,9 @@ func _notification(what: int) -> void:
 ## The run has got somewhere the game may save itself. Whether it does is the
 ## mode's to say. Returns whether it saved.
 func reached(point: String, note: String = "") -> bool:
+	# A night's rest lifts the company, whether or not the mode saves there ([D347]).
+	if point == RunMode.REST and world != null:
+		Moods.rested(roster, world.steps)
 	if not RunMode.saves_at(point, mode):
 		return false
 	if point == RunMode.LEAVE and not _in_run:

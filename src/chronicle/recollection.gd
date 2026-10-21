@@ -8,6 +8,8 @@ extends RefCounted
 ## authored per character, and every line is only ever said once a run, so the
 ## party never repeats itself.
 
+const Moods := preload("res://src/chronicle/moods.gd")
+
 ## Where a spent recollection is written down.
 const SAID_PREFIX := "recalled:"
 
@@ -67,6 +69,9 @@ static func recall(world: World, party: Array, speaker: Character) -> Dictionary
 		"miles": world.steps,
 		"wounded": party.any(func(c: Character) -> bool: return c.current_hp() < c.max_hp()),
 		"company": party.size(),
+		# How they feel ([D347]): a few lines are only for someone low, or glad.
+		"low": Moods.feeling(speaker) == "low",
+		"glad": Moods.feeling(speaker) == "glad",
 	}
 
 
