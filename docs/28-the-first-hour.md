@@ -451,16 +451,20 @@ loaded ahead. Some repeat earlier asks (noted).
 3. **A nemesis system** after Shadow of Mordor: people remember what you did, hold grudges or thanks, and
    some come for you. A first version is built and hidden for the First Hour ([D97](06-decisions.md):
    `nemesis` in `first_hour.hidden`, a broken band's survivor who takes an epithet and comes back).
-4. **Letting people go**: disband a companion so they go their own way in the world.
+4. **Letting people go**: disband a companion so they go their own way in the world. **Built** ([D326](06-decisions.md)):
+   Let go beside each card, asked once, gone from the roster.
 5. **A hunger bar** under every member, and **Auto eating and using what it carries** when it needs to.
 6. **A quick wheel** on a held middle click, after Ark Survival Evolved's (eat, send a party, and so on)
-   instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)).
+   instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)). **Built**
+   ([D326](06-decisions.md)): held still 0.3 s, Eat, Party, Send away, Formation, Map, Journal and Auto on the land; Eat, Stance and Auto in a fight.
 7. **Text boxes sized right, and panels moved and resized** in the game (repeats play-test 7, item 12).
 8. **More buildings to go into** in the city; most doors are shut.
 9. **Groves that look like groves**, hard to find, with good things in them, even if their keeper has to be fought.
 10. **A sent-away band seen on its way**: how far off and how long until it is back ([D294](06-decisions.md)'s band on the map).
+    **Built** ([D326](06-decisions.md)): tiles off and steps to come, under the cards and beside its face on the map.
 11. **Getting the fallen up**: when one goes down, one of the rest goes to them while the others fight on,
-    and the formation closes round it.
+    and the formation closes round it. **Built** ([D326](06-decisions.md)): the nearest free member goes unasked, the rest
+    turn on the foe nearest the fallen.
 
 ### Gates that grow
 

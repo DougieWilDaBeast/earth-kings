@@ -573,6 +573,25 @@
 		"arms_steps": [30, 90, 200, 400],
 		"arms_per_rank": 0.04
 	},
+	"_comment_quick_wheel": "D326 (call BX; Ewan's play-test 8, after Ark Survival Evolved: hold the scroll wheel for a quick menu). Holding the middle button still for `hold` seconds opens a ring round the pointer; point and let go to take one, let go in the middle for nothing. `walking` is the ring on the land, `fighting` while a fight is on (eat: the picked fighter takes the least food that mends them; stance: the picked fighters' next stance). Inferred: what the ring holds and the hold time.",
+	"quick_wheel": {
+		"on": true,
+		"hold": 0.3,
+		"walking": [
+			{ "id": "eat", "label": "Eat" },
+			{ "id": "party", "label": "Party" },
+			{ "id": "send", "label": "Send away" },
+			{ "id": "formation", "label": "Formation" },
+			{ "id": "map", "label": "Map" },
+			{ "id": "journal", "label": "Journal" },
+			{ "id": "auto", "label": "Auto" }
+		],
+		"fighting": [
+			{ "id": "eat", "label": "Eat" },
+			{ "id": "stance", "label": "Stance" },
+			{ "id": "auto", "label": "Auto" }
+		]
+	},
 	"dispatch": {
 		"steps_per_tile": 1.0,
 		"hunt_distance": 8,

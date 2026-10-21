@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://src/game.gd" id="1_game"]
 [ext_resource type="PackedScene" path="res://src/dialogue/dialogue_box.tscn" id="2_dialogue"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://src/ui/guild_screen.tscn" id="9_guild"]
 [ext_resource type="Script" path="res://src/ui/tip_card.gd" id="10_tips"]
 [ext_resource type="Script" path="res://src/ui/how_to_play.gd" id="11_how_to_play"]
+[ext_resource type="Script" path="res://src/ui/quick_wheel.gd" id="12_quick_wheel"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_game")
@@ -40,3 +41,7 @@ script = ExtResource("10_tips")
 [node name="HowToPlay" type="CanvasLayer" parent="."]
 layer = 9
 script = ExtResource("11_how_to_play")
+
+[node name="QuickWheel" type="CanvasLayer" parent="."]
+layer = 8
+script = ExtResource("12_quick_wheel")
