@@ -677,7 +677,16 @@
 		"hone_most": 3,
 		"hone_base": 800,
 		"hone_share": 0.25,
-		"honed_line": "{name}'s {weapon} comes back keener (+{notch})."
+		"honed_line": "{name}'s {weapon} comes back keener (+{notch}).",
+		"_enchant": "D328, D299 item 3 (the founders: 'enchantments and other stuff you can put on your weapons'). A rune laid on the weapon somebody carries, from the packs, anywhere the party screen opens: its effect is one of the fight's passives (data/skirmish.json), theirs while they carry that weapon, over and above max_passives. One rune a weapon; a new one takes the old one's place.",
+		"enchant": [
+			{ "id": "keen", "display_name": "Keen Rune", "description": "+10% to land a critical hit", "effect": "crit", "value": 0.1, "needs": { "whetstone": 1, "herbs": 2 } },
+			{ "id": "thirsting", "display_name": "Thirsting Rune", "description": "heals for 10% of the damage dealt", "effect": "lifesteal", "value": 0.1, "needs": { "redcap": 2, "black_feather": 1 } },
+			{ "id": "rime", "display_name": "Rime Rune", "description": "anyone striking from close takes 15% of the blow back", "effect": "thorns", "value": 0.15, "needs": { "frostmoss": 2, "salt_pouch": 1 } },
+			{ "id": "echo", "display_name": "Echo Rune", "description": "a basic attack has a 10% chance to strike twice", "effect": "echo", "value": 0.1, "needs": { "grave_token": 1, "knotted_cord": 1 } }
+		],
+		"enchanted_line": "{name}'s {weapon} takes the {rune}.",
+		"replaced_line": "The {old} is gone from it."
 	},
 	"moods": {
 		"_comment": "D279 (Ewan's play-test 7: 'a system where characters have emotions ... use inspiration from RimWorld ... so that the characters feel more life-like'; 'some characters won't want to join you in the pursuit of climbing the tower'). A mood is base plus every thought carried (src/chronicle/moods.gd). Thoughts are noticed once a step from what changed: a fight won or lost, a gate shut, a floor of the Tower climbed, a friend (a bond of friend_bond or more) dead. by_group sets a thought's worth by temper group (NT, NF, SJ, SP, as the wanderers read them), so the cold-eyed are glad to climb and the rest are not. A band nudges attack and defense; below break_below, now and then (break_chance a step), one of the company sits out break_steps steps. The lead never does.",

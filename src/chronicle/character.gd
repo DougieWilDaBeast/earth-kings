@@ -104,6 +104,9 @@ var thoughts: Array = []
 ## Weapons a smith has honed for them ([D280], [Crafting]): equipment id -> notches, each a point of
 ## attack while they carry that weapon.
 var honed: Dictionary = {}
+## Weapons with a rune laid on them ([D299] item 3, [Crafting]): equipment id -> enchantment id, its
+## fight passive theirs while they carry that weapon. One a weapon.
+var enchanted: Dictionary = {}
 
 
 static func create(template_id_: String, name_override: String = "", player: bool = false) -> Character:
@@ -389,6 +392,7 @@ func to_dict() -> Dictionary:
 		"marks": marks,
 		"thoughts": thoughts,
 		"honed": honed,
+		"enchanted": enchanted,
 		"stance": stance,
 		"fights": fights,
 		"shared": shared,
@@ -440,6 +444,8 @@ static func from_dict(data: Dictionary) -> Character:
 	character.stance = str(data.get("stance", "own"))
 	for weapon: String in data.get("honed", {}):
 		character.honed[weapon] = int(data["honed"][weapon])
+	for weapon: String in data.get("enchanted", {}):
+		character.enchanted[weapon] = str(data["enchanted"][weapon])
 	for key: String in data.get("fights", {}):
 		character.fights[key] = int(data["fights"][key])
 	for other_id: String in data.get("shared", {}):

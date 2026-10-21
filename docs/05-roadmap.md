@@ -474,8 +474,9 @@ each, each ending playable:
       question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384).
    Also built, outside the order, from `doug-md`'s older asks: the sword in the Tower's yard, one pull a run
    ([D318](06-decisions.md), #249), and a fight you can walk out of, at a cost ([D319](06-decisions.md), #243), both
-   2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), comes after B and before C's rest
-   ([D323](06-decisions.md)).
+   2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), after B and before C's rest
+   ([D323](06-decisions.md)): **built** ([D328](06-decisions.md), 2026-10-21), four runes from charms and herbs laid on
+   the weapon somebody carries, each a fight passive while they carry it. Not yet: runes on armour, an enchanter.
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
    heights: A49 to A54 in [24](24-art-requests.md)), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land
    may stand over the crater first, [D311](06-decisions.md), 2026-10-21), and a look at a small on-device model

@@ -85,3 +85,75 @@ static func hone(character: Character) -> String:
 	return str(rules().get("honed_line", "{name}'s {weapon} comes back keener (+{notch}).")).format({
 		"name": character.display_name, "weapon": Gear.display_name(weapon), "notch": character.honed[weapon],
 	})
+
+
+# --- enchanting ---------------------------------------------------------------
+
+
+## Every enchantment ([D328], [D299] item 3; `crafting.enchant`): `{ id, display_name, description, effect,
+## value, needs: { item: count } }`, its effect one of the fight's passive effects.
+static func enchantments() -> Array:
+	return rules().get("enchant", [])
+
+
+static func enchantment(id: String) -> Dictionary:
+	for each: Dictionary in enchantments():
+		if str(each.get("id", "")) == id:
+			return each
+	return {}
+
+
+## Whether [param character]'s weapon could take [param rune] from [param stores]: they carry one that
+## strikes, it does not carry that rune already, and the packs hold what it needs.
+static func can_enchant(character: Character, rune: Dictionary, stores: Array) -> bool:
+	var weapon := character.equipment
+	if weapon == "" or int(Gear.piece(weapon).get("attack", 0)) <= 0:
+		return false
+	if str(character.enchanted.get(weapon, "")) == str(rune.get("id", "")):
+		return false
+	var needs: Dictionary = rune.get("needs", {})
+	for item: String in needs:
+		if stores.count(item) < int(needs[item]):
+			return false
+	return not needs.is_empty()
+
+
+## Lay [param rune] on [param character]'s weapon, out of [param stores]: what it needs comes out, and
+## any rune the weapon had is gone (one a weapon). Returns the line to show, or "" when it cannot.
+static func enchant(character: Character, rune: Dictionary, stores: Array) -> String:
+	if not can_enchant(character, rune, stores):
+		return ""
+	var needs: Dictionary = rune["needs"]
+	for item: String in needs:
+		for i in int(needs[item]):
+			stores.erase(item)
+	var weapon := character.equipment
+	var had := str(character.enchanted.get(weapon, ""))
+	character.enchanted[weapon] = str(rune["id"])
+	var line := str(rules().get("enchanted_line", "{name}'s {weapon} takes the {rune}.")).format({
+		"name": character.display_name, "weapon": Gear.display_name(weapon), "rune": str(rune.get("display_name", "")),
+	})
+	if had != "":
+		line += " " + str(rules().get("replaced_line", "The {old} is gone from it.")).format(
+				{ "old": str(enchantment(had).get("display_name", had)) })
+	return line
+
+
+## How the rune reads on a button: "Keen Rune (+10% to land a critical hit), from 1 Whetstone and 2 Bitter Herbs".
+static func enchantment_text(rune: Dictionary) -> String:
+	var parts: Array = []
+	var needs: Dictionary = rune.get("needs", {})
+	for item: String in needs:
+		parts.append("%d %s" % [int(needs[item]), Gear.display_name(item)])
+	return "%s (%s), from %s" % [str(rune.get("display_name", "")), str(rune.get("description", "")), " and ".join(parts)]
+
+
+## The fight's passive the rune on [param character]'s weapon gives while they carry it, or empty.
+static func rune_passive(character: Character) -> Dictionary:
+	if character == null or character.equipment == "":
+		return {}
+	var rune := enchantment(str(character.enchanted.get(character.equipment, "")))
+	if rune.is_empty():
+		return {}
+	return { "id": "rune_" + str(rune.get("id", "")), "display_name": rune.get("display_name", ""), "description": rune.get("description", ""),
+		"effect": rune.get("effect", ""), "value": rune.get("value", 0.0), "rune": true }

@@ -737,13 +737,19 @@ as one gate floor (`GateInside.layout`) of a rank from `ranks`, with the stair w
 keyed `done:cave_<x>_<y>_...` and `lost` said on a loss, and one cache by the deepest band of
 `gold_low` to `gold_high` copper and one of `finds`.
 
-## `world_rules.json` → `crafting` — mixing and honing (D280)
+## `world_rules.json` → `crafting` — mixing, honing and enchanting (D280, D328)
 
 `mix` is the recipes the party screen offers from the packs: `{ makes, needs: { item: count } }`
 (`mixed_line` says it). A smith's `talk.hone` (`q`, `offer`, `done`, `none`) puts a notch on a weapon
 somebody carries: +1 attack for that person with that weapon (`Character.honed`), up to `hone_most`, at
 (`hone_base` + the weapon's price × `hone_share`) × the notch through the `price` dial
 (`src/chronicle/crafting.gd`). A person with `hone` keeps a post and cannot be recruited.
+
+`enchant` (D328) is the runes the party screen offers for the weapon a person carries, out of the packs:
+`{ id, display_name, description, effect, value, needs: { item: count } }`. `effect` and `value` are a fight
+passive's (`data/skirmish.json` → `passives`): theirs while they carry that weapon, over and above
+`max_passives` (`Character.enchanted`: weapon id → rune id, one a weapon). `enchanted_line` says it, and
+`replaced_line` when a new rune takes an old one's place.
 
 ## `world_rules.json` → `moods` — how each of the company feels (D279)
 
