@@ -382,6 +382,7 @@ Start a run (not the tutorial) and walk.
 | D5.61 | Hear of a wild place at rest, then rest again and read the board | *What keeps the hush wood* is on the board, paid for the walk; take it, clear the band by the wild's far chest, come back: "is settled" and the coin ([D310](06-decisions.md)) |
 | D5.62 | In a world after a fall, climb as far as the dead lead did and walk to the crater | Half the time "Something was on it before the dust settled": a band stands over the crater; walking onto it says it will take a fight; beat the band and the weapon lies free; lose and another band is on it ([D311](06-decisions.md)) |
 | D5.63 | On the wind scarp, stand on the bare earth below a shelf and click on the shelf; then turn Auto on | The party walks to the nearest slope and up it, never straight at the shelf; Auto makes for the way out by the slopes; a click on a shelf with no slope says "There is no way up to there from here." once ([D312](06-decisions.md)) |
+| D5.64 | On the wind scarp, draw the guard into a fight at a shelf's edge; kick one of them off it, and have one kick you from below | Kicked off the edge: the body slides down a tile, "Off the edge", a tenth of its health gone, flat for a moment; kicked at the shelf from below: "Pinned", nobody goes up; the guard walks to the slopes to reach you, never straight up ([D313](06-decisions.md)) |
 
 ## H — Conversation and the camp
 

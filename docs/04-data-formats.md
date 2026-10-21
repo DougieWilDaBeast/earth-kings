@@ -806,6 +806,9 @@ with no way up). The ledges node draws a rim on the top of every drop and a shad
 On ground with heights `find_cell_path` (a click, Auto, a band, a person at work) finds its way with `_height_path`
 (D312): the shortest by cells stepping only where `may_step` allows, a drop of `hurt_from` or more counted as
 `path_drop_cost` (6) cells more; a click on open ground with no way to it says `no_way_line` once a cell.
+`shoved_off` (D313): `share` of a body's health for every height it is shoved off, `down_seconds` it lies
+knocked down, `word` over it and `line` (`{who}`, `{fell}`) in the fight's log; `BattleGrid.may_step` and
+`may_shove` rule a ledged field.
 
 ## `world_rules.json` → `tower.grown` — the floors past 10 (D290, D307)
 
@@ -1384,7 +1387,10 @@ For set pieces. Wild encounters and delves generate their maps instead.
 }
 ```
 
-All rows must be the same length, and every spawn must sit on walkable terrain.
+All rows must be the same length, and every spawn must sit on walkable terrain. A field may carry
+`heights` (one row of digits a tile row, a height a cell, over the terrain's own) and `ways_up` (cells where
+a height is climbed): then it is *ledged* (D313), walked and shoved the ground's way (D308) rather than the
+jump's. A fight laid over an area with heights writes both from the area (`Skirmish._ground_field`).
 
 ## `dialogue/*.json`
 
