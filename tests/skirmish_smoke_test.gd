@@ -21,6 +21,7 @@ const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const Formations := preload("res://src/skirmish/formations.gd")
+const Recruits := preload("res://src/chronicle/recruits.gd")
 const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
 const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
 const Company := preload("res://tests/company.gd")
@@ -1309,6 +1310,23 @@ func _check_leader_and_callouts() -> void:
 	_expect(Formations.leader_of(party) == null, "two wins made a leader (from_won is %d)" % int(Formations.leader_rules().get("from_won", 3)))
 	vesta.unit.character.fights["won"] = 5
 	_expect(Formations.leader_of(party) == vesta.unit.character, "Vesta with the most fights won does not lead")
+	# Charisma in who leads ([D334]): it lifts someone up to charisma_lift wins behind, no further, and
+	# breaks a tie.
+	var talker: Character = iris.unit.character
+	var kept_level := talker.level
+	talker.level = vesta.unit.character.level + 6
+	var lift := int(Formations.leader_rules().get("charisma_lift", 2))
+	talker.fights["won"] = 5 - lift
+	_expect(Formations.leader_of(party) == talker, "Iris, %d behind with more Charisma, does not lead" % lift)
+	talker.fights["won"] = 5 - lift - 1
+	_expect(Formations.leader_of(party) == vesta.unit.character, "Charisma lifted Iris from %d wins behind" % (lift + 1))
+	talker.level = vesta.unit.character.level
+	talker.fights["won"] = 5
+	var by_charisma := talker if Recruits.charisma(talker) > Recruits.charisma(vesta.unit.character) else vesta.unit.character
+	if Recruits.charisma(talker) != Recruits.charisma(vesta.unit.character):
+		_expect(Formations.leader_of(party) == by_charisma, "Charisma did not break a tie of fights won")
+	talker.level = kept_level
+	talker.fights["won"] = 2
 	_expect(Formations.leader_fighter(fight.fighters) == vesta, "the leader among the fighters is not Vesta")
 	_expect(Formations.recommend(3, vesta.unit.character) == "wedge", "a mender leading did not call for a wedge: %s" % Formations.recommend(3, vesta.unit.character))
 	_expect(Formations.badge(vesta.unit.character).contains("5"), "the badge does not say how many: %s" % Formations.badge(vesta.unit.character))

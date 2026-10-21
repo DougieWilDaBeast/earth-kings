@@ -19,6 +19,7 @@ extends RefCounted
 
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
+const Recruits := preload("res://src/chronicle/recruits.gd")
 
 const NONE := Vector2i(-9999, -9999)
 
@@ -107,16 +108,30 @@ static func won(character: Character) -> int:
 	return int(character.fights.get("won", 0)) if character != null else 0
 
 
-## The natural leader among [param characters]: the most fights won, `from_won` or more; ties to the
-## higher level, then the order given. Null while nobody has won enough. Need not be the lead.
+## The natural leader among [param characters] ([D306], [D334]): of everyone with `from_won` fights won or
+## more, those within `charisma_lift` wins of the most won stand for it, and the one with the most
+## Charisma ([Recruits.charisma]) leads; ties to the more fights won, then the higher level, then the order
+## given. So the most fights won leads, Charisma breaks a tie, and a higher Charisma lifts someone up to
+## two wins behind. Null while nobody has won enough. Need not be the lead.
 static func leader_of(characters: Array) -> Character:
-	var best: Character = null
 	var floor_won := int(leader_rules().get("from_won", 3))
-	for character: Character in characters:
-		if character == null or won(character) < floor_won:
+	var standing: Array = characters.filter(func(c: Character) -> bool: return c != null and won(c) >= floor_won)
+	if standing.is_empty():
+		return null
+	var most := 0
+	for character: Character in standing:
+		most = maxi(most, won(character))
+	var lift := int(leader_rules().get("charisma_lift", 2))
+	var best: Character = null
+	var best_charisma := 0
+	for character: Character in standing:
+		if won(character) < most - lift:
 			continue
-		if best == null or won(character) > won(best) or (won(character) == won(best) and character.level > best.level):
+		var charisma := Recruits.charisma(character)
+		if best == null or charisma > best_charisma or (charisma == best_charisma and (won(character) > won(best)
+				or (won(character) == won(best) and character.level > best.level))):
 			best = character
+			best_charisma = charisma
 	return best
 
 

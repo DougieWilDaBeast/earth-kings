@@ -1289,6 +1289,7 @@ in front, that many pixels a slot (`AreaWatch._deal_the_shape`, `slot_point`), t
 
 The leader, call-outs and fights shared (D306) live beside them. `leader`: `from_won` fights won before
 anyone leads (`Character.fights`, `{ won, lost }`, written by `Formations.record_fight` as a fight ends),
+`charisma_lift` how many wins behind the most won a higher Charisma still leads from (D334; Charisma breaks a tie),
 `shapes_by_line` the shape a leader calls for by the line they fight in (`Formations.recommend`, which
 `auto` takes), `badge` the leader's card line (`{won}`) and `call` the picker's note (`{name}`).
 `callouts`: `healer` and `archer` are the shouts (`Formations.callout`, from the party's leader or lead and
