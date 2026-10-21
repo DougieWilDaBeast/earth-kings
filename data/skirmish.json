@@ -30,6 +30,14 @@
 		"block_max": 0.4,
 		"ambush_head_start": 2.0,
 		"swings_per_practice": 3,
+		"_comment_flee": "D319 (Ewan, D118: 'an open fight you can walk out of'; issue #243: 'at a cost'). Getting clear of a fight costs: whoever reaches the edge takes a parting blow of flee.parting_blow of their health as they go, never a fall (cleared_line, {who}); when the whole company gets clear of a band of the land, the band keeps flee.gold_share of the company's coin, dropped in the running (dropped_line, {coin}); the order to the edge says so (making_line). A fight left inside a gate or the Tower keeps no coin. Inferred: the tenth and the tenth.",
+		"flee": {
+			"parting_blow": 0.1,
+			"gold_share": 0.1,
+			"making_line": "Making for the edge of the field. Whatever is dropped in the running stays dropped.",
+			"cleared_line": "{who} gets clear, with a parting blow for it.",
+			"dropped_line": "You get clear of them, {coin} the lighter for what was dropped in the running. They are still out there."
+		},
 		"_comment_heal": "A mend grows with its caster's level (D284): health grows every level and a spell's power did not, so Vesta's Mend (16) was a tenth of Juno at level 1 and a thirtieth at 17. From heal_from_level it heals heal_per_level more a level (level 17: 2.4 times); below it, as it was. Draughts already grow by kind and regen by share of health. Inferred: both numbers.",
 		"heal_from_level": 3,
 		"heal_per_level": 0.1
