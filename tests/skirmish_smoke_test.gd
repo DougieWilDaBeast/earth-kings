@@ -201,6 +201,7 @@ func _run() -> void:
 	_check_heal_growth()
 	await _check_the_turn()
 	await _check_scars()
+	await _check_walking_out()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -625,6 +626,43 @@ func _check_allies_and_auto() -> void:
 ## practice counts, the journal fills, a healer is remembered, draughts are
 ## spent from the stores, wounds carry out, an ambush gives the party the jump,
 ## and a fall the company cannot reach is settled for real by [Fate].
+## A fight you can walk out of, at a cost ([D319]; Ewan's ask, issue #243): whoever reaches the edge
+## takes a parting blow of a share of their health, never a fall, and the band keeps a share of the
+## company's coin when everyone gets clear.
+func _check_walking_out() -> void:
+	GameState.heal_party()
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"title": "The road", "map": _proving_ground()}, "return_scene": "world", "touch": false}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.manual = true
+	fight.paused = true
+	var party: Array[Fighter] = fight.party_fighters()
+	if party.size() < 2:
+		_expect(false, "walking out: no party to walk out")
+		fight.queue_free()
+		return
+	var share := float(SkirmishRules.flee_rules().get("parting_blow", 0.0))
+	_expect(share > 0.0 and float(SkirmishRules.flee_rules().get("gold_share", 0.0)) > 0.0, "walking out costs nothing")
+	var runner: Fighter = party[0]
+	var full := runner.unit.hp
+	fight._get_clear(runner)
+	_expect(runner.fled and runner.unit.hp == full - maxi(1, roundi(float(runner.unit.max_hp) * share)) and runner.unit.hp > 0,
+			"the parting blow took %d of %d, not %.0f%%" % [full - runner.unit.hp, runner.unit.max_hp, share * 100.0])
+	# Never a fall: at one hit point the blow is nothing.
+	var last: Fighter = party[1]
+	last.unit.hp = 1
+	fight._get_clear(last)
+	_expect(last.fled and last.unit.hp == 1 and last.unit.is_alive(), "a parting blow felled %s" % last.unit.display_name)
+	var toll := SkirmishRules.flee_toll(1000)
+	_expect(toll == roundi(1000.0 * float(SkirmishRules.flee_rules().get("gold_share", 0.0))) and SkirmishRules.flee_toll(0) == 0 and SkirmishRules.flee_toll(3) <= 3,
+			"the toll on the company's coin is %d of 1000" % toll)
+	print("walking out: a parting blow of %.0f%% of health, and %.0f%% of the coin dropped in the running" % [share * 100.0, float(SkirmishRules.flee_rules().get("gold_share", 0.0)) * 100.0])
+	fight.queue_free()
+	await get_tree().process_frame
+	GameState.heal_party()
+
+
 ## Scars ([D218], from Kenshi): whoever went down in a fight the company won, and lives, comes out
 ## with a little more health for good; up to `scars.most`; kept in the save.
 func _check_scars() -> void:

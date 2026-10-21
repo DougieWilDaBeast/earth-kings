@@ -44,6 +44,7 @@ const LandJournals := preload("res://src/chronicle/land_journals.gd")
 const Remembered := preload("res://src/chronicle/remembered.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
+const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -660,7 +661,13 @@ func _settle_up(won: bool) -> void:
 			world.prowlers.append(band)
 		if Pace.auto:
 			Pace.avoided[outcome.get("cell", world.player_cell)] = true
-		_note("You get clear of them. They are still out there.")
+		# A band of the land keeps a share of the company's coin, dropped in the running ([D319]).
+		var toll := SkirmishRules.flee_toll(GameState.gold) if band is Prowler else 0
+		if toll > 0:
+			GameState.gold -= toll
+			_note(str(SkirmishRules.flee_rules().get("dropped_line", "You get clear of them, {coin} the lighter. They are still out there.")).format({ "coin": Coins.text(toll) }))
+		else:
+			_note("You get clear of them. They are still out there.")
 		return
 	for notice: String in Skein.on_battle(world, { "victory": won, "kind": str(outcome.get("kind", "")) }):
 		_note(notice)

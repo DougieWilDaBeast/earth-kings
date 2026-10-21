@@ -2021,7 +2021,9 @@ func _make_for_the_edge(beyond: Vector2i) -> void:
 		taken.append(spot)
 		f.set_meta("fleeing", true)
 		order_move(f, spot)
-	_say("Making for the edge of the field." if selected.size() > 1 else "%s makes for the edge of the field." % selected[0].unit.display_name)
+	# The order says what it costs ([D319]).
+	_say(str(SkirmishRules.flee_rules().get("making_line",
+			"Making for the edge of the field." if selected.size() > 1 else "%s makes for the edge of the field." % selected[0].unit.display_name)))
 
 
 func _on_the_edge(cell: Vector2i) -> bool:
@@ -2042,12 +2044,21 @@ func _see_who_got_clear() -> void:
 ## [param f] is out of the fight, alive, with whatever carries them, rides them or is bound to them.
 func _get_clear(f: Fighter) -> void:
 	var mount := f.aboard as Fighter
+	# A parting blow on the way off ([D319], Ewan's "at a cost"): a share of their health, never a fall.
+	var share := float(SkirmishRules.flee_rules().get("parting_blow", 0.0))
+	var struck := false
+	if share > 0.0 and f.is_party() and f.unit.is_alive() and not sandbox:
+		var blow := mini(maxi(1, roundi(float(f.unit.max_hp) * share)), f.unit.hp - 1)
+		if blow > 0:
+			f.unit.take_damage(blow)
+			struck = true
 	for other in fighters:
 		if other == f or other == mount or other.aboard == f or other.bound_to == f:
 			other.fled = true
 			other.unit.visible = false
 			selected.erase(other)
-	_say("%s gets clear." % f.unit.display_name)
+	_say(str(SkirmishRules.flee_rules().get("cleared_line", "{who} gets clear.")).format({ "who": f.unit.display_name }) if struck
+			else "%s gets clear." % f.unit.display_name)
 
 
 ## Send everyone selected to [param cell], each to their own tile around it.
