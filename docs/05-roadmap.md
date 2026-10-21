@@ -393,8 +393,9 @@ each, each ending playable:
    (built, [D274](06-decisions.md), the rules in [13](13-heroes-and-tempers.md#the-lines); a second pass over what was written since, built, [D350](06-decisions.md)). After gates and tiers
    comes `dougie`'s list (BR9), one at a time: **recruiting anyone** built ([D277](06-decisions.md): a Charisma
    check, and a no won round by their favour or a few fights), sending your own people out built ([D278](06-decisions.md):
-   a band to shut a gate on the odds, open once a gate is shut), moods built ([D279](06-decisions.md): thoughts that
-   make a mood, which nudges a fight), crafting built ([D280](06-decisions.md): herbs mixed into draughts, a smith's
+   a band to shut a gate on the odds, open once a gate is shut; and to clear a wild place heard of, [D348](06-decisions.md); and on Auto, picking their own work by the odds, their temper and their mood, [D349](06-decisions.md)), moods built ([D279](06-decisions.md): thoughts that
+   make a mood, which nudges a fight; deeper since [D347](06-decisions.md): a friend beside them, a fall seen,
+   a friend gone, rest and care, the mood on each card and in what they say), crafting built ([D280](06-decisions.md): herbs mixed into draughts, a smith's
    edge on a weapon), caves built ([D282](06-decisions.md): a mouth on some hills, a gate-like floor behind it), then
    heights (**planned**).
 31. **Fights on the ground are dangerous, and they turn** — built ([D272](06-decisions.md), call BQ, 2026-10-19,
@@ -421,7 +422,7 @@ each, each ending playable:
       [D324](06-decisions.md), his eleven asks in [28](28-the-first-hour.md#play-test-8s-asks) in call BX's order ([D325](06-decisions.md)):
       disband, the quick wheel, the fallen reached first and a sent band's return time now, held until B is in
       (**built**, [D326](06-decisions.md));
-      the 2× cap (**built**, [D329](06-decisions.md)), nemesis (**built**, [D330](06-decisions.md)) and hunger after B; the writers' pass, city doors, groves and the opening later.
+      the 2× cap (**built**, [D329](06-decisions.md)), nemesis (**built**, [D330](06-decisions.md)) and hunger (**built**, [D331](06-decisions.md)) after B; the writers' pass, city doors, groves and the opening later.
       The opening's remake is settled in shape (call BZ, [D328](06-decisions.md)): 14 shots in three acts, the lead's
       chapter-one object falling with them, a demon king in a gate, Bram's "Give me your hand." at the end; built with the game's own sprites and a camera on every shot
       ([D340](06-decisions.md); art A58-A61 asked for after 27 October).
@@ -504,13 +505,16 @@ each, each ending playable:
       ([D345](06-decisions.md), 2026-10-21): sellswords for coin off the Gilded Flagon's book, who go when the
       job is done, and the Flagon as where the roaming leads are met. The tavern on your own land and the
       four new people of the 32 wait on G and the writers.
+   Also built, from play-test 8's ask 7 (and play-test 7's item 12): the walked ground's panels moved, sized and
+   grown by hand from the menu's Arrange the Screen, kept between runs ([D351](06-decisions.md), 2026-10-21). Not yet:
+   the fight's own cards and buttons, the screens (party, journal) and colours of the player's choosing.
    Also built, outside the order, from `doug-md`'s older asks: the sword in the Tower's yard, one pull a run
    ([D318](06-decisions.md), #249), and a fight you can walk out of, at a cost ([D319](06-decisions.md), #243), both
    2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), after B and before C's rest
    ([D323](06-decisions.md)): **built** ([D327](06-decisions.md), 2026-10-21), four runes from charms and herbs laid on
    the weapon somebody carries, each a fight passive while they carry it. Not yet: runes on armour, an enchanter.
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
-   heights: A49 to A54 in [24](24-art-requests.md)), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land
+   heights: A49 to A54 in [24](24-art-requests.md); the month's order and estimate, [D356](06-decisions.md); PixelLab's newer tools in `tools/pixellab.py`, [D358](06-decisions.md)), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land
    may stand over the crater first, [D311](06-decisions.md), 2026-10-21), and a look at a small on-device model
    for fight plans ([D298](06-decisions.md), #385): **done** ([investigation 12](investigation/12-a-small-model-for-fight-plans.md));
    its plans fought no better than the rules in 200 party clashes, so no runtime goes in ([D322](06-decisions.md), 2026-10-21).

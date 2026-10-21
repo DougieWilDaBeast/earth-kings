@@ -16,6 +16,7 @@ extends RefCounted
 
 const Guild := preload("res://src/chronicle/guild.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Wilds := preload("res://src/chronicle/wilds.gd")
 
 ## Who took an errand, written on the errand itself.
 const TAKEN_BY := "sent"
@@ -93,7 +94,7 @@ static func walk(world: World, roster: Roster, away: Array, accepted: Array) -> 
 		if bool(job.get("waiting", false)):
 			lines.append_array(_met(world, roster, away, job))
 			continue
-		if job.has("gate"):
+		if job.has("gate") or job.has("wild"):
 			lines.append_array(_walk_band(world, roster, away, accepted, job))
 			continue
 		var character := roster.by_id(str(job.get("id", "")))
@@ -113,6 +114,7 @@ static func walk(world: World, roster: Roster, away: Array, accepted: Array) -> 
 				if not away.has(job):
 					continue
 			lines.append_array(_come_back(world, roster, away, accepted, job, character, errand))
+	lines.append_array(_auto_again(world, roster, away, accepted))
 	return lines
 
 
@@ -352,10 +354,12 @@ static func unlocked(world: World) -> bool:
 	return false
 
 
-## The band on the road to [param gate] that has not got there yet, which more can catch up with.
+## The band on the road to [param gate] (or a wild place) that has not got there yet, which more can
+## catch up with.
 static func band_for(away: Array, gate: Site) -> Dictionary:
+	var key := "wild" if gate != null and gate.kind == Site.WILD else "gate"
 	for job: Dictionary in away:
-		if job.has("gate") and _cell(job["gate"]) == gate.cell and not bool(job.get("arrived", false)):
+		if gate != null and job.has(key) and _cell(job[key]) == gate.cell and not bool(job.get("arrived", false)):
 			return job
 	return {}
 
@@ -391,6 +395,124 @@ static func send_to_gate(world: World, roster: Roster, away: Array, character: C
 	]
 
 
+# --- wild places ([D348]) --------------------------------------------------------
+#
+# The rest of Ewan's "send your own characters to do quests so they go on auto mode": a wild place the
+# company has heard of ([D309]) and whose guard still stands can be cleared by a band of its own, the
+# way a gate is shut: walked to on the clock, the guard fought on the odds, and, won, its chests
+# emptied into the packs and any job to clear it settled as if the company had done it.
+
+
+## Wild places a band could be sent to clear: known to the company, kept by a guard still standing.
+static func open_wilds(world: World) -> Array[Site]:
+	var out: Array[Site] = []
+	if world == null:
+		return out
+	for site: Site in Wilds.all(world):
+		if Atlas.knows(world, site) and Wilds.guarded(site) and not Wilds.cleared(site):
+			out.append(site)
+	return out
+
+
+## Send [param character] to clear [param wild], with whoever is already on the road to it. The guard
+## stands at the company's level as it is when the first of them sets off, as it would for the company.
+## Returns the line to show, or "" if they cannot go.
+static func send_to_wild(world: World, roster: Roster, away: Array, character: Character, wild: Site, meet: Site = null) -> String:
+	if not can_send(character, roster, away) or wild == null or not open_wilds(world).has(wild):
+		return ""
+	var guard_level := maxi(1, Encounter.party_level(roster.party_members()))
+	roster.party.erase(character.id)
+	var band := band_for(away, wild)
+	if not band.is_empty():
+		(band["band"] as Array).append(character.id)
+		return "%s goes after the others to %s." % [character.display_name, wild.display_name]
+	var tiles := maxi(1, Pathfinder.distance(world.player_cell, wild.cell))
+	var out_steps := maxi(1, roundi(tiles * float(rules().get("steps_per_tile", 1.0))))
+	var inside := int(rules().get("steps_in_wild", 6))
+	away.append({
+		"id": character.id,
+		"band": [character.id],
+		"wild": [wild.cell.x, wild.cell.y],
+		"guard_level": guard_level,
+		"to": [wild.cell.x, wild.cell.y],
+		"to_name": wild.display_name,
+		"from": [world.player_cell.x, world.player_cell.y],
+		"sent_at": world.steps,
+		"out_at": world.steps + out_steps + inside,
+		"back_at": world.steps + out_steps * 2 + inside,
+		"arrived": false,
+	})
+	var back := _meet_at(away[-1], meet, wild.cell)
+	return "%s sets off to clear %s. Back %s in about %d steps." % [character.display_name, wild.display_name, _back_where(away[-1]), back]
+
+
+## The chance a band beats the guard of a wild place standing at [param guard_level]: its average level
+## against the guard's, and a little more for every pair of hands past the first.
+static func wild_chance(band: Array, guard_level: int) -> float:
+	if band.is_empty():
+		return 0.0
+	var levels := 0.0
+	for character: Character in band:
+		levels += character.level
+	var r := rules()
+	var odds := float(r.get("wild_win_base", 0.4)) \
+		+ float(r.get("gate_per_level", 0.06)) * (levels / band.size() - float(guard_level)) \
+		+ float(r.get("gate_per_hand", 0.1)) * (band.size() - 1)
+	return clampf(odds, float(r.get("gate_min", 0.05)), float(r.get("gate_max", 0.95)))
+
+
+## The band reaches the wild place. Won, the guard is beaten as if the company had beaten it, its chests
+## come home in the packs and any job to clear it is done; lost, each of them rolls for their life.
+static func _clear_wild(world: World, roster: Roster, away: Array, accepted: Array, job: Dictionary, band: Array) -> Array[String]:
+	var lines: Array[String] = []
+	var wild := world.site_at(_cell(job.get("wild", [])))
+	var names := ", ".join(band.map(func(c: Character) -> String: return c.display_name))
+	if wild == null or Wilds.cleared(wild):
+		lines.append("%s found %s already cleared, and turned for home." % [names, job.get("to_name", "the place")])
+		return lines
+	var foe := _local_foe(world, wild.cell)
+	var guard_level := int(job.get("guard_level", 1))
+	if world.rng.randf() < wild_chance(band, guard_level):
+		for character: Character in band:
+			var lost := world.rng.randf_range(0.3, 0.6)
+			character.hp = maxi(1, character.current_hp() - roundi(float(character.max_hp()) * lost))
+			for line in Progression.award_kill(character, foe, guard_level, [], false, world, [], not Progression.levels_only_in_gates()):
+				lines.append(str(line))
+		GameState.set_flag(Wilds.guard_flag(wild))
+		lines.push_front("%s cleared %s on their own." % [names, wild.display_name])
+		Annals.record(world, "What kept %s was driven off by %s, sent out by the company." % [wild.display_name, names])
+		# What the chests held comes home with them; the chests stand empty when the company comes.
+		var area := str(wild.data.get("area", ""))
+		var map := AreaMap.load_area(area)
+		if map != null:
+			for cell: Vector2i in map.chests:
+				var flag := map.chest_flag(cell)
+				if GameState.has_flag(flag) or bool((map.chests[cell] as Dictionary).get("stash", false)):
+					continue
+				GameState.set_flag(flag)
+				for line in Loot.claim((map.chests[cell] as Dictionary).duplicate(), roster):
+					lines.append(str(line))
+		for errand: Dictionary in accepted:
+			if str(errand.get("kind", "")) == Errand.WILD and Errand.is_complete(errand):
+				lines.append("\"%s\" is done: the pay waits at %s." % [errand.get("title", "The job"), errand.get("from_name", "the board")])
+		return lines
+	lines.append("%s went into %s and could not drive off what keeps it." % [names, wild.display_name])
+	var kind := str(Database.unit_template(foe).get("kind", "default"))
+	for character: Character in band:
+		var others := band.filter(func(c: Character) -> bool: return c != character)
+		var outcome := Fate.resolve(character, {"allies": others, "enemy_kind": kind, "world": world, "cell": wild.cell}, world.rng)
+		lines.append(str(outcome["line"]))
+		if outcome["outcome"] == Fate.ALIVE:
+			character.hp = maxi(1, character.max_hp() / 5)
+			continue
+		(job["band"] as Array).erase(character.id)
+		if outcome["outcome"] == Fate.DEAD:
+			Memorial.raise(world, character, wild.cell, foe)
+	if (job["band"] as Array).is_empty():
+		away.erase(job)
+	return lines
+
+
 ## The chance a band shuts [param gate]: its average level against what the rank expects, and a
 ## little more for every pair of hands past the first.
 static func gate_chance(band: Array, gate: Site) -> float:
@@ -423,7 +545,10 @@ static func _walk_band(world: World, roster: Roster, away: Array, accepted: Arra
 		return lines
 	if not bool(job.get("arrived", false)) and world.steps >= int(job.get("out_at", 0)):
 		job["arrived"] = true
-		lines.append_array(_storm(world, roster, away, accepted, job, band))
+		if job.has("wild"):
+			lines.append_array(_clear_wild(world, roster, away, accepted, job, band))
+		else:
+			lines.append_array(_storm(world, roster, away, accepted, job, band))
 	if away.has(job) and bool(job.get("arrived", false)) and world.steps >= int(job.get("back_at", 0)):
 		var crow := _home(world, roster, away, job, members(roster, job).map(func(c: Character) -> String: return c.display_name))
 		if not crow.is_empty():
@@ -475,6 +600,141 @@ static func _storm(world: World, roster: Roster, away: Array, accepted: Array, j
 			Memorial.raise(world, character, gate.cell, foe)
 	if (job["band"] as Array).is_empty():
 		away.erase(job)
+	return lines
+
+
+# --- on Auto ([D294], [D349]) ---------------------------------------------------
+#
+# Ewan's play-test 7: "send your own characters to do quests so they go on auto mode"; the founders'
+# meeting: companies "run on Auto by their moods and nature". Somebody sent on Auto picks their own
+# work from what the company knows, and when they fall in again takes the next, until called back or
+# hurt. The bold take the hard gate; the careful take the sure errand. Rules in `world_rules.json` →
+# `dispatch.auto`. Who is on Auto is a flag of the run, so it saves with everything else.
+
+
+const AUTO := "auto:"
+
+
+static func auto_rules() -> Dictionary:
+	return rules().get("auto", {})
+
+
+## Whether [param character] is on Auto: out on a job of their choosing, or with the company waiting
+## for one.
+static func on_auto(character: Character) -> bool:
+	return character != null and GameState.flags.has(AUTO + character.id)
+
+
+## Take [param character] off Auto. They finish what they are on and come back as anyone would.
+static func call_back(character: Character) -> void:
+	if character != null:
+		GameState.flags.erase(AUTO + character.id)
+
+
+## How bold they are on their own, 0 to 1: their temper's letters and how they feel.
+static func boldness(character: Character) -> float:
+	var r := auto_rules()
+	var bold := float(r.get("bold_base", 0.4))
+	var letters: Dictionary = r.get("bold_letters", {})
+	for letter in character.temper.to_upper():
+		bold += float(letters.get(letter, 0.0))
+	var base := int(Database.world_rules.get("moods", {}).get("base", 50))
+	bold += float(r.get("bold_per_mood", 0.005)) * float(character.mood() - base)
+	return clampf(bold, 0.0, 1.0)
+
+
+## What [param character] would take on Auto now: {"kind": "errand"|"gate"|"wild", "errand" or "site",
+## "odds", "name"}, or {} when nothing within reach is worth the risk to them.
+static func pick(world: World, roster: Roster, away: Array, accepted: Array, character: Character) -> Dictionary:
+	if world == null or character == null:
+		return {}
+	var r := auto_rules()
+	var bold := boldness(character)
+	var least := float(r.get("least_odds", 0.6)) - bold * float(r.get("bold_floor", 0.2))
+	var reach := int(r.get("reach", 80))
+	var worth: Dictionary = r.get("worth", {})
+	var options: Array[Dictionary] = []
+	for errand: Dictionary in open_errands(accepted):
+		options.append({"kind": "errand", "errand": errand, "odds": float(r.get("errand_odds", 0.85)),
+				"cell": _target_of(errand, world), "name": "see to \"%s\"" % errand.get("title", "an errand")})
+	for gate: Site in open_gates(world):
+		var band := band_for(away, gate)
+		options.append({"kind": "gate", "site": gate, "odds": gate_chance(members(roster, band) + [character], gate),
+				"cell": gate.cell, "name": "shut %s" % gate.display_name})
+	var guard_level := maxi(1, Encounter.party_level(roster.party_members()))
+	for wild: Site in open_wilds(world):
+		var band := band_for(away, wild)
+		options.append({"kind": "wild", "site": wild, "odds": wild_chance(members(roster, band) + [character], int(band.get("guard_level", guard_level))),
+				"cell": wild.cell, "name": "clear %s" % wild.display_name})
+	var best := {}
+	var best_score := -INF
+	for option: Dictionary in options:
+		var tiles := Pathfinder.distance(world.player_cell, option["cell"])
+		if float(option["odds"]) < least or tiles > reach:
+			continue
+		# Nearer first between two alike.
+		var score := float(option["odds"]) + bold * float(worth.get(option["kind"], 0.0)) - 0.001 * tiles
+		if score > best_score:
+			best_score = score
+			best = option
+	return best
+
+
+## Put [param character] on Auto and send them off on what they pick. Returns the line to show, or ""
+## if they cannot go or nothing is worth it to them.
+static func send_on_auto(world: World, roster: Roster, away: Array, accepted: Array, character: Character) -> String:
+	if not can_send(character, roster, away):
+		return ""
+	var choice := pick(world, roster, away, accepted, character)
+	if choice.is_empty():
+		return ""
+	var line := _go(world, roster, away, character, choice)
+	if line != "":
+		GameState.flags[AUTO + character.id] = true
+	return line
+
+
+static func _go(world: World, roster: Roster, away: Array, character: Character, choice: Dictionary) -> String:
+	var line := ""
+	match str(choice.get("kind", "")):
+		"errand":
+			line = send(world, roster, away, character, choice["errand"])
+		"gate":
+			line = send_to_gate(world, roster, away, character, choice["site"])
+		"wild":
+			line = send_to_wild(world, roster, away, character, choice["site"])
+	if line == "":
+		return ""
+	return str(auto_rules().get("set_off_line", "On Auto: {line}")).format({"line": line})
+
+
+## Everyone on Auto who is back with the company takes the next job, unless they came back hurt.
+## Somebody with nothing to pick is told so once and waits with the company, still on Auto.
+static func _auto_again(world: World, roster: Roster, away: Array, accepted: Array) -> Array[String]:
+	var lines: Array[String] = []
+	if roster == null:
+		return lines
+	var r := auto_rules()
+	for character: Character in roster.party_members():
+		var key := AUTO + character.id
+		if not GameState.flags.has(key) or not job_for(away, character.id).is_empty():
+			continue
+		if not character.is_available() or character.current_hp() < roundi(character.max_hp() * float(r.get("rest_below", 0.5))):
+			GameState.flags.erase(key)
+			lines.append(str(r.get("hurt_line", "{name} comes back hurt, and comes off Auto to mend.")).format({"name": character.display_name}))
+			continue
+		if not can_send(character, roster, away):
+			continue
+		var choice := pick(world, roster, away, accepted, character)
+		if choice.is_empty():
+			if GameState.flags[key] == true:
+				GameState.flags[key] = "idle"
+				lines.append(str(r.get("idle_line", "{name} is on Auto, with nothing worth the risk.")).format({"name": character.display_name}))
+			continue
+		var line := _go(world, roster, away, character, choice)
+		if line != "":
+			GameState.flags[key] = true
+			lines.append(line)
 	return lines
 
 
@@ -544,8 +804,17 @@ static func reading_words(job: Dictionary, world: World) -> String:
 	return ", ".join(parts)
 
 
-## One line for the party screen: who, where, how long.
+## One line for the party screen: who, where, how long, and whether they chose it on Auto ([D349]).
 static func summary(job: Dictionary, roster: Roster, world: World) -> String:
+	var line := _summary(job, roster, world)
+	var who: Array = members(roster, job) if job.has("band") else [roster.by_id(str(job.get("id", "")))]
+	for character: Variant in who:
+		if on_auto(character as Character):
+			return line + " (on Auto)"
+	return line
+
+
+static func _summary(job: Dictionary, roster: Roster, world: World) -> String:
 	var character := roster.by_id(str(job.get("id", "")))
 	var who := character.display_name if character != null else "Somebody"
 	if bool(job.get("waiting", false)):
@@ -553,12 +822,12 @@ static func summary(job: Dictionary, roster: Roster, world: World) -> String:
 		return "%s — back, and waiting for you at %s" % [", ".join(names), job.get("meet_name", "the meeting place")]
 	if bool(job.get("sulk", false)):
 		return "%s — off on their own a while, about %d steps more" % [who, maxi(0, int(job.get("back_at", 0)) - world.steps)]
-	if job.has("gate"):
+	if job.has("gate") or job.has("wild"):
 		var names: Array = members(roster, job).map(func(c: Character) -> String: return c.display_name)
 		who = ", ".join(names) if not names.is_empty() else who
 		if not bool(job.get("arrived", false)):
-			return "%s — on the road to shut %s, about %d steps from it" % [
-				who, job.get("to_name", "the gate"), maxi(0, int(job.get("out_at", 0)) - world.steps),
+			return "%s — on the road to %s %s, about %d steps from it" % [
+				who, "clear" if job.has("wild") else "shut", job.get("to_name", "the gate"), maxi(0, int(job.get("out_at", 0)) - world.steps),
 			]
 	if bool(job.get("arrived", false)):
 		if bool(job.get("waits", false)) and world.steps >= int(job.get("back_at", 0)):

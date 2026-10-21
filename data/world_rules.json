@@ -927,6 +927,16 @@
 		"arms_steps": [30, 90, 200, 400],
 		"arms_per_rank": 0.04
 	},
+	"_comment_hunger": "D331 (call BX; Ewan's play-test 8: 'a hunger bar underneath every player so we know how much food they have currently in them and when they need to eat', and Auto eating when needed). Read by src/chronicle/hunger.gd. Everyone in the company is fed 1 (full) to 0, going down per_step with each step on the land (steps_per_day is 8: hungry after about three days, empty after five). Under hungry_below they are hungry: the bar under their health goes amber and hungry_line is said once. At nothing they lose starving_hurt of their health a step, never the last point. Food (taken: eat) fills feeds_per_mend for every point it mends (bread 0.42, a meat pie 0.6) and can be eaten whole when hungry; a bed is a full meal. With Auto on, anyone under auto_eat_below eats the least food that does. Inferred: every number and line.",
+	"hunger": {
+		"on": true,
+		"per_step": 0.025,
+		"hungry_below": 0.35,
+		"starving_hurt": 0.03,
+		"feeds_per_mend": 0.03,
+		"auto_eat_below": 0.4,
+		"hungry_line": "{name} is hungry."
+	},
 	"_comment_nemesis": "D330 (call BX; Ewan's play-test 8, after Shadow of Mordor's nemesis system: 'Characters will remember that, and people might hold a grudge'). Out of the First Hour's cut list. A band broken leaves one survivor on survive_chance (never a non_sentient kind), named with an epithet; a band met on the road is led by one on return_chance, level_per_return levels up for each time they have come back, saying the confront_lines (the first, then the second...); beaten again they are finished (finished_line, a deed). thanks: a settled errand's giver remembers it on chance, and a traveller on the road's clock is one of them on meet_share, giving gift_share of the errand's pay. Inferred: every number and line.",
 	"nemesis": {
 		"survive_chance": 0.2,
@@ -962,12 +972,36 @@
 			{ "id": "formation", "label": "Formation" },
 			{ "id": "map", "label": "Map" },
 			{ "id": "journal", "label": "Journal" },
-			{ "id": "auto", "label": "Auto" }
+			{ "id": "auto", "label": "Auto" },
+			{ "id": "arrange", "label": "Arrange" }
 		],
 		"fighting": [
 			{ "id": "eat", "label": "Eat" },
 			{ "id": "stance", "label": "Stance" },
 			{ "id": "auto", "label": "Auto" }
+		]
+	},
+	"screen_layout": {
+		"_comment": "D351 (Ewan's play-test 8: 'when in-game I'm able to edit the size of them and choose where I want to place them on my screen'): src/ui/screen_layout.gd. From the menu's Arrange the Screen, or Arrange on the quick wheel, a frame is drawn round each panel of the walked ground's screen: dragged to move it; a panel with resize 'size' has a handle at its corner to make its box bigger or smaller; the wheel over any frame grows or shrinks it and its words, between least_scale and most_scale by scale_step. 'words' is the box people talk in. Kept in user://settings.cfg [layout] as a share of the screen; keep_showing pixels of a panel always stay on it.",
+		"on": true,
+		"menu": "Arrange the Screen",
+		"bar": "Drag a panel to move it, its corner to size it, the wheel over it to grow its words.",
+		"done": "Done",
+		"reset": "Put It All Back",
+		"handle": 14,
+		"least": [160, 40],
+		"least_scale": 0.6,
+		"most_scale": 2.0,
+		"scale_step": 0.1,
+		"keep_showing": 40,
+		"panels": [
+			{ "id": "place", "label": "Where you are", "resize": "scale" },
+			{ "id": "compass", "label": "Compass", "resize": "scale" },
+			{ "id": "hud", "label": "The company", "resize": "scale" },
+			{ "id": "map", "label": "Map", "resize": "scale" },
+			{ "id": "log", "label": "What happened", "resize": "size" },
+			{ "id": "hint", "label": "Hint", "resize": "scale" },
+			{ "id": "words", "label": "Conversations", "resize": "scale" }
 		]
 	},
 	"dispatch": {
@@ -986,8 +1020,26 @@
 		"gate_per_hand": 0.1,
 		"gate_min": 0.05,
 		"gate_max": 0.95,
+		"_comment_wilds": "D348 (the rest of Ewan's 'send your own characters to do quests so they go on auto mode'; D309, D310): a band sent to a wild place the company has heard of, whose guard still stands, walks there on the clock, spends steps_in_wild steps inside, and drives the guard off on wild_win_base + gate_per_level x (the band's average level - the guard's, which is the company's level when the first set off) + gate_per_hand for every member past the first, kept between gate_min and gate_max. Won: the guard is beaten for the run, the chests come home in the packs, and a job to clear it is done. Lost: each rolls for their life. **Inferred** (agenda 256).",
+		"steps_in_wild": 6,
+		"wild_win_base": 0.4,
 		"_comment_meet": "D294, D300 (founders' meeting: 'clear that rank E gate and meet me back at Stormreach'; if you are not there, a crow brings word): sent with a village, keep or the house to meet in, they walk there from where the job was done, a tile a step. With the company there they fall in; if not, crow_line is said and they wait there until it comes. With none named they come back to wherever the company is, as before.",
-		"crow_line": "A crow finds the company: {names} {are} back at {place}, and {wait} there for you."
+		"crow_line": "A crow finds the company: {names} {are} back at {place}, and {wait} there for you.",
+		"_comment_auto": "D349 (BR9's 'sending your own people out on Auto'; D294: 'run on Auto by their moods and nature'): somebody sent on Auto picks their own work from what the company knows within auto.reach tiles (an errand taken, a gate, a wild place), goes, and when they fall in again takes the next, until called back or hurt below auto.rest_below of their health. Each job is weighed by its odds (an errand at errand_odds) plus boldness x what it is worth (worth); a job below least_odds - boldness x bold_floor is never taken. Boldness is bold_base, plus bold_letters for each letter of their temper, plus bold_per_mood for every point their mood stands above the base (less below it), kept between 0 and 1. **Inferred** (agenda 257): every number.",
+		"auto": {
+			"reach": 80,
+			"rest_below": 0.5,
+			"errand_odds": 0.85,
+			"least_odds": 0.6,
+			"bold_floor": 0.2,
+			"worth": { "errand": 0.0, "wild": 0.3, "gate": 0.5 },
+			"bold_base": 0.4,
+			"bold_letters": { "E": 0.1, "T": 0.1, "P": 0.15, "I": -0.05, "F": -0.1, "J": -0.1 },
+			"bold_per_mood": 0.005,
+			"set_off_line": "On Auto: {line}",
+			"idle_line": "{name} is on Auto, but there is nothing within reach worth the risk. They stay with the company until there is.",
+			"hurt_line": "{name} comes back hurt, and comes off Auto to mend."
+		}
 	},
 	"experience": {
 		"_comment_gates": "D301 (the founders' meeting of 2026-10-20): with levels_only_in_gates, the first of a kind teaches only when it falls inside a gate or a cave (a fight whose encounter says `teaches`); on the land and in the Tower it is only noted in the log of foes (character.met), and practice (proficiency) is what grows there.",
@@ -1180,7 +1232,14 @@
 			"lost_fight": { "label": "Beaten", "mood": -10, "lasts": 120 },
 			"shut_gate": { "label": "Shut a gate", "mood": 10, "lasts": 240, "by_group": { "SP": 14 } },
 			"climbed": { "label": "Climbed higher", "label_against": "Dragged up the Tower", "mood": -3, "lasts": 120, "stack": 3, "by_group": { "NT": 8 } },
-			"friend_fell": { "label": "Lost {name}", "mood": -25, "lasts": 600, "stack": 4 }
+			"friend_fell": { "label": "Lost {name}", "mood": -25, "lasts": 600, "stack": 4 },
+			"_comment_more": "D347 (call BR's moods, built on): a fall seen of someone who was not a friend; a friend gone their own way (let go, or left); a night's rest; a friend marching beside them, renewed while they do; being looked after (the company mended by a healer for coin) and a better edge on their own weapon (honed or enchanted). Hunger joins them when it lands. Inferred: every label and number.",
+			"saw_fall": { "label": "Saw {name} fall", "mood": -8, "lasts": 300, "stack": 3 },
+			"parted": { "label": "{name} went their own way", "mood": -6, "lasts": 240, "stack": 2 },
+			"rested": { "label": "A night's rest", "mood": 6, "lasts": 180 },
+			"with_friend": { "label": "Walking with {name}", "mood": 3, "lasts": 20 },
+			"looked_after": { "label": "Looked after", "mood": 5, "lasts": 180 },
+			"kitted": { "label": "A better edge", "mood": 6, "lasts": 300 }
 		},
 		"break_below": 20,
 		"break_chance": 0.1,

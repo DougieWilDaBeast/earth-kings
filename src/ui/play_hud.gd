@@ -13,6 +13,8 @@ extends PanelContainer
 const Alerts := preload("res://src/ui/alerts.gd")
 const Quests := preload("res://src/world/quests.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
+const ScreenLayout := preload("res://src/ui/screen_layout.gd")
+const Hunger := preload("res://src/chronicle/hunger.gd")
 const REFRESH := 0.25
 ## An alert's colour by how much it matters.
 const URGENT := Color(0.95, 0.45, 0.38)
@@ -81,6 +83,9 @@ func _process(delta: float) -> void:
 ## Under the compass; on a screen too narrow for the top row of buttons to stay right of it (a
 ## phone held upright), below that row instead.
 func _place() -> void:
+	# Put somewhere of the player's own ([D351]): it stays there.
+	if ScreenLayout.is_laid("hud"):
+		return
 	var narrow := get_viewport_rect().size.x < float(rules().get("narrow_below", 760))
 	position.y = float(rules().get("top_narrow" if narrow else "top", 128))
 
@@ -96,8 +101,8 @@ func _gui_input(event: InputEvent) -> void:
 ## The company and the purse as they are now.
 func refresh() -> void:
 	var party: Array = GameState.party_characters() if GameState.roster != null else []
-	var key := ",".join(party.map(func(c: Character) -> String: return "%s:%d:%d:%d:%s" % [
-		c.id, c.level, c.current_hp(), c.max_hp(), owes(c)]))
+	var key := ",".join(party.map(func(c: Character) -> String: return "%s:%d:%d:%d:%s:%d" % [
+		c.id, c.level, c.current_hp(), c.max_hp(), owes(c), roundi(c.fed * 50.0)]))
 	if key != _shown:
 		_shown = key
 		_build_rows(party)
@@ -187,6 +192,8 @@ func _build_rows(party: Array) -> void:
 		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		words.add_child(line)
 		words.add_child(_bar(character, bar_width))
+		if Hunger.on():
+			words.add_child(_fed_bar(character, bar_width))
 		row.add_child(words)
 		_rows.add_child(row)
 
@@ -202,6 +209,21 @@ func _bar(character: Character, width: float) -> Control:
 	var fill := ColorRect.new()
 	fill.color = health_colour(share)
 	fill.size = Vector2(width * share, 6)
+	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	back.add_child(fill)
+	return back
+
+
+## A thinner bar under it: how full they are ([D331]), wheat when fed, amber when hungry, red when starving.
+func _fed_bar(character: Character, width: float) -> Control:
+	var share := clampf(character.fed, 0.0, 1.0)
+	var back := ColorRect.new()
+	back.color = Color(0.0, 0.0, 0.0, 0.55)
+	back.custom_minimum_size = Vector2(width, 3)
+	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var fill := ColorRect.new()
+	fill.color = Color(0.86, 0.26, 0.22) if share <= 0.0 else (Color(0.92, 0.66, 0.2) if Hunger.is_hungry(character) else Color(0.87, 0.78, 0.52))
+	fill.size = Vector2(width * maxf(share, 0.04), 3)
 	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	back.add_child(fill)
 	return back

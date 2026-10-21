@@ -664,6 +664,105 @@
 				{ "who": "a", "text": "We're four, and we walk like we're five. Still leaving the gap." },
 				{ "who": "b", "text": "{fallen} would have filled it with talking by now. Leave it empty a while yet." }
 			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"feeling": "low",
+			"lines": [
+				{ "who": "a", "text": "I keep looking at the road and thinking how long it is." },
+				{ "who": "b", "text": "It's the same length it was yesterday. You're just carrying more." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"feeling": "low",
+			"lines": [
+				{ "who": "a", "text": "Don't ask me how I am." },
+				{ "who": "b", "text": "I wasn't going to. I'll walk on this side, though, if you want." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"feeling": "low",
+			"lines": [
+				{ "who": "a", "text": "Some days I can't remember why I said yes to this." },
+				{ "who": "b", "text": "Then walk on mine. I'll remember for both of us." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"feeling": "glad",
+			"lines": [
+				{ "who": "a", "text": "Good road. Good weather. I could walk to the end of the world on a day like this." },
+				{ "who": "b", "text": "Don't say that out loud. It'll hear you." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"feeling": "glad",
+			"lines": [
+				{ "who": "a", "text": "I've been humming the same three notes since breakfast." },
+				{ "who": "b", "text": "I know. We all know." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"feeling": "low",
+			"lines": [
+				{ "who": "a", "text": "I'm not hungry. Eat mine." },
+				{ "who": "b", "text": "Eat half. Then I'll stop asking." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"feeling": "low",
+			"lines": [
+				{ "who": "a", "text": "I keep seeing it. When I shut my eyes." },
+				{ "who": "b", "text": "Then keep them open a while. I'm not sleeping either." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"feeling": "glad",
+			"lines": [
+				{ "who": "a", "text": "Pass the pot. I could eat the bottom out of it." },
+				{ "who": "b", "text": "You could leave some for the rest of us." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"feeling": "glad",
+			"lines": [
+				{ "who": "a", "text": "Tell the one about the goat again." },
+				{ "who": "b", "text": "You were there for the goat." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "any",
+			"feeling": "low",
+			"lines": [
+				{ "who": "a", "text": "That one nearly had me." },
+				{ "who": "b", "text": "It didn't. Sit down before your legs decide for you." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "any",
+			"feeling": "glad",
+			"lines": [
+				{ "who": "a", "text": "Did you see that? Did anyone see that?" },
+				{ "who": "b", "text": "We saw. You'll tell us anyway." }
+			]
 		}
 	],
 	"reflections": [
@@ -708,6 +807,10 @@
 		{ "about": "gold", "at_least": 1500, "text": "We could buy the inn. Both inns. We'll spend it on arrows." },
 		{ "about": "", "text": "I keep expecting somebody to arrive and tell us we're doing this wrong. Nobody's come. That's worse." },
 		{ "about": "", "text": "There's a version of me that turned back at the first gate. I think about that one. I don't envy them. Not quite." },
-		{ "about": "", "text": "Nobody set out to be this. You take one job in {place}, and then the next one is already waiting." }
+		{ "about": "", "text": "Nobody set out to be this. You take one job in {place}, and then the next one is already waiting." },
+		{ "about": "low", "text": "I'm not right, and I know I'm not. Give me a day or two." },
+		{ "about": "low", "text": "If I'm short with you, it isn't you. It's all of it." },
+		{ "about": "glad", "text": "I don't know why, but I feel good about where we're going." },
+		{ "about": "glad", "text": "Whatever happens up there, I'm glad it's this lot I'm walking with." }
 	]
 }

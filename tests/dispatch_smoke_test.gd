@@ -11,8 +11,10 @@ const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Company := preload("res://tests/company.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Wilds := preload("res://src/chronicle/wilds.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
 const QuickWheel := preload("res://src/ui/quick_wheel.gd")
+const Hunger := preload("res://src/chronicle/hunger.gd")
 
 var _failures: Array[String] = []
 
@@ -107,10 +109,14 @@ func _ready() -> void:
 	_expect(soaked_back > soaked_dead, "sending someone away is more likely to kill them than not")
 	_check_muster(world)
 	_check_gate_band(world)
+	_check_wild_band(world)
 	_check_moods(world)
+	_check_moods_more(world)
 	_check_rumour_jobs(world, roster)
 	_check_play_test_eight(world, roster)
 	_check_nemesis(world)
+	_check_hunger(world, roster)
+	_check_auto(world)
 	_finish()
 
 
@@ -175,6 +181,151 @@ func _check_muster(world: World) -> void:
 	gate.broken = restored.broken
 	gate.cleared = restored.cleared
 	world.musters = kept_musters
+
+
+## A band of the company's own sent to clear a wild place ([D348]): only one heard of whose guard
+## stands, two go together, and won, the guard is beaten, the chests come home and a job to clear it
+## is done; lost, the guard still stands.
+func _check_wild_band(world: World) -> void:
+	var wild: Site = null
+	for site: Site in Wilds.all(world):
+		if Wilds.guarded(site):
+			wild = site
+			break
+	if wild == null:
+		_expect(false, "no guarded wild place on the map")
+		return
+	var flag := Wilds.guard_flag(wild)
+	var kept_flags := GameState.flags.duplicate()
+	var kept_rng := world.rng.state
+	var kept_marked := world.marked.duplicate()
+	var kept_gold := GameState.gold
+	var kept_stores := GameState.stores.duplicate()
+	GameState.flags.erase(flag)
+	Atlas.mark(world, wild)
+	_expect(Dispatch.open_wilds(world).has(wild), "a wild place heard of could not be sent to")
+	var map := AreaMap.load_area(str(wild.data.get("area", "")))
+	for won: bool in [true, false]:
+		GameState.flags = kept_flags.duplicate()
+		GameState.flags.erase(flag)
+		var roster := Company.found()
+		var lead := roster.player()
+		var first: Character = roster.party_members()[1]
+		var second: Character = roster.party_members()[2]
+		var away: Array = []
+		var errand := { "kind": Errand.WILD, "flag": flag, "title": "Clear it", "from_name": "the board" }
+		var errands: Array = [errand]
+		var alone := Dispatch.wild_chance([first], roster.player().level)
+		_expect(Dispatch.send_to_wild(world, roster, away, first, wild) != "", "nobody could be sent to a wild place")
+		_expect(Dispatch.send_to_wild(world, roster, away, second, wild) != "", "a second could not follow the first to a wild place")
+		_expect(away.size() == 1 and (away[0]["band"] as Array).size() == 2, "two sent to one wild place did not go together")
+		_expect(Dispatch.wild_chance([first, second], int(away[0]["guard_level"])) > alone, "a second pair of hands did not help against a guard")
+		_expect(roster.party_members() == [lead], "the band did not leave the marching order")
+		var rules: Dictionary = Database.world_rules["dispatch"]
+		var kept_rules := rules.duplicate()
+		rules["gate_min"] = 1.0 if won else 0.0
+		rules["gate_max"] = 1.0 if won else 0.0
+		var gold := GameState.gold
+		var packs := GameState.stores.size()
+		world.steps = int(away[0]["out_at"])
+		var lines := Dispatch.walk(world, roster, away, errands)
+		print("  wild band %s: %s" % ["won" if won else "lost", " / ".join(lines)])
+		_expect(Wilds.cleared(wild) == won, "a band that %s left the guard %s" % ["won" if won else "lost", "beaten" if Wilds.cleared(wild) else "standing"])
+		_expect(Errand.is_complete(errand) == won, "a job to clear the wild place was %s" % ("done" if Errand.is_complete(errand) else "not done"))
+		if won and map != null and not map.chests.is_empty():
+			var opened := 0
+			for cell: Vector2i in map.chests:
+				opened += 1 if GameState.has_flag(map.chest_flag(cell)) else 0
+			_expect(opened == map.chests.size(), "the band left %d of %d chests shut" % [map.chests.size() - opened, map.chests.size()])
+			_expect(GameState.gold > gold or GameState.stores.size() > packs or lead.charms.size() > 0 or lines.size() > 2, "the chests brought nothing home")
+		if not away.is_empty():
+			world.steps = int(away[0]["back_at"])
+			Dispatch.walk(world, roster, away, errands)
+		if won:
+			_expect(away.is_empty() and roster.party.has(first.id) and roster.party.has(second.id), "a band that cleared the wild place did not come back")
+			_expect(not Dispatch.open_wilds(world).has(wild), "a cleared wild place could still be sent to")
+		for key: String in kept_rules:
+			rules[key] = kept_rules[key]
+	GameState.flags = kept_flags
+	world.rng.state = kept_rng
+	world.marked = kept_marked
+	GameState.gold = kept_gold
+	GameState.stores = kept_stores
+
+
+## Somebody sent on Auto ([D349]) picks their own work by the odds and their nature: the careful the
+## sure errand, the bold the gate or the wild place; back with the company they take the next, and
+## come off Auto when they come back hurt. Nothing worth the risk, and they do not go.
+func _check_auto(world: World) -> void:
+	var kept_flags := GameState.flags.duplicate()
+	var kept_rng := world.rng.state
+	var kept_marked := world.marked.duplicate()
+	var kept_gold := GameState.gold
+	var kept_stores := GameState.stores.duplicate()
+	var rules: Dictionary = Database.world_rules["dispatch"]
+	var kept_rules := rules.duplicate(true)
+	var auto: Dictionary = rules["auto"]
+	for wild: Site in Wilds.all(world):
+		if Wilds.guarded(wild):
+			GameState.flags.erase(Wilds.guard_flag(wild))
+			Atlas.mark(world, wild)
+			break
+	rules["trouble_min"] = 0.0
+	rules["trouble_max"] = 0.0
+	rules["gate_min"] = 0.7
+	rules["gate_max"] = 0.7
+	var roster := Company.found()
+	var bold: Character = roster.party_members()[1]
+	var careful: Character = roster.party_members()[2]
+	bold.temper = "ESTP"
+	careful.temper = "ISFJ"
+	bold.thoughts = []
+	careful.thoughts = []
+	_expect(Dispatch.boldness(bold) > Dispatch.boldness(careful), "an ESTP was no bolder on their own than an ISFJ")
+	var calm := Dispatch.boldness(careful)
+	careful.thoughts = [{"mood": 30}]
+	_expect(Dispatch.boldness(careful) > calm, "a good mood did not make anyone bolder")
+	careful.thoughts = []
+	var away: Array = []
+	var errands: Array = [_errand("look", world.player_cell + Vector2i(4, 0))]
+	var sure := Dispatch.pick(world, roster, away, errands, careful)
+	var hard := Dispatch.pick(world, roster, away, errands, bold)
+	_expect(str(sure.get("kind", "")) == "errand", "the careful one on Auto did not take the sure errand (took %s)" % sure.get("kind", "nothing"))
+	_expect(str(hard.get("kind", "")) in ["gate", "wild"], "the bold one on Auto did not take the hard job (took %s)" % hard.get("kind", "nothing"))
+	auto["least_odds"] = 1.5
+	_expect(Dispatch.send_on_auto(world, roster, away, errands, careful) == "" and not Dispatch.on_auto(careful),
+			"somebody went on Auto with nothing worth the risk")
+	auto["least_odds"] = kept_rules["auto"]["least_odds"]
+	var line := Dispatch.send_on_auto(world, roster, away, errands, careful)
+	print("  " + line)
+	_expect(line != "" and Dispatch.on_auto(careful) and not roster.party.has(careful.id), "the careful one was not sent on Auto")
+	_expect(Dispatch.summary(away[0], roster, world).ends_with("(on Auto)"), "a job taken on Auto did not say so")
+	world.steps = int(away[0]["out_at"])
+	Dispatch.walk(world, roster, away, errands)
+	world.steps = int(Dispatch.job_for(away, careful.id).get("back_at", world.steps))
+	var lines := Dispatch.walk(world, roster, away, errands)
+	print("  auto: " + " / ".join(lines))
+	var next := Dispatch.job_for(away, careful.id)
+	_expect(not next.is_empty() and (next.has("gate") or next.has("wild")), "back from the errand on Auto, they did not take the next job")
+	if not next.is_empty():
+		rules["gate_min"] = 1.0
+		rules["gate_max"] = 1.0
+		careful.hp = 1
+		world.steps = int(next["out_at"])
+		Dispatch.walk(world, roster, away, errands)
+		careful.hp = 1
+		world.steps = int(Dispatch.job_for(away, careful.id).get("back_at", world.steps))
+		lines = Dispatch.walk(world, roster, away, errands)
+		print("  auto: " + " / ".join(lines))
+		_expect(not Dispatch.on_auto(careful) and Dispatch.job_for(away, careful.id).is_empty(), "somebody who came back hurt stayed on Auto")
+	Dispatch.call_back(bold)
+	for key: String in kept_rules:
+		rules[key] = kept_rules[key]
+	GameState.flags = kept_flags
+	world.rng.state = kept_rng
+	world.marked = kept_marked
+	GameState.gold = kept_gold
+	GameState.stores = kept_stores
 
 
 ## A band of the company's own sent to shut a gate ([D278]): closed until a gate has been shut,
@@ -332,6 +483,62 @@ func _check_moods(world: World) -> void:
 	world.steps = kept_steps
 
 
+## Moods built on ([D347]): a friend marching beside them, a fall seen of somebody who was not a
+## friend, a friend gone their own way, a night's rest; and how they feel colours what they say.
+func _check_moods_more(world: World) -> void:
+	var roster := Company.found()
+	var flags := {}
+	var ledger := Ledger.fresh()
+	var away: Array = []
+	var kept_steps := world.steps
+	var party := roster.party_members()
+	var one: Character = party[1]
+	var two: Character = party[2]
+	var three: Character = party[3] if party.size() > 3 else party[0]
+	one.bonds[two.id] = 5
+	Moods.tick(world, roster, away, flags, ledger)
+	world.steps += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	var ids: Array = one.thoughts.map(func(t: Dictionary) -> String: return str(t["id"]))
+	_expect(ids.has("with_friend"), "%s walked beside a friend and felt nothing: %s" % [one.display_name, str(ids)])
+	three.bonds.erase(two.id)
+	one.thoughts.clear()
+	three.thoughts.clear()
+	two.status = Fate.DEAD
+	world.steps += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	ids = three.thoughts.map(func(t: Dictionary) -> String: return str(t["id"]))
+	_expect(three == party[0] or ids.has("saw_fall"), "%s saw %s fall and felt nothing: %s" % [three.display_name, two.display_name, str(ids)])
+	ids = one.thoughts.map(func(t: Dictionary) -> String: return str(t["id"]))
+	_expect(ids.has("friend_fell") and not ids.has("saw_fall"), "%s grieved a friend as a stranger: %s" % [one.display_name, str(ids)])
+	two.status = Fate.ALIVE
+	one.thoughts.clear()
+	world.steps += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	roster.let_go(two.id)
+	world.steps += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	var parted: Array = one.thoughts.filter(func(t: Dictionary) -> bool: return t["id"] == "parted")
+	_expect(not parted.is_empty() and str(parted[0]["label"]).contains(two.display_name), "%s's friend went their own way unnoticed" % one.display_name)
+	Moods.rested(roster, world.steps)
+	_expect(one.thoughts.any(func(t: Dictionary) -> bool: return t["id"] == "rested"), "a night's rest did nothing for %s" % one.display_name)
+	one.thoughts.append({ "id": "test", "label": "test", "mood": -80, "until": world.steps + 1000 })
+	_expect(Moods.feeling(one) == "low", "%s at the end of their rope does not feel low" % one.display_name)
+	var heard := 0
+	var rng := RandomNumberGenerator.new()
+	for i in 60:
+		rng.seed = i
+		var said := Banter.between(world, one, roster.player(), Banter.ROAD, rng)
+		if not said.is_empty() and str(said[0]["speaker"]) == one.display_name:
+			for exchange: Dictionary in Database.banter.get("exchanges", []):
+				if str(exchange.get("feeling", "")) == "glad" and str(exchange["lines"][0]["text"]) == str(said[0]["text"]):
+					_expect(false, "%s, low, said a glad line: %s" % [one.display_name, said[0]["text"]])
+				if str(exchange.get("feeling", "")) == "low" and str(exchange["lines"][0]["text"]) == str(said[0]["text"]):
+					heard += 1
+	_expect(heard > 0, "%s, low, never said a low line in sixty tries" % one.display_name)
+	world.steps = kept_steps
+
+
 ## What the host passes on can post work: one job per rumour, never twice, and
 ## only on a bare board. Each is an ordinary errand a companion can be sent on.
 func _check_rumour_jobs(world: World, roster: Roster) -> void:
@@ -482,6 +689,47 @@ func _check_nemesis(world: World) -> void:
 	world.thankful = kept_thankful
 	world.survivors = kept_survivors
 	Database.world_rules["nemesis"] = kept
+
+
+## D331: everyone empties with the steps, is hungry under the line, starves without falling, and eats
+## (by hand when whole, and by themselves under Auto); a bed fills them.
+func _check_hunger(world: World, roster: Roster) -> void:
+	var rules: Dictionary = Database.world_rules["hunger"]
+	var lead := roster.player()
+	var kept_stores := GameState.stores.duplicate()
+	var kept_auto := Pace.auto
+	Pace.auto = false
+	GameState.stores.clear()
+	for member: Character in roster.party_members():
+		member.fed = 1.0
+		member.fed_step = world.steps
+	var steps := ceili((1.0 - float(rules["hungry_below"])) / float(rules["per_step"])) + 1
+	world.steps += steps
+	var lines := Hunger.tick(world, roster)
+	_expect(Hunger.is_hungry(lead) and lines.has(str(rules["hungry_line"]).format({"name": lead.display_name})),
+			"%d steps did not leave the lead hungry (fed %.2f, said %s)" % [steps, lead.fed, lines])
+	_expect(Hunger.tick(world, roster).is_empty() and Hunger.is_hungry(lead), "a second tick on the same step did something")
+	lead.hp = -1
+	GameState.stores.append("bread")
+	var fed := lead.fed
+	_expect(Gear.drink(lead, "bread") != "" and lead.fed > fed and not GameState.stores.has("bread"),
+			"a hungry lead at full health could not eat the bread")
+	GameState.stores.append("bread")
+	lead.fed = 0.0
+	world.steps += 200
+	Hunger.tick(world, roster)
+	_expect(lead.current_hp() >= 1 and lead.is_alive(), "starving took the last of the lead's health")
+	Pace.auto = true
+	lead.fed = 0.1
+	world.steps += 1
+	_expect(Hunger.tick(world, roster).size() > 0 and lead.fed > 0.1 and not GameState.stores.has("bread"),
+			"under Auto the hungry lead did not eat the bread in the packs")
+	roster.rest()
+	_expect(is_equal_approx(lead.fed, 1.0), "a rest did not fill the lead")
+	var back := Character.from_dict(lead.to_dict())
+	_expect(is_equal_approx(back.fed, lead.fed) and back.fed_step == lead.fed_step, "fed was not saved")
+	Pace.auto = kept_auto
+	GameState.stores = kept_stores
 
 
 func _errand(kind: String, to: Vector2i) -> Dictionary:

@@ -42,7 +42,9 @@ So the real choice is 32 against the 64 already on disk, and 16 is the outlier.
 Generation can run from the command line: `tools/pixellab.py` calls PixelLab's API with the key in
 `PIXELLAB_API_KEY` and downloads the same export zip the website gives ([20](20-pixellab-size-test.md#done-through-the-api-2026-10-12)).
 It also makes a big body on PixelLab's newer model (`character <unit> 96 --model v3`), an icon
-(`image`) and an animated effect (`effect`, a still drawn from words and then set moving).
+(`image`) and an animated effect (`effect`, a still drawn from words and then set moving). PixelLab's
+October tools ([D358](06-decisions.md)): `vfx` (its effects artist), `object` (a Pro Flash thing in one facing or eight,
+held to `data/palettes.json`) and `building` (a Tiles Pro kit: floor, walls, doorways, pillar, stairs).
 
 Each unit folder has a `metadata.json` with the PixelLab prompt, size, view and template it was made
 with. **Keep writing it.** It is the only record of how to regenerate a character at another size.

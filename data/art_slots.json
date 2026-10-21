@@ -1,6 +1,108 @@
 {
-	"_about": "Where every piece of art still to be made lands, how big it must be and what in the game shows it, for the art waiting on PixelLab's credits (docs/24, A51 on, D344). `tools/take_art.py` reads it: `check` says, for each request, what is in DROP-ZONE/<id>/, what is already in place and what is still the stand-in; `take <id>` checks each file's size and moves it to `to`. A file is matched by its name (`name`, without the folder); a PixelLab zip is unpacked first. `size` is [width, height] in pixels; `rotations` is a folder of the eight facings (south.png, south-east.png, ... as art/items/bone_sword); `each` repeats a file for every name in it, `{each}` in `name` and `to`. `prop: false` marks a picture under art/props that is not laid as a prop (the opening draws it). `stand_in` says what shows until the art is in, `shows` where it is seen and what reads it, so nothing but generating is left on the day.",
+	"_about": "Where every piece of art still to be made lands, how big it must be and what in the game shows it, for the art waiting on PixelLab's credits (docs/24, A51 on, D344; and the earlier rows whose place the game already reads, D358). `tools/take_art.py` reads it: `check` says, for each request, what is in DROP-ZONE/<id>/, what is already in place and what is still the stand-in; `take <id>` checks each file's size and moves it to `to`. A file is matched by its name (`name`, without the folder); a PixelLab zip is unpacked first. `size` is [width, height] in pixels; `rotations` is a folder of the eight facings (south.png, south-east.png, ... as art/items/bone_sword); `each` repeats a file for every name in it, `{each}` in `name` and `to`. `prop: false` marks a picture under art/props that is not laid as a prop (the opening draws it). `stand_in` says what shows until the art is in, `shows` where it is seen and what reads it, so nothing but generating is left on the day. `also` names earlier requests a file answers too (A58's pictures are A10 to A25's keepsakes).",
 	"requests": {
+		"A32": {
+			"what": "Footpaths and dirt tracks",
+			"files": [
+				{
+					"name": "footpath.png",
+					"to": "art/tilesets/footpath.png",
+					"size": [
+						1536,
+						512
+					],
+					"stand_in": "tools/draw_tracks.py"
+				},
+				{
+					"name": "track.png",
+					"to": "art/tilesets/track.png",
+					"size": [
+						1536,
+						512
+					],
+					"stand_in": "tools/draw_tracks.py"
+				}
+			],
+			"shows": "The paths between villages (data/tilesets.json footpath and track, D233)."
+		},
+		"A35": {
+			"what": "The sixteen chapter-two keepsakes",
+			"files": [
+				{
+					"each": [
+						"atlas",
+						"janus",
+						"bellona",
+						"cassius",
+						"saturn",
+						"vesta",
+						"caesar",
+						"iris",
+						"pluto",
+						"ceres",
+						"cato",
+						"juno",
+						"ultor",
+						"diana",
+						"ares",
+						"liber"
+					],
+					"name": "{each}_2.png",
+					"to": "art/props/memories/{each}_2.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the coin pile"
+				}
+			],
+			"shows": "Each lead's chapter-two keepsake lying on floors 6 to 10 (data/memories.json chapter 2, Memories.art_of, D358)."
+		},
+		"A38": {
+			"what": "A gate lying broken",
+			"files": [
+				{
+					"name": "gate_broken.png",
+					"to": "art/props/landmark/gate_broken.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "tools/draw_broken_gate.py"
+				}
+			],
+			"shows": "A shut gate's mouth (data/world_rules.json -> gate.shut.art, D261)."
+		},
+		"A48": {
+			"what": "A cave mouth",
+			"files": [
+				{
+					"name": "cave_mouth.png",
+					"to": "art/buildings/cave_mouth.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "tools/draw_cave_mouth.py"
+				}
+			],
+			"shows": "Every cave on the land (data/props.json -> buildings.cave_mouth, D282)."
+		},
+		"A49": {
+			"what": "A slope up a shelf",
+			"files": [
+				{
+					"name": "slope.png",
+					"to": "art/props/landmark/slope.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "tools/draw_slope.py"
+				}
+			],
+			"shows": "Every way up a shelf (an area's ways_up, D308)."
+		},
 		"A51": {
 			"what": "Tower floors with depth",
 			"files": [
@@ -214,11 +316,11 @@
 						64,
 						64
 					],
-					"stand_in": "a shape drawn in code",
-					"prop": false
+					"stand_in": "a spark in the opening, the coin pile on floor 5"
 				}
 			],
-			"shows": "The lead's object falling with them in the opening and picked up on floor 5 (data/opening.json -> objects, D340)."
+			"shows": "The lead's object falling with them in the opening (data/opening.json -> objects, D340) and the same picture lying on floor 5 as their chapter-one keepsake, A10 to A25 made once (Memories.art_of, D358).",
+			"also": "A10 to A25"
 		},
 		"A59": {
 			"what": "A demon king's eyes in a gate",

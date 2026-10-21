@@ -421,7 +421,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    people out** on quests and into gates on Auto (built, [D278](06-decisions.md): from the party screen once a
    gate is shut, a band to a gate shutting it on the odds); **moods after RimWorld**, and some who will not climb
    (built, [D279](06-decisions.md): thoughts from fights, gates, floors and friends lost; most feel dragged up the
-   Tower; at the bottom one walks off a while).
+   Tower; at the bottom one walks off a while; since [D347](06-decisions.md) a friend beside them, a fall seen, a
+   friend gone, rest and care move it too, it shows on each card, and low or glad colours their lines).
 9. **Places worth going to** (repeats play-test 6, item 5): the reading hall at Ondry's has no walls;
    every place with loot, a quest or a story; small houses, a family, a caravan, traders.
 10. **Caves** to go into, like Pokémon's, and **heights** on the land, which is flat. Caves built
@@ -438,7 +439,7 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     into a gate or the grove, not cut to it; the chapter visions shown as pictures.
 12. **A play screen you arrange** (grows play-test 6, item 7): panels moved, resized and coloured; the
     journal open at the side while the game keeps going (built, [D271](06-decisions.md): N opens it down the
-    right, the game going on; Full page puts it over everything). Moving and resizing panels: **planned**.
+    right, the game going on; Full page puts it over everything). Moving and resizing panels: built ([D351](06-decisions.md)), as play-test 8's ask 7.
 13. **Sound and music**: a big music update; a sound for every monster; better effects.
 14. **A writers' pass** over every line every character says. Built ([D274](06-decisions.md)): about 430 of 3,850
     lines rewritten, the rules for new lines in [13](13-heroes-and-tempers.md#the-lines).
@@ -451,7 +452,7 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 
 What `doug-md` asked for in play-test 8 ([transcript](worldbuilding/voice-notes/2026-10-21-doug-md-play-test-8.md))
 that needs more than a fix, **planned**, in the order of call BX ([D325](06-decisions.md), 2026-10-21): 4, 6, 10 and
-11 now (held until milestone B is in); after B the 2× cap (built, [D329](06-decisions.md)), 3 (built, [D330](06-decisions.md)) and 5; later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
+11 now (held until milestone B is in); after B the 2× cap (built, [D329](06-decisions.md)), 3 (built, [D330](06-decisions.md)) and 5 (built, [D331](06-decisions.md)); later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
 ([D324](06-decisions.md)): a fighter taken off the field seen to go, food eaten not drunk, foes' moves
 loaded ahead. Some repeat earlier asks (noted).
 1. **The opening cinematic**, "a major update".
@@ -468,11 +469,16 @@ loaded ahead. Some repeat earlier asks (noted).
    an errand's giver who remembers meets the company on the road with thanks and coin.
 4. **Letting people go**: disband a companion so they go their own way in the world. **Built** ([D326](06-decisions.md)):
    Let go beside each card, asked once, gone from the roster.
-5. **A hunger bar** under every member, and **Auto eating and using what it carries** when it needs to.
+5. **A hunger bar** under every member, and **Auto eating and using what it carries** when it needs to. **Built**
+   ([D331](06-decisions.md)): a thin bar under each health bar, hungry after about three days on the land, starving
+   hurts but never fells; food eaten whole when hungry, a bed fills everyone, Auto eats under the line.
 6. **A quick wheel** on a held middle click, after Ark Survival Evolved's (eat, send a party, and so on)
    instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)). **Built**
    ([D326](06-decisions.md)): held still 0.3 s, Eat, Party, Send away, Formation, Map, Journal and Auto on the land; Eat, Stance and Auto in a fight.
-7. **Text boxes sized right, and panels moved and resized** in the game (repeats play-test 7, item 12).
+7. **Text boxes sized right, and panels moved and resized** in the game (repeats play-test 7, item 12). **Built**
+   ([D351](06-decisions.md)): Arrange the Screen in the menu (or Arrange on the quick wheel) frames the place's name,
+   the compass, the company, the corner map, the log, the hint line and the box people talk in; drag one to move it,
+   the log's corner to size its box, the wheel over any to grow it and its words; kept until Put It All Back.
 8. **More buildings to go into** in the city; most doors are shut. **Built** ([D342](06-decisions.md)): six more
    doors open, the Cathedral of the Ascent (a blessing before the climb), the apothecary, the smithy (an edge
    on your weapons), the old shrine, the ruined bathhouse and the Sign of the Fish, each with its people.

@@ -769,6 +769,15 @@ once the company has shut a gate; `nemesis` with [D330](06-decisions.md).
 (`world.thankful`); on `meet_share` a traveller on the road's clock is one of them, giving `gift_share` of
 the errand's pay and saying `lines` (`{giver}`, `{title}`, `{place}`, `{gift}`). Read by `src/chronicle/nemesis.gd`.
 
+## `world_rules.json` → `hunger` — how full everyone is (D331)
+
+`on` turns it on. Each member's `fed` (1 full to 0, saved with them as `fed` and `fed_step`) goes down `per_step`
+for every step on the land; under `hungry_below` they are hungry (`hungry_line`, `{name}`, said once, and an amber
+bar under their health on the walking panel); at nothing they lose `starving_hurt` of their health a step, never
+the last point. Food (`taken: "eat"` in `equipment.json`) fills `feeds_per_mend` for each point it `mends`, and can
+be eaten at full health when hungry; a rest in a bed fills everyone. With Auto on, anyone under `auto_eat_below`
+eats the least food in the packs. Read by `src/chronicle/hunger.gd`.
+
 ## `world_rules.json` → `caves` — the caves under the hills (D282)
 
 A walkable tile whose terrain is one of `terrains` has a cave mouth on `chance` (a hash of the world and
@@ -835,8 +844,24 @@ an `item`, picked once a run into the packs.
 (`label_against` when it is worth less than nothing), `mood`, `lasts` (steps), `stack` (how many at once),
 and `by_group` (worth by temper group NT, NF, SJ, SP). `src/chronicle/moods.gd` gives them once a step
 from what changed: `won_fight`, `lost_fight`, `shut_gate`, `climbed`, `friend_fell` (a bond of
-`friend_bond` or more; `{name}` is the fallen). `bands` (by `below`) name the mood and add to `attack` and
+`friend_bond` or more; `{name}` is the fallen), and since D347 `saw_fall` (one who was not a friend),
+`parted` (a friend let go; `{name}` is them), `with_friend` (a friend in the party, every
+step), `rested` (`Moods.rested`, at a rest point), `looked_after` (a healer's mend) and `kitted` (an edge or
+a rune on their weapon). `bands` (by `below`) name the mood and add to `attack` and
 `defense`; under `break_below`, on `break_chance` a step, one walks off for `break_steps` (`break_line`).
+The band's name shows on each party card. `Moods.feeling` is `low` (the two lowest bands) or `glad` (the
+two highest) or nothing: an exchange or a reflection in `banter.json` with `"feeling"` is only spoken by one
+who feels that way, and one with no `feeling` by anyone.
+
+## `world_rules.json` → `screen_layout` — the play screen arranged by hand (D351)
+
+`on`; `menu`, the system menu's button; `bar`, `done` and `reset`, the words while arranging; `panels`, each
+`{ "id", "label", "resize" }` (ids `place`, `compass`, `hud`, `map`, `log`, `hint`, and `words` for the box people
+talk in): `resize` `size` gives the frame a corner `handle` (pixels) that sizes the box, never under `least`
+[w, h]; every frame grows or shrinks with the wheel by `scale_step`, between `least_scale` and `most_scale`;
+`keep_showing` pixels of a panel always stay on the screen. What the player lays out is kept in
+`user://settings.cfg` → `[layout]`, one entry an id (`x`, `y` as a share of the screen, `w`, `h`, `scale`),
+read by `src/ui/screen_layout.gd`; Put It All Back empties it. `arrange` on the quick wheel opens it.
 
 ## `world_rules.json` → `quick_wheel` — the ring on a held middle button (D326)
 
@@ -854,7 +879,11 @@ next). A choice is said on `EventBus.quick_wheel_chose` (`src/ui/quick_wheel.gd`
 `danger_levels` settle a meeting on the road. A band sent to shut a gate spends `steps_per_floor` a floor
 inside and shuts it on `gate_win_base` + `gate_per_level` × (the band's average level − the gate's
 expected level) + `gate_per_hand` for each member past the first, kept between `gate_min` and `gate_max`
-(`src/chronicle/dispatch.gd`).
+(`src/chronicle/dispatch.gd`). A band sent to clear a wild place (D348: heard of, its guard standing; a job
+in `GameState.away` with `wild` and `guard_level`, the company's level when the first set off) spends
+`steps_in_wild` steps there and wins on `wild_win_base` + `gate_per_level` × (its average level −
+`guard_level`) + `gate_per_hand` a member past the first, in the same bounds: the guard's done flag set, every
+chest's flag set and its haul claimed, and a `wild` errand for it complete. Somebody sent on Auto (D349) has the run's flag `auto:<id>` (`true`, or `"idle"` once they have said there is nothing worth it) and picks from `dispatch.auto`: within `reach` tiles, each errand at `errand_odds`, each gate and wild place at its own odds, scored as the odds + boldness × `worth[kind]` and never under `least_odds` − boldness × `bold_floor`; boldness is `bold_base` + `bold_letters` for each letter of their temper + `bold_per_mood` × (mood − the moods' base), between 0 and 1. Back with the company, under `rest_below` of their health they come off Auto (`hurt_line`); otherwise they take the next (`set_off_line`), or say `idle_line` once.
 
 Sent with a place to meet ([D300](06-decisions.md): a village, keep or the house the company knows,
 `Dispatch.meeting_places`), a job carries `meet` and `meet_name`, and walks there from where it was done,
@@ -922,8 +951,12 @@ fighter's weapon is drawn with when its piece in `equipment.json` has no `sprite
 folder has no `south.png` yet draws nothing in hand.
 `data/art_slots.json` (D344): the art still to be made (docs/24 from A51): for each request its `files`
 (`name` dropped, `to` under art/, `size` [w, h], `rotations` for a folder of facings, `each` to repeat one for a
-list, `prop: false` for a picture under art/props not laid as a prop, `stand_in`) and `shows`. Read by
+list, `prop: false` for a picture under art/props not laid as a prop, `stand_in`) and `shows`, and `also` for
+earlier requests the same files answer (A58's are A10 to A25's keepsakes, D358). Read by
 `tools/take_art.py` and `tests/art_smoke_test`, never by the game.
+`data/palettes.json` (D358): colour lists a PixelLab picture is held to (`tools/pixellab.py object|building
+--palette <name>`, PixelLab's `target_palette`); `muted` is 48 colours taken from the art already in the game.
+Never read by the game.
 `from_above` (D343): on a ledged field a fighter higher than the one they hit lands `blow` more for every
 height up at arm's length and `shot` more a height for anything reaching further, counted to `most_heights`
 (`Skirmish.high_ground`; the log tags it *From above*). `on_the_map` (D343): the map of the continent draws a
