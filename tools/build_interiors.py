@@ -219,6 +219,92 @@ ROOMS: dict[str, dict] = {
         people=[], spots=[(5, 2), (3, 6)], chests=[(1, 2)],
         named={(8, 1): ("your bed", "Your own bed. Nobody else's boots have been in it since you bought the place.")},
     ),
+    # More of Stormreach's doors open (play-test 8, ask 8: "a lot more buildings need to be filled.
+    # Most of them I cannot enter."; call BX).
+    "city_cathedral": dict(
+        size=(19, 13), door=9, floor="flag", wall="stone", tint="#e4e0ec",
+        rugs=[(8, 4, 3, 8, "#6a1e2a", "#c9a45f"), (7, 1, 5, 2, "#6a1e2a", "#c9a45f")],
+        glows=[(9, 1, 4, "#ffe0a0", 0.4), (5, 1, 2.5, "#ff9a40", 0.3), (13, 1, 2.5, "#ff9a40", 0.3),
+               (9, 7, 3, "#d0d8ff", 0.15), (16, 3, 2, "#ffcf80", 0.2)],
+        props=[
+            ("tapestry", 9, 0, ON_WALL_HIGH), ("interior/banner_red", 6, 0, ON_WALL), ("interior/banner_red", 12, 0, ON_WALL),
+            ("interior/banner_blue", 3, 0, ON_WALL), ("interior/banner_blue", 15, 0, ON_WALL),
+            ("interior/table_long", 8, 2, TWO), ("interior/candelabra", 7, 2, None), ("interior/candelabra", 11, 2, None),
+            ("brazier", 5, 1, None), ("brazier", 13, 1, None),
+            ("interior/bench_low", 3, 5, TWO), ("interior/bench_low", 5, 5, TWO),
+            ("interior/bench_low", 12, 5, TWO), ("interior/bench_low", 14, 5, TWO),
+            ("interior/bench_low", 3, 7, TWO), ("interior/bench_low", 5, 7, TWO),
+            ("interior/bench_low", 12, 7, TWO), ("interior/bench_low", 14, 7, TWO),
+            ("interior/bench_low", 3, 9, TWO), ("interior/bench_low", 5, 9, TWO),
+            ("interior/bench_low", 12, 9, TWO), ("interior/bench_low", 14, 9, TWO),
+            ("interior/bookshelf", 1, 3, None), ("scroll_rack", 17, 5, None),
+            ("interior/candelabra", 1, 10, None), ("interior/candelabra", 17, 10, None),
+            ("potted_plant", 1, 6, None), ("potted_plant", 17, 8, None),
+        ],
+        people=[(9, 3), (14, 2), (4, 8)], spots=[(9, 6), (16, 3)], chests=[],
+    ),
+    "city_apothecary": dict(
+        size=(11, 9), door=5, floor="oak", wall="timber", tint="#e4ecd8",
+        rugs=[(3, 5, 5, 2, "#3c4a34", "#8a9a6a")],
+        glows=[(5, 2, 3, "#ffcf80", 0.3), (8, 5, 2, "#c0ffb0", 0.18)],
+        props=[
+            ("interior/shelf_bottles", 2, 0, TWO_ON_WALL), ("interior/shelf_bottles", 7, 0, TWO_ON_WALL),
+            ("interior/banner_green", 5, 0, ON_WALL), ("interior/bar_counter", 5, 3, None),
+            ("interior/amphorae", 1, 1, None), ("interior/crates", 9, 1, None),
+            ("cabinet", 9, 4, None), ("drawers_wood", 1, 5, None), ("oil_lamp", 1, 3, None),
+            ("interior/table_round", 7, 6, None), ("interior/stool", 8, 6, None),
+            ("potted_plant", 1, 7, None), ("potted_plant", 9, 7, None),
+        ],
+        people=[(5, 2)], spots=[(4, 5)], chests=[(9, 6)],
+    ),
+    "city_smithy": dict(
+        size=(13, 9), door=6, floor="flag", wall="stone", tint="#ecd8c8",
+        rugs=[],
+        glows=[(5.5, 1, 4, "#ff7a30", 0.55), (3, 2, 2, "#ff9a40", 0.3), (6, 4, 2.5, "#ff9a40", 0.2)],
+        props=[
+            ("interior/fireplace", 5, 0, TWO_ON_WALL), ("interior/sword_rack", 2, 0, ON_WALL), ("interior/axe_rack", 9, 0, ON_WALL),
+            ("village/anvil", 6, 3, None), ("brazier", 3, 2, None), ("village/log_pile", 1, 3, None),
+            ("village/barrels", 11, 1, None), ("village/trough", 9, 5, None), ("interior/crates", 11, 6, None),
+            ("interior/table_long", 2, 6, TWO), ("interior/stool", 4, 6, None),
+        ],
+        people=[(7, 3)], spots=[(6, 6)], chests=[(1, 7)],
+    ),
+    "city_shrine": dict(
+        size=(9, 8), door=4, floor="flag", wall="stone", tint="#dcd8d0",
+        rugs=[(3, 3, 3, 3, "#4a3a2a", "#a08a5a")],
+        glows=[(4, 2, 3, "#ffcf80", 0.45), (2, 1, 1.5, "#ffcf80", 0.3), (6, 1, 1.5, "#ffcf80", 0.3)],
+        props=[
+            ("tapestry", 4, 0, ON_WALL_HIGH), ("interior/table_long", 4, 2, TWO),
+            ("interior/candelabra", 2, 1, None), ("interior/candelabra", 6, 1, None),
+            ("interior/crates", 1, 6, None), ("interior/crates", 7, 6, None), ("interior/amphorae", 7, 3, None),
+            ("village/barrels", 1, 4, None),
+        ],
+        people=[(5, 4)], spots=[(4, 3)], chests=[],
+    ),
+    "city_bathhouse": dict(
+        size=(13, 9), door=6, floor="flag", wall="damp", tint="#c8d8d4",
+        rugs=[(4, 1, 5, 3, "#4a5a3a", "#7a8a9a")],
+        glows=[(6, 2, 3, "#c0e0ff", 0.18), (10, 6, 2, "#ffcf80", 0.15)],
+        props=[
+            ("potted_plant", 3, 1, None), ("potted_plant", 9, 1, None), ("stone_bench", 2, 6, None),
+            ("stone_bench", 10, 6, None), ("chest_broken", 11, 1, None), ("interior/crates", 1, 1, None),
+            ("interior/banner_green", 6, 0, ON_WALL),
+        ],
+        people=[], spots=[(6, 4), (2, 3)], chests=[(11, 6)],
+    ),
+    "city_fish": dict(
+        size=(15, 10), door=7, floor="dark", wall="damp", tint="#c4d4bc",
+        rugs=[(5, 4, 5, 3, "#2e3e5a", "#8a9a6a")],
+        glows=[(3.5, 1, 4, "#ff9a40", 0.45), (9, 5, 2, "#ffcf80", 0.22), (12, 3, 2, "#ffcf80", 0.2)],
+        props=[
+            ("interior/fireplace", 3, 0, TWO_ON_WALL), ("interior/ship_bell", 9, 0, ON_WALL),
+            ("interior/shelf_bottles", 11, 0, TWO_ON_WALL), ("interior/keg_rack", 13, 1, None),
+            ("interior/bar_counter", 12, 3, None), ("interior/table_long", 2, 5, TWO), ("interior/bench_low", 2, 6, TWO),
+            ("interior/table_round", 9, 5, None), ("interior/stool", 8, 5, None), ("interior/stool", 10, 5, None),
+            ("village/barrels", 1, 8, None), ("interior/crates", 13, 8, None), ("interior/candelabra", 13, 5, None),
+        ],
+        people=[(12, 2), (4, 4), (10, 7)], spots=[(7, 6), (3, 2)], chests=[(13, 6)],
+    ),
 }
 
 

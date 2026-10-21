@@ -1,0 +1,150 @@
+{
+    "display_name": "the ruined bathhouse",
+    "_doc": "Play-test 8, ask 8 (call BX): the bathhouse nobody has used in years, open to anyone who climbs over the leaves. Laid out by tools/build_interiors.py.",
+    "people": [],
+    "spots": [
+        {
+            "line": "The great bath, full of leaves to the brim. Something in the leaves goes plop.",
+            "cell": [
+                6,
+                4
+            ]
+        },
+        {
+            "line": "Tiles of blue and white, half of them gone. Somebody has been taking them home, one at a time.",
+            "cell": [
+                2,
+                3
+            ]
+        }
+    ],
+    "chests": [
+        {
+            "line": "Under the leaves at the shallow end: a purse somebody dropped while bathing, a long time ago.",
+            "gold": 1500,
+            "cell": [
+                11,
+                6
+            ]
+        }
+    ],
+    "rows": [
+        "#############",
+        "#...........#",
+        "#...........#",
+        "#...........#",
+        "#...........#",
+        "#...........#",
+        "#...........#",
+        "#...........#",
+        "######.######"
+    ],
+    "legend": {
+        ".": "floor",
+        "#": "wall"
+    },
+    "layers": [],
+    "spawn": [
+        6,
+        7
+    ],
+    "exits": [
+        [
+            6,
+            8
+        ]
+    ],
+    "tint": "#c8d8d4",
+    "interior": {
+        "floor": "flag",
+        "wall": "damp",
+        "rugs": [
+            {
+                "rect": [
+                    4,
+                    1,
+                    5,
+                    3
+                ],
+                "colour": "#4a5a3a",
+                "trim": "#7a8a9a"
+            }
+        ],
+        "glows": [
+            {
+                "cell": [
+                    6,
+                    2
+                ],
+                "radius": 3,
+                "colour": "#c0e0ff",
+                "strength": 0.18
+            },
+            {
+                "cell": [
+                    10,
+                    6
+                ],
+                "radius": 2,
+                "colour": "#ffcf80",
+                "strength": 0.15
+            }
+        ]
+    },
+    "props": [
+        {
+            "art": "potted_plant",
+            "cell": [
+                3,
+                1
+            ]
+        },
+        {
+            "art": "potted_plant",
+            "cell": [
+                9,
+                1
+            ]
+        },
+        {
+            "art": "stone_bench",
+            "cell": [
+                2,
+                6
+            ]
+        },
+        {
+            "art": "stone_bench",
+            "cell": [
+                10,
+                6
+            ]
+        },
+        {
+            "art": "chest_broken",
+            "cell": [
+                11,
+                1
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                1,
+                1
+            ]
+        },
+        {
+            "art": "interior/banner_green",
+            "cell": [
+                6,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        }
+    ],
+    "dressing": []
+}

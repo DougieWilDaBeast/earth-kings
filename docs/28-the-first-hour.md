@@ -471,7 +471,9 @@ loaded ahead. Some repeat earlier asks (noted).
    instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)). **Built**
    ([D326](06-decisions.md)): held still 0.3 s, Eat, Party, Send away, Formation, Map, Journal and Auto on the land; Eat, Stance and Auto in a fight.
 7. **Text boxes sized right, and panels moved and resized** in the game (repeats play-test 7, item 12).
-8. **More buildings to go into** in the city; most doors are shut.
+8. **More buildings to go into** in the city; most doors are shut. **Built** ([D342](06-decisions.md)): six more
+   doors open, the Cathedral of the Ascent (a blessing before the climb), the apothecary, the smithy (an edge
+   on your weapons), the old shrine, the ruined bathhouse and the Sign of the Fish, each with its people.
 9. **Groves that look like groves**, hard to find, with good things in them, even if their keeper has to be fought.
 10. **A sent-away band seen on its way**: how far off and how long until it is back ([D294](06-decisions.md)'s band on the map).
     **Built** ([D326](06-decisions.md)): tiles off and steps to come, under the cards and beside its face on the map.

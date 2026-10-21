@@ -1824,10 +1824,7 @@
         29,
         5
       ],
-      "shut": [
-        "Shut, but for the dawn rite. Brother Oswin is outside, if it's him you want.",
-        "Through the door you hear the choir practising one note. Then the same note again."
-      ]
+      "area": "city_cathedral"
     },
     {
       "name": "the Margrave's hall",
@@ -1961,9 +1958,7 @@
         34,
         16
       ],
-      "shut": [
-        "Shut while the apothecary is out picking. A note on the door says: BACK WHEN BACK."
-      ]
+      "area": "city_apothecary"
     },
     {
       "name": "a tall house",
@@ -2132,9 +2127,7 @@
         16,
         24
       ],
-      "shut": [
-        "The smith is out back at the anvil, and too loud to talk over."
-      ]
+      "area": "city_smithy"
     },
     {
       "name": "the stables",
@@ -2192,9 +2185,7 @@
         50,
         24
       ],
-      "shut": [
-        "A lodging house for river folk. It smells of what it's called."
-      ]
+      "area": "city_fish"
     },
     {
       "name": "a quiet house",
@@ -2267,9 +2258,7 @@
         17,
         31
       ],
-      "shut": [
-        "An old shrine to the fallen, now somebody's store room. The candles still get lit."
-      ]
+      "area": "city_shrine"
     },
     {
       "name": "the ruined bathhouse",
@@ -2282,9 +2271,7 @@
         42,
         31
       ],
-      "shut": [
-        "Ruined. The bath is full of leaves and one very surprised frog."
-      ]
+      "area": "city_bathhouse"
     },
     {
       "name": "a sailmaker's",
