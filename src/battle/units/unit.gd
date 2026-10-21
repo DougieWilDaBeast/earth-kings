@@ -225,6 +225,15 @@ func _equip(equipment_id: String) -> void:
 		return
 	attack += int(weapon.get("attack", 0))
 	defense += int(weapon.get("defense", 0))
+	# A piece with no picture of its own is drawn as its kind is held ([D290], art A52), once
+	# that kind's picture is in: `held` in `data/skirmish.json`.
+	if str(weapon.get("sprite_dir", "")) == "":
+		var held: Dictionary = (Database.skirmish.get("held", {}) as Dictionary).get(str(weapon.get("kind", "")), {})
+		if ResourceLoader.exists("%s/south.png" % held.get("sprite_dir", "")):
+			weapon = weapon.duplicate()
+			for key: String in ["sprite_dir", "scale", "offsets"]:
+				if held.has(key):
+					weapon[key] = held[key]
 	weapon_sprites = _load_sprites(weapon.get("sprite_dir", ""), equipment_id)
 
 

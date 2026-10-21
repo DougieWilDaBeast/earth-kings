@@ -51,7 +51,7 @@
 			],
 			"pack": ["brigand", "brigand", "brigand_archer", "brigand_chief"],
 			"escort": true,
-			"stage": { "props": [{ "art": "roadside/cart_stopped", "name": "the cart", "offset": [0, 0] }], "victim": "town_trader", "victim_name": "the driver" }
+			"stage": { "props": [{ "art": "roadside/cart_stopped", "name": "the cart", "offset": [0, 0] }, { "art": "roadside/horse", "name": "the horse", "offset": [2, 1] }], "victim": "town_trader", "victim_name": "the driver" }
 		},
 
 		"burnt_wagon": {
