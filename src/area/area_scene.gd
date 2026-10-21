@@ -2086,6 +2086,9 @@ func _examine(thing: AreaProp) -> void:
 		var names := Climbers.lines(GameState.world, GameState.roster.player() if GameState.roster != null else null)
 		EventBus.conversation_requested.emit([{ "speaker": thing.display_name.capitalize(), "text": "\n".join(names) }])
 		return
+	if not thing.try_once.is_empty():
+		_try_once(thing)
+		return
 	_note(thing.line)
 	# A way in that is shut says why (the Tower's stair, sealed until the Guild's mark).
 	if thing.act != "":
@@ -2498,6 +2501,30 @@ func _fall(before: Vector2) -> void:
 		var low := ceili(float(member.max_hp()) * float(rules.get("floor", 0.1)))
 		member.hp = maxi(low, member.current_hp() - maxi(1, roundi(float(member.max_hp()) * share)))
 	_note(str(rules.get("hurt_line", "A drop of {fell}. Everyone lands hard.")).format({ "fell": fell }))
+
+
+## Something tried once a run with a throw of the dice ([D318]; play-test 3, item 8: the sword in the
+## Tower's yard, "pulled with a dice roll, once"). The first look rolls against `try.chance` (a roll
+## given is used, for the suites): won, the prize is taken and `win` said; lost, `lose`. Every look
+## after says `tried`. The run keeps the try as a flag, won or lost.
+func _try_once(thing: AreaProp, roll: float = -1.0) -> void:
+	var try: Dictionary = thing.try_once
+	var local := map.local_of(thing.cell)
+	var flag := "tried:%s:%d:%d" % [map.area_of(thing.cell), local.x, local.y]
+	if GameState.has_flag(flag):
+		_note(str(try.get("tried", thing.line)))
+		return
+	GameState.set_flag(flag)
+	thing.line = str(try.get("tried", thing.line))
+	if roll < 0.0:
+		roll = randf()
+	if roll < float(try.get("chance", 0.0)):
+		GameState.set_flag(flag + ":won")
+		_note(str(try.get("win", "It comes free.")))
+		for line: String in Loot.claim({ "item": str(try.get("item", "")) }, GameState.roster):
+			_note(line)
+	else:
+		_note(str(try.get("lose", "It does not move.")))
 
 
 ## Walking into a shelf with no way up says so, once a cell ([D308]).

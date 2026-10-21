@@ -226,7 +226,14 @@
         12
       ],
       "name": "a sword in the floor",
-      "line": "Lightning walks up and down the blade. Nobody has managed to pull it out, or wanted to twice."
+      "line": "Lightning walks up and down the blade. Nobody has managed to pull it out, or wanted to twice.",
+      "try": {
+        "chance": 0.1667,
+        "item": "silver_blade",
+        "win": "You set both hands to it and pull. The lightning goes out. The stone lets it go.",
+        "lose": "You set both hands to it and pull. The lightning climbs your arms and the stone keeps it. Nobody tries twice.",
+        "tried": "The sword in the floor. You have had your pull at it."
+      }
     },
     {
       "art": "biome/standing_stone",
