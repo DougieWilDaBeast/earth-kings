@@ -524,7 +524,8 @@ Sites of kind `wild` (D309) are the wild places worth going to, written by `tool
 what it holds in a host's words. `world_rules.json` → `wilds`: `rumour_chance` at rest in a village or
 a keep, `rumour_within` tiles for the nearest unknown, `steps_per_day` for the days said, `rumour_line`
 (`{host}`, `{wild}`, `{way}`, `{days}`, `{lure}`) and `found_line` (`{wild}`, `{lure}`). Read by
-`src/chronicle/wilds.gd`; a found wild keeps `data.found`.
+`src/chronicle/wilds.gd`; a found wild keeps `data.found`. `guard_size`, `guard_reach` and `guard_label`
+(`{what}`, `{land}`) are the band of the land's own foes `Wilds.stock` puts by the far chest as a wild opens.
 
 ## `biomes.json` — the lands, and how each one's ground is laid out
 

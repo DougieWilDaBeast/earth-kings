@@ -156,6 +156,18 @@ func _check_wilds(world: World) -> void:
 	_expect(Wilds.found(world, nearest) == "", "a wild place was found twice")
 	var saved := World.from_dict(world.to_dict())
 	_expect(bool(saved.site_at(nearest.cell).data.get("found", false)) and Atlas.knows(saved, saved.site_at(nearest.cell)), "the found wild was lost in the save")
+	# The land's own creatures guard the far chest of every wild.
+	var inside := AreaMap.load_area(str(nearest.data.get("area", "")))
+	var stocked := Wilds.stock(inside, world, nearest.cell, GameState.party_characters(), inside.bands)
+	_expect(stocked.size() == inside.bands.size() + 1, "%s has no guard" % nearest.display_name)
+	if stocked.size() == inside.bands.size() + 1:
+		var guard: Dictionary = stocked.back()
+		var at := Vector2i(int(guard["at"][0]), int(guard["at"][1]))
+		_expect((guard.get("pack", []) as Array).size() == int(Wilds.rules().get("guard_size", 3)) and inside.is_walkable(at)
+				and bool(guard.get("held", false)) and str(guard.get("done_flag", "")).begins_with("done:wild_guard_"),
+				"the guard is not a held band of three on open ground: %s" % [guard])
+		_expect(stocked == Wilds.stock(inside, world, nearest.cell, GameState.party_characters(), inside.bands), "the guard is dealt differently each time")
+		print("wilds: %s is guarded by %s" % [nearest.display_name, guard.get("label", "")])
 	print("wilds: %d places of %d kinds; %s" % [wilds.size(), kinds.size(), said])
 	# Tidy: nothing of this is kept for the checks after.
 	nearest.data.erase("found")
