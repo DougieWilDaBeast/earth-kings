@@ -2699,9 +2699,40 @@ func _arrive_at(cell: Vector2i) -> void:
 		_note(map.spots[cell])
 		if map.spot_flags.has(cell):
 			GameState.set_flag(map.spot_flags[cell])
+		if map.story_pages.has(cell):
+			_read_a_page(cell)
 		_found_on_the_land(cell)
 	if map.chests.has(cell):
 		_open_chest(cell)
+
+
+## A page of the place's story ([D314]; [D287]: "a quest or a story in each"), stood on: its line is
+## said each time, kept as a flag the first time this run, and when the last page of the place's
+## story is read its end is said and written in the annals. Read in any order.
+func _read_a_page(cell: Vector2i) -> void:
+	var area := map.area_of(cell)
+	var local := map.local_of(cell)
+	var flag := "story:%s:%d:%d" % [area, local.x, local.y]
+	if GameState.has_flag(flag) or GameState.has_flag("story:%s:told" % area):
+		return
+	GameState.set_flag(flag)
+	var data: Dictionary = Database.area(area)
+	for spot: Dictionary in data.get("spots", []):
+		if not bool(spot.get("page", false)):
+			continue
+		var page := AreaMap.to_cell(spot.get("cell", [0, 0]))
+		if not GameState.has_flag("story:%s:%d:%d" % [area, page.x, page.y]):
+			return
+	var end := str((data.get("story", {}) as Dictionary).get("end", ""))
+	if end == "":
+		return
+	GameState.set_flag("story:%s:told" % area)
+	var wild := str(data.get("display_name", area))
+	var told := str(Database.world_rules.get("wilds", {}).get("story_annals", "{wild}: {end}")).format(
+			{ "wild": wild.left(1).to_upper() + wild.substr(1), "end": end })
+	_note(told)
+	if GameState.world != null:
+		Annals.record(GameState.world, told)
 
 
 ## Something somebody left out in the open country (standing stones, a cairn, a cold camp, a cache)

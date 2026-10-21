@@ -81,6 +81,7 @@ func _ready() -> void:
 	await _check_tower_floor()
 	await _check_tower_grows()
 	await _check_heights()
+	await _check_wild_stories()
 	await _check_inside_a_gate()
 	_check_gates_grow()
 	await _check_people_on_the_land()
@@ -1244,6 +1245,45 @@ func _check_heights() -> void:
 	_expect(party.all(func(c: Character) -> bool: return c.current_hp() >= ceili(float(c.max_hp()) * float(rules.get("floor", 0.1)))), "a fall took someone below the floor")
 	print("heights: the wind scarp's shelves are %d up, %d slopes; a drop of two costs %.0f%% of everyone's health; a click up the shelf walks %d cells round by the slope" % [
 		on.height_at(Vector2i(6, 3)), on.ways_up.size(), float(rules.get("share", 0.15)) * 100.0, way.size() - 1])
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## A story in each wild ([D287], [D314]): three pages on open ground, each said and kept once a run when
+## stood on, in any order; the last read says the story's end and writes it in the annals, once.
+func _check_wild_stories() -> void:
+	GameState.new_game(SEED)
+	for area_id: String in ["wild_grove", "wild_thicket", "wild_fen", "wild_oasis", "wild_scarp"]:
+		var map := AreaMap.load_area(area_id)
+		var end := str((Database.area(area_id).get("story", {}) as Dictionary).get("end", ""))
+		_expect(map != null and map.story_pages.size() == 3 and end != "", "%s has %d pages of its story, or no end" % [area_id, map.story_pages.size() if map != null else 0])
+		if map == null:
+			continue
+		for cell: Vector2i in map.story_pages:
+			var clear := map.is_walkable(cell) and not map.chests.has(cell) and not map.exits.has(cell) \
+					and not map.people.any(func(p: Dictionary) -> bool: return AreaMap.to_cell(p.get("cell", [0, 0])) == cell)
+			_expect(clear and str(map.spots.get(cell, "")) != "", "%s's page at %s is not on open ground with words" % [area_id, cell])
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "wild_grove", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var on: AreaMap = scene.map
+	var annals_before: int = GameState.world.annals.size()
+	var pages: Array = on.story_pages.keys()
+	scene.call("_read_a_page", pages[0])
+	scene.call("_read_a_page", pages[1])
+	_expect(GameState.has_flag("story:wild_grove:%d:%d" % [pages[0].x, pages[0].y]) and not GameState.has_flag("story:wild_grove:told")
+			and GameState.world.annals.size() == annals_before, "two pages told the whole story, or were not kept")
+	scene.call("_read_a_page", pages[2])
+	var told := str(Database.world_rules.get("wilds", {}).get("story_annals", "{wild}: {end}")).format(
+			{ "wild": on.display_name.left(1).to_upper() + on.display_name.substr(1), "end": str((Database.area("wild_grove").get("story", {}) as Dictionary).get("end", "")) })
+	_expect(GameState.has_flag("story:wild_grove:told") and GameState.world.annals.size() == annals_before + 1
+			and (scene.get("_notes") as Array).has(told), "the last page did not tell the story's end, or did not write it")
+	scene.call("_read_a_page", pages[2])
+	scene.call("_read_a_page", pages[0])
+	_expect(GameState.world.annals.size() == annals_before + 1, "a story was written twice")
+	print("wild stories: five wilds, three pages each; %s" % told)
 	scene.queue_free()
 	await get_tree().process_frame
 	GameState.new_game(SEED)

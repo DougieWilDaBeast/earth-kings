@@ -23,6 +23,8 @@ var stairs: Array[Vector2i] = []
 var spots: Dictionary = {}
 ## cell -> a flag standing there sets: something found for somebody's favour ([Talk]).
 var spot_flags: Dictionary = {}
+## The spots that are pages of the place's story ([D314]): cell -> true.
+var story_pages: Dictionary = {}
 ## cell -> what is in the chest sitting on it; opened ones stay opened.
 var chests: Dictionary = {}
 ## Houses standing in the area: solid ground with one door leading inside.
@@ -100,6 +102,8 @@ static func load_area(area_id: String) -> AreaMap:
 		map.spots[_to_cell(spot.get("cell", [0, 0]))] = spot.get("line", "")
 		if spot.has("set_flag"):
 			map.spot_flags[_to_cell(spot.get("cell", [0, 0]))] = str(spot["set_flag"])
+		if bool(spot.get("page", false)):
+			map.story_pages[_to_cell(spot.get("cell", [0, 0]))] = true
 	for chest: Dictionary in data.get("chests", []):
 		map.chests[_to_cell(chest.get("cell", [0, 0]))] = chest
 	# `dressing` is scenery written by tools/dress_areas.py, kept apart from the props an area's

@@ -1,6 +1,9 @@
 {
     "display_name": "the ancient grove",
     "lure": "a ring of mossed boulders under the high boughs, and what somebody left under them",
+    "story": {
+        "end": "a woodcutter came forty days and stopped, a child's shoe lies under the boulders with the words keep the quiet ways, and the barrow's sleeper walked out without the gold."
+    },
     "layers": [
         "dirt",
         "meadow"
@@ -87,6 +90,30 @@
         }
     ],
     "spots": [
+        {
+            "cell": [
+                23,
+                6
+            ],
+            "line": "Notches in the bark, a woodcutter's: one for every day he came. They stop at forty, and the fortieth is cut deeper than the rest.",
+            "page": true
+        },
+        {
+            "cell": [
+                16,
+                12
+            ],
+            "line": "Under the boulders, where the moss is thinnest, a child's shoe, very old, and words scratched in the stone: keep the quiet ways.",
+            "page": true
+        },
+        {
+            "cell": [
+                24,
+                15
+            ],
+            "line": "The barrow door was opened from inside. Whoever lay here walked out, and never touched the gold.",
+            "page": true
+        },
         {
             "cell": [
                 15,

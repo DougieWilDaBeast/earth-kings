@@ -88,6 +88,30 @@
   "spots": [
     {
       "cell": [
+        23,
+        4
+      ],
+      "line": "The cairn's stones were counted on one a year. There are more of them than any one person has years.",
+      "page": true
+    },
+    {
+      "cell": [
+        23,
+        16
+      ],
+      "line": "The mine rails run into the dark on new sleepers under old iron. Somebody still goes in.",
+      "page": true
+    },
+    {
+      "cell": [
+        6,
+        4
+      ],
+      "line": "On the high shelf a shelter of stacked slate faces east, where the gates open at dawn. Somebody watches them from here.",
+      "page": true
+    },
+    {
+      "cell": [
         15,
         11
       ],
@@ -1184,5 +1208,8 @@
     ]
   ],
   "_doc": "D308: the wind scarp is the first ground with heights. Its shelves (`raised`) are a height up from the bare earth; `ways_up` are the cells where they can be climbed, each with a slope drawn on it.",
-  "lure": "an old mine behind an iron gate, and a cairn on the high shelf"
+  "lure": "an old mine behind an iron gate, and a cairn on the high shelf",
+  "story": {
+    "end": "the cairn has a stone for every year of more than one life, somebody still walks the old mine, and somebody watches the gates from the high shelf."
+  }
 }

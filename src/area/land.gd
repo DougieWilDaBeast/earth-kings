@@ -108,6 +108,8 @@ func hold(tile: Vector2i) -> Dictionary:
 		spots[at] = spot.get("line", "")
 		if spot.has("set_flag"):
 			spot_flags[at] = str(spot["set_flag"])
+		if bool(spot.get("page", false)):
+			story_pages[at] = true
 	for entry: Dictionary in laid.get("buildings", []):
 		if not _flags_allow(entry):
 			continue
@@ -165,7 +167,7 @@ func release(tile: Vector2i) -> void:
 	props = props.filter(func(prop: Dictionary) -> bool: return prop.get("_tile") != tile)
 	buildings = buildings.filter(func(b: Dictionary) -> bool: return b.get("_tile") != tile)
 	people = people.filter(func(p: Dictionary) -> bool: return p.get("_tile") != tile)
-	for table: Dictionary in [chests, spots, spot_flags, wards, fires, _blocked, _building_cells, _props_at]:
+	for table: Dictionary in [chests, spots, spot_flags, story_pages, wards, fires, _blocked, _building_cells, _props_at]:
 		for cell: Vector2i in table.keys():
 			if area.has_point(cell):
 				table.erase(cell)
