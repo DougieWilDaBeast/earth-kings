@@ -49,6 +49,7 @@ const Climbers := preload("res://src/chronicle/climbers.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
 const Crafting := preload("res://src/chronicle/crafting.gd")
 const Caves := preload("res://src/chronicle/caves.gd")
+const CompanyTalk := preload("res://src/chronicle/company_talk.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -75,6 +76,7 @@ func _ready() -> void:
 	await _check_a_house_in_stormreach()
 	_check_story_npcs()
 	_check_recruiting()
+	_check_company_voices()
 	_check_crafting()
 	await _check_caves()
 	_check_rises()
@@ -196,6 +198,57 @@ func _check_talk(area_id: String, person: Dictionary) -> void:
 	var job: Dictionary = person["talk"].get("job", {})
 	if not job.is_empty() and (str(job.get("flag", "")) == "" or str(job.get("done_flag", "")) == ""):
 		_fail("%s: %s's job has no flag or no done_flag" % [area_id, who])
+
+
+## Other companies, on the road and in the Tower, each in its own voice (play-test 8, ask 2; [CompanyTalk]):
+## nobody asks the same four things of everyone, what comes up fits the floor, and every talk holds together.
+func _check_company_voices() -> void:
+	var rules := CompanyTalk.rules()
+	var companies: Array = rules.get("companies", [])
+	var voices: Dictionary = rules.get("voices", {})
+	var answers := {}
+	var wordings := {}
+	for company: String in companies:
+		if not voices.has(company):
+			_fail("company voices: %s has no voice of its own" % company)
+			continue
+		for place: Array in [[CompanyTalk.ROAD, 0], [CompanyTalk.FLOOR, 3], [CompanyTalk.FLOOR, 16], [CompanyTalk.SHARED, 15]]:
+			var block := CompanyTalk.block(company, str(place[0]), int(place[1]), 77)
+			var asks: Array = block.get("ask", [])
+			var said := "%s %s %s %s" % [block.get("hello", ""), block.get("bye", ""), block.get("leave", ""),
+				" ".join(asks.map(func(a: Dictionary) -> String: return "%s %s" % [a.get("q", ""), a.get("a", "")]))]
+			if said.contains("{") or said.contains("..."):
+				_fail("company voices: %s on %s leaves a gap: %s" % [company, place, said])
+			var questions := asks.map(func(a: Dictionary) -> String: return str(a.get("q", "")))
+			if asks.size() < 3 + (voices[company].get("own", []) as Array).size() + int(rules.get("place_asks", 2)) \
+					or questions.size() != _distinct(questions):
+				_fail("company voices: %s on %s is asked %s" % [company, place, questions])
+			wordings[str(questions[0])] = true
+			answers[str(asks[0].get("a", ""))] = true
+			_check_talk("climbers", { "name": company, "talk": block })
+			# What a floor brings up is of that floor: every question asked is one a fitting ask words.
+			if str(place[0]) != CompanyTalk.ROAD:
+				var fitting := {}
+				for ask: Dictionary in (rules.get("asks", {}) as Dictionary).get(str(place[0]), []):
+					if int(place[1]) >= int(ask.get("from", 0)) and int(place[1]) <= int(ask.get("to", 999)):
+						fitting[str(ask.get("q", "")).format({ "floor": place[1], "next": int(place[1]) + 1 })] = true
+				var drawn: Array = questions.slice(3 + (voices[company].get("own", []) as Array).size())
+				for q: Variant in drawn:
+					if not fitting.has(q):
+						_fail("company voices: %s on floor %s is asked %s, which is not of that floor" % [company, place[1], q])
+	if answers.size() < companies.size():
+		_fail("company voices: %d companies say who they are in %d ways" % [companies.size(), answers.size()])
+	if wordings.size() < 2:
+		_fail("company voices: the party asks who they are only as %s" % [wordings.keys()])
+	print("company voices: %d companies, asked who they are %d ways; %s on floor 16 is asked %s" % [companies.size(), wordings.size(),
+		companies[0], CompanyTalk.block(str(companies[0]), CompanyTalk.FLOOR, 16, 77).get("ask", []).map(func(a: Dictionary) -> String: return str(a.get("q", "")))])
+
+
+func _distinct(items: Array) -> int:
+	var seen := {}
+	for item: Variant in items:
+		seen[item] = true
+	return seen.size()
 
 
 ## Asking anyone to walk with the company ([D277]): a Charisma check, a no that names what would
@@ -1635,7 +1688,17 @@ func _check_tower_grows() -> void:
 	var living: Array = Database.area(TowerFloors.ensure_grown(world, 25)).get("people", [])
 	_expect(living.size() >= 3 and living.all(func(p: Dictionary) -> bool: return not (p.get("talk", {}) as Dictionary).is_empty()),
 			"floor 25 has %d people living on it" % living.size())
-	_expect((Database.area(TowerFloors.grown_area_id(12)).get("people", []) as Array).is_empty(), "people live on floor 12")
+	# A shared floor's company waits by the way in to talk, and nobody else is there ([CompanyTalk]).
+	var by_twelve: Array = Database.area(TowerFloors.grown_area_id(12)).get("people", [])
+	var of_the_company := func(p: Dictionary) -> bool:
+		return str(p.get("name", "")) == TowerFloors.company_on(world, 12) and str(p.get("_area", "")) == "shared_company" \
+				and ((p.get("talk", {}) as Dictionary).get("ask", []) as Array).size() >= 6
+	_expect(by_twelve.size() >= 1 and by_twelve.all(of_the_company), "floor 12's people are not its company, ready to talk: %s" % [by_twelve])
+	_expect((Database.area(TowerFloors.ensure_grown(world, 11)).get("people", []) as Array).is_empty(), "people stand on floor 11")
+	# The rest of a living floor's folk have more to say than the two questions everyone answers.
+	if living.size() > 2:
+		var folk_asks: Array = (living[2].get("talk", {}) as Dictionary).get("ask", [])
+		_expect(folk_asks.size() >= 4, "floor 25's folk have %d things to say" % folk_asks.size())
 	# What a living floor offers ([D317]): its first rests the company for coin, its second sells, marked up.
 	var host: Dictionary = living[0].get("talk", {}) if living.size() > 0 else {}
 	var trader: Dictionary = living[1].get("talk", {}) if living.size() > 1 else {}

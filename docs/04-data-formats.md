@@ -729,9 +729,17 @@ block, above). `climbers` ([D215](06-decisions.md)): on `road_chance` of the roa
 is not walking, a company of `size` [min, max] (bodies from `units`, named one of `companies`)
 walks the road there and back, the first of them saying one of `lines` at each end, and talks
 (`talk`); `on_the_floors`, from floor `from` at `chance`, a company rests by a Tower floor's stair
-and talks (`talk`). A company within `join_cells` of a fight joins it ([D246](06-decisions.md)); with
+and talks. A company within `join_cells` of a fight joins it ([D246](06-decisions.md)); with
 `on_the_floors.join_anywhere` one resting on a floor joins a fight anywhere on that floor
-([D259](06-decisions.md)). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
+([D259](06-decisions.md)). How each company talks ([D341](06-decisions.md), `src/chronicle/company_talk.gd`):
+`voices` has one entry per company with its `hello` (on the road), `floor_hello` (resting on a floor),
+`shared_hello` (climbing a shared floor), its answers to the three questions anyone asks (`who`, `up` on
+the road, `up_here` on a floor, `advice`), `own` (two `{ q, a }` only it is asked) and `bye` / `floor_bye`;
+the party words the three from `wording` and takes its leave with one of `leave`; `place_asks` of `asks.road`,
+`asks.floor` or `asks.shared` (each `{ q, a }`, a floor's kept to `from`..`to`) come up too, drawn the same
+way each time the company is met in the same place. `{floor}` and `{next}` are the floor and the one above. A
+company without a voice talks as `talk` (road) or `on_the_floors.talk`. Read by `src/area/area_critter.gd`
+and `src/area/area_scene.gd`.
 
 ## `world_rules.json` → `first_hour` — the cut list (D97)
 
@@ -912,8 +920,10 @@ true of a grown floor); `props` carry the stair's two halves, four runes and two
 (`is_shared`) from `shared_from` every `shared_every` floors unless it is lived on: `company_with_you`
 gives `shared_size` of `life.climbers.units` at the party's level, named by `company_on` from
 `life.climbers.companies`, handed to the area scene as `allies`, who fight every fight on the floor beside
-the party; `shared_line` (`{company}`) is said on the way up. A floor is lived on (`is_living`) from
-`living_from` every `living_every` floors: `living_size` people by the way in, `living_talk` their words,
+the party; `shared_line` (`{company}`) is said on the way up, and two of the company wait by the way in to
+talk in its voice (`life.climbers.voices`, [D341](06-decisions.md)). A floor is lived on (`is_living`) from
+`living_from` every `living_every` floors: `living_size` people by the way in, `living_talk` their words
+(those past the host and the trader also asked `pool_shown` of its `pool`, the same each time),
 `living_line` said on the way up. `living_host` and `living_trader` (D317) are the first two's words and
 `name`: the host's `heal` rests the whole company for its `price` (Talk's mend), the trader's `sells` are
 restocked wares priced by `TowerFloors` at the Market's price times `markup`.

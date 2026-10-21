@@ -454,7 +454,11 @@ that needs more than a fix, **planned**, in the order of call BX ([D325](06-deci
 loaded ahead. Some repeat earlier asks (noted).
 1. **The opening cinematic**, "a major update".
 2. **More to say**: the same four lines (who are you, have you been up the Tower, any advice, goodbye) on
-   everyone; far more for the people met in the Tower.
+   everyone; far more for the people met in the Tower. **Built** ([D341](06-decisions.md)): each of the seven
+   companies speaks in its own voice on the road, resting on a floor and climbing a shared floor beside the
+   party (which it now waits on, by the way in, to talk); the party asks its questions a few ways; two more
+   only that company is asked, and two drawn from where it is met and fitted to the floor; the folk living
+   on a floor have eight more things to say between them, the host and the trader two each.
 3. **A nemesis system** after Shadow of Mordor: people remember what you did, hold grudges or thanks, and
    some come for you. A first version is built and hidden for the First Hour ([D97](06-decisions.md):
    `nemesis` in `first_hour.hidden`, a broken band's survivor who takes an epithet and comes back).
