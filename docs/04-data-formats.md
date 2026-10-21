@@ -1258,6 +1258,16 @@ holds no slot (`Formations.broken`). `shared`: `per_fight` of every blow spared 
 fight won beside the others standing with them (`Character.shared`, other id -> fights, their average),
 up to `cap` (`Formations.shared_bonus`).
 
+## `skirmish.json` → `tactics.plan_table` — a model's plans, written offline (D298, D322)
+
+Read by `SkirmishBrain.table_move`: when `side` is `party`, `foes` or `all`, a fighter on that side
+tries `moves[situation]` before its doctrine's moves, where the situation is
+`SkirmishBrain.situation`'s five words (`close|ranged|mender` / `healthy|wounded|failing` /
+`near|clear` / `friend_hurt|friends_fine` / `windup|calm`) and a move is one of the brain's (`dodge`,
+`kite`, `flank`, `guard`, `hang_back`, `break`) or `strike` (no move). `side` is empty in the game;
+`party_war.tscn -- --plan-table=party` sets it for a run. Written by `tools/plan_table.py make` (with
+`model`, `prompt` and `made`); `tools/plan_table.py compare N` fights the clashes with and without it.
+
 ## `skirmish.json` — the fight's rules, passives, enemy roles and feel
 
 Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).

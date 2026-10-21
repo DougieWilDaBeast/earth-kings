@@ -190,6 +190,7 @@ func _run() -> void:
 	await _check_conditions()
 	await _check_heights_in_a_fight()
 	await _check_into_the_clouds()
+	await _check_plan_table()
 	_check_bout()
 	_check_party_war()
 	await _check_tactics()
@@ -1759,6 +1760,38 @@ func _check_into_the_clouds() -> void:
 		_expect(not Fate.graces_for(who, {"allies": [], "no_capture": true}).any(func(g: Dictionary) -> bool: return g["reason"] == Fate.BY_CAPTURE),
 				"a fall into the clouds can still end with being taken alive")
 	print("into the clouds: shoved over the edge of a mountain's top, a foe is dead and one of the company out of the fight")
+	fight.queue_free()
+	await get_tree().process_frame
+
+
+## A model's plans, written offline ([D298], [D322]): every fighter's situation is five words the table
+## knows; with no side named the table gives nothing, and with the company's side named a company fighter
+## gets the table's move and a foe does not.
+func _check_plan_table() -> void:
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": false, "sandbox": true}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.paused = true
+	var tactics: Dictionary = Database.skirmish.get("tactics", {})
+	var table: Dictionary = tactics.get("plan_table", {})
+	var moves: Dictionary = table.get("moves", {})
+	_expect(moves.size() == 72 and str(table.get("side", "x")) == "", "the plan table has %d situations, or is switched on" % moves.size())
+	var ours: Fighter = null
+	var theirs: Fighter = null
+	for f: Fighter in fight.fighters:
+		_expect(moves.has(SkirmishBrain.situation(f, fight.fighters, tactics)), "no plan for the situation %s" % SkirmishBrain.situation(f, fight.fighters, tactics))
+		if f.is_party() and ours == null:
+			ours = f
+		elif not f.is_party() and theirs == null:
+			theirs = f
+	_expect(SkirmishBrain.table_move(ours, fight.fighters, tactics) == "", "the plan table gave a move while switched off")
+	table["side"] = "party"
+	var given: String = SkirmishBrain.table_move(ours, fight.fighters, tactics)
+	_expect(given != "" and given == str(moves[SkirmishBrain.situation(ours, fight.fighters, tactics)]) and SkirmishBrain.table_move(theirs, fight.fighters, tactics) == "",
+			"the table switched on for the company gave %s to its fighter, or a move to a foe" % given)
+	table["side"] = ""
+	print("plan table: %d situations; switched on for the company, %s gets %s" % [moves.size(), ours.unit.display_name, given])
 	fight.queue_free()
 	await get_tree().process_frame
 

@@ -39,6 +39,12 @@ var _kept_pause: int = 0
 
 func _ready() -> void:
 	_args = _parse(OS.get_cmdline_user_args())
+	# The model's plans behind the brain's seam, for one side or both ([D298], investigation 12).
+	if _args.has("plan-table"):
+		var tactics: Dictionary = Database.skirmish.get("tactics", {})
+		var table: Dictionary = tactics.get("plan_table", {})
+		table["side"] = str(_args["plan-table"])
+		tactics["plan_table"] = table
 	var seed_ := int(_args.get("seed", 0))
 	if seed_ == 0:
 		seed_ = randi() % 100000 + 1

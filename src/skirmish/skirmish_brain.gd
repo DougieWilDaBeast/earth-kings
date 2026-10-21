@@ -146,6 +146,11 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 	var hunted := fighters.any(func(o: Fighter) -> bool:
 		return o.is_standing() and o.unit.is_hostile_to(me) and o.target == me and Pathfinder.distance(o.unit.cell, me.cell) <= 1)
 	var tried: Array = moves(fighter, tactics).duplicate()
+	# A plan from the table a model wrote offline ([D298], investigation 12), when it is switched on.
+	var told := table_move(fighter, fighters, tactics)
+	if told != "" and told != "strike":
+		tried.erase(told)
+		tried.push_front(told)
 	if lead != null and lead != me:
 		tried.insert(1 if tried.has("dodge") else 0, "rally")
 		# And, when nothing else is called for, falls in to its slot round the lead until the party
@@ -207,6 +212,40 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 		if not plan.is_empty():
 			return plan
 	return {}
+
+
+## The move a model's table picks for [param fighter]'s situation ([D298]; investigation 12): empty
+## unless `tactics.plan_table.side` names its side ("party", "foes" or "all"). The table
+## (`plan_table.moves`, written by `tools/plan_table.py`) is keyed by [method situation]; "strike"
+## means no move, just fight.
+static func table_move(fighter: Fighter, fighters: Array[Fighter], tactics: Dictionary) -> String:
+	var table: Dictionary = tactics.get("plan_table", {})
+	var side := str(table.get("side", ""))
+	if side == "":
+		return ""
+	var ours := fighter.unit.sides_with_party()
+	if (side == "party" and not ours) or (side == "foes" and ours):
+		return ""
+	return str((table.get("moves", {}) as Dictionary).get(situation(fighter, fighters, tactics), ""))
+
+
+## A fighter's situation in five words, the key of the plan table: how it fights (close, ranged or
+## mender), its health (healthy, wounded, failing), a foe at its elbow or not (near, clear), a friend
+## under half health or not (friend_hurt, friends_fine), and a foe winding up or not (windup, calm).
+static func situation(fighter: Fighter, fighters: Array[Fighter], tactics: Dictionary) -> String:
+	var me := fighter.unit
+	var kind := "ranged" if int(Database.ability(fighter.basic).get("range", 1)) >= 2 else "close"
+	if doctrine(fighter, tactics).get("moves", []).has("hang_back"):
+		kind = "mender"
+	var share := float(me.hp) / float(maxi(1, me.max_hp))
+	var health := "healthy" if share >= 0.6 else ("wounded" if share >= 0.3 else "failing")
+	var near := "near" if _nearest_hostile(me, me.cell, fighters) <= 1 else "clear"
+	var hurt := fighters.any(func(o: Fighter) -> bool:
+		return o != fighter and o.is_standing() and not o.unit.is_hostile_to(me) \
+				and float(o.unit.hp) < float(o.unit.max_hp) * 0.5)
+	var windup := fighters.any(func(o: Fighter) -> bool:
+		return o.is_standing() and o.unit.is_hostile_to(me) and o.is_casting())
+	return "%s/%s/%s/%s/%s" % [kind, health, near, "friend_hurt" if hurt else "friends_fine", "windup" if windup else "calm"]
 
 
 static func _dodge(fighter: Fighter, fighters: Array[Fighter], tactics: Dictionary) -> Dictionary:
