@@ -927,6 +927,16 @@
 		"arms_steps": [30, 90, 200, 400],
 		"arms_per_rank": 0.04
 	},
+	"_comment_hunger": "D331 (call BX; Ewan's play-test 8: 'a hunger bar underneath every player so we know how much food they have currently in them and when they need to eat', and Auto eating when needed). Read by src/chronicle/hunger.gd. Everyone in the company is fed 1 (full) to 0, going down per_step with each step on the land (steps_per_day is 8: hungry after about three days, empty after five). Under hungry_below they are hungry: the bar under their health goes amber and hungry_line is said once. At nothing they lose starving_hurt of their health a step, never the last point. Food (taken: eat) fills feeds_per_mend for every point it mends (bread 0.42, a meat pie 0.6) and can be eaten whole when hungry; a bed is a full meal. With Auto on, anyone under auto_eat_below eats the least food that does. Inferred: every number and line.",
+	"hunger": {
+		"on": true,
+		"per_step": 0.025,
+		"hungry_below": 0.35,
+		"starving_hurt": 0.03,
+		"feeds_per_mend": 0.03,
+		"auto_eat_below": 0.4,
+		"hungry_line": "{name} is hungry."
+	},
 	"_comment_nemesis": "D330 (call BX; Ewan's play-test 8, after Shadow of Mordor's nemesis system: 'Characters will remember that, and people might hold a grudge'). Out of the First Hour's cut list. A band broken leaves one survivor on survive_chance (never a non_sentient kind), named with an epithet; a band met on the road is led by one on return_chance, level_per_return levels up for each time they have come back, saying the confront_lines (the first, then the second...); beaten again they are finished (finished_line, a deed). thanks: a settled errand's giver remembers it on chance, and a traveller on the road's clock is one of them on meet_share, giving gift_share of the errand's pay. Inferred: every number and line.",
 	"nemesis": {
 		"survive_chance": 0.2,

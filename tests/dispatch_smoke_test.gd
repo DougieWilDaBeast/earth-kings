@@ -14,6 +14,7 @@ const Atlas := preload("res://src/chronicle/atlas.gd")
 const Wilds := preload("res://src/chronicle/wilds.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
 const QuickWheel := preload("res://src/ui/quick_wheel.gd")
+const Hunger := preload("res://src/chronicle/hunger.gd")
 
 var _failures: Array[String] = []
 
@@ -114,6 +115,7 @@ func _ready() -> void:
 	_check_rumour_jobs(world, roster)
 	_check_play_test_eight(world, roster)
 	_check_nemesis(world)
+	_check_hunger(world, roster)
 	_finish()
 
 
@@ -611,6 +613,47 @@ func _check_nemesis(world: World) -> void:
 	world.thankful = kept_thankful
 	world.survivors = kept_survivors
 	Database.world_rules["nemesis"] = kept
+
+
+## D331: everyone empties with the steps, is hungry under the line, starves without falling, and eats
+## (by hand when whole, and by themselves under Auto); a bed fills them.
+func _check_hunger(world: World, roster: Roster) -> void:
+	var rules: Dictionary = Database.world_rules["hunger"]
+	var lead := roster.player()
+	var kept_stores := GameState.stores.duplicate()
+	var kept_auto := Pace.auto
+	Pace.auto = false
+	GameState.stores.clear()
+	for member: Character in roster.party_members():
+		member.fed = 1.0
+		member.fed_step = world.steps
+	var steps := ceili((1.0 - float(rules["hungry_below"])) / float(rules["per_step"])) + 1
+	world.steps += steps
+	var lines := Hunger.tick(world, roster)
+	_expect(Hunger.is_hungry(lead) and lines.has(str(rules["hungry_line"]).format({"name": lead.display_name})),
+			"%d steps did not leave the lead hungry (fed %.2f, said %s)" % [steps, lead.fed, lines])
+	_expect(Hunger.tick(world, roster).is_empty() and Hunger.is_hungry(lead), "a second tick on the same step did something")
+	lead.hp = -1
+	GameState.stores.append("bread")
+	var fed := lead.fed
+	_expect(Gear.drink(lead, "bread") != "" and lead.fed > fed and not GameState.stores.has("bread"),
+			"a hungry lead at full health could not eat the bread")
+	GameState.stores.append("bread")
+	lead.fed = 0.0
+	world.steps += 200
+	Hunger.tick(world, roster)
+	_expect(lead.current_hp() >= 1 and lead.is_alive(), "starving took the last of the lead's health")
+	Pace.auto = true
+	lead.fed = 0.1
+	world.steps += 1
+	_expect(Hunger.tick(world, roster).size() > 0 and lead.fed > 0.1 and not GameState.stores.has("bread"),
+			"under Auto the hungry lead did not eat the bread in the packs")
+	roster.rest()
+	_expect(is_equal_approx(lead.fed, 1.0), "a rest did not fill the lead")
+	var back := Character.from_dict(lead.to_dict())
+	_expect(is_equal_approx(back.fed, lead.fed) and back.fed_step == lead.fed_step, "fed was not saved")
+	Pace.auto = kept_auto
+	GameState.stores = kept_stores
 
 
 func _errand(kind: String, to: Vector2i) -> Dictionary:

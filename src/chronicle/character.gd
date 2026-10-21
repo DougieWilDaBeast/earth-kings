@@ -62,6 +62,9 @@ var trees: Array = []
 ## Powers earned and not yet placed. The player spends these; everyone else
 ## takes the next rung on their own (see [Progression]).
 var rungs: int = 0
+## How full they are, 1 to 0 ([D331], `src/chronicle/hunger.gd`), and the world step it was last brought up to.
+var fed: float = 1.0
+var fed_step: int = -1
 ## Ability ids learned from those trees.
 var learned: Array = []
 ## Ability id -> times landed, which is how a move gets better (see [Proficiency]).
@@ -390,6 +393,8 @@ func to_dict() -> Dictionary:
 		"equipment": equipment,
 		"trees": trees,
 		"rungs": rungs,
+		"fed": fed,
+		"fed_step": fed_step,
 		"learned": learned,
 		"practice": practice,
 		"arms": arms,
@@ -437,6 +442,8 @@ static func from_dict(data: Dictionary) -> Character:
 	character.equipment = data.get("equipment", "")
 	character.trees = data.get("trees", [])
 	character.rungs = int(data.get("rungs", 0))
+	character.fed = float(data.get("fed", 1.0))
+	character.fed_step = int(data.get("fed_step", -1))
 	character.learned = data.get("learned", [])
 	for ability_id: String in data.get("practice", {}):
 		character.practice[ability_id] = int(data["practice"][ability_id])

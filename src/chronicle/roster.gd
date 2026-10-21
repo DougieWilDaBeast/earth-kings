@@ -154,6 +154,8 @@ func rest() -> void:
 	for character in party_members():
 		if character.is_alive():
 			character.hp = -1
+			# A bed comes with a meal ([D331]).
+			character.fed = 1.0
 
 
 func is_wounded() -> bool:
