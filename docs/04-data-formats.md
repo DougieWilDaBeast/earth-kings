@@ -1268,7 +1268,8 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
              "energy_recover_at": 0.5, "charged_from": 2.0, "charged_power": 1.6,
              "use_item_time": 1.5, "items_per_fighter": 2,
              "block_chance": 0.15, "block_per_defence": 0.01, "block_max": 0.4,
-             "ambush_head_start": 2.0, "swings_per_practice": 3 },
+             "ambush_head_start": 2.0, "swings_per_practice": 3,
+             "flee": { "parting_blow": 0.1, "gold_share": 0.1, "making_line": "…", "cleared_line": "…", "dropped_line": "…" } },
   "passives": {
     "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
                     "radius": 2, "grants": { "guard": 0.15 } }
@@ -1302,7 +1303,9 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
   `use_item_time` seconds, mends the item's `mends` × `HEALTH_SCALE`, and a fighter has at most
   `items_per_fighter` a fight.
 - `ambush_head_start` — seconds an ambushed side's opening is held back while the party acts at
-  once. `swings_per_practice` — landed basic swings that count as one use toward proficiency;
+  once. `flee` (D319): what getting clear of a fight costs: `parting_blow` of a fighter's health on reaching
+the edge (never a fall), `gold_share` of the company's coin a band of the land keeps when everyone gets
+clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`). `swings_per_practice` — landed basic swings that count as one use toward proficiency;
   every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
 - `decor` — the props (`art/props/<id>.png`, sized by `props.json`'s `battle_scale`) planted on a
   field: `trees` on crags, walls and a third of the edge, `bushes` in the brush. Scenery only.

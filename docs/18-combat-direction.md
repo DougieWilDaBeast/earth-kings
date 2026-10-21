@@ -373,7 +373,11 @@ stands on the heart ([D45](06-decisions.md)). Losing is every party member down.
   and falls for real as above;
 - the lost leave the marching order, a won map is marked cleared, `last_victory` is set, and
   `EventBus.battle_finished` is told `{victory, map_id}`;
-- after two seconds the fight hands back to its `return_scene`, with its `return_payload`.
+- after two seconds the fight hands back to its `return_scene`, with its `return_payload`;
+- **walked out of** (2026-10-21, [D319](06-decisions.md), Ewan's ask #243): whoever reaches the field's edge
+  takes a parting blow of a tenth of their health, never a fall, and when the whole company gets clear of a
+  band of the land the band keeps a tenth of the company's coin, dropped in the running; a gate's or the
+  Tower's fight keeps no coin. `rules.flee` in `data/skirmish.json`.
 
 **A sandbox fight** (`sandbox` in the payload: training and the coliseum) writes none of that. The
 run's ledger is switched off for it, nobody's fall is settled (the graces roll through

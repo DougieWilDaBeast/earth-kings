@@ -51,6 +51,16 @@ const ATTACK_SLOWEST := 3.0
 
 
 ## Seconds between basic attacks. Speed was charge time; now it is tempo.
+## What getting clear of a fight costs ([D319]): `rules.flee` in `skirmish.json`.
+static func flee_rules() -> Dictionary:
+	return Database.skirmish.get("rules", {}).get("flee", {})
+
+
+## The share of [param gold] a band keeps when the whole company gets clear of it, dropped in the running.
+static func flee_toll(gold: int) -> int:
+	return clampi(roundi(float(gold) * float(flee_rules().get("gold_share", 0.0))), 0, maxi(0, gold))
+
+
 static func attack_interval(unit: Unit) -> float:
 	return clampf(ATTACK_BASE / float(maxi(1, unit.speed)), ATTACK_FASTEST, ATTACK_SLOWEST)
 
