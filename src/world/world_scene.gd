@@ -491,6 +491,9 @@ func _step_into_the_wild() -> void:
 		"title": "The Wilds (%s)" % world.region_at(world.player_cell),
 		"return_scene": "world",
 		"planar_mode": true,
+		# Walked into from the ground, it comes up out of the dark the company walked into ([D360]).
+		"walked_in": _view == View.GROUND and not Pace.auto \
+				and float(Database.world_rules.get("wilds", {}).get("walk_in", {}).get("seconds", 0.0)) > 0.0,
 	})
 
 
