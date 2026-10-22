@@ -1012,6 +1012,42 @@
 		}
 	},
 	"_comment_quick_wheel": "D326 (call BX; Ewan's play-test 8, after Ark Survival Evolved: hold the scroll wheel for a quick menu). Holding the middle button still for `hold` seconds opens a ring round the pointer; point and let go to take one, let go in the middle for nothing. `walking` is the ring on the land, `fighting` while a fight is on (eat: the picked fighter takes the least food that mends them; stance: the picked fighters' next stance). Inferred: what the ring holds and the hold time.",
+	"touch_words": {
+		"_comment": "What the lines say on a phone (D377): a keyboard's keys said as the touch bar's buttons. `names` is what the touch bar calls an action; `walk` says the stick; `swaps` are [regex, replacement] pairs run in order over any line written for a keyboard (hints, footers, a tip without its own `touch` words) while the touch controls are on and no pad is in hand.",
+		"names": {
+			"interact": "Act",
+			"ui_accept": "Act",
+			"ui_cancel": "Back",
+			"cycle_next": "Next",
+			"open_party": "Party",
+			"open_journal": "Book",
+			"open_menu": "Menu",
+			"battle_auto": "Auto",
+			"battle_speed": "the speed button"
+		},
+		"walk": "The stick",
+		"tap": "Tap",
+		"swaps": [
+			["WASD or the arrow keys walk", "The stick walks"],
+			["Right-click a place: Go here, or Place a marker", "Hold a finger on a place: Go here, or Place a marker"],
+			["\\bWASD or drag to look about  ·  wheel to zoom  ·  C to come back to the party  ·  M or Esc to put it away", "drag to look about  ·  + and - zoom  ·  Party comes back to the party  ·  Close puts it away"],
+			["WASD or the arrows", "the stick"],
+			["WASD to walk", "The stick walks"],
+			["\\bWASD\\b", "the stick"],
+			["\\b[PN] or Esc to close", "Close shuts it"],
+			["\\bM for the map", "The Map tab for the map"],
+			["\\bP party  ·  N journal  ·  Esc menu", "Party, Book and Menu on the top bar"],
+			["\\bP for the party", "Party on the top bar"],
+			["\\bTab to take the lead", "Next to take the lead"],
+			["\\bpress [A-Z]\\b", "tap its button"],
+			["\\bE to\\b", "Act to"],
+			["\\b[A-Z] to\\b", "Tap to"],
+			["\\b[Rr]ight-click(ing)?\\b", "tap"],
+			["\\b[Ll]eft-click(ing)?\\b", "tap"],
+			["\\bClick\\b", "Tap"],
+			["\\bclick\\b", "tap"]
+		]
+	},
 	"quick_wheel": {
 		"on": true,
 		"hold": 0.3,

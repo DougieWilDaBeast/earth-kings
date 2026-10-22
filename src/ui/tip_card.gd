@@ -140,7 +140,10 @@ func _next() -> void:
 		return
 	_showing = _queue.pop_front()
 	_title.text = str(_showing.get("title", "Tip"))
-	_text.text = str(_showing.get("text", ""))
+	# A phone has its own words where the keyboard's would not do, else the keyboard's said for a
+	# thumb ([D377]).
+	var touch := str(_showing.get("touch", "")) if Pad.on_touch() else ""
+	_text.text = touch if touch != "" else Pad.say(str(_showing.get("text", "")))
 	_left = float(Tips.rule("seconds_shown", 14))
 	# Below the touch bar, which held upright drops lower still ([D376]).
 	_panel.offset_top = TOP + _touch_drop()

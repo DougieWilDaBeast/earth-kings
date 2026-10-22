@@ -53,6 +53,8 @@ var _scene_key: String = ""
 ## What was focused last, said as its text and tooltip, so a screen that builds
 ## its buttons again after every press puts the focus back where it was.
 var _last_focus_key: String = ""
+## `touch_words.swaps`, compiled once ([D377]).
+var _swaps: Array = []
 
 
 func _ready() -> void:
@@ -92,6 +94,10 @@ func set_using_pad(on: bool) -> void:
 ## a pad, "E" on a keyboard. An action with nothing on the current device says
 ## [param fallback]'s button instead, and "" if that has none either.
 func key(action: String, fallback: String = "") -> String:
+	if on_touch():
+		var named := touch_name(action)
+		if named != "":
+			return named
 	var text := pad_glyph(action) if using_pad else key_text(action)
 	if text == "" and fallback != "":
 		return key(fallback)
@@ -100,7 +106,42 @@ func key(action: String, fallback: String = "") -> String:
 
 ## How the hint lines say "walk".
 func walk_text() -> String:
+	if on_touch():
+		return str(touch_words().get("walk", "The stick"))
 	return "Left stick" if using_pad else "WASD"
+
+
+# --- what a phone calls it ([D377]) -------------------------------------------
+
+
+## Whether the lines are said for a thumb: the touch controls on, and no pad in hand.
+func on_touch() -> bool:
+	return not using_pad and Pace.is_touch_enabled()
+
+
+static func touch_words() -> Dictionary:
+	return Database.world_rules.get("touch_words", {})
+
+
+## What the touch bar calls [param action] ("Act", "Back", "Party"), or "" when it has no button.
+func touch_name(action: String) -> String:
+	return str((touch_words().get("names", {}) as Dictionary).get(action, ""))
+
+
+## [param line], written for a keyboard, said for a thumb when [method on_touch]: "WASD to walk"
+## becomes "The stick walks", "E to talk" "Act to talk", "H to hire" "Tap to hire", a click a tap.
+## Anywhere else it comes back as it was.
+func say(line: String) -> String:
+	if not on_touch() or line == "":
+		return line
+	if _swaps.is_empty():
+		for pair: Array in touch_words().get("swaps", []):
+			var pattern := RegEx.new()
+			if pattern.compile(str(pair[0])) == OK:
+				_swaps.append([pattern, str(pair[1])])
+	for swap: Array in _swaps:
+		line = (swap[0] as RegEx).sub(line, str(swap[1]), true)
+	return line
 
 
 ## The pad button bound to [param action], or "" when it has none.
