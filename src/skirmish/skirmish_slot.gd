@@ -13,6 +13,9 @@ const SWEEP := Color(0, 0, 0, 0.62)
 const KEY := Color(0.95, 0.9, 0.7)
 const NAME := Color(0.88, 0.9, 0.95)
 const PING_TIME := 0.35
+## The fight screen's own pictures (art request A2, [D370]): `slot_frame`, `cooldown_sweep`,
+## `paused_banner`, `speed_indicator`. Each is drawn once it is in; until then the code draws its own.
+const FIGHT_UI := "res://art/ui/fight/%s.png"
 
 var key_label: String = ""
 var title: String = ""
@@ -29,7 +32,15 @@ const TITLE_SIZE := 10
 const TITLE_SMALLEST := 8
 
 var _was_waiting: bool = false
+var _frame: Texture2D = picture("slot_frame")
+var _sweep: Texture2D = picture("cooldown_sweep")
 var _ping: float = 0.0
+
+
+## The fight screen's picture [param name] (A2), or null while it is still to be made.
+static func picture(name: String) -> Texture2D:
+	var path := FIGHT_UI % name
+	return load(path) if ResourceLoader.exists(path) else null
 
 
 func _ready() -> void:
@@ -72,7 +83,10 @@ func _draw() -> void:
 	var rect := Rect2(Vector2.ZERO, size)
 	var font := ThemeDB.fallback_font
 	if not overlay_only:
-		draw_rect(rect, BACK)
+		if _frame != null:
+			draw_texture_rect(_frame, rect, false)
+		else:
+			draw_rect(rect, BACK)
 	if left > 0.0:
 		_draw_sweep(rect, clampf(left / total, 0.0, 1.0))
 		var seconds := "%.1f" % left if left < 10.0 else "%d" % ceili(left)
@@ -129,5 +143,13 @@ func _draw_sweep(rect: Rect2, share: float) -> void:
 	for i in steps + 1:
 		var angle := -PI * 0.5 + TAU * share * float(i) / float(steps)
 		points.append(centre + Vector2(cos(angle), sin(angle)) * radius)
-	if share > 0.01:
+	if share <= 0.01:
+		return
+	if _sweep != null:
+		# The drawn sweep laid over the tile, shown only inside the wedge.
+		var uvs := PackedVector2Array()
+		for point in points:
+			uvs.append((point - rect.position) / rect.size)
+		draw_colored_polygon(points, Color.WHITE, uvs, _sweep)
+	else:
 		draw_colored_polygon(points, SWEEP)

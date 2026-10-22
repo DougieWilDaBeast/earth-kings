@@ -210,6 +210,33 @@
                 24,
                 12
             ]
+        },
+        {
+            "art": "second_hour/runner",
+            "cell": [
+                11,
+                6
+            ],
+            "when_drawn": true,
+            "name": "a worn runner"
+        },
+        {
+            "art": "second_hour/runner",
+            "cell": [
+                12,
+                6
+            ],
+            "when_drawn": true,
+            "name": "a worn runner"
+        },
+        {
+            "art": "second_hour/runner",
+            "cell": [
+                13,
+                6
+            ],
+            "when_drawn": true,
+            "name": "a worn runner"
         }
     ],
     "bands": [

@@ -126,6 +126,10 @@ static func load_area(area_id: String) -> AreaMap:
 	for prop: Dictionary in data.get("props", []) + data.get("dressing", []):
 		if not _flags_allow(prop) or _cleared_by(prop, raised):
 			continue
+		# A piece still to be drawn with nothing standing in for it (A34, [D370]) is laid once its
+		# picture is in; until then it is not there at all, so nothing unseen stands in the way.
+		if bool(prop.get("when_drawn", false)) and not AreaProp.has_art(str(prop.get("art", ""))):
+			continue
 		var placed := prop.duplicate(true)
 		placed["cell"] = _to_cell(prop.get("cell", [0, 0]))
 		if AreaProp.is_solid(placed):

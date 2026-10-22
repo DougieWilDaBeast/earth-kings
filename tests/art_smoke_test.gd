@@ -10,6 +10,8 @@ extends Node
 
 const SizeTest := preload("res://tools/size_test.gd")
 const DUMMY := "zz_art_test_unit"
+const AreaScene := preload("res://src/area/area_scene.gd")
+const SkirmishSlot := preload("res://src/skirmish/skirmish_slot.gd")
 
 var _failures: Array[String] = []
 
@@ -52,6 +54,7 @@ func _ready() -> void:
 	viewer.free()
 	_check_moves()
 	_check_art_slots()
+	_check_read_when_drawn()
 	_finish()
 
 
@@ -194,6 +197,52 @@ func _check_art_slots() -> void:
 			"art slots: a unit whose own picture is in is not drawn with it")
 	Database.units.erase("_drawn_test")
 	print("art slots: %d requests, %d files, each with a size and a place to land; %d units and %d props stand in until drawn" % [requests.size(), files, waiting, stand_ins.size() - 1])
+
+
+## The four requests the game had nowhere to read until [D370]: the fight screen's pictures (A2),
+## the animals' sets (A29), the cloud sheet (A50) and the six Second Hour pieces with nothing to stand
+## in (A34). Each is read where its slot lands it, and nothing shows or stands in the way before.
+func _check_read_when_drawn() -> void:
+	var landing: Dictionary = {}
+	var slots: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/art_slots.json"))["requests"]
+	for id: String in slots:
+		for entry: Dictionary in slots[id].get("files", []):
+			for each: String in entry.get("each", [""]):
+				landing["res://" + str(entry.get("to", "")).replace("{each}", each)] = true
+	for name: String in ["slot_frame", "cooldown_sweep", "paused_banner", "speed_indicator"]:
+		var path := SkirmishSlot.FIGHT_UI % name
+		_expect(landing.has(path), "read when drawn: the fight screen reads %s, which no request lands" % path)
+		_expect((SkirmishSlot.picture(name) != null) == ResourceLoader.exists(path), "read when drawn: %s is not read as it stands" % name)
+	var cloud := Database.tileset_sheet("cloud")
+	_expect(landing.has(str(cloud.get("texture_wanted", ""))), "read when drawn: the cloud sheet waits on %s, which no request lands" % cloud.get("texture_wanted", ""))
+	var animals: Dictionary = Database.world_rules.get("life", {}).get("animals", {})
+	_expect(not (animals.get("kinds", []) as Array).is_empty(), "read when drawn: no animals named to walk the land")
+	for kind: String in animals.get("kinds", []):
+		_expect(landing.has(AreaScene.animal_folder(kind)), "read when drawn: the %s walks from %s, which no request lands" % [kind, AreaScene.animal_folder(kind)])
+	# An animal is drawn from its set's still and walk: tried on the goblin's.
+	var animal := AreaActor.for_animal("a test", "res://art/tier1/goblin")
+	_expect(animal._rotations.size() == 8 and not animal._run.get(Vector2(0, 1), []).is_empty(), "read when drawn: an animal's set is not read")
+	animal.free()
+	var laid := 0
+	for floor in [6, 7, 8, 10]:
+		var area_id := "tower_floor_%d" % floor
+		var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/areas/%s.json" % area_id))
+		var map := AreaMap.load_area(area_id)
+		for prop: Dictionary in data.get("props", []):
+			if not bool(prop.get("when_drawn", false)):
+				continue
+			laid += 1
+			var art := str(prop["art"])
+			var cell := Vector2i(prop["cell"][0], prop["cell"][1])
+			_expect(landing.has("res://art/props/%s.png" % art), "read when drawn: %s on %s is landed by no request" % [art, area_id])
+			_expect(Database.props.get("art", {}).has(art), "read when drawn: %s has no size in props.json" % art)
+			var placed := map.props.any(func(p: Dictionary) -> bool: return p.get("cell") == cell and p.get("art") == art)
+			_expect(placed == AreaProp.has_art(art), "read when drawn: %s on %s is %s before its picture" % [art, area_id, "laid" if placed else "missing"])
+			if not placed and bool(Database.area_terrain(map.terrain_at(cell)).get("walkable", true)):
+				_expect(map.is_walkable(cell), "read when drawn: %s's cell on %s is in the way while it is undrawn" % [art, area_id])
+	_expect(laid >= 6, "read when drawn: only %d Second Hour pieces wait on their pictures" % laid)
+	print("read when drawn: 4 fight pictures, %d animals, the cloud sheet and %d Second Hour pieces read where they land" % [
+		(animals.get("kinds", []) as Array).size(), laid])
 
 
 func _finish() -> void:

@@ -181,6 +181,16 @@
                 8,
                 12
             ]
+        },
+        {
+            "art": "second_hour/stair_foot",
+            "cell": [
+                12,
+                2
+            ],
+            "when_drawn": true,
+            "solid": false,
+            "name": "the foot of the last stair"
         }
     ],
     "bands": [
