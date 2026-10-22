@@ -1012,6 +1012,20 @@
 		}
 	},
 	"_comment_quick_wheel": "D326 (call BX; Ewan's play-test 8, after Ark Survival Evolved: hold the scroll wheel for a quick menu). Holding the middle button still for `hold` seconds opens a ring round the pointer; point and let go to take one, let go in the middle for nothing. `walking` is the ring on the land, `fighting` while a fight is on (eat: the picked fighter takes the least food that mends them; stance: the picked fighters' next stance). Inferred: what the ring holds and the hold time.",
+	"mouse_bar": {
+		"_comment": "The mouse bar on a computer (D390): every key the walk answers as a button down the right edge, under the corner map, each hover naming its key. `action` is pressed as that input action and its key (as rebound) is named on the hover; `signal` asks for a screen on EventBus instead (`party`, `journal`, `map`, `wheel`, `menu`), and `key` names a bare key.",
+		"on": true,
+		"buttons": [
+			{ "id": "party", "label": "Party", "hover": "The party screen", "signal": "party", "action": "open_party" },
+			{ "id": "journal", "label": "Journal", "hover": "The journal", "signal": "journal", "key": "N" },
+			{ "id": "map", "label": "Map", "hover": "The large map", "signal": "map", "key": "M" },
+			{ "id": "next", "label": "Next lead", "hover": "Take the lead with someone else", "action": "cycle_next" },
+			{ "id": "auto", "label": "Auto", "hover": "Let the game walk and fight for you", "action": "battle_auto" },
+			{ "id": "speed", "label": "Speed", "hover": "The game's speed", "action": "battle_speed" },
+			{ "id": "wheel", "label": "Quick wheel", "hover": "Eat, formation, send away, arrange the screen", "signal": "wheel", "key": "hold the middle button" },
+			{ "id": "menu", "label": "Menu", "hover": "Save, sound, keys and How to Play", "signal": "menu", "key": "Esc" }
+		]
+	},
 	"touch_words": {
 		"_comment": "What the lines say on a phone (D377): a keyboard's keys said as the touch bar's buttons. `names` is what the touch bar calls an action; `walk` says the stick; `swaps` are [regex, replacement] pairs run in order over any line written for a keyboard (hints, footers, a tip without its own `touch` words) while the touch controls are on and no pad is in hand.",
 		"names": {

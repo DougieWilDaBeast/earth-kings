@@ -4450,8 +4450,6 @@ func _lay_out_acts() -> void:
 		_act_bar.queue_free()
 		_act_bar = null
 	_strike_btn = null
-	if not (Pace.is_touch_enabled() or Pad.using_pad):
-		return
 	# The board's doing is done at the board, by walking up to it (D359).
 	var pressable: Array = _acts.filter(func(each: Dictionary) -> bool:
 		return str(each.get("label", "")) != "" and not (AT_THE_BOARD.has(str(each.get("act", ""))) and _board() != null))
@@ -4485,6 +4483,8 @@ func _lay_out_acts() -> void:
 	for each: Dictionary in pressable:
 		var button := Button.new()
 		button.text = str(each["label"])
+		# Its hover is the line's words, key and all ([D390]).
+		button.tooltip_text = str(each.get("prompt", ""))
 		button.focus_mode = Control.FOCUS_ALL if Pad.using_pad else Control.FOCUS_NONE
 		button.custom_minimum_size = Vector2(0, 56)
 		button.add_theme_font_size_override("font_size", 16)
@@ -4494,6 +4494,7 @@ func _lay_out_acts() -> void:
 	if strike_label != "":
 		_strike_btn = Button.new()
 		_strike_btn.text = strike_label
+		_strike_btn.tooltip_text = str(AreaWatch.rule("first_strike_hint", ""))
 		_strike_btn.focus_mode = Control.FOCUS_ALL if Pad.using_pad else Control.FOCUS_NONE
 		_strike_btn.custom_minimum_size = Vector2(0, 56)
 		_strike_btn.add_theme_font_size_override("font_size", 16)
