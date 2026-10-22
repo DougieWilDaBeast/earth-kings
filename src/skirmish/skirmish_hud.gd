@@ -28,7 +28,7 @@ const COMPACT_KEYS := "K: keys"
 const HINT := "Right-click: move · attack · help the fallen    Left-click / drag: select    1–4 / Tab: pick    " \
 		+ "Q W E R: skills    A: auto skills    O F B G H: own way · close in · keep away · guard · hold    Space: pause    T: speed    Z: auto-pause    N: journal"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
-		+ "a skill, then its target · tap the skill again to put it away · the fight slows while you choose · hold a finger on anything to read it"
+		+ "a skill, then its target, and the target again to cast · tap the skill again to put it away · the fight slows while you choose · hold a finger on anything to read it"
 ## The same, on a pad: the stick walks a cursor and A gives the order there.
 const PAD_HINT := "Stick: cursor    %s: pick · move · attack · help the fallen    %s: next fighter    %s: everyone    " \
 		+ "%s: next skill    %s: pause    %s: speed    %s: put a skill away"
@@ -391,7 +391,7 @@ func refresh() -> void:
 	if _skirmish.armed_slot >= 0 and not _skirmish.selected.is_empty():
 		var caster: Fighter = _skirmish.selected[0]
 		var ability := caster.slot_ability(_skirmish.armed_slot)
-		var how := "tap a target, or the skill again to cancel" if _skirmish.touch \
+		var how := "tap a target, then it again to cast, or the skill again to cancel" if _skirmish.touch \
 				else "left-click a target, right-click to cancel"
 		if Pad.using_pad and not _skirmish.touch:
 			how = "%s at the target, %s to cancel" % [Pad.key("ui_accept"), Pad.key("ui_cancel")]

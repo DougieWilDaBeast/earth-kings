@@ -342,6 +342,22 @@ func _check_touch() -> void:
 		_expect(fight.armed_slot == 0, "the first skill button did not ready the skill")
 		(buttons["slot0"] as Button).pressed.emit()
 		_expect(fight.armed_slot == -1, "tapping the skill again did not put it away")
+		# A first tap on a target aims and shows who it would catch; the second casts (D389).
+		var target: Fighter = null
+		for f: Fighter in fight.fighters:
+			if f.is_standing() and AbilityResolver.is_valid_target(caster.unit, caster.slot_ability(0), f.unit):
+				target = f
+				break
+		if target != null:
+			(buttons["slot0"] as Button).pressed.emit()
+			fight._on_left_click(target.unit.cell, false)
+			_expect(fight.armed_slot == 0 and fight.aim_cell == target.unit.cell and caster.order != Fighter.Order.CAST,
+				"a first tap on a target cast the skill instead of aiming it (D389)")
+			_expect(not fight.overlay.preview_cells.is_empty(), "an aimed skill lit nothing (D389)")
+			fight._on_left_click(target.unit.cell, false)
+			_expect(fight.armed_slot == -1 and caster.order == Fighter.Order.CAST,
+				"a second tap on the aimed target did not cast (D389)")
+			_expect(fight.overlay.preview_cells.is_empty(), "the aim stayed lit after the cast (D389)")
 	fight.queue_free()
 
 

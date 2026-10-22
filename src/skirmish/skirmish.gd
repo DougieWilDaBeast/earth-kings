@@ -134,6 +134,11 @@ var manual: bool = false
 
 ## The quick slot waiting for a left-click to say where it goes; -1 when none.
 var armed_slot: int = -1
+## On touch, where the readied skill is aimed after a first tap, and at whom ([D389]).
+var aim_cell: Vector2i = NOWHERE
+var _aim_who: Unit = null
+const NOWHERE := Vector2i(-9999, -9999)
+const AIM_COLOUR := Color(1.0, 0.55, 0.25, 0.45)
 ## On touch, someone has been picked and not yet given an order: the fight runs at
 ## `pick_pace` until they are ([D386]), so a thumb has time to choose.
 var picking: bool = false
@@ -2652,6 +2657,11 @@ func _on_left_click(cell: Vector2i, adding: bool) -> void:
 		var aimed_at_someone := who != null and AbilityResolver.is_valid_target(caster.unit, ability, who)
 		var aimed_at_ground := who == null and int(ability.get("splash", 0)) > 0 and grid.in_bounds(cell)
 		if aimed_at_someone or aimed_at_ground:
+			# On touch the first tap only aims, and shows who it would catch; a second tap on the
+			# same one casts it ([D389]). Never a double-tap, and a slip of the finger costs nothing.
+			if touch and not _aimed_at(cell, who):
+				_aim(ability, cell, who)
+				return
 			order_cast(caster, armed_slot, who if aimed_at_someone else null, cell)
 			_disarm()
 			picking = false
@@ -2748,6 +2758,8 @@ func _arm(slot: int) -> void:
 		picking = false
 		return
 	armed_slot = slot
+	aim_cell = NOWHERE
+	_aim_who = null
 	overlay.clear()
 	overlay.action_cells = pathfinder.cells_in_range(
 		caster.unit.cell, int(ability.get("min_range", 1)), int(ability.get("range", 1))
@@ -2757,7 +2769,37 @@ func _arm(slot: int) -> void:
 
 func _disarm() -> void:
 	armed_slot = -1
+	aim_cell = NOWHERE
+	_aim_who = null
 	overlay.clear()
+
+
+## Whether a readied skill on touch is already aimed at [param cell] or at [param who] (who may have
+## stepped since the first tap).
+func _aimed_at(cell: Vector2i, who: Unit) -> bool:
+	if aim_cell == NOWHERE:
+		return false
+	return cell == aim_cell or (who != null and who == _aim_who)
+
+
+## Aim the readied skill at [param cell] (and [param who] on it, if anyone): the cells it would
+## catch are lit, and the line says what a second tap does.
+func _aim(ability: Dictionary, cell: Vector2i, who: Unit) -> void:
+	aim_cell = cell
+	_aim_who = who
+	var caught: Array[Vector2i] = []
+	for c in AbilityResolver.affected_cells(ability, cell):
+		if grid.in_bounds(c):
+			caught.append(c)
+	overlay.set_preview(caught, AIM_COLOUR)
+	var named := who.display_name if who != null else "there"
+	var hit := 0
+	for c in caught:
+		var on := occupant(c)
+		if on != null and not on.is_party() and on.is_standing():
+			hit += 1
+	var catches := " (catches %d)" % hit if int(ability.get("splash", 0)) > 0 else ""
+	_say("%s at %s%s: tap again to cast." % [ability.get("display_name", "Skill"), named, catches])
 
 
 func _select(group: Array) -> void:
