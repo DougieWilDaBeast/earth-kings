@@ -289,7 +289,10 @@ tip now says so).
    with no door, the Tower beside it to the north.
 7. **The Guild's board read at the board**, or in the Guild's hall (a tavern), not from anywhere in
    town; more named places. The board built ([D359](06-decisions.md), 2026-10-21): a notice board beside the
-   Guild's clerk in every village and keep and in Stormreach, read only standing at it; more named places still planned.
+   Guild's clerk in every village and keep and in Stormreach, read only standing at it. More named places, built since: the twelve
+   wilds ([D309](06-decisions.md)), six hamlets ([D333](06-decisions.md)), the caravans ([D334](06-decisions.md)) and six more
+   Stormreach doors ([D342](06-decisions.md)), each named on the map; which of Stormreach's shut doors (the Guild's hall among
+   them) opens next is `doug-md`'s to say ([D362](06-decisions.md)).
 8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once. Built
    ([D318](06-decisions.md), 2026-10-21): one pull a run, one chance in six, a Silver Blade.
 9. **Tower floors** with themes (an ice floor of ice creatures, goblins in winter coats) and harder;
@@ -410,7 +413,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    of its own from the hob up, built ([D276](06-decisions.md)): goblins' Spite, the wolves' Howl, the slime's Ooze Back. S gates stay at five floors for now (`dougie`, 2026-10-19, call BS).
 5. **Bodies that stay** after a fight, searched for loot. **Built** ([D352](06-decisions.md)) for bands beaten on
    the land: the fallen lie ahead of the party to walk up to and search (coin, sometimes a piece to carry);
-   drawn as a cache until art A63. The bodies of a gate's or the Tower's floors are **planned**.
+   drawn as a cache until art A63. **Built** ([D362](06-decisions.md)) for a gate's and the Tower's floors: a band beaten
+   there lies where it stood, searched the same way, on top of what the floor pays.
 6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
    an icon beside each item (art from PixelLab). The party screen shows what each carries with its picture, and a
    weapon is drawn in the fighter's hand where its art is in ([D290](06-decisions.md), held art A52). **Built**

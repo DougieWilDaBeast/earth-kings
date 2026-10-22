@@ -1379,7 +1379,9 @@
 			"line": "They lie where they fell. Whatever they carried is yours now.",
 			"art": "",
 			"ground_line": "The fallen lie where they dropped. Search them before you go.",
-			"searched_line": "You search the fallen."
+			"searched_line": "You search the fallen.",
+			"_comment_floors": "D362 (play-test 7, item 5, the rest): a band beaten on a gate's or the Tower's floor leaves its fallen where it stood, searched the same way (name, line, art, ground_line, richness_per_foe), on top of what the floor pays. Read by area_scene._lay_the_fallen. Inferred: that floors leave them too, and as much as the land's.",
+			"floors": true
 		},
 		"cache_art": {
 			"_comment": "Play-test 7 (doug-md: \"when I click this gold pile ... it is a sword\"): how a cache found on the ground is drawn, by what is in it. Looked up by the piece's kind (Gear.kind, or `charm` for a charm), then by its icon's folder (bone_sword has no kind but a blade icon; never for a charm), then `item` for any other piece; `coin` when it holds only coin. Each is a picture under art/props. The weapons are the Tower's shattered sword and the rest a strongbox until A37 brings a sword, a bow, a staff and a bundle lying on the ground. Read by Loot.cache_art.",
