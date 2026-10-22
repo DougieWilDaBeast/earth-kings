@@ -160,6 +160,24 @@
                 23,
                 11
             ]
+        },
+        {
+            "art": "second_hour/spiral_stair",
+            "cell": [
+                6,
+                4
+            ],
+            "when_drawn": true,
+            "name": "a spiral stair, going nowhere"
+        },
+        {
+            "art": "second_hour/cracked_basin",
+            "cell": [
+                21,
+                10
+            ],
+            "when_drawn": true,
+            "name": "a cracked basin"
         }
     ],
     "bands": [

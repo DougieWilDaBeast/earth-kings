@@ -995,7 +995,12 @@ the same files answer (A58's are A10 to A25's keepsakes, D358) and `made_as` on 
 id → the picture drawn until it is in, at the stand-in's size; `AreaProp.shown`), a unit's `art_wanted` in
 `units.json` (its own `sprite_dir` once `<dir>/south.png` is in; then its `tint` is dropped), a sheet's
 `texture_wanted` in `tilesets.json`, an item's own `art/items/<id>.png` before its `icon` (`Gear.icon`), and a
-bird's `<art>_fly/frame_NNN.png` wing-beat while it flies. An area's `redrawn` ([D371](06-decisions.md)) maps a picture
+bird's `<art>_fly/frame_NNN.png` wing-beat while it flies. Since [D370](06-decisions.md): a prop's `when_drawn: true`
+(in an area's `props`) leaves it out altogether, drawn and solid, until its picture is in; `world_rules.json` → `life`
+→ `animals` (`per_tile`, `kinds`, `folder` with `{kind}`, `roam_cells`, `names`, `scale`; a land's `life_art.animal`
+in biomes.json) lays animals whose set is in at `art/creatures/<kind>/` (idle facings, `walk/<heading>/frame_NNN.png`);
+the `cloud` sheet of `tilesets.json` is laid over cloud cells once its `texture_wanted` is in; and the fight screen
+reads `art/ui/fight/slot_frame.png`, `cooldown_sweep.png`, `paused_banner.png` and `speed_indicator.png`. An area's `redrawn` ([D371](06-decisions.md)) maps a picture
 to its own new picture, drawn wherever the old one stands (dressing too) once the new one is in.
 `data/palettes.json` (D358): colour lists a PixelLab picture is held to (`tools/pixellab.py object|building
 --palette <name>`, PixelLab's `target_palette`); `muted` is 48 colours taken from the art already in the game.

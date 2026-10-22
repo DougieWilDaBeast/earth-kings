@@ -17,7 +17,7 @@
 					"stand_in": "drawn in code"
 				}
 			],
-			"shows": "Planned: the fight screen's slot frames, cooldown, Paused banner and speed are drawn in code; reading these pictures is to be built when they are made (docs/05)."
+			"shows": "The fight screen (src/skirmish/skirmish_slot.gd, skirmish_hud.gd, D370): each skill tile's back, the cooldown wedge, the Paused banner across the top and the speed mark before the clock and on the touch Speed button; drawn in code until each is in."
 		},
 		"A4": {
 			"what": "Sixteen signature weapon icons",
@@ -314,7 +314,7 @@
 					"stand_in": "nothing (the land has its birds and bugs)"
 				}
 			],
-			"shows": "Planned: animals walking the land (D179) are to be built when these are made; they land in art/creatures/<name>/ (docs/05)."
+			"shows": "Animals walking the land (D179, D370): world_rules.json life.animals lays a kind only once its set is in at art/creatures/<name>/ (idle facings, walk frames); none walk until then."
 		},
 		"A30": {
 			"what": "A meat pie and a honey cake",
@@ -495,7 +495,7 @@
 					"stand_in": "brazier"
 				}
 			],
-			"shows": "Tower floors 6 to 10: the banners, crates and sacks (6), the well, whipping post, hearth and roots (9) and the braziers (10) stand there now as their stand-ins (props.json stand_ins, D369); the runner (6), spiral stair and basin (7), bricked doorways and columns (8) and the stair's foot (10) are laid on their floors when drawn (planned)."
+			"shows": "Tower floors 6 to 10: the banners, crates and sacks (6), the well, whipping post, hearth and roots (9) and the braziers (10) stand there now as their stand-ins (props.json stand_ins, D369); the runner (6), spiral stair and basin (7), bricked doorways and columns (8) and the stair's foot (10) are laid there once drawn (when_drawn, D370), and are not there until then."
 		},
 		"A35": {
 			"what": "The sixteen chapter-two keepsakes",
@@ -1318,7 +1318,7 @@
 					"stand_in": "clouds drawn in code"
 				}
 			],
-			"shows": "The cloud peak's summit and high rock (texture_wanted in data/tilesets.json, D369); the cloud sheet is planned (src/area/area_clouds.gd draws them until a sheet is read)."
+			"shows": "The cloud peak's summit and high rock (texture_wanted in data/tilesets.json, D369), and the clouds below it from the cloud sheet (tilesets.json cloud, laid by src/area/area_clouds.gd, D370); until each is in, the snow and stone sheets and the clouds drawn in code."
 		},
 		"A51": {
 			"what": "Tower floors with depth",
