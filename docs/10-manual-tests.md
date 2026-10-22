@@ -423,6 +423,7 @@ Start a run (not the tutorial) and walk.
 | D5.91 | Leave a gate open far from the company (more than 6 tiles) until a town near it comes under siege; ask a host for news straight away, then walk towards it | No word at first, at the hearth or on the road; a few days on (sooner the nearer you are) "Word reaches the company: Distant bells toll from ..." with how far and which way from where you stand, and the host speaks of it ([D365](06-decisions.md)) | D365 |
 | D5.92 | Start a run, walk out onto the land, then Esc → Copy play log | No "missing data file … land.json" error in the log ([D366](06-decisions.md)) | D366 |
 | D5.93 | On a first life (or Atlas's Last Stand from the title), press T in Hearthwick | The party stays; the log says Auto walks on once you are out in the world ([D367](06-decisions.md)) | D367 |
+| D5.94 | Wait (or leave a gate open) until a town near the company comes under siege, and walk to it | Its besiegers stand outside one of its gates facing it and bowmen stand up on the towers either side; the log says it is under siege. Press Defend: the company runs to that gate, the fight is there with the bowmen shooting from the towers; win, and the gate is clear ([D368](06-decisions.md)) | D368 |
 
 ## H — Conversation and the camp
 

@@ -17,7 +17,8 @@ line take it as `%s` or `{gold}` / `{price}` / `{ransom}`, already said in coins
 
 Used by both the battle grid and the world map. `move_cost` is per tile entered; `height`
 differences are gated by a unit's `jump`. On the map of the continent a cell's `height` lights it and draws
-its peaks (D343, `world_rules.json` → `heights.on_the_map`).
+its peaks (D343, `world_rules.json` → `heights.on_the_map`). `rampart` is a town's tower in a siege fought on
+the land ([D368](06-decisions.md)): its bowmen stand on it and nobody else steps onto it.
 
 ## `units.json` — unit templates
 
@@ -734,6 +735,13 @@ keeps `grudges`: faction id -> bands beaten.
 is heard at once; further off it waits in the world's `word` (`{ line, cell: [x, y], step }`, saved with the
 world) until it has walked to the company, said as `word_reaches` (`{line}`). A town keeps `sacked_at`, a
 gate `broken_at`, and the Tower `floor_at` and `floor_before`, for when their word set off.
+
+`world_rules.json` → `siege` ([D368](06-decisions.md)): a threatened town's siege on the land. The band at its
+gate is `Encounter.siege_band` (the same for the whole siege); they stand `stand_off` cells out from the gate in
+a line, as `name`, muttering `chatter`. `bowmen` (`unit`, `name` with `{town}`, `most`, `lift` in pixels) stand on
+the towers nearest the gate. Defending, the company runs to the gate over `run_seconds` (`run_line`), and the
+bowmen fight from their towers, laid as `rampart` (`terrain.json`) `rampart_height` above the ground, holding.
+`seen_line` is said once when a siege stands within a tile of the company.
 
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 

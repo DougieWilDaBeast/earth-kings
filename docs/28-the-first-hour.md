@@ -285,6 +285,8 @@ tip now says so).
    bugs, and the Watch on the road; animals that walk wait on their art (A29).
 5. **Every fight where it happens**: the roadside toll, defending a town under siege (Coldrun, with
    archers on its towers), and Tower floors 6 up, not a separate arena; a short scene before choosing.
+   The siege built ([D368](06-decisions.md), 2026-10-22): a threatened town's besiegers stand at one of its gates
+   on the land and its bowmen on the towers by it; Defend runs the company to that gate and the fight is there.
 6. **Stormreach built round the Tower**: the Tower in the middle and the town all round it, not a
    door that opens onto a city. Built ([D247](06-decisions.md), play-test 6, pick B): the city is walked on the land
    with no door, the Tower beside it to the north.
@@ -346,7 +348,8 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
    path is in more words, on hover. Built ([D237](06-decisions.md)): on each path card at level 2,
    hover or press the **?**.
 7. **A siege seen**: when Stormreach is attacked and defended, see the fight there, not be taken
-   somewhere else and put back.
+   somewhere else and put back. Built ([D368](06-decisions.md), 2026-10-22): the besiegers are seen at the gate
+   before the fight, the fight is laid there with the town's bowmen on their towers, and saved, they are gone.
 8. **Towers that match their land**: the scenery round a tower to fit the ground it stands on.
 9. **The bottom of the screen**: something there (the party's pictures or a building) does not fit
    the screen and wants resizing and moving. **He said which** (2026-10-17, [his answers](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md)): the fight's party

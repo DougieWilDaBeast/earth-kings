@@ -1857,6 +1857,27 @@
 		"color": "#7a8f6a",
 		"sprite_dir": "res://art/units/neuron_chief/idle"
 	},
+	"town_bowman": {
+		"display_name": "Bowman",
+		"job": "Longbow",
+		"max_hp": 34,
+		"attack": 12,
+		"defense": 4,
+		"move": 3,
+		"jump": 1,
+		"speed": 10,
+		"abilities": [
+			"arc_shot",
+			"snipe",
+			"volley"
+		],
+		"classes": [
+			"longbow"
+		],
+		"kind": "soldier",
+		"color": "#79b04a",
+		"sprite_dir": "res://art/tier1/longbow/idle"
+	},
 	"keep_watchman": {
 		"display_name": "Watchman",
 		"job": "Sworn Blade",

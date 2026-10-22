@@ -181,12 +181,19 @@ static func for_captors(world: World, site: Site, party: Array, rng: RandomNumbe
 
 ## Whoever is currently sacking a town. Beating them lifts the siege.
 static func for_siege(world: World, site: Site, party: Array, rng: RandomNumberGenerator) -> Dictionary:
-	var pool: Array = Database.encounters.get("siege", ["brigand", "goblin"])
-	var level := _party_level(party) + 1
 	return _build(
-		world, site.cell, WILD, _pick(pool, 4, level, rng), rng,
+		world, site.cell, WILD, siege_band(world, site, party), rng,
 		"They are already inside %s." % site.display_name
 	)
+
+
+## The band at a threatened town's gate ([DNEW]): dealt the same every time it is asked for while
+## the siege lasts, so the besiegers seen standing at the gate on the land are the ones fought.
+static func siege_band(world: World, site: Site, party: Array) -> Array:
+	var pool: Array = Database.encounters.get("siege", ["brigand", "goblin"])
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.shape_seed(), site.cell.x, site.cell.y, int(site.data.get("threatened_at", 0))])
+	return _pick(pool, 4, _party_level(party) + 1, rng)
 
 
 ## The town turning out to defend itself, because you are the one raiding it.

@@ -48,6 +48,13 @@
 		"walkable": false,
 		"color": "#3b3b46"
 	},
+	"rampart": {
+		"name": "Rampart",
+		"move_cost": 99,
+		"height": 3,
+		"walkable": true,
+		"color": "#6f6a60"
+	},
 	"ocean": {
 		"name": "Open sea",
 		"move_cost": 99,

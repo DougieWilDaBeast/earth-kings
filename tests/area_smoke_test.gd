@@ -104,6 +104,7 @@ func _ready() -> void:
 	await _check_people_on_the_land()
 	await _check_the_board()
 	await _check_the_burial()
+	await _check_the_siege()
 	await _check_floor_themes()
 	await _check_the_land()
 	await _check_the_joined_land()
@@ -2305,6 +2306,71 @@ func _check_floor_themes() -> void:
 ## A companion's death shown, with a small burial (D363, play-test 2): after the fight the dead are laid
 ## under a cairn where they fell, the lead says a few words, and on the land the cairn is still there
 ## when the tile is laid out again; on Auto it is only told.
+## [DNEW]: a threatened village's besiegers stand outside one of its gates on the land, the band its
+## defence is fought against, and its bowmen on the towers by that gate; the defence is fought there,
+## the bowmen from their towers; saved, the siege is gone from the ground.
+func _check_the_siege() -> void:
+	var kept_auto := Pace.auto
+	Pace.auto = true
+	GameState.new_game(SEED, "atlas")
+	var world := GameState.world
+	var village: Site = null
+	for site: Site in world.sites_of_kind(Site.VILLAGE):
+		village = site
+		break
+	_expect(village != null, "siege: the world has no village to besiege")
+	if village == null:
+		Pace.auto = kept_auto
+		return
+	village.data["threatened_at"] = world.steps
+	world.player_cell = village.cell
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "land": true, "return_scene": "world", "planar_mode": true })
+	add_child(scene)
+	for i in 40:
+		await get_tree().process_frame
+	var siege: Dictionary = (scene.get("_sieges") as Dictionary).get(village.cell, {})
+	var band := Encounter.siege_band(world, village, GameState.party_characters())
+	_expect(not siege.is_empty() and (siege["foes"] as Array).size() == band.size(),
+			"siege: %s's besiegers do not stand at its gate (%s)" % [village.display_name, siege.keys()])
+	if siege.is_empty():
+		scene.queue_free()
+		Pace.auto = kept_auto
+		return
+	var units: Array = (siege["foes"] as Array).map(func(a: AreaActor) -> String: return str(a.get_meta("person", {}).get("unit", "")))
+	var dealt: Array = band.map(func(e: Dictionary) -> String: return str(e["unit"]))
+	_expect(units == dealt, "siege: the besiegers seen (%s) are not the band fought (%s)" % [units, dealt])
+	var bowmen: Array = siege["bowmen"]
+	_expect(not bowmen.is_empty() and (bowmen[0] as AreaActor).perch > 0.0,
+			"siege: no bowman stands up on %s's towers" % village.display_name)
+	await scene.call("_run_to_the_gate")
+	var field: Dictionary = scene.call("_siege_field")
+	_expect((field.get("foes", []) as Array).size() == band.size(), "siege: the fight is not laid where the besiegers stood")
+	var perched := (field.get("allies", []) as Array).filter(func(a: Dictionary) -> bool: return a.has("perch"))
+	_expect(not perched.is_empty() and (field.get("ramparts", []) as Array).size() == perched.size(),
+			"siege: the bowmen do not fight from their towers (%s)" % [field.get("allies", [])])
+	var gate: Vector2i = siege["gate"]
+	var leader: AreaActor = scene.get("_leader")
+	var map := scene.get("map") as Land
+	_expect((map.cell_at(leader.position) - gate).length() <= 4.0, "siege: the company did not run to the gate")
+	var fight: Node = load("res://src/skirmish/skirmish.gd").new()
+	fight.set("ground_field", field)
+	fight.set("encounter", { "enemies": band })
+	var laid: Dictionary = fight.call("_ground_field")
+	var up := (laid.get("allies", []) as Array).filter(func(a: Dictionary) -> bool:
+		var at: Array = a["cell"]
+		return str(laid["tiles"][int(at[1])])[int(at[0])] == "^")
+	_expect(up.size() == perched.size() and laid.has("heights"), "siege: on the fight's field the bowmen are not on ramparts (%d of %d)" % [up.size(), perched.size()])
+	fight.free()
+	Town.save(village, world)
+	scene.call("_mind_the_sieges")
+	_expect(not (scene.get("_sieges") as Dictionary).has(village.cell), "siege: saved, the besiegers still stand there")
+	scene.queue_free()
+	await get_tree().process_frame
+	Pace.auto = kept_auto
+	print("siege: %d besiegers at %s's gate, %d bowmen on its towers, fought there" % [band.size(), village.display_name, perched.size()])
+
+
 func _check_the_burial() -> void:
 	var kept_auto := Pace.auto
 	GameState.new_game(SEED, "atlas")

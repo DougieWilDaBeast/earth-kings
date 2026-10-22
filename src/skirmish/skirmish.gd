@@ -502,12 +502,18 @@ func _ground_field() -> Dictionary:
 	var ground := _the_ground()
 	var origin := _to_cell(ground_field.get("origin", [0, 0]))
 	var size := _to_cell(ground_field.get("size", [16, 11]))
+	# A threatened town's towers its bowmen stand on ([DNEW]): higher, and nobody climbs onto them.
+	var ramparts: Dictionary = {}
+	for pair: Array in ground_field.get("ramparts", []):
+		ramparts[_to_cell(pair)] = true
 	var rows: Array = []
 	for y in size.y:
 		var row := ""
 		for x in size.x:
 			var cell := origin + Vector2i(x, y)
-			if ground == null or not ground.is_walkable(cell):
+			if ramparts.has(cell):
+				row += "^"
+			elif ground == null or not ground.is_walkable(cell):
 				row += "#"
 			elif bool(Database.area_terrain(ground.terrain_at(cell)).get("cover", false)):
 				row += ","
@@ -531,13 +537,16 @@ func _ground_field() -> Dictionary:
 	var laid := {
 		"name": str(ground_field.get("title", "the ground")),
 		"tiles": rows,
-		"legend": { ".": "grass", ",": "brush", "#": "wall" },
+		"legend": { ".": "grass", ",": "brush", "#": "wall", "^": "rampart" },
 		"player_spawns": spawns,
 		"enemies": _spread_out(enemies, rows),
 	}
 	# Ground with heights carries them into the fight ([D313]): a row of digits a cell, and where
 	# the slopes are, so the fighters climb and are shoved as the walkers are ([D308]).
-	if ground != null and ground.has_heights():
+	# A rampart stands `siege.rampart_height` above the ground round it, so the field is laid with
+	# heights when there is one: a shot from it lands harder ([D343]) and nobody steps up onto it.
+	var lifted := int(Database.world_rules.get("siege", {}).get("rampart_height", 3))
+	if ground != null and (ground.has_heights() or not ramparts.is_empty()):
 		var heights: Array = []
 		var ways: Array = []
 		var clouds: Array = []
@@ -545,7 +554,7 @@ func _ground_field() -> Dictionary:
 			var row := ""
 			for x in size.x:
 				var cell := origin + Vector2i(x, y)
-				row += str(clampi(ground.height_at(cell), 0, 9))
+				row += str(clampi(ground.height_at(cell) + (lifted if ramparts.has(cell) else 0), 0, 9))
 				if ground.ways_up.has(cell) or ground.ladders.has(cell):
 					ways.append([x, y])
 				if ground.is_cloud(cell):
@@ -558,13 +567,22 @@ func _ground_field() -> Dictionary:
 	# A gate's fight on the ground (D162): the Guild's people fall in beside the party, and a heart
 	# floor's heart is the gate's doorway.
 	var allies: Array = []
+	var perched: Array = []
 	for each: Variant in ground_field.get("allies", []):
 		var ally: Dictionary = (each as Dictionary).duplicate()
+		# A town's bowman stands on the tower they were seen on ([DNEW]).
+		if ally.has("perch"):
+			var on := _to_cell(ally["perch"]) - origin
+			ally.erase("perch")
+			if on.x >= 0 and on.y >= 0 and on.x < size.x and on.y < size.y and str(rows[on.y])[on.x] == "^":
+				ally["cell"] = [on.x, on.y]
+				perched.append(ally)
+			continue
 		var beside: Array = spawns[allies.size() % spawns.size()] if not spawns.is_empty() else [1, size.y - 2]
 		ally["cell"] = [int(beside[0]), int(beside[1]) + 1]
 		allies.append(ally)
-	if not allies.is_empty():
-		laid["allies"] = _spread_out(allies, rows, laid["enemies"])
+	if not allies.is_empty() or not perched.is_empty():
+		laid["allies"] = _spread_out(allies, rows, laid["enemies"]) + perched
 	if ground_field.has("heart"):
 		var at := _to_cell(ground_field["heart"]) - origin
 		laid["heart"] = _spread_out([{ "cell": [at.x, at.y] }], rows)[0]["cell"]
@@ -592,7 +610,7 @@ func _spread_out(enemies: Array, rows: Array, standing: Array = []) -> Array:
 func _row_blocked(rows: Array, at: Vector2i) -> bool:
 	if at.y < 0 or at.y >= rows.size() or at.x < 0 or at.x >= str(rows[at.y]).length():
 		return true
-	return str(rows[at.y])[at.x] == "#"
+	return str(rows[at.y])[at.x] in ["#", "^"]
 
 
 ## The ground the band was met on: the area it names, or, met on the land ([D84]), the tiles the
