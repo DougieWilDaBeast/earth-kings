@@ -303,6 +303,24 @@ func _check_touch() -> void:
 		_expect(fight.selected == [party[1]], "tapping a companion gave an order instead of picking them")
 		fight.hud.card_clicked.emit(0)
 
+	# On touch the order is given as the finger lifts: a drag of the camera gives none, nor does a
+	# finger held to ask who stands there (D388).
+	var order_before: int = lead.order
+	var press := InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.pressed = true
+	press.position = Vector2(300, 300)
+	fight._unhandled_input(press)
+	var lift := InputEventMouseButton.new()
+	lift.button_index = MOUSE_BUTTON_LEFT
+	lift.position = Vector2(380, 300)
+	fight._unhandled_input(lift)
+	_expect(lead.order == order_before and fight.selected == [lead], "a finger dragged across the board gave an order (D388)")
+	fight._unhandled_input(press)
+	EventBus.touch_held.emit(press.position)
+	lift.position = press.position
+	fight._unhandled_input(lift)
+	_expect(lead.order == order_before and fight.selected == [lead], "a finger held to ask gave an order as it lifted (D388)")
 	(buttons["hold"] as Button).pressed.emit()
 	_expect(lead.hold, "the Hold button did nothing")
 	# About 44 points under a thumb, and a skill said by its name, not a key (D387).

@@ -117,6 +117,11 @@ var selected: Array[Fighter] = []
 var pouch: Dictionary = {}
 ## Where the left button went down, in the field's own space, while it is held.
 var _press_at: Vector2 = Vector2.INF
+## On touch, where a finger went down on the board and the cell under it, until it lifts.
+var _tap_at: Vector2 = Vector2.INF
+var _tap_cell: Vector2i = Vector2i.ZERO
+## How far a finger may move between down and up and still be a tap, not a drag of the camera.
+const TAP_SLOP := 24.0
 ## The box being dragged to pick fighters; empty when there is none ([member SkirmishMarks]).
 var drag_box: Rect2 = Rect2()
 var paused: bool = true
@@ -211,6 +216,7 @@ func _ready() -> void:
 	EventBus.levelled_up.connect(_on_levelled_up)
 	Pace.changed.connect(_on_pace_changed)
 	EventBus.quick_wheel_chose.connect(_on_wheel)
+	EventBus.touch_held.connect(_on_touch_held)
 	hud.setup(self)
 	hud.card_clicked.connect(_on_card_clicked)
 	hud.stance_clicked.connect(_on_stance_clicked)
@@ -2326,10 +2332,18 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		get_viewport().set_input_as_handled()
-		# A thumb drags the camera, not a box: on touch a tap is the whole order.
+		# A thumb drags the camera, not a box: on touch a tap is the whole order. It is given as the
+		# finger lifts ([D388]): a finger that dragged the camera, or was held to ask who stands
+		# there (the touch overlay eats that lift), gives none.
 		if touch:
 			if event.pressed:
-				_on_left_click(_mouse_cell(), event.shift_pressed)
+				_tap_at = event.position
+				_tap_cell = _mouse_cell()
+			elif _tap_at != Vector2.INF:
+				var still: bool = (event as InputEventMouseButton).position.distance_to(_tap_at) <= TAP_SLOP
+				_tap_at = Vector2.INF
+				if still:
+					_on_left_click(_tap_cell, event.shift_pressed)
 			return
 		if event.pressed:
 			_press_at = to_local(get_global_mouse_position())
@@ -2617,6 +2631,17 @@ func _on_stance_clicked(index: int) -> void:
 	var all := Fighter.stances()
 	set_stance(party[index], all[(all.find(party[index].stance) + 1) % all.size()])
 	hud.refresh()
+
+
+## A finger held still on the board asks who stands there ([D388]): their card, as hover shows
+## it with a mouse, and no order.
+func _on_touch_held(_position: Vector2) -> void:
+	if not touch or over:
+		return
+	_tap_at = Vector2.INF
+	var held := fighter_of(_unit_at_or_downed(_mouse_cell()))
+	if held != null:
+		hud.inspect(held)
 
 
 func _on_left_click(cell: Vector2i, adding: bool) -> void:

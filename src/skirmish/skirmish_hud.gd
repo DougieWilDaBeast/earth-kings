@@ -28,7 +28,7 @@ const COMPACT_KEYS := "K: keys"
 const HINT := "Right-click: move · attack · help the fallen    Left-click / drag: select    1–4 / Tab: pick    " \
 		+ "Q W E R: skills    A: auto skills    O F B G H: own way · close in · keep away · guard · hold    Space: pause    T: speed    Z: auto-pause    N: journal"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
-		+ "a skill, then its target · tap the skill again to put it away · the fight slows while you choose"
+		+ "a skill, then its target · tap the skill again to put it away · the fight slows while you choose · hold a finger on anything to read it"
 ## The same, on a pad: the stick walks a cursor and A gives the order there.
 const PAD_HINT := "Stick: cursor    %s: pick · move · attack · help the fallen    %s: next fighter    %s: everyone    " \
 		+ "%s: next skill    %s: pause    %s: speed    %s: put a skill away"
@@ -38,6 +38,15 @@ const TOUCH_BUTTONS := [
 	["slot0", "Q"], ["slot1", "W"], ["slot2", "E"], ["slot3", "R"],
 	["auto_skill", "Auto skills"], ["hold", "Hold"], ["auto_pause", "Auto-pause"],
 ]
+## What each of them does, read with a long press on a phone ([D388]); a skill's own is its tooltip.
+const TOUCH_TIPS := {
+	"pause": "Stop the fight, or start it again. Orders can be given while it is stopped.",
+	"speed": "The fight's speed, round from 1x to 5x.",
+	"all": "Pick the whole company, so one tap sends them all.",
+	"auto_skill": "Whoever is picked uses their skills by themselves, or stops.",
+	"hold": "Whoever is picked stands their ground, or goes their own way again.",
+	"auto_pause": "When the fight stops by itself: never, when someone goes down, or also when a skill is ready.",
+}
 ## One of those buttons, and the gap between two: 58 tall is about 44 points on a phone, where the
 ## game is 1.32 of its pixels to a point, the least a thumb hits reliably ([D387]).
 const TOUCH_BUTTON := Vector2(128, 58)
@@ -306,6 +315,7 @@ func _add_touch_buttons() -> void:
 		var button := Button.new()
 		button.custom_minimum_size = TOUCH_BUTTON
 		button.text = entry[1]
+		button.tooltip_text = str(TOUCH_TIPS.get(entry[0], ""))
 		button.focus_mode = Control.FOCUS_NONE
 		button.add_theme_font_size_override("font_size", 17)
 		var action: String = entry[0]
@@ -584,6 +594,8 @@ func _refresh_buttons() -> void:
 		if has:
 			# Whole: the button trims it with an ellipsis only if it cannot fit.
 			label = str(caster.slot_ability(slot).get("display_name", "?"))
+			# Read with a long press on a phone ([D388]).
+			button.tooltip_text = _ability_tooltip(caster.slot_ability(slot))
 			if _skirmish.armed_slot == slot:
 				label = "» " + label
 		button.text = label

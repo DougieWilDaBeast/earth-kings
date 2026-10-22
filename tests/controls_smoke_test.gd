@@ -75,6 +75,7 @@ func _ready() -> void:
 	await _check_a_band_on_the_ground()
 	await _check_a_roadside_fight_on_the_ground()
 	await _check_the_camera_at_speed()
+	await _check_a_long_press()
 
 	if _failures.is_empty():
 		print("controls smoke test: PASS")
@@ -128,6 +129,66 @@ func _check_only_the_written_word_speaks(when: String) -> void:
 
 ## The walk scene threw away every event that was not a key, so the overlay —
 ## which speaks in actions — was talking to nobody.
+## A finger held still asks what a thing is instead of pressing it ([D388]): the button's tip comes
+## up, the scene is told where, the lift is not a press, and a finger that moves is not holding.
+func _check_a_long_press() -> void:
+	var asked: Array[Vector2] = []
+	var listen := func(at: Vector2) -> void: asked.append(at)
+	EventBus.touch_held.connect(listen)
+	var button := Button.new()
+	button.text = "Ask me"
+	button.tooltip_text = "What this button does."
+	button.position = Vector2(400, 300)
+	button.size = Vector2(160, 60)
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	layer.add_child(button)
+	add_child(layer)
+	await get_tree().process_frame
+	var at := button.get_global_rect().get_center()
+	var moved := InputEventMouseMotion.new()
+	moved.position = at
+	moved.global_position = at
+	Input.parse_input_event(moved)
+	await get_tree().process_frame
+	_expect(_touch.tip_at(at) == "What this button does.", "a held finger would not read the button's tip: '%s'" % _touch.tip_at(at))
+
+	var down := InputEventScreenTouch.new()
+	down.index = 0
+	down.pressed = true
+	down.position = at
+	_touch._hold_input(down)
+	_touch._hold_since -= 1000
+	_touch._process(0.016)
+	_expect(asked == [at], "holding a finger still did not tell the scene where (D388)")
+	_expect(_touch.tip_shown() == "What this button does.", "holding a finger on a button did not show its tip (D388)")
+	var up := InputEventScreenTouch.new()
+	up.index = 0
+	up.position = at
+	_touch._hold_input(up)
+	var lift := InputEventMouseButton.new()
+	lift.button_index = MOUSE_BUTTON_LEFT
+	lift.pressed = false
+	lift.position = at
+	_expect(_touch._hold_input(lift), "the lift after a hold would still press what was under it (D388)")
+
+	asked.clear()
+	_touch._hold_input(down)
+	var drag := InputEventScreenDrag.new()
+	drag.index = 0
+	drag.position = at + Vector2(40, 0)
+	_touch._hold_input(drag)
+	_touch._hold_since -= 1000
+	_touch._process(0.016)
+	_expect(asked.is_empty(), "a finger that moved was taken for a hold (D388)")
+	_touch._hold_input(up)
+	_expect(not _touch._hold_input(lift), "a plain tap's lift was eaten as a hold's (D388)")
+	_touch._hide_tip()
+	EventBus.touch_held.disconnect(listen)
+	layer.queue_free()
+	await get_tree().process_frame
+
+
 func _check_touch_reaches_the_game() -> void:
 	var world := _current_scene()
 	_expect(world != null, "the walk scene is not up")

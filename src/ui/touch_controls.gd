@@ -34,6 +34,17 @@ const EDGE_PAD := 14.0
 ## How tall the Act, Back and Next cluster stands in the bottom corner (its scene's offsets), so a
 ## fight's own buttons can keep above it.
 const CLUSTER_HEIGHT := 212.0
+## A finger held still this long asks what a thing is instead of pressing it ([D388]): a phone
+## has no hover, so a long press is where a computer's tooltips and hover cards are read.
+const HOLD_TIME := 0.45
+## How far a held finger may wander and still be holding still.
+const HOLD_STILL := 14.0
+## How long the tip stays up once the finger lifts.
+const TIP_LINGER := 2.5
+## Where the engine is sent the mouse release a hold ate, so whatever button the finger was on
+## lets go of it without being pressed.
+const NOWHERE := Vector2(-10000, -10000)
+
 ## Past this much of a lean the axis counts, which leaves the corners as
 ## diagonals rather than making them a fight between two directions.
 const LEAN := 0.38
@@ -64,6 +75,17 @@ var _scene_key: String = "title"
 ## A fight on the ground is on ([D376]): nothing is walked, so the stick steps aside and the
 ## fighter's card under it can be pressed. Act, Back and Next stay; the fight answers them.
 var _fighting := false
+## The finger being held still, if one is, where it went down and when (real milliseconds).
+var _hold_finger: int = -1
+var _hold_at := Vector2.ZERO
+var _hold_since: int = 0
+## The hold came to something: its release is not a press.
+var _held := false
+var _eat_release := false
+var _tip_layer: CanvasLayer
+var _tip: PanelContainer
+var _tip_text: Label
+var _tip_left: float = 0.0
 
 
 func _ready() -> void:
@@ -95,6 +117,7 @@ func _ready() -> void:
 
 	get_viewport().size_changed.connect(_fit_safe_area)
 	_fit_safe_area()
+	_build_tip()
 	_restate()
 
 
@@ -222,6 +245,8 @@ func _fit_safe_area() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if _hold_input(event):
+		return
 	if not _root.visible:
 		return
 	if event is InputEventScreenTouch:
@@ -257,6 +282,128 @@ func _on_drag(drag: InputEventScreenDrag) -> void:
 		return
 	_steer_towards(drag.position)
 	get_viewport().set_input_as_handled()
+
+
+# --- holding a finger still: what is this? ([D388]) ---------------------------
+
+
+## Watches every finger for a hold, wherever it is, and eats the mouse release the engine makes of
+## a hold's lifting. Whether [param event] was used up.
+func _hold_input(event: InputEvent) -> bool:
+	var mouse := event as InputEventMouseButton
+	if mouse != null and mouse.position == NOWHERE:
+		return false
+	if _eat_release and mouse != null and mouse.button_index == MOUSE_BUTTON_LEFT and not mouse.pressed:
+		_eat_release = false
+		get_viewport().set_input_as_handled()
+		# A button the finger went down on still holds the mouse: let go of it somewhere else.
+		var away := InputEventMouseButton.new()
+		away.button_index = MOUSE_BUTTON_LEFT
+		away.pressed = false
+		away.position = NOWHERE
+		away.global_position = NOWHERE
+		Input.parse_input_event(away)
+		return true
+	if not Pace.is_touch_enabled():
+		return false
+	var touch := event as InputEventScreenTouch
+	if touch != null:
+		if touch.pressed:
+			_hide_tip()
+			var steering := _steer.visible and _steer.get_global_rect().has_point(touch.position)
+			if _hold_finger == -1 and not steering:
+				_hold_finger = touch.index
+				_hold_at = touch.position
+				_hold_since = Time.get_ticks_msec()
+				_held = false
+			elif _hold_finger != -1 and touch.index != _hold_finger:
+				# A second finger is a pinch, not a question.
+				_hold_finger = -1
+		elif touch.index == _hold_finger:
+			_hold_finger = -1
+			if _held:
+				_held = false
+				_eat_release = true
+				_tip_left = TIP_LINGER
+		return false
+	var drag := event as InputEventScreenDrag
+	if drag != null and drag.index == _hold_finger and not _held \
+			and drag.position.distance_to(_hold_at) > HOLD_STILL:
+		_hold_finger = -1
+	return false
+
+
+func _process(delta: float) -> void:
+	if _hold_finger != -1 and not _held and Time.get_ticks_msec() - _hold_since >= HOLD_TIME * 1000.0:
+		_held = true
+		_show_tip(_hold_at)
+		EventBus.touch_held.emit(_hold_at)
+	if _tip_left > 0.0:
+		# Real time, whatever the game's speed.
+		_tip_left -= delta / maxf(0.01, Engine.time_scale)
+		if _tip_left <= 0.0:
+			_hide_tip()
+
+
+## What a computer shows on hover over [param point]: the tooltip of the control under it, or of
+## the nearest one above it that has one.
+func tip_at(point: Vector2) -> String:
+	var control := get_viewport().gui_get_hovered_control()
+	while control != null:
+		if control.get_global_rect().has_point(point):
+			var text := control.get_tooltip(control.get_global_transform().affine_inverse() * point)
+			if text.strip_edges() != "":
+				return text.strip_edges()
+		control = control.get_parent_control()
+	return ""
+
+
+func _show_tip(point: Vector2) -> void:
+	var text := tip_at(point)
+	if text == "":
+		return
+	_tip_text.text = text
+	_tip.reset_size()
+	_tip.visible = true
+	# Above the finger, so the finger does not cover it, and inside the screen.
+	var view := get_viewport().get_visible_rect().size
+	var at := point + Vector2(-_tip.size.x * 0.5, -_tip.size.y - 48.0)
+	if at.y < EDGE_PAD:
+		at.y = point.y + 48.0
+	_tip.position = at.clamp(Vector2(EDGE_PAD, EDGE_PAD), (view - _tip.size - Vector2(EDGE_PAD, EDGE_PAD)).max(Vector2.ZERO))
+
+
+func _hide_tip() -> void:
+	_tip_left = 0.0
+	if _tip != null:
+		_tip.visible = false
+
+
+## Whether a tip is up, and what it says (for the suites).
+func tip_shown() -> String:
+	return _tip_text.text if _tip != null and _tip.visible else ""
+
+
+func _build_tip() -> void:
+	_tip_layer = CanvasLayer.new()
+	_tip_layer.layer = 120
+	add_child(_tip_layer)
+	_tip = PanelContainer.new()
+	_tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.09, 0.12, 0.94)
+	style.border_color = Color(0.95, 0.86, 0.55)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(4)
+	style.set_content_margin_all(10)
+	_tip.add_theme_stylebox_override("panel", style)
+	_tip_text = Label.new()
+	_tip_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_tip_text.custom_minimum_size = Vector2(300, 0)
+	_tip_text.add_theme_font_size_override("font_size", 17)
+	_tip.add_child(_tip_text)
+	_tip.visible = false
+	_tip_layer.add_child(_tip)
 
 
 ## Whether one of the overlay's own buttons is under [param point].

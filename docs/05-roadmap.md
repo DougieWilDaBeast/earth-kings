@@ -548,7 +548,7 @@ each, each ending playable:
    its plans fought no better than the rules in 200 party clashes, so no runtime goes in ([D322](06-decisions.md), 2026-10-21).
 37. **Design meeting 7's work order** (2026-10-22, [D380](06-decisions.md) to [D385](06-decisions.md); the status
    review is D380). **Planned**, phone and PC first on `dougie`'s word ([D381](06-decisions.md)):
-   1. The phone's second touch pass, call CE as recommended (#502), and the PC's mouse-first pass (#501), in parallel. Built so far: the fight slows to half while a fighter is picked on touch ([D386](06-decisions.md)); its touch buttons are about 44 points tall and name the skill ([D387](06-decisions.md)).
+   1. The phone's second touch pass, call CE as recommended (#502), and the PC's mouse-first pass (#501), in parallel. Built so far: the fight slows to half while a fighter is picked on touch ([D386](06-decisions.md)); its touch buttons are about 44 points tall and name the skill ([D387](06-decisions.md)); a finger held still reads what a computer shows on hover ([D388](06-decisions.md)).
    2. An itch push of main with Windows, Linux and macOS downloads beside the browser build ([D382](06-decisions.md), #503), on `dougie`'s word.
    3. Consolidation until play-test 9's write-up: bot-tests on seeds, one PR per bug, the board swept, milestone 4
       measured as sixteen runs and recorded (#230); the writers draft G's words ([D383](06-decisions.md)).
