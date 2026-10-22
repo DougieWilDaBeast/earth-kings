@@ -218,6 +218,11 @@ var _fight: Node2D = null
 var _fight_watch: Node2D = null
 ## The Watch off the road fighting beside the party just now (D236), out of their walk until it ends.
 var _watch_fighting: Array[AreaActor] = []
+## A threatened town's siege laid on the land ([DNEW]), by tile: the site's cell, the siege it is
+## (`threatened_at`), the gate it is at and which way is out, the besiegers and the bowmen standing.
+var _sieges: Dictionary = {}
+## The sieges the company has been told it can see, by site cell and siege.
+var _sieges_told: Dictionary = {}
 ## A band's fight has been asked of the continent and not yet put down.
 var _awaiting_fight: bool = false
 ## The lead is winding up a first strike on a band ([D300]); the next fight put down opens with it.
@@ -576,6 +581,7 @@ func _fill_jobs(tile: Vector2i) -> Array[Callable]:
 	for cairn: Dictionary in _graves_in(area):
 		jobs.append(_put_prop.bind(cairn))
 	_admit_the_others_to(tile)
+	jobs.append(_besiege.bind(tile))
 	_admit_the_road_watch(tile)
 	_admit_the_climbers(tile)
 	for person: Dictionary in map.people:
@@ -682,6 +688,218 @@ func _admit_the_road_watch(tile: Vector2i) -> void:
 				  "line": str(lines[rng.randi() % lines.size()]) if not lines.is_empty() else "" },
 			],
 		})
+
+
+## A town under siege seen where it is ([DNEW]; play-test 3: "defending a town under siege (Coldrun,
+## with archers on its towers)"; play-test 4: "when Stormreach is attacked and defended, see the fight
+## there, not be taken somewhere else and put back"): while [param tile]'s town is threatened, the band
+## that holds it ([method Encounter.siege_band], the one its defence is fought against) stands outside
+## the gate it is battering, facing it, and the town's bowmen stand on the towers nearest that gate.
+## Everyone is kept with the tile; nothing is returned to keep.
+func _besiege(tile: Vector2i) -> Node2D:
+	_lift_the_siege(tile)
+	var lay := _siege_lay(tile)
+	if lay.is_empty() or not _tile_things.has(tile):
+		return null
+	var rules: Dictionary = Database.world_rules.get("siege", {})
+	var world: World = GameState.world
+	var site: Site = lay["site"]
+	var gate: Vector2i = lay["gate"]
+	var out: Vector2i = lay["out"]
+	var across := Vector2i(out.y, out.x)
+	var front := gate + out * int(rules.get("stand_off", 3))
+	var taken: Dictionary = {}
+	var foes: Array[AreaActor] = []
+	var band := Encounter.siege_band(world, site, GameState.party_characters())
+	for i in band.size():
+		# A line across the gate, the middle first, a second rank behind once it is four wide.
+		var side := ((i % 4) + 1) / 2 * (1 if i % 2 == 0 else -1)
+		var at := _free_spot_near(front + across * side * 2 + out * (i / 4), taken)
+		taken[at] = true
+		var actor := _put_person({
+			"name": str(rules.get("name", "a besieger")), "unit": str((band[i] as Dictionary).get("unit", "")),
+			"cell": [at.x, at.y], "facing": [-out.x, -out.y], "_tile": tile, "_area": "siege",
+			"chatter": rules.get("chatter", []),
+		})
+		foes.append(actor)
+		_keep_made(tile, actor)
+	var bowmen: Array[AreaActor] = []
+	var bows: Dictionary = rules.get("bowmen", {})
+	for tower: Vector2i in lay["towers"]:
+		var actor := _put_person({
+			"name": str(bows.get("name", "a bowman")).format({ "town": site.display_name }),
+			"unit": str(bows.get("unit", "")), "cell": [tower.x, tower.y], "facing": [out.x, out.y],
+			"_tile": tile, "_area": "siege_bowmen", "perch_px": float(bows.get("lift", 30)),
+		})
+		# In front of the tower they stand on, not behind it.
+		actor.position.y += 1.0
+		bowmen.append(actor)
+		_keep_made(tile, actor)
+	_sieges[tile] = {
+		"site": site.cell, "at": int(site.data.get("threatened_at", 0)), "gate": gate, "out": out,
+		"foes": foes, "bowmen": bowmen,
+	}
+	var told := [site.cell, _sieges[tile]["at"]]
+	var here: Vector2i = world.player_cell
+	if not _sieges_told.has(told) and maxi(absi(tile.x - here.x), absi(tile.y - here.y)) <= 1:
+		_sieges_told[told] = true
+		_note(str(rules.get("seen_line", "{town} is under siege.")).format({ "town": site.display_name }))
+	return null
+
+
+## Where a threatened town on [param tile] is besieged: the site, the gate (a gap in its walls
+## between two towers, the same one for the whole siege) and which way is out of it, and the towers
+## nearest it for its bowmen. A town with no gate on this tile is besieged below its middle, with no
+## bowmen. Empty when the tile holds no threatened town.
+func _siege_lay(tile: Vector2i) -> Dictionary:
+	var world: World = GameState.world
+	if world == null or not _land_mode:
+		return {}
+	var site := world.site_at(tile)
+	if site == null or not Town.is_threatened(site):
+		return {}
+	var chunk: Dictionary = (map as Land).chunks.get(tile, {})
+	var inside: Rect2i = chunk.get("place_rect", Rect2i())
+	if str(chunk.get("kind", "")) != "place" or inside.size == Vector2i.ZERO:
+		return {}
+	var walls: Dictionary = {}
+	var towers: Array[Vector2i] = []
+	for prop: Dictionary in map.props:
+		var art := str(prop.get("art", ""))
+		if prop.get("_tile") != tile or not art.begins_with("walls/"):
+			continue
+		var c: Variant = prop.get("cell")
+		var at: Vector2i = c if c is Vector2i else AreaMap.to_cell(c)
+		walls[at] = true
+		if art.ends_with("_tower"):
+			towers.append(at)
+	var gates: Array = []
+	for tower: Vector2i in towers:
+		for along: Vector2i in [Vector2i.RIGHT, Vector2i.DOWN]:
+			# A way in is a gap a few cells wide with a tower either side of it.
+			var width := 1
+			while width <= 4 and not walls.has(tower + along * width):
+				width += 1
+			if width == 1 or width > 4 or not towers.has(tower + along * width):
+				continue
+			var gap := tower + along * (width / 2)
+			var out := Vector2i(along.y, along.x)
+			if inside.has_point(gap + out):
+				out = -out
+			if not inside.has_point(gap - out):
+				continue
+			gates.append([gap, out])
+	var gate := Vector2i(inside.get_center().x, inside.end.y)
+	var out := Vector2i.DOWN
+	var nearest: Array[Vector2i] = []
+	if not gates.is_empty():
+		var pick: Array = gates[absi(hash([site.cell, int(site.data.get("threatened_at", 0))])) % gates.size()]
+		gate = pick[0]
+		out = pick[1]
+		nearest = towers.duplicate()
+		nearest.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
+			return (a - gate).length_squared() < (b - gate).length_squared())
+		nearest = nearest.slice(0, int(Database.world_rules.get("siege", {}).get("bowmen", {}).get("most", 2)))
+	return { "site": site, "gate": gate, "out": out, "towers": nearest }
+
+
+## The siege on [param tile] taken off the ground: its besiegers and bowmen gone.
+func _lift_the_siege(tile: Vector2i) -> void:
+	var siege: Dictionary = _sieges.get(tile, {})
+	_sieges.erase(tile)
+	for actor: Variant in siege.get("foes", []) + siege.get("bowmen", []):
+		if is_instance_valid(actor):
+			_people.erase(actor)
+			_watch_fighting.erase(actor)
+			if actor == _nearby:
+				_nearby = null
+			if actor == _hovered:
+				_hovered = null
+			(actor as Node).queue_free()
+
+
+## After the continent has had its say: a siege begun on a tile the company can see stands there now,
+## one saved or fallen is lifted, and one fought and lost stands at the gate again.
+func _mind_the_sieges() -> void:
+	var world: World = GameState.world
+	if world == null or not _land_mode:
+		return
+	for tile: Vector2i in _tile_things.keys():
+		var site := world.site_at(tile)
+		var threatened := site != null and Town.is_threatened(site)
+		var siege: Dictionary = _sieges.get(tile, {})
+		if threatened and (siege.is_empty() or int(siege["at"]) != int(site.data.get("threatened_at", 0))):
+			_besiege(tile)
+		elif not threatened and not siege.is_empty():
+			_lift_the_siege(tile)
+		else:
+			for actor: Variant in siege.get("foes", []):
+				if is_instance_valid(actor):
+					(actor as Node2D).visible = true
+
+
+## The company runs for the gate its town's besiegers are at, to the inside of it ([DNEW]): over
+## `siege.run_seconds`, at once on Auto. Nothing when no siege stands here.
+func _run_to_the_gate() -> void:
+	var siege: Dictionary = _sieges.get(GameState.world.player_cell, {})
+	if siege.is_empty() or _leader == null:
+		return
+	var rules: Dictionary = Database.world_rules.get("siege", {})
+	var site := GameState.world.site_at(GameState.world.player_cell)
+	_note(str(rules.get("run_line", "You run for the gate.")).format({ "town": site.display_name if site != null else "the town" }))
+	var inside: Vector2i = siege["gate"] - (siege["out"] as Vector2i) * 2
+	var taken: Dictionary = {}
+	var seconds := 0.0 if Pace.auto else float(rules.get("run_seconds", 0.0))
+	var run := create_tween().set_parallel(true) if seconds > 0.0 else null
+	for actor: AreaActor in [_leader] + _followers:
+		var at := _free_spot_near(inside - (siege["out"] as Vector2i) * (taken.size() / 3) \
+				+ Vector2i((siege["out"] as Vector2i).y, (siege["out"] as Vector2i).x) * (taken.size() % 3 - 1), taken)
+		taken[at] = true
+		actor.face(Vector2(siege["out"]))
+		if run != null:
+			run.tween_property(actor, "position", map.centre_of(at), seconds).set_trans(Tween.TRANS_SINE)
+		else:
+			actor.position = map.centre_of(at)
+	if run != null:
+		await run.finished
+
+
+## The ground a town's defence is fought on ([DNEW]): the company inside the gate, the besiegers where
+## they stood outside it, and the bowmen on their towers fighting beside the company, from up there.
+func _siege_field() -> Dictionary:
+	var siege: Dictionary = _sieges.get(GameState.world.player_cell, {})
+	var foes: Array = []
+	for actor: Variant in siege.get("foes", []):
+		if is_instance_valid(actor) and (actor as Node2D).visible:
+			var c := map.cell_at((actor as Node2D).position)
+			foes.append([c.x, c.y])
+	if foes.is_empty():
+		return _field_ahead()
+	var field := _field_round(foes, false)
+	var origin := AreaMap.to_cell(field["origin"])
+	var room := Rect2i(origin, AreaMap.to_cell(field["size"]))
+	var level := maxi(1, Encounter.party_level(GameState.party_characters()))
+	var allies: Array = field.get("allies", [])
+	var ramparts: Array = []
+	for actor: Variant in siege.get("bowmen", []):
+		if not is_instance_valid(actor):
+			continue
+		var person: Dictionary = (actor as Node).get_meta("person", {})
+		var on := AreaMap.to_cell(person.get("cell", [0, 0]))
+		if not room.has_point(on):
+			continue
+		ramparts.append([on.x, on.y])
+		allies.append({ "unit": str(person.get("unit", "")), "level": level,
+				"name": str(person.get("name", "a bowman")), "perch": [on.x, on.y], "stance": "hold" })
+		(actor as Node2D).visible = false
+		_watch_fighting.append(actor)
+	for actor: Variant in siege.get("foes", []):
+		if is_instance_valid(actor):
+			(actor as Node2D).visible = false
+	if not allies.is_empty():
+		field["allies"] = allies
+		field["ramparts"] = ramparts
+	return field
 
 
 ## Other companies on their way to the Tower ([D215], play-test 4: "other people trying to climb
@@ -988,6 +1206,7 @@ func _let_go(tile: Vector2i) -> void:
 			_approach_path.clear()
 		(node as Node).queue_free()
 	_tile_things.erase(tile)
+	_sieges.erase(tile)
 	var area := land.slot_rect(tile)
 	for table: Dictionary in [_chest_props, _ward_props]:
 		for cell: Vector2i in table.keys():
@@ -1072,6 +1291,7 @@ func _on_continent_answered(answer: Dictionary) -> void:
 		_put_cache(answer["cache"])
 	_stage_roadside(str(_held.get("roadside", "")))
 	_fall_in()
+	_mind_the_sieges()
 	var land := map as Land
 	var world: World = GameState.world
 	# After a fight the party may stand over the border; walking on carries them across it.
@@ -1580,12 +1800,12 @@ func _admit_the_ghosts() -> void:
 		})
 
 
-func _free_spot_near(cell: Vector2i) -> Vector2i:
+func _free_spot_near(cell: Vector2i, taken: Dictionary = {}) -> Vector2i:
 	for radius in range(0, 6):
 		for dy in range(-radius, radius + 1):
 			for dx in range(-radius, radius + 1):
 				var cand := cell + Vector2i(dx, dy)
-				if map.is_walkable(cand):
+				if map.is_walkable(cand) and not taken.has(cand):
 					return cand
 	return map.spawn
 
@@ -1601,6 +1821,7 @@ func _spawn_people() -> void:
 func _put_person(person: Dictionary, seated: Variant = null) -> AreaActor:
 	var actor := AreaActor.for_person(person)
 	actor.set_meta("person", person)
+	actor.perch = float(person.get("perch_px", 0.0))
 	actor.position = map.centre_of(AreaMap.to_cell(person.get("cell", [0, 0])))
 	actor.face(Vector2(AreaMap.to_cell(person.get("facing", [0, 1]))))
 	if seated != null:
@@ -4117,8 +4338,12 @@ func _do_act(each: Dictionary) -> void:
 		if not _asking:
 			_awaiting_fight = true
 			_talking = true
+			# A town's defence is fought at the gate its besiegers are at ([DNEW]).
+			if act == "_defend_here":
+				await _run_to_the_gate()
 			var field := _gate_field() if act == "_enter_gate_here" \
-				else (_roadside_field() if act == "_step_into_the_road" else _field_ahead())
+				else (_roadside_field() if act == "_step_into_the_road" \
+				else (_siege_field() if act == "_defend_here" else _field_ahead()))
 			_ask_the_continent({ "act": act, "field": field })
 		return
 	if _land_mode:

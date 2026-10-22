@@ -1335,6 +1335,17 @@
 			{ "id": "canopy", "display_name": "A canopied bed", "cost": 90000, "vigour": 22 }
 		]
 	},
+	"siege": {
+		"_comment": "DNEW (play-test 3: 'defending a town under siege (Coldrun, with archers on its towers)'; play-test 4: 'when Stormreach is attacked and defended, see the fight there, not be taken somewhere else and put back'). While a town is threatened its besiegers stand outside one of its gates on the land, the very band its defence is fought against (Encounter.siege_band), and its bowmen stand on the towers nearest that gate. Defend it and the company runs to the inside of that gate over run_seconds; the fight is laid there, the besiegers where they stood, and the bowmen fight beside the company from their towers (a rampart: higher by rampart_height, nobody climbs onto it). Saved, the besiegers are gone; lost, they stand there still. Read by src/area/area_scene.gd. Inferred: how many bowmen, how far out the besiegers stand, and the words.",
+		"name": "a besieger",
+		"stand_off": 3,
+		"chatter": ["Bring the gate down!", "Over the wall, the lot of you!", "They'll open up when they're hungry.", "Burn it. Burn the lot of it."],
+		"bowmen": { "unit": "town_bowman", "name": "a bowman of {town}", "most": 2, "lift": 46 },
+		"rampart_height": 3,
+		"run_seconds": 0.8,
+		"seen_line": "{town} is under siege: they are at its gate.",
+		"run_line": "You run for {town}'s gate."
+	},
 	"news": {
 		"_comment": "D365 (doug-md's play-test 2 ask, D118: 'news that travels at the speed of people'). Word of a siege, a town fallen, a gate broken, a nemesis abroad or a floor of the Tower climbed walks out from where it happened at renown.steps_per_tile, as a deed's does: the tidings at a hearth are only what has reached that place, and a siege, a fall or a broken gate further off than heard_at_once_tiles (bells and smoke) is told to the company only when the word reaches it, as word_reaches. Read by src/chronicle/news.gd. Inferred: how near is heard at once, and the words.",
 		"heard_at_once_tiles": 6,

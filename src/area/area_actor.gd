@@ -36,6 +36,13 @@ var chatter: Array = []
 ## How tall they stand against an ordinary body (`body_scale` in `data/units.json`): the axe bear
 ## towers over the village, the fox does not. The feet stay where anyone else's are.
 var body_scale: float = 1.0
+## How far up off the ground their picture stands, in pixels: a bowman on a town's tower ([DNEW]).
+## Their feet, and so who stands in front of whom, stay on the cell.
+var perch: float = 0.0:
+	set(value):
+		perch = value
+		if _sprite != null:
+			_sprite.position.y = _middle()
 
 var _sprite: Sprite2D
 var _rotations: Dictionary = {}
@@ -340,7 +347,7 @@ func _apply_texture() -> void:
 ## Where the middle of the body's box sits: an ordinary body is SPRITE_SIZE square,
 ## its top FOOT_OFFSET above the feet, and `body_scale` grows both.
 func _middle() -> float:
-	return -_foot() + SPRITE_SIZE * body_scale * 0.5
+	return -_foot() + SPRITE_SIZE * body_scale * 0.5 - perch
 
 
 ## Whatever size of canvas the art came on, the standing pose fills the box, and a
