@@ -419,6 +419,7 @@ Start a run (not the tutorial) and walk.
 | D5.87 | Climb to floor 5 with any lead and pick up the keepsake in the alcove; read the memory through | After the floor goes out from under the world, the ground gives way to a pale wash with the keepsake held up large, slowly closer; on "White." it goes white; the next line is back on the floor ([D361](06-decisions.md)) | D361 |
 | D5.88 | Inside a gate (or on a Tower floor), beat a band on its floor and walk to where it stood | "The fallen" lie there; E searches them for coin and now and then a piece, once ([D362](06-decisions.md)) | D362 |
 | D5.89 | Walk the land with a companion until one of them dies in a fight (a strong band met at a low level); let the fight end | The company stands round a cairn where they fell; the box says they were laid there and the lead says a few words; walk two tiles off and come back: the cairn is still there and reads their epitaph ([D363](06-decisions.md)) | D363 |
+| D5.90 | Climb to floor 5, beat its keeper and press E at the stair; then press E again. Climb on to floors 6 to 9 | The first press says that the stair closes chapter one and what that does (and that something of yours still lies here, if the keepsake is not picked up); the second climbs. Floor 6 is "the Frost Floor" in the corner, bluer, with a line about the cold and ice wolves and frozen wolfmen in its bands; 7 the Drowned Floor, 8 the Ember Floor, 9 the Warren ([D364](06-decisions.md)) | D364 |
 
 ## H — Conversation and the camp
 

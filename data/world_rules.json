@@ -720,6 +720,26 @@
 		"chapters_per_extra_foe": 4,
 		"_comment_upper_bite": "D222 (doug-md's play log, 2026-10-17: floors 6 to 20 won with nobody below a quarter of their health): from `from_floor` up, every foe's attack is multiplied by `base`, climbing `per_floor` a floor, to `most` at most. Read by Encounter.upper_bite; the fight applies it as `bite` on the foe.",
 		"upper_bite": { "from_floor": 6, "base": 1.2, "per_floor": 0.025, "most": 2.0 },
+		"_comment_themes": "D364 (doug-md's play-test 3, item 9: 'Tower floors with themes, an ice floor of ice creatures, goblins in winter coats'): from floor `from`, every floor that does not close a chapter (a keeper's) takes the next theme in `list` in turn, floor 6 the first. A theme's `units` are the floor's foes instead of its cohort's (Encounter.for_tower; tiers still dealt), `tint` its light, `name` added to its title and `line` said as the party comes up onto it. Goblins in winter coats wait on their art. Inferred: the four themes, their creatures, tints and lines.",
+		"themes": {
+			"from": 6,
+			"list": [
+				{ "name": "the Frost Floor", "units": ["ice_wolf", "frozen_wolfman", "wolf"], "tint": "#8fa2bc",
+				  "line": "Frost on the stone and breath that shows. Whatever lives up here was made for the cold." },
+				{ "name": "the Drowned Floor", "units": ["slime", "blue_slime", "ooze_knight", "king_slime"], "tint": "#7f9c98",
+				  "line": "Water stands in the joints of the floor, and something moves under it." },
+				{ "name": "the Ember Floor", "units": ["ember_lizard", "flame_dove", "flame_lion", "seed_beast"], "tint": "#ad8f7c",
+				  "line": "The stone is warm underfoot, and ash drifts up the stair from somewhere below." },
+				{ "name": "the Warren", "units": ["goblin", "goblin", "sword_monkey", "axe_bear"], "tint": "#958a7e",
+				  "line": "Bones and bedding in every corner: a goblin warren, dug into the Tower's own stone." }
+			]
+		},
+		"_comment_chapter_ask": "D364 (doug-md's play-test 3, item 9: 'perhaps \"Are you sure?\" before leaving floor 5'): the stair off a floor that closes a chapter asks before it climbs, the first press saying what closing the chapter does and the second within `seconds` climbing; anything of the lead's still lying on the floor is named. Auto, which takes the keepsake first, climbs without asking. {floor}, {chapter}, {left} and {key} are filled in. Read by area_scene._sure_of_the_stair. Inferred: the words and the time.",
+		"chapter_ask": {
+			"seconds": 4.0,
+			"line": "The stair off floor {floor} closes chapter {chapter}. Time passes below, the gates that were brewing open, and the stair above stays shut until the company has answered the world. {left}{key} again to climb.",
+			"keepsake_left": "Something of yours still lies on this floor. "
+		},
 		"_comment_cohorts": "D243: each stretch of floors fields its factions in turn, a floor each. Up to 15 the Ember Wilds and the Wild; the Ooze stood there until 2026-10-17, so every odd floor from 7 to 15 was slimes, which a beginner practises on and a party of level 8 to 10 never felt (doug-md's play log: floors 11 to 15 easier than 1 to 5).",
 		"cohorts": [
 			{ "to": 15, "factions": ["ember_wilds", "the_wild"] },

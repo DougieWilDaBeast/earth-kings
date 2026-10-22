@@ -67,6 +67,19 @@ static func ends_chapter(world: World, floor: int) -> bool:
 	return floor > 0 and (floor % per_chapter() == 0 or floor >= world.tower_floors())
 
 
+## The theme [param floor] is walked in ([D364]; play-test 3, item 9): from `themes.from`, every floor
+## that does not close a chapter takes the next of `themes.list` in turn. Empty for the rest.
+static func theme_of(floor: int) -> Dictionary:
+	var themes: Dictionary = rules().get("themes", {})
+	var list: Array = themes.get("list", [])
+	var from := int(themes.get("from", 0))
+	if list.is_empty() or from <= 0 or floor < from or floor % per_chapter() == 0:
+		return {}
+	# Counted over the floors that take one, so the keeper's floors do not skip a theme.
+	var taking := (floor - from) - ((floor / per_chapter()) - (from / per_chapter()))
+	return list[taking % list.size()]
+
+
 ## The stair above is shut, and nothing done in the world has opened it yet.
 static func sealed(world: World) -> bool:
 	if world.tower_sealed_at < 0:

@@ -297,7 +297,9 @@ tip now says so).
    ([D318](06-decisions.md), 2026-10-21): one pull a run, one chance in six, a Silver Blade.
 9. **Tower floors** with themes (an ice floor of ice creatures, goblins in winter coats) and harder;
    stairs that look like they go up and cannot be walked through; perhaps "Are you sure?" before
-   leaving floor 5.
+   leaving floor 5. Built ([D364](06-decisions.md), 2026-10-22): four themes in turn from floor 6 (frost, drowned,
+   ember, a goblin warren), each floor fielding its own creatures, and the stair off a chapter's last floor
+   asking once; stairs with depth are art (A51), and goblins in winter coats wait on theirs.
 10. **The chapter-one memory shown** as a little film, not only told.
 11. **Height**: levels reached by stairs, as in Pokémon; trees and bushes that cannot be walked through.
 12. **Looks**: patches that overlap where they should blend; town walls and towers that line up;
