@@ -46,6 +46,10 @@ func _ready() -> void:
 	add_child(_skirmish)
 	await get_tree().process_frame
 	await _run()
+	# A company's name is many people: theirs, not "the Late Risers's" ([D373]).
+	for pair: Array in [["the Late Risers", "the Late Risers'"], ["Ceres", "Ceres's"], ["the Ninth Stair", "the Ninth Stair's"]]:
+		if _skirmish.whose(pair[0]) != pair[1]:
+			_failures.append("whose: %s comes out as %s" % [pair[0], _skirmish.whose(pair[0])])
 	if _failures.is_empty():
 		print("skirmish smoke test: PASS")
 		get_tree().quit(0)

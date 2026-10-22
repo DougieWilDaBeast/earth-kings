@@ -78,7 +78,7 @@ func _dismount(rider: Fighter) -> void:
 	rider.unit.position = fight.grid.cell_to_world(cell)
 	rider.unit.visible = true
 	fight.fx.popup("Thrown", rider.unit.position, SkirmishFx.HURT, 14, 1.4)
-	fight._say("%s is thrown from %s's back." % [rider.unit.display_name, mount.unit.display_name])
+	fight._say("%s is thrown from %s back." % [rider.unit.display_name, fight.whose(mount.unit.display_name)])
 
 
 ## The fighter a click on [param f] means: the rider, when it is a mount with one aboard.
@@ -533,7 +533,7 @@ func _raise(pluto: Fighter, victim: Fighter) -> void:
 	if standing >= int(_num(pluto, "at_once", 2)):
 		return
 	var unit := Unit.create(victim.unit.template_id, _side_of(pluto), victim.unit.cell)
-	unit.display_name = "%s's shade" % victim.unit.display_name
+	unit.display_name = "%s shade" % fight.whose(victim.unit.display_name)
 	_arriving.append([unit, pluto])
 
 

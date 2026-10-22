@@ -471,7 +471,8 @@ each, each ending playable:
       animals (A29), the fight screen's UI (A2), the cloud sheet and the last six Second Hour pieces too, each showing
       nothing until it is in ([D370](06-decisions.md), 2026-10-22). The grove's redraw is
       ready for its art: A67 named where each piece will stand ([D371](06-decisions.md), 2026-10-22). The soak plays the Second
-      Hour from floor 6 with a levelled party; a party of four wins floor 10 at level 16 on four seeds of four ([D372](06-decisions.md)). Crafting grows: ore and ash staves to gather
+      Hour from floor 6 with a levelled party; a party of four wins floor 10 at level 16 on four seeds of four ([D372](06-decisions.md)). A company's name
+      reads as many people in the fight log ("the Late Risers' Pyre", [D373](06-decisions.md)). Crafting grows: ore and ash staves to gather
       on the land, draughts brewed for less by a fire, and simple gear forged at a smithy out of them
       ([D346](06-decisions.md), 2026-10-21). Next: hills
       and mountains on the land more than a height up, town walls to scale, the brains climbing for high ground.
