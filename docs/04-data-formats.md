@@ -904,6 +904,14 @@ least in the pouch, food first), `party`, `send` (the party screen's mission pag
 go), `formation` (the next shape), `map`, `journal`, `auto`, and in a fight `stance` (the picked fighters'
 next). A choice is said on `EventBus.quick_wheel_chose` (`src/ui/quick_wheel.gd`).
 
+## `world_rules.json` → `mouse_bar` — every key one click away on a PC (D390)
+
+`on`; `buttons`, top to bottom down the right edge under the corner map, each `{ "id", "label",
+"hover", "action" | "signal", "key" }`: `action` is the input action the button presses (its key, as
+rebound, is named on the hover); `signal` asks for a screen on `EventBus` instead (`party`, `journal`,
+`map`, `wheel`, `menu`), with `key` naming the bare key it stands for. Shown on the walked ground
+with the touch controls off and no pad in hand (`src/ui/mouse_bar.gd`).
+
 ## `world_rules.json` → `touch_words` — the lines said for a thumb (D377)
 
 With the touch controls on and no pad in hand, every line written for a keyboard is said for a phone

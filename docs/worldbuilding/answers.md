@@ -312,6 +312,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 286 | D383 | **Inferred.** Milestone 4 (stakes) measured as sixteen runs on today's rules and recorded, not retuned, while nothing new starts until play-test 9's asks are in. Recommended: keep; the numbers come back to the founders with play-test 9. |
 | 287 | D384 | **Inferred.** Meeting 7's order: the touch and PC passes first and in parallel, then the push. Recommended: keep, or `dougie` says push first (question list, item 1). |
 | 288 | D386 | **Inferred.** What ends the fight's slow on pick (D386): an order by tap (a foe, the ground, a fallen friend, the way out), a skill cast, Hold or a stance; a new pick slows it again; the lead picked for you when a fight opens does not. Recommended: `dougie` fights a band on his phone and says whether half speed feels like time to think or like a drag. |
+| 294 | D390 | **Inferred.** The PC's mouse bar as built: eight buttons down the right edge under the corner map (Party, Journal, Map, Next lead, Auto, Speed, Quick wheel, Menu), hovers naming each key, and a place's doings as buttons on a PC too. Recommended: `doug-md` plays a stretch of play-test 9 with the mouse alone and says what he still reached for a key to do. |
 
 ## 2. Eleven Part I questions that need a straight answer
 
