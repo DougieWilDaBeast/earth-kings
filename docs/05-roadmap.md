@@ -477,7 +477,7 @@ each, each ending playable:
       made for a PC first; a phone gets a basics pass now and its own design with the phone release
       after 1.0 ([D375](06-decisions.md), call CD). On a phone the stick steps aside in a fight, More
       opens the quick wheel, and nothing lies under the touch bar ([D376](06-decisions.md)); touch words
-      and the journal held upright are next, **planned**. Play-test 9 is on build `0ca546a` (on itch 2026-10-22 06:40); README's "Playing the vertical slice" and
+      and the journal held upright are next, **planned**. What other phone games do with touch is read in [investigation 13](investigation/13-mobile-controls.md) ([D379](06-decisions.md)); **planned**, if `dougie` agrees: a second small touch pass after the phone-basics PRs (long press for info, the fight slowed while picking, aim then confirm, bigger fight buttons with names), the rest with the phone design after 1.0. Play-test 9 is on build `0ca546a` (on itch 2026-10-22 06:40); README's "Playing the vertical slice" and
       `doug-md`'s onboarding pack carry everything built since 12 October, keys included, and
       [28](28-the-first-hour.md#play-test-9s-brief) lists what is new to him (2026-10-22). Crafting grows: ore and ash staves to gather
       on the land, draughts brewed for less by a fire, and simple gear forged at a smithy out of them
@@ -993,4 +993,5 @@ Designed for, seams in place, not built. See [Vision](01-vision.md).
 - The Masquerade
 - A server as world-authority
 - Generated tile art wired in from `art/map_kit`
+- The full phone design, with the phone release after 1.0 (BN, call CD): a fight HUD for thumbs, drag orders and drag aiming, a ring on a long-pressed fighter, control settings, phone-laid screens, a native Android app ([investigation 13](investigation/13-mobile-controls.md), [D379](06-decisions.md), planned)
 - Lineage entries for the works named in joint session 1 ([16](16-lineage/00-index.md#named-in-joint-session-1--no-entry-yet))
