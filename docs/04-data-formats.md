@@ -547,7 +547,7 @@ what it holds in a host's words. `world_rules.json` → `wilds`: `rumour_chance`
 a keep, `rumour_within` tiles for the nearest unknown, `steps_per_day` for the days said, `rumour_line`
 (`{host}`, `{wild}`, `{way}`, `{days}`, `{lure}`) and `found_line` (`{wild}`, `{lure}`). Read by
 `src/chronicle/wilds.gd`; a found wild keeps `data.found`. `guard_size`, `guard_reach` and `guard_label`
-(`{what}`, `{land}`) are the band of the land's own foes `Wilds.stock` puts by the far chest as a wild opens.
+(`{what}`, `{land}`) are the band of the land's own foes `Wilds.stock` puts by the far chest as a wild opens. `walk_in` (`seconds`, `reach`, `ahead`): gone into from the ground off Auto, the company walks to the nearest tree within `reach` cells (else `ahead` cells the way the lead faces) and fades over `seconds`, and the wild comes up out of the dark ([D360](06-decisions.md)).
 **Hamlets** (D333) are wild sites too, dealt last by the same tool (`hamlet_fold` on grass, `hamlet_mill` on
 forest and brush, `hamlet_salt` on sand, two of each, 24 tiles or more from the crater): a few crofts with
 folk, one who sells and one with a `job`. A wild area may carry its own `found_line` and `guard_label` (its

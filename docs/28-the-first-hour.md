@@ -449,7 +449,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     [D265](06-decisions.md): his figure beside the lead in blue light, his face the same in the box); walking
     into a gate or the grove, not cut to it (a gate built, [D354](06-decisions.md): the company walks into its
     doorway and fades as the screen goes dark, and the floor inside comes up out of the dark; the grove
-    **planned**); the chapter visions shown as pictures (built,
+    built, [D360](06-decisions.md): the company walks in among the nearest trees and fades, and the grove comes up
+    out of the same dark); the chapter visions shown as pictures (built,
     [D361](06-decisions.md): a memory's lines play over a vision of white stone with the keepsake held up,
     its own picture once A65 is drawn).
 12. **A play screen you arrange** (grows play-test 6, item 7): panels moved, resized and coloured; the
