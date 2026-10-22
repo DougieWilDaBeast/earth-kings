@@ -489,6 +489,15 @@
 			"upper": "summit",
 			"feature": "summit"
 		},
+		"cloud": {
+			"_comment": "The clouds below a mountain's top (A50, D370): laid by src/area/area_clouds.gd over every cloud cell once texture_wanted is in; until then the clouds are drawn in code and this sheet is not used (texture is only its fallback).",
+			"texture": "res://art/tilesets/biome/snow_ground.png",
+			"texture_wanted": "res://art/tilesets/cloud.png",
+			"tile_size": 64,
+			"lower": "summit",
+			"upper": "cloud",
+			"feature": "cloud"
+		},
 		"thunderstone": {
 			"texture": "res://art/tilesets/thunderstone.png",
 			"tile_size": 64,

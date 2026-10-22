@@ -88,6 +88,25 @@ static func for_person(person: Dictionary) -> AreaActor:
 	return _from_template(person.get("name", "Someone"), ridden_template(str(person.get("unit", ""))))
 
 
+## An animal walking the land (art request A29, [D370]): its body from `<folder>/idle/<facing>.png`
+## and its walk from `<folder>/walk/<heading>/frame_000.png` on, as a creature's set is drawn.
+static func for_animal(name: String, folder: String, scale: float = 1.0) -> AreaActor:
+	var actor := AreaActor.new()
+	actor.display_name = name
+	actor.body_scale = clampf(scale, 0.3, 3.0)
+	actor._rotations = _load_rotations(folder + "/idle")
+	for direction: Vector2 in ROTATIONS:
+		var heading: String = ROTATIONS[direction]
+		var frames: Array = []
+		while ResourceLoader.exists("%s/walk/%s/frame_%03d.png" % [folder, heading, frames.size()]):
+			frames.append(load("%s/walk/%s/frame_%03d.png" % [folder, heading, frames.size()]))
+		if not frames.is_empty():
+			actor._run[direction] = frames
+	actor._build_sprite(Color("#8a7a5a"))
+	actor.set_interactive(false)
+	return actor
+
+
 static func _from_template(name: String, template_id: String) -> AreaActor:
 	var actor := AreaActor.new()
 	actor.display_name = name

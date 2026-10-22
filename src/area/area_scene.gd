@@ -590,7 +590,60 @@ func _fill_jobs(tile: Vector2i) -> Array[Callable]:
 			jobs.append(_put_person.bind(person))
 	for each: Dictionary in _life_for(tile):
 		jobs.append(_put_critter.bind(each["art"], each["cell"], int(each["seed"])))
+	for each: Dictionary in _animals_for(tile):
+		jobs.append(_put_animal.bind(each))
 	return jobs
+
+
+## The animals walking [param tile] ([D179], art request A29, [D370]): `life` → `animals` in
+## data/world_rules.json, a land's own kinds (`life_art` → `animal` in biomes.json) or the rule's,
+## only those whose picture is in, so none walks until it is drawn. Fewer in a place, as the birds.
+func _animals_for(tile: Vector2i) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var land := map as Land
+	if land == null:
+		return out
+	var chunk: Dictionary = land.chunks.get(tile, {})
+	if chunk.is_empty() or str(chunk.get("kind", "")) in ["sea", "rock"]:
+		return out
+	var rules: Dictionary = Database.world_rules.get("life", {}).get("animals", {})
+	var land_data := Biome.data(str(chunk.get("land", "")))
+	var kinds: Array = (land_data.get("life_art", {}).get("animal", rules.get("kinds", [])) as Array).filter(
+			func(kind: Variant) -> bool: return ResourceLoader.exists(animal_folder(str(kind)) + "/idle/south.png"))
+	if kinds.is_empty():
+		return out
+	var mean := float(rules.get("per_tile", 0.0)) * float(land_data.get("life", 1.0))
+	if str(chunk.get("kind", "")) == "place":
+		mean *= 0.5
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "animals"])
+	var count := int(floor(mean)) + (1 if rng.randf() < mean - floor(mean) else 0)
+	var area := land.slot_rect(tile)
+	for i in count:
+		for _try in 12:
+			var cell := area.position + Vector2i(rng.randi_range(1, area.size.x - 2), rng.randi_range(1, area.size.y - 2))
+			if not land.is_walkable(cell) or land.terrain_at(cell) == "road":
+				continue
+			out.append({ "kind": str(kinds[rng.randi() % kinds.size()]), "cell": cell })
+			break
+	return out
+
+
+## Where animal [param kind]'s set lands (A29): `life` → `animals` → `folder`.
+static func animal_folder(kind: String) -> String:
+	var folder := str(Database.world_rules.get("life", {}).get("animals", {}).get("folder", "res://art/creatures/{kind}"))
+	return folder.format({ "kind": kind })
+
+
+func _put_animal(each: Dictionary) -> Node2D:
+	var rules: Dictionary = Database.world_rules.get("life", {}).get("animals", {})
+	var kind := str(each["kind"])
+	var animal := AreaActor.for_animal(str(rules.get("names", {}).get(kind, kind)), animal_folder(kind),
+			float(rules.get("scale", {}).get(kind, 1.0)))
+	animal.position = map.centre_of(each["cell"])
+	_actors.add_child(animal)
+	animal.roam(float(rules.get("roam_cells", 3.0)), _can_stand)
+	return animal
 
 
 ## The birds, butterflies, bees and creeping things of [param tile] ([D179], play-test 3: "Surely

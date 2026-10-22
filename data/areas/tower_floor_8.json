@@ -192,6 +192,42 @@
                 19,
                 11
             ]
+        },
+        {
+            "art": "second_hour/bricked_door",
+            "cell": [
+                5,
+                0
+            ],
+            "when_drawn": true,
+            "name": "a bricked doorway"
+        },
+        {
+            "art": "second_hour/bricked_door",
+            "cell": [
+                7,
+                0
+            ],
+            "when_drawn": true,
+            "name": "a bricked doorway"
+        },
+        {
+            "art": "second_hour/fallen_column",
+            "cell": [
+                6,
+                11
+            ],
+            "when_drawn": true,
+            "name": "a fallen column"
+        },
+        {
+            "art": "second_hour/fallen_column",
+            "cell": [
+                19,
+                9
+            ],
+            "when_drawn": true,
+            "name": "a fallen column"
         }
     ],
     "bands": [

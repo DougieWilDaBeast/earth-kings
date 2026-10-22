@@ -51,6 +51,9 @@ const STANCE := Color(1.0, 0.86, 0.55)
 ## The skirmish scene. Untyped, because it loads this script itself.
 var _skirmish: Node2D
 var _clock: Label
+## The drawn Paused banner and speed mark (A2, [D370]), when their pictures are in; null till then.
+var _paused_banner: TextureRect = null
+var _speed_mark: TextureRect = null
 var _hint: Label
 var _log: Label
 var _result: Label
@@ -90,6 +93,7 @@ func setup(skirmish: Node2D) -> void:
 	_clock.position = Vector2(16, 10)
 	_clock.add_theme_font_size_override("font_size", 20)
 	add_child(_clock)
+	_put_drawn_marks()
 
 	_hint = Label.new()
 	_hint.position = Vector2(16, 38)
@@ -315,6 +319,9 @@ func _add_touch_buttons() -> void:
 			frame.content_margin_right = 10
 			button.add_theme_stylebox_override(state, frame)
 		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		if action == "speed":
+			button.icon = SkirmishSlot.picture("speed_indicator")
+			button.expand_icon = true
 		_buttons[action] = button
 		if action.begins_with("slot"):
 			var sweep: Control = SkirmishSlot.new()
@@ -361,6 +368,10 @@ func refresh() -> void:
 	var state := "PAUSED — %s to resume" % resume if _skirmish.paused else "x%s" % String.num(Pace.speed(), 1).trim_suffix(".0")
 	if _skirmish.over:
 		state = "Over"
+	if _paused_banner != null:
+		_paused_banner.visible = _skirmish.paused and not _skirmish.over
+	if _speed_mark != null:
+		_speed_mark.visible = not _skirmish.paused and not _skirmish.over
 	var armed := ""
 	if _skirmish.armed_slot >= 0 and not _skirmish.selected.is_empty():
 		var caster: Fighter = _skirmish.selected[0]
@@ -398,6 +409,38 @@ func refresh() -> void:
 			button.disabled = _skirmish.item_refusal(party[i], item_id) != ""
 	if _inspected != null:
 		_inspect_text.text = _inspection(_inspected)
+
+
+## The fight screen's drawn Paused banner, across the top in the middle, and its speed mark before
+## the clock (art request A2, [D370]): each only once its picture is in. Until then "PAUSED" and
+## "x1" in the clock's line say it, as they still do beside the pictures.
+func _put_drawn_marks() -> void:
+	var banner := SkirmishSlot.picture("paused_banner")
+	if banner != null:
+		_paused_banner = TextureRect.new()
+		_paused_banner.texture = banner
+		_paused_banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_paused_banner.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_paused_banner.anchor_left = 0.5
+		_paused_banner.anchor_right = 0.5
+		_paused_banner.offset_left = -banner.get_width() / 2.0
+		_paused_banner.offset_right = banner.get_width() / 2.0
+		_paused_banner.offset_top = 64
+		_paused_banner.offset_bottom = 64 + banner.get_height()
+		_paused_banner.visible = false
+		add_child(_paused_banner)
+	var mark := SkirmishSlot.picture("speed_indicator")
+	if mark != null:
+		_speed_mark = TextureRect.new()
+		_speed_mark.texture = mark
+		_speed_mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_speed_mark.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_speed_mark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_speed_mark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_speed_mark.position = Vector2(14, 12)
+		_speed_mark.size = Vector2(24, 24)
+		add_child(_speed_mark)
+		_clock.position.x += 28
 
 
 ## Show who the pointer is over, or nobody.
