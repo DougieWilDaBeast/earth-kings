@@ -517,6 +517,8 @@ each, each ending playable:
    on the ground is buried where they fell under a cairn, with a few words from the lead; on the land it stays.
    Also built, from play-test 3's item 9 ([D364](06-decisions.md), 2026-10-22, #250): Tower floors with themes from
    floor 6 (frost, drowned, ember, a warren) and a stair that asks before it closes a chapter.
+   Also built, from `doug-md`'s play-test 2 asks ([D365](06-decisions.md), 2026-10-22, #241): news that travels at the
+   speed of people, at a hearth and on the road, bells within six tiles heard at once.
    Also built, outside the order, from `doug-md`'s older asks: the sword in the Tower's yard, one pull a run
    ([D318](06-decisions.md), #249), and a fight you can walk out of, at a cost ([D319](06-decisions.md), #243), both
    2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), after B and before C's rest
