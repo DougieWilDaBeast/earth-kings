@@ -1111,7 +1111,8 @@ Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight
   draws back over `pull_back_seconds`. Out of cover into the red sets `ambush`.
 - **A first strike** ([D300](06-decisions.md)): out of the band's sight with one of its figures within
   `first_strike_reach` cells, G winds the lead up for `first_strike_seconds` and `first_strike_hint` is said
-  on the bottom line; then the band is met as an ambush with `first_strike` on its encounter, and the
+  on the bottom line (on touch or a pad, a `first_strike_button` button in the act bar does it instead,
+  [D374](06-decisions.md)); then the band is met as an ambush with `first_strike` on its encounter, and the
   fight lands the lead's blow first (`skirmish.json` → `first_strike`). Seen while winding up, it is lost.
 
 An area may hold **bands of its own** (`bands` in its JSON, [D75](06-decisions.md)), in the same shape

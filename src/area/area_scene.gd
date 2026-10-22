@@ -197,6 +197,9 @@ var _acts: Array = []
 var _held: Dictionary = {}
 ## The buttons for [member _acts], for a thumb or a pad. Built in code.
 var _act_bar: HFlowContainer = null
+## Strike first on a thumb or a pad, which have no G ([D374]): in the act bar, shown while a band
+## could be struck.
+var _strike_btn: Button = null
 ## What the land does to whoever walks this ground (see [method Biome.effects]);
 ## the neutral one for a place that is not open country.
 var _land: Dictionary = {}
@@ -324,6 +327,7 @@ func _ready() -> void:
 		_come_out_of_the_dark.call_deferred()
 	get_viewport().size_changed.connect(_fit_the_log)
 	get_viewport().size_changed.connect(_fit_the_hint)
+	get_viewport().size_changed.connect(_lay_out_acts)
 	_fit_the_log.call_deferred()
 	# What can be done here, on one line that never runs up into the log ([D246], play-test 6:
 	# "so much text here that is crossing over each other"): cut short with an ellipsis instead.
@@ -396,7 +400,7 @@ func _ready() -> void:
 	_idle_hint = map.hint if map.hint != "" else HINT
 	if _land_mode:
 		_idle_hint = _land_hint()
-	_hint.text = _prompt_text()
+	_show_prompt()
 	if _land_mode:
 		_far_tower = FarTower.new()
 		_place.get_parent().add_child(_far_tower)
@@ -1357,7 +1361,7 @@ func _on_continent_answered(answer: Dictionary) -> void:
 	if not settled:
 		_on_new_tile()
 	_sync_bands(answer.get("bands", []))
-	_hint.text = _prompt_text()
+	_show_prompt()
 
 
 ## The party is on a tile it was not on before: the land's own weather and light, its line, and
@@ -1960,7 +1964,7 @@ func _refresh_prompt() -> void:
 		_nearby = closest
 		if _nearby != null:
 			_nearby.set_mark_ready(true)
-	_hint.text = _prompt_text()
+	_show_prompt()
 
 
 ## The thing here that is a way into one of the place's doings (the Tower's door), or null.
@@ -2072,20 +2076,22 @@ func _at_the_stair() -> bool:
 
 func _prompt_text() -> String:
 	if _hovered != null:
-		return "Click to %s" % _hovered.prompt()
+		return "%s to %s" % ["Tap" if Pace.is_touch_enabled() else "Click", _hovered.prompt()]
 	if _at_the_stair():
 		if not _way_down_open():
 			return _way_down_shut_line()
-		return "%s to %s" % [Pad.key("interact") if Pad.using_pad else "E", _stair_line()]
+		return "%s to %s" % [_act_key(), _stair_line()]
 	if _nearby != null:
 		var doing := _act_of(_nearby)
 		if not doing.is_empty():
 			return str(doing.get("prompt", ""))
 		if Pad.using_pad:
 			return "%s to %s" % [Pad.key("interact"), _nearby.prompt()]
-		return "Click to %s" % _nearby.prompt()
+		return "%s to %s" % ["Tap" if Pace.is_touch_enabled() else "Click", _nearby.prompt()]
 	var here := _acts_text()
-	var strike := str(AreaWatch.rule("first_strike_hint", "")) if _strike_target() != null else ""
+	# A thumb or a pad has the Strike first button instead of G ([D374]).
+	var strike := str(AreaWatch.rule("first_strike_hint", "")) \
+			if _strike_target() != null and _strike_btn == null else ""
 	if strike != "":
 		return strike if here == "" else "%s  ·  %s" % [here, strike]
 	if here != "":
@@ -2099,7 +2105,22 @@ func _prompt_text() -> String:
 
 
 func _on_pad_changed() -> void:
+	_lay_out_acts()
+	_show_prompt()
+
+
+## The bottom line, and the Strike first button that goes with it on a thumb or a pad.
+func _show_prompt() -> void:
 	_hint.text = _prompt_text()
+	if _strike_btn != null:
+		_strike_btn.visible = _strike_target() != null
+
+
+## What presses E, said for whoever is playing: the pad's button, the touch bar's Act, or E.
+func _act_key() -> String:
+	if Pad.using_pad:
+		return Pad.key("interact")
+	return "Act" if Pace.is_touch_enabled() else "E"
 
 
 ## The idle line, said for a pad. A place's own line is written for the
@@ -2135,7 +2156,7 @@ func _hover_at(point: Vector2) -> void:
 	Input.set_default_cursor_shape(
 		Input.CURSOR_POINTING_HAND if _hovered != null else Input.CURSOR_ARROW
 	)
-	_hint.text = _prompt_text()
+	_show_prompt()
 
 
 ## Click something within reach and the party deals with it at once; click one
@@ -2779,7 +2800,7 @@ func _physics_process(delta: float) -> void:
 			EventBus.player_did.emit("walked")
 			if not GameState.rehearsing and not GameState.has_flag(WALKED_FLAG):
 				GameState.set_flag(WALKED_FLAG)
-				_hint.text = _prompt_text()
+				_show_prompt()
 	_weather(before.distance_to(_leader.position))
 	if _walked >= TALK_STRIDE:
 		_walked = 0.0
@@ -4125,7 +4146,7 @@ func _stand_down() -> void:
 		for follower in _followers:
 			follower.visible = true
 		_last_cell = map.cell_at(_leader.position)
-	_hint.text = _prompt_text()
+	_show_prompt()
 
 
 ## The patch of this ground the fight is fought on: everyone in it, with room round them, cut to
@@ -4427,12 +4448,14 @@ func _lay_out_acts() -> void:
 	if _act_bar != null:
 		_act_bar.queue_free()
 		_act_bar = null
+	_strike_btn = null
 	if not (Pace.is_touch_enabled() or Pad.using_pad):
 		return
 	# The board's doing is done at the board, by walking up to it (D359).
 	var pressable: Array = _acts.filter(func(each: Dictionary) -> bool:
 		return str(each.get("label", "")) != "" and not (AT_THE_BOARD.has(str(each.get("act", ""))) and _board() != null))
-	if pressable.is_empty():
+	var strike_label := str(AreaWatch.rule("first_strike_button", ""))
+	if pressable.is_empty() and strike_label == "":
 		return
 	_act_bar = HFlowContainer.new()
 	_act_bar.anchor_left = 0.5
@@ -4443,6 +4466,16 @@ func _lay_out_acts() -> void:
 	_act_bar.offset_right = 320.0
 	_act_bar.offset_top = -300.0
 	_act_bar.offset_bottom = -120.0
+	if Pace.is_touch_enabled():
+		# Above the touch bar's Act, Back and Next, not under them ([D374]): held upright the bar
+		# spans the screen, and the buttons lay behind Back and Next where a thumb could not reach.
+		var view := get_viewport().get_visible_rect().size
+		var lift := TouchControls.CLUSTER_HEIGHT + TouchControls.EDGE_PAD + 8.0 \
+				+ (TouchControls.UPRIGHT_LIFT if view.y > view.x else 0.0)
+		_act_bar.offset_bottom = -lift
+		_act_bar.offset_top = -lift - 180.0
+		_act_bar.offset_left = -minf(320.0, view.x * 0.5 - TouchControls.EDGE_PAD)
+		_act_bar.offset_right = -_act_bar.offset_left
 	_act_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	_act_bar.alignment = FlowContainer.ALIGNMENT_CENTER
 	_act_bar.add_theme_constant_override("h_separation", 8)
@@ -4457,6 +4490,26 @@ func _lay_out_acts() -> void:
 		button.pressed.connect(_do_act.bind(each))
 		Sfx.attend(button)
 		_act_bar.add_child(button)
+	if strike_label != "":
+		_strike_btn = Button.new()
+		_strike_btn.text = strike_label
+		_strike_btn.focus_mode = Control.FOCUS_ALL if Pad.using_pad else Control.FOCUS_NONE
+		_strike_btn.custom_minimum_size = Vector2(0, 56)
+		_strike_btn.add_theme_font_size_override("font_size", 16)
+		_strike_btn.pressed.connect(_strike_first)
+		_strike_btn.visible = _strike_target() != null
+		Sfx.attend(_strike_btn)
+		_act_bar.add_child(_strike_btn)
+
+
+## G's work, for the Strike first button.
+func _strike_first() -> void:
+	if _leaving or _talking:
+		return
+	var target := _strike_target()
+	if target != null:
+		_wind_up(target)
+		_show_prompt()
 
 
 ## How a chest looks once opened: its own `opened_art`, else its art's open drawing if one is

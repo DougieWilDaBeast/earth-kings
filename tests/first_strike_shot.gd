@@ -4,13 +4,17 @@ extends Node
 ##
 ##   xvfb-run godot --path . --rendering-driver opengl3 res://tests/first_strike_shot.tscn
 ##
-## Shots land in .art_stage/first_strike_*.png.
+## Shots land in .art_stage/first_strike_*.png. With `-- --touch` it is a phone held upright with the
+## touch controls on, and the Strike first button is pressed instead of G ([D374]).
 
 var _game: Node
+var _touch := OS.get_cmdline_user_args().has("--touch")
 
 
 func _ready() -> void:
-	get_window().size = Vector2i(1600, 900)
+	get_window().size = Vector2i(412, 915) if _touch else Vector2i(1600, 900)
+	if _touch:
+		Pace.touch_mode = "on"
 	_game = load("res://src/main.tscn").instantiate()
 	add_child(_game)
 	await _frames(30)
@@ -64,12 +68,23 @@ func _ready() -> void:
 	var camera = ground.get_node("Camera2D")
 	camera.focus_on(ground._leader.position.lerp(band_at, 0.5), true)
 	await _frames(20)
-	print("strike target: %s, hint: %s" % [ground._strike_target() != null, ground._prompt_text()])
+	ground._show_prompt()
+	await _frames(2)
+	var button: Button = ground.get("_strike_btn")
+	print("strike target: %s, hint: %s, button: %s" % [ground._strike_target() != null, ground._prompt_text(),
+			button != null and button.is_visible_in_tree()])
 	await _shoot("ready")
-	var key := InputEventKey.new()
-	key.keycode = KEY_G
-	key.pressed = true
-	ground._unhandled_input(key)
+	if _touch:
+		if button == null or not button.is_visible_in_tree():
+			print("no Strike first button on touch")
+			get_tree().quit(1)
+			return
+		button.pressed.emit()
+	else:
+		var key := InputEventKey.new()
+		key.keycode = KEY_G
+		key.pressed = true
+		ground._unhandled_input(key)
 	await get_tree().create_timer(0.4).timeout
 	await _shoot("wind_up")
 	await get_tree().create_timer(1.2).timeout
@@ -94,6 +109,6 @@ func _frames(count: int) -> void:
 
 func _shoot(label: String) -> void:
 	await RenderingServer.frame_post_draw
-	var path := "res://.art_stage/first_strike_%s.png" % label
+	var path := "res://.art_stage/first_strike_%s%s.png" % ["touch_" if _touch else "", label]
 	get_viewport().get_texture().get_image().save_png(path)
 	print("saved %s" % path)
