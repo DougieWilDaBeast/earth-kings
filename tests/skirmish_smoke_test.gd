@@ -305,6 +305,18 @@ func _check_touch() -> void:
 
 	(buttons["hold"] as Button).pressed.emit()
 	_expect(lead.hold, "the Hold button did nothing")
+	# About 44 points under a thumb, and a skill said by its name, not a key (D387).
+	_expect((buttons["pause"] as Button).size.y >= 58.0, "a fight's touch button is under 58 pixels tall: %s" % (buttons["pause"] as Button).size)
+	fight._select([lead])
+	fight.hud.refresh()
+	for slot in 4:
+		var skill: Button = buttons["slot%d" % slot]
+		if slot < lead.slots.size():
+			var name := str(lead.slot_ability(slot).get("display_name", ""))
+			_expect(skill.visible and skill.text.ends_with(name) and not skill.text.begins_with(str(SkirmishRules.SLOT_LABELS[slot]) + " "),
+				"skill button %d says %s, not the skill's name %s (D387)" % [slot, skill.text, name])
+		else:
+			_expect(not skill.visible, "skill button %d is up for a skill %s has not got (D387)" % [slot, lead.unit.display_name])
 	var caster := _first_with_slots(party)
 	if caster != null and str(caster.slot_ability(0).get("target", "enemy")) != "self":
 		fight._select([caster])
