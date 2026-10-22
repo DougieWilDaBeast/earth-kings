@@ -729,6 +729,12 @@ its bands see `grudge_sight` cells further and shout one of `grudge_shouts`. A w
 somebody within `dream_reach` tiles of one says one of `dreamt` (`{name}`, `{told}`) once. The world
 keeps `grudges`: faction id -> bands beaten.
 
+`world_rules.json` → `news` ([D365](06-decisions.md)): the realm's news walks as a deed's word does, at
+`renown.steps_per_tile`. `heard_at_once_tiles` (6) is how near a siege, a town's fall or a gate's breaking
+is heard at once; further off it waits in the world's `word` (`{ line, cell: [x, y], step }`, saved with the
+world) until it has walked to the company, said as `word_reaches` (`{line}`). A town keeps `sacked_at`, a
+gate `broken_at`, and the Tower `floor_at` and `floor_before`, for when their word set off.
+
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on

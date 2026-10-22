@@ -500,6 +500,28 @@ func _check_news() -> void:
 	_expect(not dispatches.is_empty(), "news dispatches were empty")
 	var tidings := News.tidings_for_inn(world, "The Host")
 	_expect(tidings.contains("Word travels"), "inn tidings missing lead text")
+	# News travels at the speed of people (D365): a siege far off is not heard of until its word walks here.
+	var far: Site = null
+	for site: Site in world.sites:
+		if Town.is_settlement(site) and Pathfinder.distance(site.cell, world.player_cell) > 12:
+			far = site
+			break
+	_expect(far != null, "news: no town far enough off to test the word's walk")
+	if far != null:
+		far.data["threatened_at"] = world.steps
+		var about := func() -> bool: return News.dispatches(world).any(func(line: String) -> bool: return line.contains(far.display_name))
+		_expect(not about.call(), "news: a siege %d tiles off was heard of the moment it began" % Pathfinder.distance(far.cell, world.player_cell))
+		var told := News.send(world, "Smoke over %s." % far.display_name, far.cell)
+		_expect(told.is_empty() and world.word.size() == 1 and News.arriving(world).is_empty(), "news: word of a far town arrived at once")
+		world.steps += Pathfinder.distance(far.cell, world.player_cell) * Renown.steps_per_tile()
+		_expect(about.call(), "news: the siege's word never walked here")
+		var arrived := News.arriving(world)
+		_expect(arrived.size() == 1 and str(arrived[0]).begins_with("Word reaches the company") and world.word.is_empty(),
+				"news: the word did not reach the company once it had walked (%s)" % [arrived])
+		far.data.erase("threatened_at")
+	var near := News.send(world, "Bells from {apart} tiles to the {way}.", world.player_cell + Vector2i(2, 0))
+	_expect(near.size() == 1 and str(near[0]) == "Bells from 2 tiles to the east.", "news: bells two tiles off were not heard at once (%s)" % [near])
+	print("news: a siege far off is heard when its word has walked here, bells nearby at once")
 
 
 # --- the sixteen, the pools, and the casting between them ---------------------

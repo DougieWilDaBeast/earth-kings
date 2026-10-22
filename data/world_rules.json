@@ -1337,6 +1337,11 @@
 			{ "id": "canopy", "display_name": "A canopied bed", "cost": 90000, "vigour": 22 }
 		]
 	},
+	"news": {
+		"_comment": "D365 (doug-md's play-test 2 ask, D118: 'news that travels at the speed of people'). Word of a siege, a town fallen, a gate broken, a nemesis abroad or a floor of the Tower climbed walks out from where it happened at renown.steps_per_tile, as a deed's does: the tidings at a hearth are only what has reached that place, and a siege, a fall or a broken gate further off than heard_at_once_tiles (bells and smoke) is told to the company only when the word reaches it, as word_reaches. Read by src/chronicle/news.gd. Inferred: how near is heard at once, and the words.",
+		"heard_at_once_tiles": 6,
+		"word_reaches": "Word reaches the company: {line}"
+	},
 	"renown": {
 		"steps_per_tile": 14,
 		"known_at": 3,

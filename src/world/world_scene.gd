@@ -776,7 +776,13 @@ func _settle_up(won: bool) -> void:
 						if world.tower_floor <= 0 else "The Tower counts it: the stair above is open again.")
 				EventBus.safe_point_reached.emit.call_deferred(RunMode.GATE, "you shut %s" % site.display_name)
 		"tower":
-			world.tower_floor = int(outcome.get("floor", world.tower_floor))
+			var climbed_to := int(outcome.get("floor", world.tower_floor))
+			var the_tower := world.tower()
+			if the_tower != null and climbed_to != world.tower_floor:
+				# Word of the floor walks down from the Tower ([D365]): the floor before is what is said until it has.
+				the_tower.data["floor_before"] = world.tower_floor
+				the_tower.data["floor_at"] = world.steps
+			world.tower_floor = climbed_to
 			for hero: Character in party:
 				hero.climbed = maxi(hero.climbed, world.tower_floor)
 			for line: String in Spoils.for_tower_floor(world, world.tower_floor, party):

@@ -306,6 +306,7 @@ static func _go_in_alone(world: World, muster: Dictionary, gate: Site, accepted:
 				said += " " + line("contract_void", tokens)
 	else:
 		gate.broken = true
+		gate.data["broken_at"] = world.steps
 	for errand: Dictionary in accepted:
 		if errand.get("kind", "") == Errand.MUSTER and _cell(errand.get("gate", [])) == gate.cell:
 			errand["outcome"] = "won" if won else "lost"
