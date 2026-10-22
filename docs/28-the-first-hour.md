@@ -450,7 +450,9 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     into a gate or the grove, not cut to it (a gate built, [D354](06-decisions.md): the company walks into its
     doorway and fades as the screen goes dark, and the floor inside comes up out of the dark; the grove
     built, [D360](06-decisions.md): the company walks in among the nearest trees and fades, and the grove comes up
-    out of the same dark); the chapter visions shown as pictures.
+    out of the same dark); the chapter visions shown as pictures (built,
+    [D361](06-decisions.md): a memory's lines play over a vision of white stone with the keepsake held up,
+    its own picture once A65 is drawn).
 12. **A play screen you arrange** (grows play-test 6, item 7): panels moved, resized and coloured; the
     journal open at the side while the game keeps going (built, [D271](06-decisions.md): N opens it down the
     right, the game going on; Full page puts it over everything). Moving and resizing panels: built ([D351](06-decisions.md)), as play-test 8's ask 7.

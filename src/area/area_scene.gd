@@ -3439,6 +3439,8 @@ func _remember(cell: Vector2i) -> void:
 	_auto_exit_path.clear()
 	var scene_id := "memory_%s" % str(memory.get("id", ""))
 	Database.register_dialogue(scene_id, Memories.find(memory))
+	# Seen as well as read ([D361]): the vision stands behind the lines while they play.
+	MemoryVision.open(self, memory, GameState.roster.player().template_id, scene_id)
 	EventBus.dialogue_requested.emit(scene_id)
 
 

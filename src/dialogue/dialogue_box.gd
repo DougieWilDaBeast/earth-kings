@@ -195,6 +195,7 @@ func _goto(node_id: String, effects: bool = true) -> void:
 	if effects:
 		DialogueScript.apply_effects(_node)
 	_show(_node.get("speaker", ""), DialogueScript.text_of(_node))
+	EventBus.dialogue_line_shown.emit(_current_id, node_id)
 
 
 func _advance() -> void:
