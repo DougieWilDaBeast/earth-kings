@@ -206,7 +206,7 @@ each, each ending playable:
    [28](28-the-first-hour.md#how-it-was-tested)); its first fixes are built ([D178](06-decisions.md))
    and his bigger asks are listed, **planned**, waiting on his order
    ([28](28-the-first-hour.md#play-test-3s-asks)); the first he chose, life on the land, is built
-   ([D179](06-decisions.md)). Play-test 4 (2026-10-17, a new game as Janus): its first fixes are built
+   ([D179](06-decisions.md)), and the board read at the board since ([D359](06-decisions.md)). Play-test 4 (2026-10-17, a new game as Janus): its first fixes are built
    ([D189](06-decisions.md): a pin where you click, speeds 1×/2×/3×/5×, harder fought floors, the
    baker's bread, birds that fly about) and his new asks are listed, **planned**, waiting on his order
    ([28](28-the-first-hour.md#play-test-4s-asks)); the first he picked, the map over the ground, is
