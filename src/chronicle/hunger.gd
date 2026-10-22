@@ -64,6 +64,18 @@ static func tick(world: World, roster: Roster) -> Array[String]:
 	return lines
 
 
+## The world's steps a Tower floor takes ([D400]) are not steps the company goes hungry in: each one's
+## clock moves on with the world's, so nobody comes up a stair starving with no chance to eat between.
+## Before, one floor (30 steps) ate three quarters of a full belly and, once empty, nine tenths of
+## everyone's health in one blow (`tower_floor_counts` brings it back).
+static func pass_over(world: World, roster: Roster, steps: int) -> void:
+	if not on() or world == null or roster == null or steps <= 0 or bool(rules().get("tower_floor_counts", false)):
+		return
+	for character: Character in roster.party_members():
+		if character.fed_step >= 0:
+			character.fed_step += steps
+
+
 ## [param character] eats the least food in the packs that fills them. Returns the line, or "".
 static func eat_least(character: Character) -> String:
 	var food: Array = Gear.draughts().filter(func(id: String) -> bool: return feeds(id) > 0.0)

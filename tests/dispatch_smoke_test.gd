@@ -755,6 +755,20 @@ func _check_hunger(world: World, roster: Roster) -> void:
 	_expect(is_equal_approx(lead.fed, 1.0), "a rest did not fill the lead")
 	var back := Character.from_dict(lead.to_dict())
 	_expect(is_equal_approx(back.fed, lead.fed) and back.fed_step == lead.fed_step, "fed was not saved")
+	# A Tower floor's steps (D400) leave the company as fed and as whole as it was; the world's own steps still count.
+	Pace.auto = false
+	lead.fed = 0.5
+	lead.hp = -1
+	Hunger.tick(world, roster)
+	var floor_fed := lead.fed
+	world.steps += World.UPKEEP_INTERVAL
+	Hunger.pass_over(world, roster, World.UPKEEP_INTERVAL)
+	Hunger.tick(world, roster)
+	_expect(is_equal_approx(lead.fed, floor_fed) and lead.current_hp() == lead.max_hp(),
+			"a Tower floor's steps emptied the lead (fed %.2f from %.2f, %d of %d)" % [lead.fed, floor_fed, lead.current_hp(), lead.max_hp()])
+	world.steps += 4
+	Hunger.tick(world, roster)
+	_expect(lead.fed < floor_fed, "after a Tower floor the land's own steps no longer empty the lead")
 	Pace.auto = kept_auto
 	GameState.stores = kept_stores
 
