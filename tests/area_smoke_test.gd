@@ -1406,6 +1406,19 @@ func _check_practice_band() -> void:
 	add_child(scene)
 	for i in 10:
 		await get_tree().process_frame
+	# Auto never walks Hearthwick (D367): it took the road south in a moment, and the tutorial ended at the title.
+	_requests.clear()
+	var auto_was := Pace.auto
+	var press := InputEventAction.new()
+	press.action = "battle_auto"
+	press.pressed = true
+	scene.call("_unhandled_input", press)
+	_expect_tut(not Pace.auto, "the Auto key turned Auto on in Hearthwick")
+	Pace.auto = true
+	for i in 120:
+		await get_tree().process_frame
+	_expect_tut(_requests.is_empty(), "Auto walked out of Hearthwick to the title (%s)" % str(_requests))
+	Pace.auto = auto_was
 	var watches: Array = scene.get("_watches")
 	_expect_tut(watches.is_empty(), "the sparring pair was in the village before the fight step called it")
 	GameState.set_flag("tut:spar_ready")
@@ -2761,8 +2774,12 @@ func _check_the_joined_land() -> void:
 	EventBus.continent_requested.connect(listen)
 	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
 	scene.set("boot_payload", { "land": true, "return_scene": "world", "planar_mode": true })
+	(Database.get("_areas") as Dictionary).erase("land")
 	add_child(scene)
 	await get_tree().process_frame
+	# The land is made, not written: it is never looked for as a file, which wrote an error to every play log ([D366]).
+	if (Database.get("_areas") as Dictionary).has("land"):
+		_fail("land: the land was looked up as data/areas/land.json")
 	if scene._tile_ground.size() != 9:
 		_fail("land: %d tiles laid out round the party, not 9" % scene._tile_ground.size())
 	if scene.map.tile_of(scene.map.cell_at(scene._leader.position)) != here:
