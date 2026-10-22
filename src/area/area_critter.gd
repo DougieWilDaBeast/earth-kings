@@ -19,6 +19,10 @@ var watching: Callable = Callable()
 var can_land: Callable = Callable()
 
 var _sprite: Sprite2D
+## A bird's wing-beat while it flies (A31: `art/props/<art>_fly/frame_000.png` ...; [D369]), once drawn;
+## until then the still picture is squashed in time to the wings.
+var _wings: Array[Texture2D] = []
+var _still: Texture2D
 var _rng := RandomNumberGenerator.new()
 var _rest: float = 0.0
 var _clock: float = 0.0
@@ -66,6 +70,8 @@ func _build() -> void:
 		return
 	var texture: Texture2D = load(path)
 	_sprite.texture = texture
+	_still = texture
+	_wings = AreaProp.frames_of(art + "_fly")
 	_size = float(Database.prop_size(art)["scale"])
 	var painted: Rect2 = AreaProp.painted_rect(art, texture)
 	_sprite.scale = Vector2(_size, _size)
@@ -190,10 +196,14 @@ func _fly_on(delta: float, flapping: bool) -> void:
 	position = _from.lerp(_to, _through)
 	_lift = sin(_through * PI) * _arc
 	if flapping and _arc > 20.0:
-		_sprite.scale.y = _size * (0.72 + 0.28 * absf(sin(_clock * 22.0)))
+		if not _wings.is_empty():
+			_sprite.texture = _wings[int(_clock * 12.0) % _wings.size()]
+		else:
+			_sprite.scale.y = _size * (0.72 + 0.28 * absf(sin(_clock * 22.0)))
 	if _through >= 1.0:
 		_lift = 0.0
 		_sprite.scale.y = _size
+		_sprite.texture = _still
 		if _gone < 0.0:
 			# Flown off with nowhere to land: gone a while, then back home if nobody is there.
 			visible = false

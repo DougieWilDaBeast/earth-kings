@@ -105,7 +105,7 @@
             ]
         },
         {
-            "art": "interior/banner_blue",
+            "art": "second_hour/banner",
             "cell": [
                 4,
                 4
@@ -116,7 +116,7 @@
             ]
         },
         {
-            "art": "interior/banner_red",
+            "art": "second_hour/banner",
             "cell": [
                 8,
                 4
@@ -127,7 +127,7 @@
             ]
         },
         {
-            "art": "interior/banner_blue",
+            "art": "second_hour/banner",
             "cell": [
                 17,
                 4
@@ -138,7 +138,7 @@
             ]
         },
         {
-            "art": "interior/banner_red",
+            "art": "second_hour/banner",
             "cell": [
                 21,
                 4
@@ -177,21 +177,21 @@
             ]
         },
         {
-            "art": "interior/crates",
+            "art": "second_hour/broken_crates",
             "cell": [
                 18,
                 9
             ]
         },
         {
-            "art": "interior/crates",
+            "art": "second_hour/broken_crates",
             "cell": [
                 19,
                 9
             ]
         },
         {
-            "art": "village/barrels",
+            "art": "second_hour/sacks",
             "cell": [
                 24,
                 9
@@ -205,7 +205,7 @@
             ]
         },
         {
-            "art": "village/barrels",
+            "art": "second_hour/sacks",
             "cell": [
                 24,
                 12

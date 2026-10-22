@@ -93,6 +93,9 @@ static func icon(equipment_id: String) -> Texture2D:
 	if _icons.has(equipment_id):
 		return _icons[equipment_id]
 	var name_ := str(piece(equipment_id).get("icon", ""))
+	# A piece's own picture, named by its id, once it is drawn (A4, A30; [D369]); its `icon` until then.
+	if ResourceLoader.exists("res://art/items/%s.png" % equipment_id):
+		name_ = equipment_id
 	var path := "res://art/items/%s.png" % name_
 	_icons[equipment_id] = load(path) if name_ != "" and ResourceLoader.exists(path) else null
 	return _icons[equipment_id]

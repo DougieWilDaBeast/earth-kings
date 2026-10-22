@@ -112,14 +112,14 @@
             ]
         },
         {
-            "art": "brazier",
+            "art": "second_hour/antechamber_brazier",
             "cell": [
                 10,
                 2
             ]
         },
         {
-            "art": "brazier",
+            "art": "second_hour/antechamber_brazier",
             "cell": [
                 15,
                 2

@@ -466,7 +466,9 @@ each, each ending playable:
       ([D337](06-decisions.md), 2026-10-21, held until B is in). A blow or a shot from higher ground lands harder, and the
       map of the continent shows heights, hills and crags lit and peaked ([D343](06-decisions.md), 2026-10-21). The art
       waiting on PixelLab (A51 to A61) has a place to land and is read there, so 27 October is only generating and
-      `tools/take_art.py take <id>` ([D344](06-decisions.md), 2026-10-21). Crafting grows: ore and ash staves to gather
+      `tools/take_art.py take <id>` ([D344](06-decisions.md), 2026-10-21); since 2026-10-22 every open request, A2 to
+      A66, has its slot and the game reads its place, stand-ins until drawn ([D369](06-decisions.md); planned: walking
+      animals A29, the fight screen's UI A2, the cloud sheet and six of the Second Hour's pieces). Crafting grows: ore and ash staves to gather
       on the land, draughts brewed for less by a fire, and simple gear forged at a smithy out of them
       ([D346](06-decisions.md), 2026-10-21). Next: hills
       and mountains on the land more than a height up, town walls to scale, the brains climbing for high ground.

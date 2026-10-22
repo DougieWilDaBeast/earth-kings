@@ -1523,7 +1523,7 @@ func _put_prop(prop: Dictionary) -> Node2D:
 		_put_spire(prop)
 		return null
 	var art: String = prop.get("art", "")
-	if not AreaProp.has_art(art):
+	if not AreaProp.has_art(AreaProp.shown(art)):
 		return null
 	# A bird or a bug laid down as scenery is alive ([D179]), unless it is something to look at.
 	if AreaCritter.life_of(art) != "" and str(prop.get("line", "")) == "" and not prop.has("gold") and not prop.has("item"):
@@ -1565,7 +1565,7 @@ func _put_cache(haul: Dictionary, at: Vector2i = Vector2i(-1, -1)) -> AreaProp:
 	# The fallen of a band ([D352]) carry their own name, words and picture.
 	var art := str(haul.get("art", ""))
 	var node := AreaProp.from_entry({
-		"art": art if art != "" else Loot.cache_art(haul), "cell": at,
+		"art": art if AreaProp.has_art(AreaProp.shown(art)) else Loot.cache_art(haul), "cell": at,
 		"name": str(haul.get("name", "something left here")),
 		"line": str(haul.get("line", "Something left here a long while ago, and nobody came back for it.")),
 	})

@@ -10,7 +10,10 @@ The requests, the files each must hold, their sizes and where each lands are in
 data/art_slots.json (docs/24, D344). `dougie` drops a request's files in DROP-ZONE/<id>/ as
 PixelLab gives them: loose PNGs, or PixelLab's export zip, which is unpacked first. A file is
 matched by its name; a folder of eight facings (`rotations`) is matched by the folder's name
-or, for one alone, by the facings themselves. A file the wrong size is not moved and is said.
+or, for one alone, by the facings themselves. A whole body (`set`: idle, walk, attack ... as
+PixelLab exports them) or a run of frames (`frames`) is matched by its folder's name and taken
+whole. A file the wrong size is not moved and is said. A row made as another (`made_as`: A10 to
+A25 are A58's) says so.
 
 After a take, open the project in Godot (or run `godot --headless --import`) so the new
 pictures are imported, and move the request's row to Done in docs/24 with the date.
@@ -42,13 +45,42 @@ def png_size(path):
 
 
 def wanted(request):
-    """Each file a request asks for: (name to look for, where it lands, size, facings or None)."""
+    """Each file a request asks for: (name to look for, where it lands, size, facings or None, entry)."""
     out = []
     for entry in request["files"]:
         for each in entry.get("each", [None]):
             fill = (lambda text: text.replace("{each}", each)) if each else (lambda text: text)
-            out.append((fill(entry["name"]), fill(entry["to"]), entry.get("size"), entry.get("rotations")))
+            out.append((fill(entry["name"]), fill(entry["to"]), entry.get("size"), entry.get("rotations"), entry))
     return out
+
+
+FACINGS = ["south", "south-east", "east", "north-east", "north", "north-west", "west", "south-west"]
+
+
+def folder_in(found, name):
+    """The dropped folder called [name] (a whole body's set, or a run of frames), or None."""
+    for path in found["_all"]:
+        for parent in path.parents:
+            if parent.name == name:
+                return parent
+            if parent == DROP or parent.name == "":
+                break
+    return None
+
+
+def set_problem(root, states, size):
+    """What is wrong with a dropped body's set at [root], or "" when it is whole: its idle in the
+    eight facings at [size], and a folder for each of the other [states]."""
+    for facing in FACINGS:
+        idle = root / "idle" / (facing + ".png")
+        if not idle.exists():
+            return f"idle/{facing}.png missing"
+        if isinstance(size, list) and png_size(idle) != size:
+            return f"idle/{facing}.png is {png_size(idle)}, not {size}"
+    for state in states:
+        if state != "idle" and not any((root / state).rglob("*.png")):
+            return f"no {state} frames"
+    return ""
 
 
 def dropped(request_id, unpack_to):
@@ -90,8 +122,31 @@ def check(request_id, request, found, take=False, dry=False):
     lines = []
     moved = 0
     missing = 0
-    for name, to, size, facings in wanted(request):
+    for name, to, size, facings, entry in wanted(request):
         target = ROOT / to
+        if "set" in entry or entry.get("frames"):
+            # A whole body (`set`) or a run of frames (`frames`): its folder is taken as it stands.
+            root = folder_in(found, name)
+            if root is None:
+                missing += 1
+                lines.append(f"  {to}/  {'stand-in or earlier art in place' if target.exists() else 'to make'}")
+                continue
+            if "set" in entry:
+                problem = set_problem(root, entry["set"], size)
+            else:
+                frames = sorted(root.glob("frame_*.png"))
+                problem = "no frame_000.png" if not frames else next(
+                    (f"{f.name} is {png_size(f)}, not {size}" for f in frames if isinstance(size, list) and png_size(f) != size), "")
+            if problem:
+                missing += 1
+                lines.append(f"  {to}/  dropped, but {problem}: not moved")
+                continue
+            if take and not dry:
+                shutil.copytree(root, target, dirs_exist_ok=True,
+                                ignore=shutil.ignore_patterns("*.import", "*.zip"))
+            moved += 1
+            lines.append(f"  {to}/  dropped{', moved' if take and not dry else ''}{' (would move)' if dry else ''}")
+            continue
         if facings:
             got = facings_in(found, name, facings)
             have = all((target / (f + ".png")).exists() for f in facings)
@@ -108,7 +163,7 @@ def check(request_id, request, found, take=False, dry=False):
                 lines.append(f"  {to}  {'stand-in or earlier art in place' if target.exists() else 'to make'}")
                 continue
             sources = [(source, target)]
-        wrong = [s for s, _ in sources if size and png_size(s) != size]
+        wrong = [s for s, _ in sources if isinstance(size, list) and png_size(s) != size]
         if wrong:
             missing += 1
             lines.append(f"  {to}  dropped, but {wrong[0].name} is {png_size(wrong[0])}, not {size}: not moved")
@@ -137,6 +192,9 @@ def main():
     with tempfile.TemporaryDirectory() as unpacked:
         for request_id, request in requests.items():
             if args.request and request_id != args.request:
+                continue
+            if request.get("made_as"):
+                print(f"{request_id}  {request['what']}: made as {request['made_as']} (take {request['made_as']})")
                 continue
             found = dropped(request_id, unpacked)
             head, lines, moved = check(request_id, request, found, args.action == "take", args.dry)

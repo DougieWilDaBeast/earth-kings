@@ -99,6 +99,7 @@ func _ready() -> void:
 	terrain = _load_json("%s/terrain.json" % DATA_DIR)
 	biomes = _load_json("%s/biomes.json" % DATA_DIR)
 	units = _load_json("%s/units.json" % DATA_DIR)
+	_take_own_pictures()
 	abilities = _load_json("%s/abilities.json" % DATA_DIR)
 	equipment = _load_json("%s/equipment.json" % DATA_DIR)
 	classes = _load_json("%s/classes.json" % DATA_DIR)
@@ -144,6 +145,20 @@ func _ready() -> void:
 
 func terrain_type(id: String) -> Dictionary:
 	return terrain.get(id, terrain.get("grass", {}))
+
+
+## A unit still waiting on its own picture (docs/24: the monster tiers, Muck Muck and Sinner, the
+## Keeper of the Tenth; [D369]) names where it will land in `art_wanted`: once it is in, the unit is
+## drawn with it, and the tint that told it from its kin until then is dropped.
+func _take_own_pictures() -> void:
+	for id: String in units:
+		var unit: Variant = units[id]
+		if not unit is Dictionary:
+			continue
+		var wanted := str((unit as Dictionary).get("art_wanted", ""))
+		if wanted != "" and ResourceLoader.exists("%s/south.png" % wanted):
+			unit["sprite_dir"] = wanted
+			(unit as Dictionary).erase("tint")
 
 
 func unit_template(id: String) -> Dictionary:

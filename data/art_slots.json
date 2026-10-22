@@ -1,6 +1,363 @@
 {
-	"_about": "Where every piece of art still to be made lands, how big it must be and what in the game shows it, for the art waiting on PixelLab's credits (docs/24, A51 on, D344; and the earlier rows whose place the game already reads, D358). `tools/take_art.py` reads it: `check` says, for each request, what is in DROP-ZONE/<id>/, what is already in place and what is still the stand-in; `take <id>` checks each file's size and moves it to `to`. A file is matched by its name (`name`, without the folder); a PixelLab zip is unpacked first. `size` is [width, height] in pixels; `rotations` is a folder of the eight facings (south.png, south-east.png, ... as art/items/bone_sword); `each` repeats a file for every name in it, `{each}` in `name` and `to`. `prop: false` marks a picture under art/props that is not laid as a prop (the opening draws it). `stand_in` says what shows until the art is in, `shows` where it is seen and what reads it, so nothing but generating is left on the day. `also` names earlier requests a file answers too (A58's pictures are A10 to A25's keepsakes).",
+	"_about": "Where every piece of art still to be made lands, how big it must be and what in the game shows it, for every open request in docs/24 (A51 on, D344; A32 to A49 in part, D358; the rest from A2, D369). `tools/take_art.py` reads it: `check` says, for each request, what is in DROP-ZONE/<id>/, what is already in place and what is still the stand-in; `take <id>` checks each file's size and moves it to `to`. A file is matched by its name (`name`, without the folder); a PixelLab zip is unpacked first. `size` is [width, height] in pixels; `rotations` is a folder of the eight facings (south.png, south-east.png, ... as art/items/bone_sword); `each` repeats a file for every name in it, `{each}` in `name` and `to`. `prop: false` marks a picture under art/props that is not laid as a prop (the opening draws it). `stand_in` says what shows until the art is in, `shows` where it is seen and what reads it, so nothing but generating is left on the day. `also` names earlier requests a file answers too (A58's pictures are A10 to A25's keepsakes). `set` is a whole body or creature, a folder of states (idle, walk, attack ...), each a folder of facings (idle: the eight facings as pictures; the moves: a folder of frames a heading), taken as it stands; `size` is its idle facing's. `frames` is a folder of numbered frames (frame_000.png ...). `size` \"any\" is not checked. `made_as` names the request that makes a row's pictures (A10 to A25 are A58's). A shows that begins \"Planned\" lands where the game is to read it once that is built.",
 	"requests": {
+		"A2": {
+			"what": "Fight screen UI",
+			"files": [
+				{
+					"each": [
+						"slot_frame",
+						"cooldown_sweep",
+						"paused_banner",
+						"speed_indicator"
+					],
+					"name": "{each}.png",
+					"to": "art/ui/fight/{each}.png",
+					"size": "any",
+					"stand_in": "drawn in code"
+				}
+			],
+			"shows": "Planned: the fight screen's slot frames, cooldown, Paused banner and speed are drawn in code; reading these pictures is to be built when they are made (docs/05)."
+		},
+		"A4": {
+			"what": "Sixteen signature weapon icons",
+			"files": [
+				{
+					"each": [
+						"pale_orb",
+						"first_key",
+						"last_wall",
+						"the_answer",
+						"long_harvest",
+						"kept_flame",
+						"every_morning",
+						"passing_word",
+						"the_tally",
+						"threshing_day",
+						"last_word",
+						"hosts_knife",
+						"grudge_and_reckoning",
+						"wolfs_tooth",
+						"first_blow",
+						"open_hands"
+					],
+					"name": "{each}.png",
+					"to": "art/items/{each}.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the weapon kind's icon (its icon in data/equipment.json)"
+				}
+			],
+			"shows": "Each lead's own weapon wherever gear is shown (Gear.icon reads art/items/<id>.png before the piece's icon, D369)."
+		},
+		"A5": {
+			"what": "Room floors and walls",
+			"files": [
+				{
+					"each": [
+						"oak",
+						"pine",
+						"dark",
+						"drift",
+						"tile",
+						"flag"
+					],
+					"name": "floor_{each}.png",
+					"to": "art/interior/floor_{each}.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "tools/draw_interiors.py"
+				},
+				{
+					"each": [
+						"timber",
+						"log",
+						"boards",
+						"damp",
+						"adobe",
+						"stone"
+					],
+					"name": "wall_{each}.png",
+					"to": "art/interior/wall_{each}.png",
+					"size": [
+						64,
+						112
+					],
+					"stand_in": "tools/draw_interiors.py"
+				},
+				{
+					"each": [
+						"timber",
+						"log",
+						"boards",
+						"damp",
+						"adobe",
+						"stone"
+					],
+					"name": "cap_{each}.png",
+					"to": "art/interior/cap_{each}.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "tools/draw_interiors.py"
+				}
+			],
+			"shows": "The floors, back walls and wall tops of every inn and hall (src/area/interior_painter.gd), replacing the in-house pictures where they are."
+		},
+		"A9": {
+			"what": "The huge Tower",
+			"files": [
+				{
+					"name": "tower_shaft.png",
+					"to": "art/props/landmark/tower_shaft.png",
+					"size": "any",
+					"stand_in": "tools/draw_great_tower.py",
+					"prop": false
+				},
+				{
+					"name": "tower_door.png",
+					"to": "art/props/landmark/tower_door.png",
+					"size": [
+						320,
+						400
+					],
+					"stand_in": "tools/draw_tower.py"
+				},
+				{
+					"name": "far_tower.png",
+					"to": "art/ui/far_tower.png",
+					"size": [
+						80,
+						320
+					],
+					"stand_in": "tools/draw_tower.py"
+				}
+			],
+			"shows": "The Tower over its door at Stormreach (tower.json spire art, src/area/area_spire.gd draws it at its own size, standing on its foot), its door, and the Tower on the horizon from far off (src/ui/far_tower.gd)."
+		},
+		"A10": {
+			"what": "Atlas's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's atlas.png (art/props/memories/atlas.png, D358): take A58."
+		},
+		"A11": {
+			"what": "Cato's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's cato.png (art/props/memories/cato.png, D358): take A58."
+		},
+		"A12": {
+			"what": "Janus's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's janus.png (art/props/memories/janus.png, D358): take A58."
+		},
+		"A13": {
+			"what": "Bellona's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's bellona.png (art/props/memories/bellona.png, D358): take A58."
+		},
+		"A14": {
+			"what": "Cassius's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's cassius.png (art/props/memories/cassius.png, D358): take A58."
+		},
+		"A15": {
+			"what": "Saturn's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's saturn.png (art/props/memories/saturn.png, D358): take A58."
+		},
+		"A16": {
+			"what": "Pluto's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's pluto.png (art/props/memories/pluto.png, D358): take A58."
+		},
+		"A17": {
+			"what": "Ultor's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's ultor.png (art/props/memories/ultor.png, D358): take A58."
+		},
+		"A18": {
+			"what": "Liber's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's liber.png (art/props/memories/liber.png, D358): take A58."
+		},
+		"A19": {
+			"what": "Ares's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's ares.png (art/props/memories/ares.png, D358): take A58."
+		},
+		"A20": {
+			"what": "Caesar's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's caesar.png (art/props/memories/caesar.png, D358): take A58."
+		},
+		"A21": {
+			"what": "Vesta's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's vesta.png (art/props/memories/vesta.png, D358): take A58."
+		},
+		"A22": {
+			"what": "Iris's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's iris.png (art/props/memories/iris.png, D358): take A58."
+		},
+		"A23": {
+			"what": "Ceres's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's ceres.png (art/props/memories/ceres.png, D358): take A58."
+		},
+		"A24": {
+			"what": "Juno's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's juno.png (art/props/memories/juno.png, D358): take A58."
+		},
+		"A25": {
+			"what": "Diana's chapter-one keepsake",
+			"made_as": "A58",
+			"files": [],
+			"shows": "Made once as A58's diana.png (art/props/memories/diana.png, D358): take A58."
+		},
+		"A26": {
+			"what": "Muck Muck, the builder",
+			"files": [
+				{
+					"name": "muck_muck",
+					"set": [
+						"idle"
+					],
+					"to": "art/townsfolk/muck_muck",
+					"size": [
+						48,
+						72
+					],
+					"stand_in": "the innkeeper's picture"
+				}
+			],
+			"shows": "Muck Muck wherever he stands (art_wanted on muck_muck in data/units.json, D369)."
+		},
+		"A27": {
+			"what": "Sinner, the cleric healer",
+			"files": [
+				{
+					"name": "sinner",
+					"set": [
+						"idle"
+					],
+					"to": "art/townsfolk/sinner",
+					"size": [
+						48,
+						72
+					],
+					"stand_in": "the hedge priest's picture"
+				}
+			],
+			"shows": "Sinner wherever she stands (art_wanted on sinner in data/units.json, D369)."
+		},
+		"A28": {
+			"what": "Sky, redrawn with room for his tail",
+			"files": [
+				{
+					"name": "sky",
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"to": "art/big/sky",
+					"size": "any",
+					"stand_in": "Sky at 96, half a tail"
+				}
+			],
+			"shows": "Sky under Atlas, everywhere (units.json sky, art/big/sky): replaced in place; a bigger canvas stands at the same size on screen (AreaActor fits the picture to its body)."
+		},
+		"A29": {
+			"what": "Animals that walk the land",
+			"files": [
+				{
+					"each": [
+						"rabbit",
+						"deer",
+						"fox",
+						"crow",
+						"squirrel",
+						"boar"
+					],
+					"name": "{each}",
+					"set": [
+						"idle",
+						"walk"
+					],
+					"to": "art/creatures/{each}",
+					"size": "any",
+					"stand_in": "nothing (the land has its birds and bugs)"
+				}
+			],
+			"shows": "Planned: animals walking the land (D179) are to be built when these are made; they land in art/creatures/<name>/ (docs/05)."
+		},
+		"A30": {
+			"what": "A meat pie and a honey cake",
+			"files": [
+				{
+					"each": [
+						"meat_pie",
+						"honey_cake"
+					],
+					"name": "{each}.png",
+					"to": "art/items/{each}.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the loaf"
+				}
+			],
+			"shows": "What Ada the Baker sells, in the shop and the packs (Gear.icon reads art/items/<id>.png before the piece's icon, D369)."
+		},
+		"A31": {
+			"what": "Birds in flight",
+			"files": [
+				{
+					"each": [
+						"finch",
+						"sparrow",
+						"irish_bird",
+						"irish_bird_2",
+						"white_dove"
+					],
+					"name": "{each}_fly",
+					"frames": true,
+					"to": "art/props/nature/{each}_fly",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the still bird, squashed in time to its wings"
+				}
+			],
+			"shows": "A land bird taking off or flying over: its wing-beat, frame_000.png on, played while it flies (src/area/area_critter.gd, D369)."
+		},
 		"A32": {
 			"what": "Footpaths and dirt tracks",
 			"files": [
@@ -24,6 +381,121 @@
 				}
 			],
 			"shows": "The paths between villages (data/tilesets.json footpath and track, D233)."
+		},
+		"A33": {
+			"what": "Climbers",
+			"files": [
+				{
+					"each": [
+						"climber_blade",
+						"climber_bow",
+						"climber_staff",
+						"climber_shield"
+					],
+					"name": "{each}",
+					"set": [
+						"idle",
+						"walk"
+					],
+					"to": "art/units/{each}",
+					"size": [
+						48,
+						72
+					],
+					"stand_in": "the Fox Fire Knight, the Bird Archer and the Caterpillar Warrior"
+				}
+			],
+			"shows": "The companies on the road and the Tower floors (life.climbers.units; art_wanted on each climber_ unit in data/units.json, D369)."
+		},
+		"A34": {
+			"what": "The Second Hour's rooms",
+			"files": [
+				{
+					"name": "banner.png",
+					"to": "art/props/second_hour/banner.png",
+					"size": "any",
+					"stand_in": "interior/banner_red"
+				},
+				{
+					"name": "broken_crates.png",
+					"to": "art/props/second_hour/broken_crates.png",
+					"size": "any",
+					"stand_in": "interior/crates"
+				},
+				{
+					"name": "sacks.png",
+					"to": "art/props/second_hour/sacks.png",
+					"size": "any",
+					"stand_in": "village/barrels"
+				},
+				{
+					"name": "runner.png",
+					"to": "art/props/second_hour/runner.png",
+					"size": "any",
+					"stand_in": "nothing"
+				},
+				{
+					"name": "spiral_stair.png",
+					"to": "art/props/second_hour/spiral_stair.png",
+					"size": "any",
+					"stand_in": "nothing"
+				},
+				{
+					"name": "cracked_basin.png",
+					"to": "art/props/second_hour/cracked_basin.png",
+					"size": "any",
+					"stand_in": "nothing"
+				},
+				{
+					"name": "bricked_door.png",
+					"to": "art/props/second_hour/bricked_door.png",
+					"size": "any",
+					"stand_in": "nothing"
+				},
+				{
+					"name": "fallen_column.png",
+					"to": "art/props/second_hour/fallen_column.png",
+					"size": "any",
+					"stand_in": "nothing"
+				},
+				{
+					"name": "yard_well.png",
+					"to": "art/props/second_hour/yard_well.png",
+					"size": "any",
+					"stand_in": "village/well"
+				},
+				{
+					"name": "whipping_post.png",
+					"to": "art/props/second_hour/whipping_post.png",
+					"size": "any",
+					"stand_in": "village/signpost"
+				},
+				{
+					"name": "barracks_hearth.png",
+					"to": "art/props/second_hour/barracks_hearth.png",
+					"size": "any",
+					"stand_in": "camp/fire_dark"
+				},
+				{
+					"name": "tree_roots.png",
+					"to": "art/props/second_hour/tree_roots.png",
+					"size": "any",
+					"stand_in": "nature/dead_tree"
+				},
+				{
+					"name": "stair_foot.png",
+					"to": "art/props/second_hour/stair_foot.png",
+					"size": "any",
+					"stand_in": "nothing"
+				},
+				{
+					"name": "antechamber_brazier.png",
+					"to": "art/props/second_hour/antechamber_brazier.png",
+					"size": "any",
+					"stand_in": "brazier"
+				}
+			],
+			"shows": "Tower floors 6 to 10: the banners, crates and sacks (6), the well, whipping post, hearth and roots (9) and the braziers (10) stand there now as their stand-ins (props.json stand_ins, D369); the runner (6), spiral stair and basin (7), bricked doorways and columns (8) and the stair's foot (10) are laid on their floors when drawn (planned)."
 		},
 		"A35": {
 			"what": "The sixteen chapter-two keepsakes",
@@ -58,6 +530,48 @@
 			],
 			"shows": "Each lead's chapter-two keepsake lying on floors 6 to 10 (data/memories.json chapter 2, Memories.art_of, D358)."
 		},
+		"A36": {
+			"what": "The Keeper of the Tenth",
+			"files": [
+				{
+					"name": "tenth_keeper",
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"hit"
+					],
+					"to": "art/big/tenth_keeper",
+					"size": [
+						96,
+						96
+					],
+					"stand_in": "the colossal titan"
+				}
+			],
+			"shows": "Floor 10's keeper (art_wanted on tenth_keeper in data/units.json, D369)."
+		},
+		"A37": {
+			"what": "Things left lying on the ground",
+			"files": [
+				{
+					"each": [
+						"sword",
+						"bow",
+						"staff",
+						"bundle"
+					],
+					"name": "{each}.png",
+					"to": "art/props/dropped/{each}.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the Tower's shattered sword, a strongbox"
+				}
+			],
+			"shows": "A cache found on the land, drawn as what is in it (world_rules.json -> loot.cache_art; props.json stand_ins until drawn, D369)."
+		},
 		"A38": {
 			"what": "A gate lying broken",
 			"files": [
@@ -72,6 +586,681 @@
 				}
 			],
 			"shows": "A shut gate's mouth (data/world_rules.json -> gate.shut.art, D261)."
+		},
+		"A39": {
+			"what": "The goblins' five tiers",
+			"files": [
+				{
+					"each": [
+						"goblin_lesser",
+						"goblin_high",
+						"hobgoblin",
+						"goblin_chieftain",
+						"goblin_shaman"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						48,
+						72
+					],
+					"stand_in": "the plain goblin's picture, tinted"
+				}
+			],
+			"shows": "Each tier in every fight and on the land, drawn with its own picture once it is in instead of its plain kind's tinted (art_wanted in data/units.json, Database._take_own_pictures, D369); its family and tier as D262."
+		},
+		"A40": {
+			"what": "The wolves' five tiers",
+			"files": [
+				{
+					"each": [
+						"wolf_cub",
+						"grey_wolf",
+						"dire_wolf",
+						"pack_alpha",
+						"moon_howler"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						92,
+						92
+					],
+					"stand_in": "the plain wolf's picture, tinted"
+				}
+			],
+			"shows": "Each tier in every fight and on the land, drawn with its own picture once it is in instead of its plain kind's tinted (art_wanted in data/units.json, Database._take_own_pictures, D369); its family and tier as D264."
+		},
+		"A41": {
+			"what": "The climbers' stone",
+			"files": [
+				{
+					"name": "climbers_stone.png",
+					"to": "art/props/landmark/climbers_stone.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the standing stone"
+				}
+			],
+			"shows": "The stone by the Tower's door with the climbers' names (tower.json; props.json stand_ins until drawn, D369)."
+		},
+		"A42": {
+			"what": "The wild beasts' tiers",
+			"files": [
+				{
+					"each": [
+						"ogrekin",
+						"high_ogre",
+						"ogre_brute",
+						"ogre_warlord",
+						"ogre_mage"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						96,
+						96
+					],
+					"stand_in": "the plain ogre's picture, tinted"
+				},
+				{
+					"each": [
+						"bear_cub",
+						"axe_bear_veteran",
+						"great_axe_bear",
+						"axe_bear_chieftain",
+						"bear_shaman"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						96,
+						96
+					],
+					"stand_in": "the plain axe_bear's picture, tinted"
+				},
+				{
+					"each": [
+						"monkey_scamp",
+						"high_sword_monkey",
+						"blade_ape",
+						"monkey_king",
+						"monkey_sage"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain sword_monkey's picture, tinted"
+				},
+				{
+					"each": [
+						"blood_midge",
+						"bloodfly",
+						"bloated_mosquito",
+						"mosquito_queen",
+						"plague_drone"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain blood_mosquito's picture, tinted"
+				},
+				{
+					"each": [
+						"sproutling",
+						"thornback",
+						"rootback",
+						"old_mossback",
+						"bloomcaller"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain seed_beast's picture, tinted"
+				},
+				{
+					"each": [
+						"caterpillar_larva",
+						"silk_warrior",
+						"chrysalis_knight",
+						"moth_lord",
+						"dust_moth"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						96,
+						96
+					],
+					"stand_in": "the plain caterpillar_warrior's picture, tinted"
+				},
+				{
+					"each": [
+						"wisp_mote",
+						"bright_wisp",
+						"storm_wisp",
+						"wisp_lord",
+						"will_o_wisp"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain feather_wisp's picture, tinted"
+				},
+				{
+					"each": [
+						"sapling_sentinel",
+						"oak_sentinel",
+						"ironbark",
+						"elder_sentinel",
+						"greenwarden"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						96,
+						96
+					],
+					"stand_in": "the plain tree_sentinel's picture, tinted"
+				}
+			],
+			"shows": "Each tier in every fight and on the land, drawn with its own picture once it is in instead of its plain kind's tinted (art_wanted in data/units.json, Database._take_own_pictures, D369); its family and tier as D267."
+		},
+		"A43": {
+			"what": "The cold and fire monsters' tiers",
+			"files": [
+				{
+					"each": [
+						"frostnipped",
+						"rimebitten",
+						"frost_brute",
+						"winter_lord",
+						"frost_seer"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						96,
+						96
+					],
+					"stand_in": "the plain frozen_wolfman's picture, tinted"
+				},
+				{
+					"each": [
+						"ice_wolf_pup",
+						"rime_wolf",
+						"glacier_wolf",
+						"winter_alpha",
+						"frost_howler"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain ice_wolf's picture, tinted"
+				},
+				{
+					"each": [
+						"ember_eft",
+						"cinder_lizard",
+						"magma_lizard",
+						"salamander_lord",
+						"flame_tongue"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain ember_lizard's picture, tinted"
+				},
+				{
+					"each": [
+						"flame_cub",
+						"blaze_lion",
+						"inferno_lion",
+						"sun_king",
+						"ember_priestess"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain flame_lion's picture, tinted"
+				},
+				{
+					"each": [
+						"spark_chick",
+						"blaze_dove",
+						"fire_hawk",
+						"phoenix_lord",
+						"ash_crow"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain flame_dove's picture, tinted"
+				},
+				{
+					"each": [
+						"pig_acolyte",
+						"high_warlock",
+						"hog_warlock",
+						"warlock_lord",
+						"boar_sorcerer"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain pig_warlock's picture, tinted"
+				}
+			],
+			"shows": "Each tier in every fight and on the land, drawn with its own picture once it is in instead of its plain kind's tinted (art_wanted in data/units.json, Database._take_own_pictures, D369); its family and tier as D268."
+		},
+		"A44": {
+			"what": "The water and fen monsters' tiers",
+			"files": [
+				{
+					"each": [
+						"slimelet",
+						"great_slime",
+						"hob_slime",
+						"slime_chieftain",
+						"acid_slime"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain slime's picture, tinted"
+				},
+				{
+					"each": [
+						"sea_foal",
+						"surf_horse",
+						"tide_charger",
+						"kelpie",
+						"spring_steed"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain sea_horse's picture, tinted"
+				},
+				{
+					"each": [
+						"tideling",
+						"tide_warrior",
+						"deep_brute",
+						"tide_chieftain",
+						"tide_caller"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						48,
+						72
+					],
+					"stand_in": "the plain sea_man's picture, tinted"
+				},
+				{
+					"each": [
+						"tide_cub",
+						"surge_lion",
+						"maelstrom_lion",
+						"sea_king",
+						"reef_oracle"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain tide_lion's picture, tinted"
+				},
+				{
+					"each": [
+						"mending_cub",
+						"warden_lion",
+						"stone_lion",
+						"lion_patriarch",
+						"hearth_lion"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain mending_lion's picture, tinted"
+				},
+				{
+					"each": [
+						"eye_flinger",
+						"sharp_eye",
+						"eye_hurler",
+						"eye_master",
+						"eye_seer"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						48,
+						72
+					],
+					"stand_in": "the plain eye_slinger's picture, tinted"
+				}
+			],
+			"shows": "Each tier in every fight and on the land, drawn with its own picture once it is in instead of its plain kind's tinted (art_wanted in data/units.json, Database._take_own_pictures, D369); its family and tier as D269."
+		},
+		"A45": {
+			"what": "The gate monsters' tiers",
+			"files": [
+				{
+					"each": [
+						"shade",
+						"dread_wraith",
+						"grave_wraith",
+						"wraith_lord",
+						"banshee"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the plain wraith's picture, tinted"
+				},
+				{
+					"each": [
+						"sword_cub",
+						"blade_bear",
+						"war_bear",
+						"bear_warlord",
+						"rune_bear"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						96,
+						96
+					],
+					"stand_in": "the plain sword_bear's picture, tinted"
+				},
+				{
+					"each": [
+						"musket_cub",
+						"mortar_bear",
+						"siege_bear",
+						"bear_gunmaster",
+						"powder_bear"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						96,
+						96
+					],
+					"stand_in": "the plain cannon_bear's picture, tinted"
+				},
+				{
+					"each": [
+						"swivel_gun",
+						"heavy_cannon",
+						"bombard",
+						"great_bombard",
+						"arc_cannon"
+					],
+					"set": [
+						"idle",
+						"walk",
+						"attack",
+						"skill",
+						"hit",
+						"death"
+					],
+					"name": "{each}",
+					"to": "art/tier1/{each}",
+					"size": [
+						96,
+						96
+					],
+					"stand_in": "the plain turret_cannon's picture, tinted"
+				}
+			],
+			"shows": "Each tier in every fight and on the land, drawn with its own picture once it is in instead of its plain kind's tinted (art_wanted in data/units.json, Database._take_own_pictures, D369); its family and tier as D270."
 		},
 		"A48": {
 			"what": "A cave mouth",
@@ -102,6 +1291,34 @@
 				}
 			],
 			"shows": "Every way up a shelf (an area's ways_up, D308)."
+		},
+		"A50": {
+			"what": "A mountain's top and the clouds below it",
+			"files": [
+				{
+					"each": [
+						"summit",
+						"high_rock"
+					],
+					"name": "{each}.png",
+					"to": "art/tilesets/{each}.png",
+					"size": [
+						1536,
+						512
+					],
+					"stand_in": "the snow and stone sheets"
+				},
+				{
+					"name": "cloud.png",
+					"to": "art/tilesets/cloud.png",
+					"size": [
+						1536,
+						512
+					],
+					"stand_in": "clouds drawn in code"
+				}
+			],
+			"shows": "The cloud peak's summit and high rock (texture_wanted in data/tilesets.json, D369); the cloud sheet is planned (src/area/area_clouds.gd draws them until a sheet is read)."
 		},
 		"A51": {
 			"what": "Tower floors with depth",
@@ -392,6 +1609,21 @@
 			],
 			"shows": "The ash staves and iron ore on the open land (world_rules.json -> makings_on_land, art_wanted; src/area/ground_gen.gd _herbs), D346."
 		},
+		"A63": {
+			"what": "The fallen",
+			"files": [
+				{
+					"name": "fallen.png",
+					"to": "art/props/fallen.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the cache's picture"
+				}
+			],
+			"shows": "A beaten band's fallen on the land and the floors (world_rules.json -> loot.fallen.art, D352, D362)."
+		},
 		"A64": {
 			"what": "Armour seen on the fighter",
 			"files": [
@@ -426,6 +1658,70 @@
 				}
 			],
 			"shows": "Every fighter wearing armour, drawn over the body at its size (data/skirmish.json -> worn, src/battle/units/unit.gd draw_worn), and the party screen's equipment figure (D357)."
+		},
+		"A65": {
+			"what": "The chapter visions",
+			"files": [
+				{
+					"each": [
+						"atlas_1",
+						"atlas_2",
+						"cato_1",
+						"cato_2",
+						"janus_1",
+						"janus_2",
+						"bellona_1",
+						"bellona_2",
+						"cassius_1",
+						"cassius_2",
+						"saturn_1",
+						"saturn_2",
+						"pluto_1",
+						"pluto_2",
+						"ultor_1",
+						"ultor_2",
+						"liber_1",
+						"liber_2",
+						"ares_1",
+						"ares_2",
+						"caesar_1",
+						"caesar_2",
+						"vesta_1",
+						"vesta_2",
+						"iris_1",
+						"iris_2",
+						"ceres_1",
+						"ceres_2",
+						"juno_1",
+						"juno_2",
+						"diana_1",
+						"diana_2"
+					],
+					"name": "{each}.png",
+					"to": "art/visions/{each}.png",
+					"size": [
+						640,
+						360
+					],
+					"stand_in": "the keepsake held up in a white wash"
+				}
+			],
+			"shows": "The vision when a memory is picked up (src/area/memory_vision.gd, art/visions/<memory id>.png, D361)."
+		},
+		"A66": {
+			"what": "A grave on the ground",
+			"files": [
+				{
+					"name": "grave.png",
+					"to": "art/props/grave.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the land's stone cairn"
+				}
+			],
+			"shows": "Where a companion is buried after a fight (memorials.json -> burial.art; props.json stand_ins until drawn, D363, D369)."
 		}
 	}
 }

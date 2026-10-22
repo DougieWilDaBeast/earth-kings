@@ -31,7 +31,9 @@ const SOURCE_ID := 0
 
 
 static func tile_set_for(sheet: Dictionary) -> TileSet:
-	var texture: Texture2D = load(sheet.get("texture", ""))
+	# A sheet still to be drawn (A50; [D369]) is named in `texture_wanted` and used once it is in.
+	var wanted := str(sheet.get("texture_wanted", ""))
+	var texture: Texture2D = load(wanted if wanted != "" and ResourceLoader.exists(wanted) else str(sheet.get("texture", "")))
 	if texture == null:
 		push_error("TileForge: cannot load sheet texture '%s'" % sheet.get("texture", ""))
 		return null

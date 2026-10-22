@@ -26,8 +26,8 @@
 	"reinforced": "You talk about them for a while. Everything you were carrying sits a little firmer.",
 	"lonely": "There is nobody left to say anything, so you say it yourself.",
 	"burial": {
-		"_comment": "D363 (doug-md's play-test 2 ask, D118: a companion's death shown, with a small burial). After a fight on the ground, each of the company who died for good is laid down where they fell under a cairn (`art`), with one `laid` line for them and one `said` by the lead; `after` closes it. {name} is the dead, {lead} the lead. Read by area_scene._bury. Inferred: every line, and the cairn standing in for a grave of its own (A66).",
-		"art": "biome/cairn",
+		"_comment": "D363 (doug-md's play-test 2 ask, D118: a companion's death shown, with a small burial). After a fight on the ground, each of the company who died for good is laid down where they fell under a cairn (`art`), with one `laid` line for them and one `said` by the lead; `after` closes it. {name} is the dead, {lead} the lead. Read by area_scene._bury. Inferred: every line, and A66's grave, the land's stone cairn standing in for it until drawn (props.json stand_ins, D369).",
+		"art": "grave",
 		"laid": [
 			"They lay {name} down where they fell, and raise what stones there are over them.",
 			"There is no time for more than a shallow grave and a few stones. {name} gets both.",

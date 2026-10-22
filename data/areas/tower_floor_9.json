@@ -105,14 +105,14 @@
             ]
         },
         {
-            "art": "village/well",
+            "art": "second_hour/yard_well",
             "cell": [
                 10,
                 6
             ]
         },
         {
-            "art": "village/signpost",
+            "art": "second_hour/whipping_post",
             "cell": [
                 15,
                 6
@@ -133,14 +133,14 @@
             ]
         },
         {
-            "art": "camp/fire_dark",
+            "art": "second_hour/barracks_hearth",
             "cell": [
                 3,
                 7
             ]
         },
         {
-            "art": "nature/dead_tree",
+            "art": "second_hour/tree_roots",
             "cell": [
                 23,
                 6
