@@ -49,6 +49,8 @@
 		},
 		"_comment_hand_fight_speed": "D329 (Ewan's play-test 8: four wolves at 5x took three of the company before he could answer; held behind milestone B, call BW, then call BX). A fight played by hand starts no faster than this; the walking speed comes back when it ends, unless the player picked another speed in it. A party playing itself keeps its speed. Inferred: 2x.",
 		"hand_fight_speed": 2.0,
+		"_comment_pick_pace": "D386 (call CE, meeting seven D381): on touch, from picking a fighter until they are given an order or the pick is let go, the fight runs at this share of its speed, so a thumb has time to choose. Touch only; a mouse and a pad are unchanged. Inferred: half speed.",
+		"pick_pace": 0.5,
 		"heal_from_level": 3,
 		"heal_per_level": 0.1
 	},

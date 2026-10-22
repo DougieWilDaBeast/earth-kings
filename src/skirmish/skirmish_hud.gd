@@ -28,7 +28,7 @@ const COMPACT_KEYS := "K: keys"
 const HINT := "Right-click: move · attack · help the fallen    Left-click / drag: select    1–4 / Tab: pick    " \
 		+ "Q W E R: skills    A: auto skills    O F B G H: own way · close in · keep away · guard · hold    Space: pause    T: speed    Z: auto-pause    N: journal"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
-		+ "a skill, then its target · tap the skill again to put it away"
+		+ "a skill, then its target · tap the skill again to put it away · the fight slows while you choose"
 ## The same, on a pad: the stick walks a cursor and A gives the order there.
 const PAD_HINT := "Stick: cursor    %s: pick · move · attack · help the fallen    %s: next fighter    %s: everyone    " \
 		+ "%s: next skill    %s: pause    %s: speed    %s: put a skill away"
