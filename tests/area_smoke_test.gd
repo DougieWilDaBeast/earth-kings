@@ -1405,6 +1405,19 @@ func _check_practice_band() -> void:
 	add_child(scene)
 	for i in 10:
 		await get_tree().process_frame
+	# Auto never walks Hearthwick (D367): it took the road south in a moment, and the tutorial ended at the title.
+	_requests.clear()
+	var auto_was := Pace.auto
+	var press := InputEventAction.new()
+	press.action = "battle_auto"
+	press.pressed = true
+	scene.call("_unhandled_input", press)
+	_expect_tut(not Pace.auto, "the Auto key turned Auto on in Hearthwick")
+	Pace.auto = true
+	for i in 120:
+		await get_tree().process_frame
+	_expect_tut(_requests.is_empty(), "Auto walked out of Hearthwick to the title (%s)" % str(_requests))
+	Pace.auto = auto_was
 	var watches: Array = scene.get("_watches")
 	_expect_tut(watches.is_empty(), "the sparring pair was in the village before the fight step called it")
 	GameState.set_flag("tut:spar_ready")
