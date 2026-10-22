@@ -88,6 +88,7 @@ func _ready() -> void:
 	]:
 		opening.connect(_restate)
 	EventBus.overlay_closed.connect(_restate)
+	EventBus.map_requested.connect(_restate)
 	EventBus.dialogue_requested.connect(func(_id: String) -> void: _restate())
 	EventBus.dialogue_finished.connect(func(_id: String) -> void: _restate())
 	EventBus.conversation_requested.connect(func(_lines: Array) -> void: _restate())
@@ -142,7 +143,8 @@ func _restate() -> void:
 func _lay_out() -> void:
 	if not is_inside_tree():
 		return
-	var playing := Pace.is_touch_enabled() and PLAY_SCENES.has(_scene_key) and not _overlay_open()
+	var playing := Pace.is_touch_enabled() and PLAY_SCENES.has(_scene_key) and not _overlay_open() \
+			and not _big_map_up()
 	var walking := playing and WALK_SCENES.has(_scene_key)
 
 	_root.visible = playing
@@ -161,6 +163,14 @@ func _lay_out() -> void:
 	# On, it says which way it walks (D216); the menu picks the way.
 	_auto_btn.text = "Auto: %s" % Pace.auto_style_name() if Pace.auto else "Auto"
 	_speed_btn.text = "%dx" % int(Pace.speed())
+
+
+## The large map has its own +, -, Party and Close on a phone ([D377]).
+func _big_map_up() -> bool:
+	for node in get_tree().get_nodes_in_group(EventBus.BIG_MAP_GROUP):
+		if node.has_method("is_open") and node.is_open():
+			return true
+	return false
 
 
 func _book_beside() -> bool:

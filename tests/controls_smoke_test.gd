@@ -791,6 +791,8 @@ func _check_tips_and_how_to_play() -> void:
 	_expect(page.is_open(), "How to Play did not open from the menu")
 	var said: String = page.get_node("Root").find_child("Body", true, false).get_parsed_text()
 	for section: Dictionary in page.sections():
+		if bool(section.get("touch", false)) and not Pace.is_touch_enabled():
+			continue
 		_expect(said.contains(str(section["heading"])), "How to Play is missing %s" % section["heading"])
 	var cancel := _action("ui_cancel")
 	Input.parse_input_event(cancel)
@@ -799,6 +801,33 @@ func _check_tips_and_how_to_play() -> void:
 	_expect(_menu.is_open(), "Back shut the menu under How to Play as well")
 	_menu.close()
 	print("tips: %d, how to play: %d sections" % [ids.size(), page.sections().size()])
+
+	# A phone's words ([D377]): a line written for a keyboard is said for a thumb with the touch
+	# controls on, and left as it was with them off; How to Play opens on "On a phone".
+	var mode_was := Pace.touch_mode
+	Pace.touch_mode = "on"
+	var thumb := Pad.say("WASD to walk  ·  E to talk  ·  H to hire Ganel  ·  click anyone marked  ·  P or Esc to close")
+	_expect(thumb == "The stick walks  ·  Act to talk  ·  Tap to hire Ganel  ·  tap anyone marked  ·  Close shuts it",
+			"a line said for a thumb read \"%s\"" % thumb)
+	_expect(Pad.key("open_party") == "Party" and Pad.walk_text() == "The stick", "the touch bar's names were not used")
+	for tip: Dictionary in tips.all():
+		var words := str(tip.get("touch", ""))
+		var check := words if words != "" else Pad.say(str(tip.get("text", "")))
+		for key: String in ["WASD", "Esc ", "right-click", "Right-click", "Space ", " P ", " Q "]:
+			_expect(not check.contains(key), "tip '%s' says %s on a phone: %s" % [tip["id"], key.strip_edges(), check])
+	EventBus.how_to_play_requested.emit()
+	await _settle()
+	var phone_page: String = page.get_node("Root").find_child("Body", true, false).get_parsed_text()
+	_expect(phone_page.begins_with("On a phone"), "How to Play did not open on its phone page with touch on")
+	page.close()
+	Pace.touch_mode = "off"
+	_expect(Pad.say("WASD to walk") == "WASD to walk", "a keyboard's line was changed with touch off")
+	EventBus.how_to_play_requested.emit()
+	await _settle()
+	_expect(not page.get_node("Root").find_child("Body", true, false).get_parsed_text().contains("On a phone"),
+			"How to Play showed its phone page with touch off")
+	page.close()
+	Pace.touch_mode = mode_was
 
 	tips.set_enabled(enabled_was)
 	config = ConfigFile.new()
@@ -833,7 +862,12 @@ func _check_the_pad() -> void:
 	await _clear_dialogue()
 	var world := _current_scene()
 	Pad.set_using_pad(false)
+	# The suite plays with the touch bar on, which says its own names ([D377]): a keyboard is asked
+	# with it off.
+	Pace.touch_mode = "off"
 	_expect(Pad.key("interact") == "E", "the keyboard hint for interact is not E")
+	Pace.touch_mode = "on"
+	_expect(Pad.key("interact") == "Act", "the touch hint for interact is not Act")
 	Pad.set_using_pad(true)
 	_expect(Pad.key("interact") == "A", "the pad hint for interact is not A")
 	if world != null:

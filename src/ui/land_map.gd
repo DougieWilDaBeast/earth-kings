@@ -53,6 +53,8 @@ const ZOOM_LEAST := 5.0
 const PIN_REACH := 12.0
 ## How far a press may move before it is a drag, not a click.
 const DRAG_START := 6.0
+## A finger held still this long on the large map is a right-click ([D377]): Go here, Place a marker.
+const HOLD_FOR_MENU := 0.5
 
 const MENU_GO := 0
 const MENU_MARK := 1
@@ -71,6 +73,7 @@ var _menu: PopupMenu
 var _menu_cell := Vector2i(-1, -1)
 var _pressed_at := Vector2.INF
 var _dragging := false
+var _held_for := 0.0
 var _drawn := ""
 var _font: Font
 
@@ -128,10 +131,15 @@ func point_of(cell: Vector2i) -> Vector2:
 	return (Vector2(cell) + Vector2(0.5, 0.5) - centre) * cell_px + size * 0.5
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	var world: World = GameState.world
 	if world == null or not is_visible_in_tree():
 		return
+	if full and _pressed_at != Vector2.INF and not _dragging and Pace.is_touch_enabled():
+		_held_for += delta
+		if _held_for >= HOLD_FOR_MENU:
+			open_menu(cell_at(_pressed_at), get_global_transform() * _pressed_at)
+			_pressed_at = Vector2.INF
 	if follow_party:
 		centre = Vector2(world.player_cell) + Vector2(0.5, 0.5)
 	# Drawn again only when something it shows has changed.
@@ -167,6 +175,7 @@ func _gui_input(event: InputEvent) -> void:
 			if button.pressed:
 				_pressed_at = button.position
 				_dragging = false
+				_held_for = 0.0
 			else:
 				if not _dragging and _pressed_at != Vector2.INF:
 					_click(button.position)

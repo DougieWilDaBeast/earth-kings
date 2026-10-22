@@ -436,9 +436,9 @@ func _rebuild() -> void:
 		"" if GameState.away.is_empty() else "  ·  %d away" % GameState.away.size(),
 	]
 	# How full the company is and how the next seat is earned (agenda item 35).
-	_footer.text = "%s  ·  P or Esc to close%s" % [
+	_footer.text = Pad.say("%s  ·  P or Esc to close%s" % [
 		Roster.Seats.status_line(GameState.roster), "" if _notice == "" else "  ·  " + _notice
-	]
+	])
 
 
 func _empty(box: Node) -> void:

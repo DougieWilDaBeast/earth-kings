@@ -3,6 +3,19 @@
 	"title": "How to Play",
 	"sections": [
 		{
+			"heading": "On a phone",
+			"touch": true,
+			"lines": [
+				"The game is made for a computer with keys and a mouse first; on a phone everything is still there, on buttons. Turn the phone on its side for the most room.",
+				"The stick in the bottom left walks. Act talks, looks, steps in and climbs; Back goes back or cancels an order; Next takes the lead with someone else.",
+				"The bar along the top: Party for the party screen, Book for the journal, Auto to let the game walk and fight for itself, the speed button, More for the quick wheel (eat, formation, the map, send someone away, arrange the screen) and Menu for saving, sound and these pages.",
+				"Whatever a place offers (hire, buy, the board, a better bed, the Guild, a first strike on a band that has not seen you) comes up as a button above the stick. The line at the bottom says the same.",
+				"Tap the small map in the corner for the big one: drag to look about, + and - to zoom, hold a finger on a place to Go here or Place a marker, Close to put it away. Two fingers pinch the ground to zoom.",
+				"In a fight the stick steps aside: tap a fighter to pick them, then tap ground, an enemy or a fallen friend to send them; tap a skill, then its target. Pause, speed and stances are down the side.",
+				"The rest of this page is written for a keyboard; each key it names is one of these buttons."
+			]
+		},
+		{
 			"heading": "Walking",
 			"lines": [
 				"New here? Your first New Game is Atlas's last stand: the last day of his world, in a training village, where you learn the game. It ends in a fight he cannot win, and he falls for good. Atlas's Last Stand, on the title screen, plays it again, with nothing written down.",

@@ -130,6 +130,9 @@ const CUTSCENE_FRAME_GROUP := "cutscene_frame"
 const ACTIVE_SCENE_GROUP := "active_scene"
 ## A fight running ([D300]): a first-time tip waits for it to be over rather than cover it.
 const FIGHT_GROUP := "fight_on"
+## The large map over the ground ([D232]): not modal, as the ground goes on under it, but the touch
+## bar steps aside for its own buttons while it is up ([D377]).
+const BIG_MAP_GROUP := "big_map"
 
 ## The party now stands in [param place_id]: an area's id, or the id of the place on the land tile
 ## they have walked onto ("home" for the crater, "city"), or a moment's own key ("world_ends").

@@ -81,6 +81,7 @@ const LIST_FACE := 36
 @onready var _title: Label = %TitleLabel
 @onready var _fullness: Label = %FullnessLabel
 @onready var _footer: Label = %FooterLabel
+const FOOTER := "M for the map  ·  N or Esc to close"
 @onready var _book: PanelContainer = %Book
 @onready var _left_leaf: PanelContainer = %LeftLeaf
 @onready var _right_leaf: PanelContainer = %RightLeaf
@@ -132,6 +133,8 @@ func _ready() -> void:
 	Sfx.attend(_dock_btn)
 	_dress_book()
 	get_viewport().size_changed.connect(_fit_to_screen)
+	# Every page, however it is built, is fitted to an upright leaf once it is up ([D378]).
+	_page.child_entered_tree.connect(func(_child: Node) -> void: _ask_to_fit_the_page())
 	_fit_to_screen()
 	_sheet_btn.pressed.connect(func() -> void: _set_tab(Tab.SHEET))
 	_bestiary_btn.pressed.connect(func() -> void: _set_tab(Tab.BESTIARY))
@@ -198,6 +201,8 @@ func _at_the_side() -> bool:
 
 func open() -> void:
 	_backdrop.show()
+	# On a phone, its tabs and Close rather than M, N and Esc ([D377]).
+	_footer.text = Pad.say(FOOTER)
 	_fit_to_screen()
 	_rebuild()
 
@@ -1054,9 +1059,10 @@ func _fit_to_screen() -> void:
 	_spine.custom_minimum_size = Vector2(0, 8) if narrow else Vector2(16, 0)
 	_right_leaf.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	# A page's widest line (a face beside its bars, a power's reach) can be wider than an upright
-	# leaf; it slides sideways there rather than pushing the book off the screen.
+	# leaf; it is fitted to the leaf there ([D378]), and slides sideways only if it still will not go.
 	_page_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO if narrow \
 			else ScrollContainer.SCROLL_MODE_DISABLED
+	_ask_to_fit_the_page()
 	var side := 10 if narrow else 36
 	var margin := $Backdrop/Margin as MarginContainer
 	margin.add_theme_constant_override("margin_left", side)
@@ -1082,6 +1088,67 @@ func _fit_to_screen() -> void:
 	_title.clip_text = side_on
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_title.add_theme_font_size_override("font_size", 21 if side_on else 26)
+
+
+var _fitting_asked := false
+
+
+func _ask_to_fit_the_page() -> void:
+	if _fitting_asked:
+		return
+	_fitting_asked = true
+	_fit_the_page.call_deferred()
+
+
+## On a phone held upright a page is narrower than any line it was written for ([D378]): a line too
+## long for the leaf wraps, and a row of things side by side (Attributes beside The path, a face
+## beside its bars) that still does not fit stands one above the other. Nothing slides sideways.
+## A wide screen and the book at the side are left as they were laid out.
+func _fit_the_page() -> void:
+	_fitting_asked = false
+	if not is_inside_tree() or not _backdrop.visible:
+		return
+	var view := get_viewport().get_visible_rect().size
+	if view.x >= view.y:
+		return
+	# The leaf's width as laid out, less the scroll bar, once the book has been laid out this way up.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_inside_tree() or not _backdrop.visible:
+		return
+	var room := _page_scroll.size.x - 16.0
+	for label: Node in _page.find_children("*", "Label", true, false):
+		var line := label as Label
+		if line.get_combined_minimum_size().x > room * 0.6:
+			line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			line.custom_minimum_size.x = 0.0
+			line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var rows := _page.find_children("*", "HBoxContainer", true, false)
+	rows.reverse()
+	for row: Node in rows:
+		var box := row as HBoxContainer
+		if box.get_combined_minimum_size().x > room:
+			_stand_up(box)
+
+
+## [param row]'s things one above the other: an HBoxContainer cannot be turned, so a VBoxContainer
+## takes its place and its children.
+func _stand_up(row: HBoxContainer) -> void:
+	var parent := row.get_parent()
+	if parent == null:
+		return
+	var column := VBoxContainer.new()
+	column.size_flags_horizontal = row.size_flags_horizontal
+	column.size_flags_vertical = row.size_flags_vertical
+	column.add_theme_constant_override("separation", 6)
+	var at := row.get_index()
+	parent.add_child(column)
+	parent.move_child(column, at)
+	for child: Node in row.get_children():
+		row.remove_child(child)
+		column.add_child(child)
+	parent.remove_child(row)
+	row.queue_free()
 
 
 ## Ink for the leaves: every label, and the plain buttons the lists are made of,

@@ -1382,7 +1382,7 @@ func _say_what_can_be_done() -> void:
 	var said: Array[String] = []
 	for doing: Dictionary in doable:
 		said.append(str(doing["prompt"]))
-	_hint.text = "  ·  ".join(said)
+	_hint.text = Pad.say("  ·  ".join(said))
 	_lay_out_actions(doable)
 
 
@@ -1558,6 +1558,10 @@ func _doings_here() -> Array[Dictionary]:
 func _key(action: String, letter: String = "") -> String:
 	if Pad.using_pad:
 		return Pad.key(action, "open_actions")
+	# A thumb presses the place's own button under the line ([D377]), or one on the touch bar.
+	if Pad.on_touch():
+		var named := Pad.touch_name(action)
+		return named if named != "" else str(Pad.touch_words().get("tap", "Tap"))
 	var said := Pad.key_text(action) if action != "" else ""
 	return said if said != "" else letter
 

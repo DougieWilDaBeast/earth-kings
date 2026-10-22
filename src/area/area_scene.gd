@@ -2111,7 +2111,8 @@ func _on_pad_changed() -> void:
 
 ## The bottom line, and the Strike first button that goes with it on a thumb or a pad.
 func _show_prompt() -> void:
-	_hint.text = _prompt_text()
+	# Said for a thumb on a phone ([D377]): the stick walks, Act talks, a click is a tap.
+	_hint.text = Pad.say(_prompt_text())
 	if _strike_btn != null:
 		_strike_btn.visible = _strike_target() != null
 

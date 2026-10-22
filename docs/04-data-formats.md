@@ -904,6 +904,18 @@ least in the pouch, food first), `party`, `send` (the party screen's mission pag
 go), `formation` (the next shape), `map`, `journal`, `auto`, and in a fight `stance` (the picked fighters'
 next). A choice is said on `EventBus.quick_wheel_chose` (`src/ui/quick_wheel.gd`).
 
+## `world_rules.json` → `touch_words` — the lines said for a thumb (D377)
+
+With the touch controls on and no pad in hand, every line written for a keyboard is said for a phone
+(`Pad.say`, `src/autoload/pad.gd`): the ground's bottom line, the party screen's and journal's
+footers, the large map's hint, and a tip without words of its own. `names` is what the touch bar
+calls an action (`interact` "Act", `ui_cancel` "Back", `open_party` "Party" and so on: `Pad.key` says
+it); `walk` says the stick; `tap` is what a place's own buttons are pressed with ("Tap to hire");
+`swaps` are `[regex, replacement]` pairs run in order ("WASD to walk" to "The stick walks", "E to"
+to "Act to", any other lone capital "H to" to "Tap to", a click to a tap). A tip in `tips.json` may
+carry `touch`, its own words for a phone, said instead of `text`; a section of `how_to_play.json`
+with `"touch": true` ("On a phone") is shown, first, only with the touch controls on.
+
 ## `world_rules.json` → `dispatch` — sending your own people out (D38, D278)
 
 `steps_per_tile` and `hunt_distance` time an errand; `trouble_*`, `win_base`, `win_per_level` and

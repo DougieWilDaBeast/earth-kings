@@ -23,10 +23,13 @@ var _title: Label
 var _hint: Label
 ## The last thing the map said ("Marker 2 placed on the map."), since the ground's log is under it.
 var _status: Label
+## A phone's way round the large map, which has no M, C, + or - to press ([D377]).
+var _buttons: HBoxContainer
 
 
 func _ready() -> void:
 	layer = 40
+	add_to_group(EventBus.BIG_MAP_GROUP)
 	visible = false
 	_dim = ColorRect.new()
 	_dim.color = Color(0.0, 0.0, 0.0, 0.55)
@@ -59,7 +62,34 @@ func _ready() -> void:
 	_hint.anchor_bottom = 1.0
 	_hint.offset_left = MARGIN
 	_hint.offset_top = -MARGIN - 18.0
+	# Wrapped upwards on a screen too narrow for it in one line, a phone held upright ([D377]).
+	_hint.anchor_right = 1.0
+	_hint.offset_right = -MARGIN
+	_hint.offset_bottom = -MARGIN + 4.0
+	_hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	Pad.changed.connect(_say)
+	_buttons = HBoxContainer.new()
+	_buttons.anchor_left = 1.0
+	_buttons.anchor_right = 1.0
+	# In the map's top right corner, clear of the hint, which wraps upwards on a phone.
+	_buttons.offset_left = -MARGIN - 8.0
+	_buttons.offset_right = -MARGIN - 8.0
+	_buttons.offset_top = MARGIN + 38.0
+	_buttons.offset_bottom = MARGIN + 94.0
+	_buttons.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_buttons.add_theme_constant_override("separation", 8)
+	add_child(_buttons)
+	for each: Array in [["+", func() -> void: map.zoom(1.0)], ["-", func() -> void: map.zoom(-1.0)],
+			["Party", func() -> void: map.recentre()], ["Close", close]]:
+		var button := Button.new()
+		button.text = str(each[0])
+		button.custom_minimum_size = Vector2(56, 56)
+		button.focus_mode = Control.FOCUS_NONE
+		button.add_theme_font_size_override("font_size", 16)
+		button.pressed.connect(each[1])
+		Sfx.attend(button)
+		_buttons.add_child(button)
 
 
 func _line(font_size: int, colour: Color) -> Label:
@@ -79,6 +109,7 @@ func is_open() -> bool:
 
 func open() -> void:
 	visible = true
+	_buttons.visible = Pace.is_touch_enabled()
 	_status.text = ""
 	map.recentre()
 	_say()
@@ -89,6 +120,7 @@ func close() -> void:
 		return
 	visible = false
 	closed.emit()
+	EventBus.overlay_closed.emit()
 
 
 func toggle() -> void:
@@ -101,8 +133,8 @@ func toggle() -> void:
 func _say() -> void:
 	var world: World = GameState.world
 	_title.text = "The map" + ("  ·  %s" % world.region_at(world.player_cell) if world != null else "")
-	_hint.text = "Right-click a place: Go here, or Place a marker  ·  click a marker to go there  ·  %s or drag to look about  ·  wheel to zoom  ·  C to come back to the party  ·  M or Esc to put it away" % (
-		"the stick" if Pad.using_pad else "WASD")
+	_hint.text = Pad.say("Right-click a place: Go here, or Place a marker  ·  click a marker to go there  ·  %s or drag to look about  ·  wheel to zoom  ·  C to come back to the party  ·  M or Esc to put it away" % (
+		"the stick" if Pad.using_pad else "WASD"))
 
 
 func _process(delta: float) -> void:

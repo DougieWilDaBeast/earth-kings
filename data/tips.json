@@ -14,7 +14,8 @@
 			"id": "map",
 			"when": "map",
 			"title": "The road",
-			"text": "WASD or the arrow keys walk the land; it runs on, and the towns stand in it. M opens the map; the compass points where to go. Esc opens the menu, with How to Play in it."
+			"text": "WASD or the arrow keys walk the land; it runs on, and the towns stand in it. M opens the map; the compass points where to go. Esc opens the menu, with How to Play in it.",
+			"touch": "The stick walks the land; it runs on, and the towns stand in it. Tap the small map for the big one; the compass points where to go. Menu has How to Play in it."
 		},
 		{
 			"id": "step",
@@ -32,7 +33,8 @@
 			"id": "encounter",
 			"when": "encounter",
 			"title": "A fight",
-			"text": "Fights run in real time and are on the moment they see you. Space pauses and unpauses; give orders while paused. Out of their sight, G winds up a first strike that lands before they turn. Left-click a fighter, drag a box round several, or press Tab for everyone (1 to 6 for one each); right-click to move them there or attack. Q W E R for skills."
+			"text": "Fights run in real time and are on the moment they see you. Space pauses and unpauses; give orders while paused. Out of their sight, G winds up a first strike that lands before they turn. Left-click a fighter, drag a box round several, or press Tab for everyone (1 to 6 for one each); right-click to move them there or attack. Q W E R for skills.",
+			"touch": "Fights run in real time and are on the moment they see you. Pause on the side stops it; give orders while paused. Tap a fighter to pick them, then tap ground or an enemy to send them; a skill, then its target. Out of their sight, Strike first winds up a blow that lands before they turn."
 		},
 		{
 			"id": "facing",
@@ -44,37 +46,43 @@
 			"id": "downed",
 			"when": "downed",
 			"title": "Falling is usually fatal",
-			"text": "A downed character has a few seconds for a friend to reach them: right-click them. If nobody does, they roll their graces: a charm carried, an ally still standing, a book read, the ground they fell on. If none land, they are gone for good."
+			"text": "A downed character has a few seconds for a friend to reach them: right-click them. If nobody does, they roll their graces: a charm carried, an ally still standing, a book read, the ground they fell on. If none land, they are gone for good.",
+			"touch": "A downed character has a few seconds for a friend to reach them: pick a friend and tap the fallen one. If nobody does, they roll their graces: a charm carried, an ally still standing, a book read, the ground they fell on. If none land, they are gone for good."
 		},
 		{
 			"id": "settlement",
 			"when": "settlement",
 			"title": "A place to stop",
-			"text": "Resting here patches everyone up. H hires whoever is drinking here, B buys the gear on the shelf, J reads the job board. The line at the bottom always says what you can do."
+			"text": "Resting here patches everyone up. H hires whoever is drinking here, B buys the gear on the shelf, J reads the job board. The line at the bottom always says what you can do.",
+			"touch": "Resting here patches everyone up. The buttons above the bar hire whoever is drinking here, buy the gear on the shelf and read the job board. The line at the bottom always says what you can do."
 		},
 		{
 			"id": "gate",
 			"when": "gate",
 			"title": "Inside a gate",
-			"text": "E beside a gate takes you in. Win a floor and you can walk away with it won, or press E again for the next, until the gate is shut. A gate left open too long breaks."
+			"text": "E beside a gate takes you in. Win a floor and you can walk away with it won, or press E again for the next, until the gate is shut. A gate left open too long breaks.",
+			"touch": "Act beside a gate takes you in. Win a floor and you can walk away with it won, or press Act again for the next, until the gate is shut. A gate left open too long breaks."
 		},
 		{
 			"id": "library",
 			"when": "library",
 			"title": "A library",
-			"text": "Someone in the party reads what is on the shelf. Books grant knowledge, and knowledge left unused fades. The party screen (P) shows what is close to going."
+			"text": "Someone in the party reads what is on the shelf. Books grant knowledge, and knowledge left unused fades. The party screen (P) shows what is close to going.",
+			"touch": "Someone in the party reads what is on the shelf. Books grant knowledge, and knowledge left unused fades. Party on the top bar shows what is close to going."
 		},
 		{
 			"id": "home",
 			"when": "home",
 			"title": "Home",
-			"text": "Nothing camps within sight of your own door, and sleeping here always patches the party up. U buys a better bed: its comfort becomes permanent extra HP."
+			"text": "Nothing camps within sight of your own door, and sleeping here always patches the party up. U buys a better bed: its comfort becomes permanent extra HP.",
+			"touch": "Nothing camps within sight of your own door, and sleeping here always patches the party up. The bed button buys a better bed: its comfort becomes permanent extra HP."
 		},
 		{
 			"id": "level_two",
 			"when": "level_two",
 			"title": "Level 2 is a choice",
-			"text": "Someone is ready to choose a path. Press P and pick their class from its card."
+			"text": "Someone is ready to choose a path. Press P and pick their class from its card.",
+			"touch": "Someone is ready to choose a path. Tap Party and pick their class from its card."
 		},
 		{
 			"id": "tower",
@@ -92,7 +100,8 @@
 			"id": "guild",
 			"when": "guild",
 			"title": "The Adventurers Guild",
-			"text": "Y opens the Guild hall. Guild adventurers can muster beside you at a gate."
+			"text": "Y opens the Guild hall. Guild adventurers can muster beside you at a gate.",
+			"touch": "The Guild button opens the Guild hall. Guild adventurers can muster beside you at a gate."
 		},
 		{
 			"id": "season",
@@ -104,7 +113,8 @@
 			"id": "autoplay",
 			"when": "autoplay",
 			"title": "Let it play itself",
-			"text": "Q hands the run to the game, and it walks, fights and answers for itself. T cycles the speed. Press Q again to take the party back, even mid-fight."
+			"text": "Q hands the run to the game, and it walks, fights and answers for itself. T cycles the speed. Press Q again to take the party back, even mid-fight.",
+			"touch": "Auto on the top bar hands the run to the game, and it walks, fights and answers for itself. The speed button beside it cycles the speed. Tap Auto again to take the party back, even mid-fight."
 		}
 	]
 }

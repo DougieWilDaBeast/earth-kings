@@ -29,8 +29,8 @@ func is_open() -> bool:
 
 
 func open() -> void:
-	if _body.get_parsed_text() == "":
-		_fill()
+	# Filled every time: its phone page comes and goes with the touch controls ([D377]).
+	_fill()
 	_root.show()
 	_body.scroll_to_line(0)
 	_body.grab_focus()
@@ -65,6 +65,9 @@ func _fill() -> void:
 		child.queue_free()
 	var paragraph := 0
 	for section: Dictionary in sections():
+		# "On a phone" comes first with the touch controls on, and not at all without them ([D377]).
+		if bool(section.get("touch", false)) and not Pace.is_touch_enabled():
+			continue
 		var heading := str(section.get("heading", ""))
 		_starts.append(paragraph)
 		var index := _starts.size() - 1
