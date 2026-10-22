@@ -543,6 +543,17 @@
 		"_comment": "D359 (Ewan's play-test 3, item 7: the Guild's board read at the board, not from anywhere in town): a village's, a keep's and Stormreach's work is taken off the notice board standing by the Guild's clerk (a prop with \"reads\": \"board\" in the area), walked up to and looked at (E, or a click); J still reads it, standing there. A place with no board on its ground (a hut) is asked as before. bare_line is said at a board with nothing on it for the company.",
 		"bare_line": "Nothing pinned to it is for you today."
 	},
+	"vision": {
+		"_comment": "D361 (play-test 7, item 11: 'the chapter visions shown as pictures'): a chapter memory picked up plays its lines over a vision. It opens on the line after `opens_after` (the floor going out from under the world), a wash of `wash` with the memory's own picture (A65, art/visions/<memory id>.png) or, until that is drawn, its keepsake held up at `keepsake_height` of the screen, drawing `closer` over `closer_seconds`; the line whose words are `ends_on` turns it white, and the lines after are back on the floor. Fades take `fade_seconds` (none on Auto). Read by src/area/memory_vision.gd. Inferred: the wash, the sizes and the times.",
+		"opens_after": 1,
+		"ends_on": "White.",
+		"wash": [0.92, 0.89, 0.82],
+		"keepsake_height": 0.4,
+		"closer": 1.1,
+		"closer_seconds": 20.0,
+		"fade_seconds": 0.6,
+		"layer": 9
+	},
 	"ground_watch": {
 		"_comment": "Bands met on the ground (D66, D68). A band stands in the ground of the tile it camps on, and at the edge of any tile its eyes reach. It watches the cells within sight_base + sight_per_reach x its sight (the world's 2), from where it stands; trees, houses and rock block the line, water and every land's liquid do not, and ground that is cover (cover on its terrain in tilesets.json, or named in cover) is never watched. It stands at least keep_away cells further than that from where the party comes in, and patrols a loop of patrol_points stops within patrol_reach cells, a cell every patrol_step_seconds, resting patrol_pause seconds at each, never bringing where the party came in into sight; its red cells move with it. Walking into a watched cell (or being walked into view of) starts the fight there: spotted_seconds of everyone looking, the band rushing charge_share of the way in charge_seconds (both 0 since D204: the fight is on the moment they see you, and they close in fighting), then the fight on a field field_margin cells round everyone, field_smallest to field_largest (no edge drawn and nothing dimmed on the ground, D204), opening on the ground's own view and drawing back over pull_back_seconds. On the land (D76) a band keeps to its own tile and patrols land_patrol_points stops within land_patrol_reach cells; when the continent moves it to the next tile it walks there across the land, a cell every travel_step_seconds.",
 		"sight_base": 2,

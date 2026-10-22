@@ -1195,6 +1195,14 @@ come back_). Read by `src/chronicle/memories.gd`; found ones are the run's `memo
 one lies on floor 5 for every lead; chapter two (`<lead>_2`) on one of floors 6 to 10 ([D254](06-decisions.md)),
 written from the drafts by `tools/chapter_twos.py`, with where it lies taken from `tools/build_tower_floors.py`.
 
+A memory is seen as well as read ([D361](06-decisions.md)): its lines play over a vision
+(`src/area/memory_vision.gd`, rules in `world_rules.json` → `vision`) from the line after
+`opens_after` (the floor going out from under the world) to the line whose words are `ends_on`
+("White."), which turns it white. The vision is the memory's own picture,
+`art/visions/<memory id>.png` (A65), once drawn; until then the keepsake the memory lies as, held up
+large on a wash of white stone. Every scene keeps that shape: line 1 the floor going, "White." third
+from last.
+
 ## `crossings.json` — gates as crossings between the worlds (D152)
 
 `chance` by gate rank (`E` to `S`) that a gate opens onto another lead's world as it shuts;
