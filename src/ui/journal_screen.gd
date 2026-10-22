@@ -179,6 +179,12 @@ func is_open() -> bool:
 	return _backdrop.visible and not _at_the_side()
 
 
+## Open at the side of the screen, the game going on beside it: the touch bar's top row steps aside
+## for its Close and Full page, which stand where the row does ([D376]).
+func is_open_beside() -> bool:
+	return _backdrop.visible and _at_the_side()
+
+
 ## Whether the journal is on the screen, at the side or over all of it.
 func is_showing() -> bool:
 	return _backdrop.visible

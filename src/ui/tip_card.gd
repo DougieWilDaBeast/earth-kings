@@ -142,6 +142,8 @@ func _next() -> void:
 	_title.text = str(_showing.get("title", "Tip"))
 	_text.text = str(_showing.get("text", ""))
 	_left = float(Tips.rule("seconds_shown", 14))
+	# Below the touch bar, which held upright drops lower still ([D376]).
+	_panel.offset_top = TOP + _touch_drop()
 	_panel.show()
 	_panel.modulate.a = 0.0
 	create_tween().tween_property(_panel, "modulate:a", 1.0, 0.25)
@@ -215,6 +217,14 @@ func _build() -> void:
 	row.add_child(_small_button("No more tips", _turn_tips_off))
 	row.add_child(_small_button("Got it", dismiss))
 	_panel.hide()
+
+
+## How far the touch bar pushes the card down: none without it.
+func _touch_drop() -> float:
+	if not Pace.is_touch_enabled():
+		return 0.0
+	var view := _panel.get_viewport_rect().size
+	return TouchControls.BAR_DROP + (TouchControls.UPRIGHT_DROP if view.y > view.x else 0.0)
 
 
 func _small_button(text: String, call: Callable) -> Button:

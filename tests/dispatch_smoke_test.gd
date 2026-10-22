@@ -639,6 +639,31 @@ func _check_play_test_eight(world: World, roster: Roster) -> void:
 	_expect(QuickWheel.sector_of(Vector2(50, 0), 4) == 1 and QuickWheel.sector_of(Vector2(0, 50), 4) == 2 \
 			and QuickWheel.sector_of(Vector2(-50, 0), 4) == 3, "the wheel's slices do not go round clockwise")
 
+	# The touch bar's More ([D376]): the ring opens mid-screen and a tap on a slice takes it, and the
+	# mouse release the engine makes of that tap is swallowed rather than walking the party.
+	var wheel: CanvasLayer = QuickWheel.new()
+	add_child(wheel)
+	var kept_formation: String = GameState.formation
+	EventBus.quick_wheel_requested.emit()
+	_expect(wheel.is_open(), "More did not open the quick wheel")
+	var walking: Array = QuickWheel.rules().get("walking", [])
+	var slice := walking.find(walking.filter(func(c: Dictionary) -> bool: return c["id"] == "formation")[0])
+	var turn := TAU * slice / walking.size()
+	var tap := InputEventScreenTouch.new()
+	tap.position = wheel.get("_centre") + Vector2(sin(turn), -cos(turn)) * 80.0
+	tap.pressed = true
+	_expect(wheel._tap_input(tap), "the ring did not take a finger's press")
+	tap.pressed = false
+	wheel._tap_input(tap)
+	_expect(not wheel.is_open() and GameState.formation != kept_formation, "a tap on Formation did not take it")
+	var release := InputEventMouseButton.new()
+	release.button_index = MOUSE_BUTTON_LEFT
+	release.pressed = false
+	_expect(wheel._tap_input(release), "the tap's mouse release was not swallowed")
+	_expect(not wheel._tap_input(release), "a later mouse release was swallowed too")
+	GameState.formation = kept_formation
+	wheel.queue_free()
+
 	var hungry: Character = roster.party_members()[roster.party_members().size() - 1]
 	var kept_stores := GameState.stores.duplicate()
 	GameState.stores.clear()
