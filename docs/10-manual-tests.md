@@ -639,6 +639,11 @@ next lead to be chosen, so the soak prints `RUN OVER at step N`, stops walking t
 the save check. Since the First Hour was made harder ([D187](06-decisions.md)) a lone Atlas can fall
 in an early fight on seed 77 now and then. A soak that runs clean ends with exit code 0.
 
+To play the Second Hour without the First ([D372](06-decisions.md)): `--from-floor=6` starts with floors 1 to 5
+won (and the seats they earned), `--level=16` raises the lead and any companions, `--party=3` walks out with
+three of the inns' kinds, and `--say-fights` prints every line the fights write. A fall says where the company
+last went in (`last in the Tower, floor 9`) and how many floors were won.
+
 **The browser build.** `tools/web_smoke.py` exports the Web preset, serves `builds/web` on a
 local port and plays it in headless Chromium through `tools/web_smoke.js`: past the title card,
 **Not now** to the tour, New Game, the quiz, a life, Esc past the opening, three steps on the

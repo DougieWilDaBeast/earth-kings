@@ -2,7 +2,7 @@ extends Node
 ## Lets the real game play itself for a while, then says what it saw.
 ##
 ##   godot --headless --path . res://tools/soak.tscn -- --seconds=300 --seed=77 [--lead=cato]
-##       [--until-floor=10] [--speed=5] [--companions=random]
+##       [--until-floor=10] [--speed=5] [--companions=random] [--from-floor=6 --level=12 --party=3]
 ##
 ## Boots the whole game, starts a run led by whoever the quiz deals from the seed (D197; `--lead`
 ## to choose), and turns on autoplay at ×2. It says when Auto first stood at the Tower's door. Every thirty
@@ -18,6 +18,10 @@ extends Node
 ## the Second Hour's runs to floor 10 ([D197], #234); `--speed` plays at 1, 2, 3 or 5× (2 unless
 ## asked). `--companions=random` walks the lead out with 0 to 3 hirelings of the Guild's kinds at
 ## levels 1 to 6, rolled from the seed, so a batch shows what a party is worth (`dougie`, 2026-10-18).
+## `--from-floor=N` starts with the floors below N already won, `--level=L` raises the lead (and any
+## companions) to level L, and `--party=K` walks out with K companions of the Guild's kinds, so a bot
+## can play the Second Hour (floors 6 to 10) without first living through the First ([D372]).
+## `--say-fights` prints every line of the fights' log as it is written.
 ##
 ## What to look for: `SCRIPT ERROR` anywhere in the output, steps that stop
 ## rising (something is waiting on a key nobody is pressing), steps that rise
@@ -38,6 +42,8 @@ const AutoRoad := preload("res://src/world/auto_road.gd")
 
 ## Frames autoplay may sit switched off before the soak switches it back on.
 const PATIENCE := 180
+## The title of the last place gone into ("on the land" after coming out).
+var _last_place := ""
 ## Seconds of autoplay with no step taken and no line logged before the soak
 ## calls it stuck, says where, and stops.
 const STUCK_AFTER := 30.0
@@ -63,6 +69,9 @@ func _ready() -> void:
 	var until_floor := 0
 	var speed := 2.0
 	var companions := false
+	var from_floor := 0
+	var level := 0
+	var party := -1
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--seconds="):
 			seconds = float(arg.trim_prefix("--seconds="))
@@ -74,6 +83,12 @@ func _ready() -> void:
 			until_floor = int(arg.trim_prefix("--until-floor="))
 		elif arg == "--companions=random":
 			companions = true
+		elif arg.begins_with("--from-floor="):
+			from_floor = int(arg.trim_prefix("--from-floor="))
+		elif arg.begins_with("--level="):
+			level = int(arg.trim_prefix("--level="))
+		elif arg.begins_with("--party="):
+			party = int(arg.trim_prefix("--party="))
 		elif arg.begins_with("--speed="):
 			speed = float(arg.trim_prefix("--speed="))
 	# The lead the quiz deals from the seed, as a player after the last stand gets (D197), unless
@@ -84,12 +99,29 @@ func _ready() -> void:
 	_root = load("res://src/main.tscn").instantiate()
 	add_child(_root)
 	EventBus.scene_changed.connect(func(key: String) -> void: _scenes[key] = int(_scenes.get(key, 0)) + 1)
-	EventBus.battle_log.connect(func(_line: String) -> void: _lines += 1)
+	# Where the company last went in, so a fall says where it happened (the Tower's floor won is one below).
+	EventBus.request_scene.connect(func(key: String, payload: Dictionary) -> void:
+		if key == "area":
+			_last_place = str(payload.get("title", payload.get("area_id", "")))
+		elif key == "world":
+			_last_place = "on the land")
+	var say_fights := OS.get_cmdline_user_args().has("--say-fights")
+	EventBus.battle_log.connect(func(line: String) -> void:
+		_lines += 1
+		if say_fights:
+			print("    | %s" % line))
 	EventBus.battle_started.connect(func(_id: String) -> void: _fights += 1)
 	await get_tree().process_frame
 	GameState.new_game(world_seed, lead)
-	if companions:
-		_hire_companions(world_seed)
+	if companions or party >= 0:
+		_hire_companions(world_seed, party, level)
+	if level > 0:
+		Progression.raise_quietly(GameState.roster.player(), level, GameState.world)
+	if from_floor > 1:
+		GameState.world.tower_floor = from_floor - 1
+		# The seats those floors earned, as climbing them would have opened them.
+		preload("res://src/chronicle/seats.gd").sync(GameState.world, GameState.roster)
+		print("FROM FLOOR %d, level %d" % [from_floor, level])
 	EventBus.request_scene.emit("world", {})
 	await get_tree().create_timer(1.0, true, false, true).timeout
 	Pace.auto = true
@@ -157,16 +189,16 @@ func _ready() -> void:
 
 ## 0 to 3 companions of the kinds the inns hire, each at a level from 1 to 6, rolled from [param
 ## world_seed], so the same seed always walks out with the same party.
-func _hire_companions(world_seed: int) -> void:
+func _hire_companions(world_seed: int, count: int = -1, level: int = 0) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash([world_seed, "soak companions"])
 	var kinds: Array = Database.world_rules.get("recruit", {}).get("templates", ["bram"])
 	var said: Array[String] = []
-	for i in rng.randi_range(0, 3):
+	for i in (count if count >= 0 else rng.randi_range(0, 3)):
 		if not GameState.roster.has_room():
 			break
 		var recruit := Character.create(str(kinds[rng.randi_range(0, kinds.size() - 1)]))
-		Progression.raise_quietly(recruit, rng.randi_range(1, 6), GameState.world)
+		Progression.raise_quietly(recruit, level if level > 0 else rng.randi_range(1, 6), GameState.world)
 		GameState.roster.add(recruit)
 		GameState.roster.enlist(recruit.id)
 		said.append("%s L%d" % [recruit.display_name, recruit.level])
@@ -238,7 +270,8 @@ func _run_over() -> bool:
 	print("RUN OVER at step %d: the lead fell, and the soak stops at the run summary" % GameState.world.steps)
 	for entry: Dictionary in Ledger.the_fallen(GameState.world, GameState.roster):
 		var by := str(entry.get("killed_by", entry.get("killer", "")))
-		print("  fell: %s, level %d, to %s, the Tower's floor %d" % [entry.get("name", "?"), int(entry.get("level", 1)), by if by != "" else "nobody named", GameState.world.tower_floor])
+		print("  fell: %s, level %d, to %s, last in %s (Tower floors won: %d)" % [entry.get("name", "?"), int(entry.get("level", 1)),
+				by if by != "" else "nobody named", _last_place if _last_place != "" else "?", GameState.world.tower_floor])
 	return true
 
 
