@@ -29,6 +29,9 @@ signal dialogue_requested(dialogue_id: String)
 ## `{ speaker, text }` (see [Banter]). Finishes as [signal dialogue_finished].
 signal conversation_requested(lines: Array)
 signal dialogue_finished(dialogue_id: String)
+## The box has put up a line of a conversation: [param node_id] is the node's id ("line_<n>" for one
+## played from lines). A chapter's vision follows its memory by it ([D361]).
+signal dialogue_line_shown(dialogue_id: String, node_id: String)
 
 ## A party member hit level 2 and owes the player a decision.
 signal class_choice_required(character: RefCounted)

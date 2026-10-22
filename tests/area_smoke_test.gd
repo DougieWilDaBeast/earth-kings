@@ -2075,6 +2075,26 @@ func _check_tower_floor() -> void:
 		five.call("_arrive_at", cell)
 		_expect(asked.has("memory_atlas_1") and not Database.dialogue("memory_atlas_1").is_empty(),
 				"tower floor: picking up the buckle played no scene")
+		# Seen, not only read (D361): a vision stands behind the lines, opening after the floor goes out
+		# from under the world, going white on "White." and back to the floor after.
+		var vision: MemoryVision = null
+		for child in five.get_children():
+			if child is MemoryVision:
+				vision = child
+		_expect(vision != null, "vision: picking up the buckle put up no vision")
+		if vision != null:
+			EventBus.dialogue_line_shown.emit("memory_atlas_1", "line_1")
+			_expect(vision.stage == "floor", "vision: it opened before the floor went out from under the world")
+			EventBus.dialogue_line_shown.emit("memory_atlas_1", "line_2")
+			var held := (vision.get("_picture") as TextureRect).texture
+			_expect(vision.stage == "seen" and held != null, "vision: the courtyard is not seen, or the keepsake not held up (%s)" % vision.stage)
+			EventBus.dialogue_line_shown.emit("memory_atlas_1", "line_6")
+			_expect(vision.stage == "white", "vision: \"White.\" did not turn it white (%s)" % vision.stage)
+			EventBus.dialogue_line_shown.emit("memory_atlas_1", "line_7")
+			_expect(vision.stage == "gone", "vision: the fifth floor did not come back after it (%s)" % vision.stage)
+			vision.call("_on_finished", "memory_atlas_1")
+			_expect(vision.is_queued_for_deletion(), "vision: it outlived its memory")
+			print("vision: Atlas's buckle is held up in the white stone, and the floor comes back")
 		_expect(Memories.found("atlas").size() == 1, "tower floor: the journal does not have the memory")
 		_expect(bool(preload("res://src/chronicle/siblings.gd").remember(GameState.world, GameState.roster, GameState.ledger).get("remembered", false)),
 				"tower floor: a world whose lead found their chapter one does not say so when it ends (D153)")
