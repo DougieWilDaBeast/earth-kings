@@ -807,7 +807,7 @@ func _stun(f: Fighter, by: Fighter, seconds: float, word: String = "Stunned") ->
 		if by != null:
 			by.interrupts += 1
 		fx.popup("Interrupted!", f.unit.position + Vector2(0, -16), SkirmishFx.HURT, 15, 1.2)
-		_say("%s's %s is broken off." % [f.unit.display_name, ability.get("display_name", "skill")])
+		_say("%s %s is broken off." % [whose(f.unit.display_name), ability.get("display_name", "skill")])
 	f.aiding = 0.0
 	f.stunned = maxf(f.stunned, seconds)
 	fx.popup(word, f.unit.position, SkirmishFx.WORD, 13)
@@ -949,7 +949,7 @@ func _tick_fighter(f: Fighter) -> void:
 		f.cooldowns[i] = maxf(0.0, was - cooling)
 		if was > 0.0 and f.cooldowns[i] <= 0.0 and f.is_party() and not f.auto_skill \
 				and f.is_standing() and auto_pause == AutoPause.ON_FALL_AND_READY:
-			_auto_pause("%s's %s is ready." % [f.unit.display_name, f.slot_ability(i).get("display_name", "skill")])
+			_auto_pause("%s %s is ready." % [whose(f.unit.display_name), f.slot_ability(i).get("display_name", "skill")])
 	if f.is_downed():
 		if signatures.rises(f):
 			_get_up(f)
@@ -1244,7 +1244,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		fx.popup("Blocked", target.position, SkirmishFx.WORD, 13)
 		fx.effect(SkirmishFx.effect_for("block"), target.position)
 		Sfx.cue("block")
-		_say("%s takes %s's blow on the shield." % [target.display_name, f.unit.display_name])
+		_say("%s takes %s blow on the shield." % [target.display_name, whose(f.unit.display_name)])
 		return false
 	var multiplier := 1.0
 	var tags: Array[String] = []
@@ -1351,7 +1351,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 			f.unit.take_damage(maxi(1, roundi(float(dealt) * thorns)))
 			_hit_style = ""
 			if not f.unit.is_alive():
-				_say("%s is cut down on %s's guard." % [f.unit.display_name, target.display_name])
+				_say("%s is cut down on %s guard." % [f.unit.display_name, whose(target.display_name)])
 				_award_kill(target, f.unit)
 				_drop(f)
 	return true
@@ -1605,7 +1605,7 @@ func _release(f: Fighter) -> void:
 		# onto the fallen.
 		if not is_standing(who) or Pathfinder.distance(f.unit.cell, who.cell) > int(ability.get("range", 1)) + 1:
 			f.cooldowns[slot] = SkirmishRules.cooldown(ability) * 0.5
-			_say("%s's %s finds nobody there." % [f.unit.display_name, ability.get("display_name", "skill")])
+			_say("%s %s finds nobody there." % [whose(f.unit.display_name), ability.get("display_name", "skill")])
 			if is_standing(who):
 				conditions.show_dodge(fighter_of(who))
 			conditions.came_down(f, [])
@@ -1634,7 +1634,7 @@ func _land(f: Fighter, slot: int, _who: Unit, centre: Vector2i) -> void:
 	if not bool(ability.get("heal", false)) and str(ability.get("target", "enemy")) == "enemy":
 		conditions.came_down(f, hits)
 	if hits.is_empty():
-		_say("%s's %s hits nothing." % [f.unit.display_name, ability.get("display_name", "skill")])
+		_say("%s %s hits nothing." % [whose(f.unit.display_name), ability.get("display_name", "skill")])
 		conditions.show_miss(centre)
 		return
 	fx.popup(str(ability.get("display_name", "skill")), f.unit.position + Vector2(0, -14), SkirmishFx.WORD, 13)
@@ -1771,7 +1771,7 @@ func _mourn(f: Fighter) -> void:
 		for i in other.cooldowns.size():
 			other.cooldowns[i] = 0.0
 		fx.popup("Mourner's Haste", other.unit.position, SkirmishFx.GRACE, 13)
-		_say("%s answers %s's fall: every skill is ready again." % [other.unit.display_name, f.unit.display_name])
+		_say("%s answers %s fall: every skill is ready again." % [other.unit.display_name, whose(f.unit.display_name)])
 
 
 ## The near-death window has run out with nobody there. In a fight the world
@@ -2837,6 +2837,12 @@ func _on_levelled_up(who: RefCounted, _before: Dictionary) -> void:
 			fx.ring(f.unit.position, SkirmishFx.CRIT, 34.0)
 			fx.popup("Level %d" % character.level, f.unit.position + Vector2(0, -10), SkirmishFx.CRIT, 15, 1.4)
 			return
+
+
+## [param name]'s, as a fight line says it: a company's name is many people ("the Late Risers"), so
+## theirs is "the Late Risers'" ([D373]); one person's is always 's ("Ceres's", "Atlas's").
+static func whose(name: String) -> String:
+	return name + "'" if name.begins_with("the ") and name.ends_with("s") else name + "'s"
 
 
 func _say(line: String) -> void:
