@@ -791,6 +791,9 @@ eats the least food in the packs. Read by `src/chronicle/hunger.gd`.
 world's own dice deal on as before). On the ground it lies ahead of the party as a thing called `name`, saying
 `line` when looked at, drawn as `art` (the cache's picture while it is empty) and said with `ground_line`; off the
 ground it is taken at once, said with `searched_line`. Read by `_search_the_fallen` in `src/world/world_scene.gd`.
+`floors` ([D362](06-decisions.md)): a band beaten on a gate's or the Tower's floor leaves its fallen where it stood
+too, the same thing to walk up to (dice seeded from the world, the floor and the band), on top of what the floor
+pays. Read by `_lay_the_fallen` in `src/area/area_scene.gd`.
 
 ## `world_rules.json` → `caves` — the caves under the hills (D282)
 

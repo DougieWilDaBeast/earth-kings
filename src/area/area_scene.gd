@@ -269,6 +269,8 @@ var _roadside_middle := Vector2i(-1, -1)
 var _roadside_told := false
 var _held_fight: String = ""
 var _held_done: String = ""
+## Where a held band stood and how many it was, so its fallen lie there once it is beaten ([D362]).
+var _held_fallen: Dictionary = {}
 ## cell -> a memory of the lead's lying there, not yet picked up (D103).
 var _memories: Dictionary = {}
 
@@ -1300,11 +1302,12 @@ func _put_spire(prop: Dictionary) -> Node2D:
 ## Something the continent found left on this step, put down a little ahead of the party where it
 ## can be seen, and picked up with E like anything else worth stopping for. It is drawn as what is
 ## in it: coin as the coin pile, a sword as a sword ([Loot.cache_art]).
-func _put_cache(haul: Dictionary) -> AreaProp:
+func _put_cache(haul: Dictionary, at: Vector2i = Vector2i(-1, -1)) -> AreaProp:
 	if _leader == null or haul.is_empty():
 		return null
-	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
-	var at := _free_spot_near(map.cell_at(_leader.position) + ahead * 2)
+	if at.x < 0:
+		var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
+		at = _free_spot_near(map.cell_at(_leader.position) + ahead * 2)
 	# The fallen of a band ([D352]) carry their own name, words and picture.
 	var art := str(haul.get("art", ""))
 	var node := AreaProp.from_entry({
@@ -3362,6 +3365,10 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 		if not allies.is_empty():
 			field["allies"] = allies
 	_held_done = str(watch.band.get("done_flag", ""))
+	var stood_at: Vector2i = watch.anchor
+	if not watch.figures.is_empty() and is_instance_valid(watch.figures[0]):
+		stood_at = map.cell_at((watch.figures[0] as Node2D).position)
+	_held_fallen = { "cell": stood_at, "count": enemies.size(), "key": str(watch.band.get("key", "")) }
 	# D184 (D174): the floor 5 keeper speaks as its fight begins, and knows which of the sixteen
 	# this lead is. Shown the way Sennet's word is (D161); a fight played by hand waits for the box.
 	var lead := GameState.roster.player() if GameState.roster != null else null
@@ -3388,11 +3395,14 @@ func _after_held_fight() -> void:
 	_held_fight = ""
 	var done := _held_done
 	_held_done = ""
+	var fallen := _held_fallen
+	_held_fallen = {}
 	if how == "":
 		return
 	if how == "won":
 		if done != "":
 			GameState.set_flag(done)
+		_lay_the_fallen(fallen)
 		# Walked by Auto, the next band (or the way down) is made for afresh.
 		_auto_exit_path.clear()
 		if _in_a_gate() and done != "" and done == _gate_keeper:
@@ -3402,6 +3412,26 @@ func _after_held_fight() -> void:
 		return
 	_leaving = true
 	EventBus.request_scene.emit(_return_scene, _return_payload)
+
+
+## A band beaten on a gate's or the Tower's floor leaves its fallen where it stood ([D362], `loot.fallen.floors`),
+## searched like the fallen on the land ([D352]): walked up to, with E. Rolled on dice of their own from the
+## world's seed, the floor and the band, so the world deals on as it did and the same band carries the same.
+func _lay_the_fallen(fallen: Dictionary) -> AreaProp:
+	var rules: Dictionary = Loot.rules().get("fallen", {})
+	var world: World = GameState.world
+	if fallen.is_empty() or world == null or not bool(rules.get("on", false)) or not bool(rules.get("floors", false)):
+		return null
+	var dice := RandomNumberGenerator.new()
+	dice.seed = hash([world.world_seed, map.id, _tower_floor, _gate_cell, str(fallen.get("key", "")), "fallen"])
+	var haul := Loot.roll(world, float(rules.get("richness_per_foe", 0.15)) * int(fallen.get("count", 1)), dice)
+	haul["name"] = str(rules.get("name", "the fallen"))
+	haul["line"] = str(rules.get("line", "They lie where they fell."))
+	haul["art"] = str(rules.get("art", ""))
+	var node := _put_cache(haul, _free_spot_near(fallen.get("cell", Vector2i(-1, -1))))
+	if node != null:
+		_note(str(rules.get("ground_line", "The fallen lie where they dropped.")))
+	return node
 
 
 ## A gate's keeper down: whatever else stands in it breaks and runs (play-test 7: "killing the lord and

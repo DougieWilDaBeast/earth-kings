@@ -1597,7 +1597,26 @@ func _check_inside_a_gate() -> void:
 	# The keeper's fall scatters the rest of the floor (D261), as a won held fight sets it.
 	bottom.set("_held_fight", "won")
 	bottom.set("_held_done", keeper)
+	var keeper_stood: Vector2i = bottom.call("_keeper_cell")
+	bottom.set("_held_fallen", { "cell": keeper_stood, "count": 3, "key": keeper })
+	var things_before := (bottom.get("_things") as Array).size()
 	bottom.call("_after_held_fight")
+	# Bodies that stay on a gate's floor too (play-test 7, item 5; D362): the keeper's band lies where it stood.
+	var fallen: Array = (bottom.get("_things") as Array).filter(func(t: Node) -> bool:
+		return t is AreaProp and (t as AreaProp).display_name == "the fallen" and not (t as AreaProp).haul.is_empty())
+	_expect(fallen.size() == 1 and (bottom.get("_things") as Array).size() == things_before + 1,
+		"inside a gate: the keeper's band left no fallen to search")
+	if fallen.size() == 1:
+		var body := fallen[0] as AreaProp
+		_expect(end.cell_at(body.position).distance_to(keeper_stood) <= 6.0, "inside a gate: the fallen lie far from where the keeper stood")
+		var laid_again: AreaProp = bottom.call("_lay_the_fallen", { "cell": keeper_stood, "count": 3, "key": keeper })
+		_expect(laid_again != null and int(laid_again.haul.get("gold", -1)) == int(body.haul.get("gold", -2)),
+			"inside a gate: the same band's fallen carried something else on the same dice")
+		print("gate floor: the keeper's band lies where it stood, carrying %d gold" % int(body.haul.get("gold", 0)))
+		for each: AreaProp in [body, laid_again]:
+			if is_instance_valid(each):
+				(bottom.get("_things") as Array).erase(each)
+				each.queue_free()
 	_expect((bottom.get("_watches") as Array).is_empty(), "inside a gate: the rest of the floor stood its ground after the keeper fell")
 	_expect(end.bands.all(func(b: Dictionary) -> bool: return GameState.has_flag("done:%s" % str(b.get("key", "")))),
 		"inside a gate: the bands that scattered are back the next time")
