@@ -545,6 +545,15 @@ each, each ending playable:
    may stand over the crater first, [D311](06-decisions.md), 2026-10-21), and a look at a small on-device model
    for fight plans ([D298](06-decisions.md), #385): **done** ([investigation 12](investigation/12-a-small-model-for-fight-plans.md));
    its plans fought no better than the rules in 200 party clashes, so no runtime goes in ([D322](06-decisions.md), 2026-10-21).
+37. **Design meeting 7's work order** (2026-10-22, [D380](06-decisions.md) to [D385](06-decisions.md); the status
+   review is D380). **Planned**, phone and PC first on `dougie`'s word ([D381](06-decisions.md)):
+   1. The phone's second touch pass, call CE as recommended (#502), and the PC's mouse-first pass (#501), in parallel.
+   2. An itch push of main with Windows, Linux and macOS downloads beside the browser build ([D382](06-decisions.md), #503), on `dougie`'s word.
+   3. Consolidation until play-test 9's write-up: bot-tests on seeds, one PR per bug, the board swept, milestone 4
+      measured as sixteen runs and recorded (#230); the writers draft G's words ([D383](06-decisions.md)).
+   4. Play-test 9's asks, in `doug-md`'s order.
+   5. From 27 October, art in [D356](06-decisions.md)'s order, A2 beside D299's short list.
+   6. G after the guild day; tricks ([D285](06-decisions.md)) after G. Questions 47 and 48 are with the founders ([D385](06-decisions.md)).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
