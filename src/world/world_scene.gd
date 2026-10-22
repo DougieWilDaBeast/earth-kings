@@ -789,6 +789,8 @@ func _settle_up(won: bool) -> void:
 				_note(line)
 			# Tower ascents take time in the outside world: each floor advances one upkeep interval
 			world.steps += World.UPKEEP_INTERVAL
+			# The company is not hungrier for it ([D400]): a floor ate their whole belly and their health with it.
+			Hunger.pass_over(world, GameState.roster, World.UPKEEP_INTERVAL)
 			for notice: String in world._upkeep():
 				_note(notice)
 			if Chapters.ends_chapter(world, world.tower_floor):
@@ -797,8 +799,11 @@ func _settle_up(won: bool) -> void:
 					company.append(hero.template_id)
 				for line: String in FirstHour.put_out_a_light(world, world.tower_floor, company):
 					_note(line)
+				var steps_before := world.steps
 				for line: String in Chapters.turn(world, world.tower_floor):
 					_note(line)
+				# Nor for the world going on while a chapter closes ([D400]).
+				Hunger.pass_over(world, GameState.roster, world.steps - steps_before)
 				for line: String in Sellswords.on_job(GameState.roster, "chapter"):
 					_note(line)
 				# Once the whole fight is settled, not halfway through it.
