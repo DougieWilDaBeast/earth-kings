@@ -2116,7 +2116,15 @@ func _auto_door_axis(world: World) -> Vector2:
 
 ## Soak mode: make for the way out, so a run that is playing itself never
 ## settles down inside a town.
+## A place left for the title, not the world (Atlas's Last Stand in Hearthwick, never saved): Auto never
+## walks it, or it took the road south in a moment and the tutorial was over ([D367]).
+func _left_for_the_title() -> bool:
+	return not _land_mode and _return_scene == "title"
+
+
 func _auto_axis() -> Vector2:
+	if _left_for_the_title():
+		return Vector2.ZERO
 	# On a floor of the Tower, Auto makes for the stair and climbs it (D115), never the way out;
 	# a memory of the lead's lying there it picks up first (D150: it walked past the buckle).
 	var climbing := _walked_floor() and not map.stairs.is_empty()
@@ -4635,6 +4643,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
+		if _left_for_the_title():
+			Pace.auto = false
+			_note(str(Database.world_rules.get("first_hour", {}).get("auto_hearthwick_line", "")))
+			return
 		Pace.auto = not Pace.auto
 		return
 	if event.is_action_pressed("battle_speed"):

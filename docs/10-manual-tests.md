@@ -421,6 +421,7 @@ Start a run (not the tutorial) and walk.
 | D5.89 | Walk the land with a companion until one of them dies in a fight (a strong band met at a low level); let the fight end | The company stands round a cairn where they fell; the box says they were laid there and the lead says a few words; walk two tiles off and come back: the cairn is still there and reads their epitaph ([D363](06-decisions.md)) | D363 |
 | D5.90 | Climb to floor 5, beat its keeper and press E at the stair; then press E again. Climb on to floors 6 to 9 | The first press says that the stair closes chapter one and what that does (and that something of yours still lies here, if the keepsake is not picked up); the second climbs. Floor 6 is "the Frost Floor" in the corner, bluer, with a line about the cold and ice wolves and frozen wolfmen in its bands; 7 the Drowned Floor, 8 the Ember Floor, 9 the Warren ([D364](06-decisions.md)) | D364 |
 | D5.92 | Start a run, walk out onto the land, then Esc → Copy play log | No "missing data file … land.json" error in the log ([D366](06-decisions.md)) | D366 |
+| D5.93 | On a first life (or Atlas's Last Stand from the title), press T in Hearthwick | The party stays; the log says Auto walks on once you are out in the world ([D367](06-decisions.md)) | D367 |
 
 ## H — Conversation and the camp
 
