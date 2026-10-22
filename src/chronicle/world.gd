@@ -88,6 +88,9 @@ var happening_at: int = 0
 var happening_last: String = ""
 ## Enemies who crawled away alive and wander with a grudge (see [Nemesis]).
 var survivors: Array = []
+## Word on its way to the company ([D365]): each `{ line, cell: [x, y], step }`, said when it has
+## walked from where it happened to where the company is ([News]).
+var word: Array = []
 ## Errand givers who remember the company kindly and have yet to meet it on the road again ([Nemesis], [D330]).
 var thankful: Array = []
 ## Guild musters gathering for S-rank gates (see `src/chronicle/guild.gd`).
@@ -315,8 +318,9 @@ func _upkeep() -> Array:
 			continue
 		if rng.randf() < float(rules.get("break_chance", 0.75)):
 			site.broken = true
+			site.data["broken_at"] = steps
 			var break_line := "%s has broken. Whatever was behind it is out on the roads." % site.display_name
-			notices.append(break_line)
+			notices.append_array(News.send(self, break_line, site.cell))
 			Annals.record(self, break_line)
 		else:
 			# It held this time; the clock starts again.
@@ -332,6 +336,7 @@ func _upkeep() -> Array:
 	notices.append_array(Wanderers.upkeep(self))
 	notices.append_array(Siblings.upkeep(self))
 	notices.append_array(Caravans.upkeep(self))
+	notices.append_array(News.arriving(self))
 	return notices
 
 
@@ -374,6 +379,7 @@ func to_dict() -> Dictionary:
 		"happening_at": happening_at,
 		"happening_last": happening_last,
 		"survivors": survivors,
+		"word": word,
 		"thankful": thankful,
 		"musters": musters,
 		"wanderers": wanderers,
@@ -431,6 +437,7 @@ static func from_dict(payload: Dictionary) -> World:
 	world.happening_at = int(payload.get("happening_at", world.steps))
 	world.happening_last = str(payload.get("happening_last", ""))
 	world.survivors = payload.get("survivors", [])
+	world.word = payload.get("word", [])
 	world.thankful = payload.get("thankful", [])
 	world.musters = payload.get("musters", [])
 	world.wanderers = payload.get("wanderers", [])

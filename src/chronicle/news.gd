@@ -9,17 +9,63 @@ extends RefCounted
 
 ## Loaded by path ([D41]).
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Fall := preload("res://src/chronicle/fall.gd")
 
 
-## Gathers all currently active news items from the world state.
-static func dispatches(world: World) -> Array[String]:
+## News travels at the speed of people ([D365]; `doug-md`'s play-test 2 ask, [D118]): word of what
+## happened walks out from where it happened as a deed's does ([Renown]: `renown.steps_per_tile`), so
+## a town three days off has not heard yet. The rules are `world_rules.json` → `news`.
+static func rules() -> Dictionary:
+	return Database.world_rules.get("news", {})
+
+
+## Whether word from [param from], set off at step [param since], has walked to [param at] by now.
+static func has_reached(world: World, from: Vector2i, since: int, at: Vector2i) -> bool:
+	return Pathfinder.distance(from, at) <= int(world.steps - since) / Renown.steps_per_tile()
+
+
+## Something that happened at [param cell], for the company to hear: said at once when it is near
+## enough to be heard (`heard_at_once_tiles`, bells and smoke), else sent on its way and said when the
+## word reaches the company ([method arriving]). [param line] may hold `{apart}` and `{way}`, filled in
+## from wherever the company is when it hears.
+static func send(world: World, line: String, cell: Vector2i) -> Array:
+	if Pathfinder.distance(cell, world.player_cell) <= int(rules().get("heard_at_once_tiles", 6)):
+		return [_said(world, line, cell)]
+	world.word.append({ "line": line, "cell": [cell.x, cell.y], "step": world.steps })
+	return []
+
+
+## The word that has reached the company since it was last asked, oldest first, each said once.
+static func arriving(world: World) -> Array:
+	var out: Array = []
+	var still: Array = []
+	for each: Dictionary in world.word:
+		var pair: Array = each.get("cell", [0, 0])
+		var cell := Vector2i(int(pair[0]), int(pair[1]))
+		if has_reached(world, cell, int(each.get("step", 0)), world.player_cell):
+			out.append(str(rules().get("word_reaches", "{line}")).format({ "line": _said(world, str(each.get("line", "")), cell) }))
+		else:
+			still.append(each)
+	world.word = still
+	return out
+
+
+static func _said(world: World, line: String, cell: Vector2i) -> String:
+	var apart := absi(cell.x - world.player_cell.x) + absi(cell.y - world.player_cell.y)
+	return line.format({ "apart": apart, "way": Fall.way(world.player_cell, cell) })
+
+
+## Gathers the news items whose word has reached [param at] (the company's cell when left out).
+static func dispatches(world: World, at: Vector2i = Vector2i(-1, -1)) -> Array[String]:
 	if world == null:
 		return []
+	if at.x < 0:
+		at = world.player_cell
 	var pool: Array[String] = []
 
 	# 1. Sieges underway
 	for site: Site in world.sites:
-		if Town.is_threatened(site):
+		if Town.is_threatened(site) and has_reached(world, site.cell, int(site.data.get("threatened_at", 0)), at):
 			var foe: String = str(site.data.get("threatened_by", "raiders"))
 			pool.append("Distant bells toll for %s — horrors out of %s have laid siege to the palisades." % [
 				site.display_name, foe
@@ -27,17 +73,20 @@ static func dispatches(world: World) -> Array[String]:
 
 	# 2. Ruined or sacked settlements
 	for site: Site in world.sites:
-		if Town.is_ruined(site):
+		if Town.is_ruined(site) and has_reached(world, site.cell, int(site.data.get("sacked_at", 0)), at):
 			pool.append("%s lies desolate, sacked and abandoned to the crows." % site.display_name)
 
 	# 3. Broken gates pouring monsters out
 	for site: Site in world.sites_of_kind(Site.GATE):
-		if site.open and site.broken:
+		if site.open and site.broken and has_reached(world, site.cell, int(site.data.get("broken_at", 0)), at):
 			pool.append("Scouts rode in pale: the ancient wards of %s have shattered, and dark things stalk the highways." % site.display_name)
 
 	# 4. Nemesis survivors abroad
-	if world.survivors.size() > 0:
-		var nemesis: Dictionary = world.survivors[randi() % world.survivors.size()]
+	var heard_of: Array = world.survivors.filter(func(each: Dictionary) -> bool:
+		var pair: Array = each.get("cell", [at.x, at.y])
+		return has_reached(world, Vector2i(int(pair[0]), int(pair[1])), int(each.get("steps", 0)), at))
+	if heard_of.size() > 0:
+		var nemesis: Dictionary = heard_of[randi() % heard_of.size()]
 		var n_name: String = str(nemesis.get("name", "A scarred survivor"))
 		var n_place: String = str(nemesis.get("place", "the frontier"))
 		pool.append("Whispers in the taprooms: %s survived the battle near %s and is rallying cutthroats in the hills." % [
@@ -62,9 +111,13 @@ static func dispatches(world: World) -> Array[String]:
 			pool.append("The Dread Arch of %s in the far wastes remains bound in ancient rime, awaiting a key or flame." % site.display_name)
 			break
 
-	# 8. Spire progress
-	if world.tower_floor > 0:
-		pool.append("Delvers whisper that boots have reached floor %d of the Spire." % world.tower_floor)
+	# 8. Spire progress, as far as word of it has come down (the floor before, until the newest's has)
+	var tower := world.tower()
+	var floor_heard := world.tower_floor
+	if tower != null and floor_heard > 0 and not has_reached(world, tower.cell, int(tower.data.get("floor_at", 0)), at):
+		floor_heard = int(tower.data.get("floor_before", 0))
+	if floor_heard > 0:
+		pool.append("Delvers whisper that boots have reached floor %d of the Spire." % floor_heard)
 	else:
 		pool.append("The Spire stands silent against the grey sky. No champion has dared its stairs this season.")
 

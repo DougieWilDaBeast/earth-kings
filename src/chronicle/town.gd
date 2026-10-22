@@ -62,10 +62,10 @@ static func upkeep(world: World) -> Array:
 		]
 		# Said with where it is, so a town nobody can see is a place to go, not a name on the screen
 		# (Ewan's play-test 2: "Hollowvale has come inside, but I don't see Hollowvale").
-		var apart := absi(victim.cell.x - world.player_cell.x) + absi(victim.cell.y - world.player_cell.y)
-		notices.append("Distant bells toll from %s, %d tiles to the %s: whatever came out of %s is at its walls." % [
-			victim.display_name, apart, Fall.way(world.player_cell, victim.cell), gate.display_name
-		])
+		# Where it is, said from wherever the company is when the word reaches it ([D365]).
+		notices.append_array(News.send(world, "Distant bells toll from %s, {apart} tiles to the {way}: whatever came out of %s is at its walls." % [
+			victim.display_name, gate.display_name
+		], victim.cell))
 		Annals.record(world, line)
 
 	var doom := int(rules().get("falls_after_steps", 900))
@@ -76,10 +76,11 @@ static func upkeep(world: World) -> Array:
 			continue
 		site.data.erase("threatened_at")
 		site.data[SACKED] = true
+		site.data["sacked_at"] = world.steps
 		site.data["wares"] = []
 		site.data["hire"] = {}
 		var fall_line := "%s has fallen to siege. The streets are desolate and trade has ended." % site.display_name
-		notices.append(fall_line)
+		notices.append_array(News.send(world, fall_line, site.cell))
 		Annals.record(world, fall_line)
 	return notices
 
