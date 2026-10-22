@@ -225,6 +225,9 @@ var _winding_up: bool = false
 var _striking_first: bool = false
 ## The place's doings that start a fight, fought on this ground rather than on a screen of its own.
 const FIGHT_ACTS := ["_enter_gate_here"]
+## The place's doings done at its notice board, where the ground has one ([D359]): taking work off
+## it and settling what is done.
+const AT_THE_BOARD := ["_errands_here"]
 ## Doings that start a fight, fought here on this ground with no screen of its own ([D207]): the
 ## gate's at its doorway (D162), a roadside fight where its scene is staged, and the rest just ahead
 ## of the party. Only a gate is gone into by a party walking itself ([const FIGHT_ACTS]).
@@ -2137,8 +2140,13 @@ func _engage(target: AreaThing) -> void:
 
 
 ## The place's doing [param thing] is the way into, while the place offers it (the Tower's door
-## climbs, D107), or an empty dictionary.
+## climbs, D107; the notice board is read, D359), or an empty dictionary.
 func _act_of(thing: AreaThing) -> Dictionary:
+	if thing is AreaProp and (thing as AreaProp).reads == "board":
+		for each: Dictionary in _acts:
+			if AT_THE_BOARD.has(str(each.get("act", ""))):
+				return each
+		return {}
 	if not thing is AreaProp or (thing as AreaProp).act == "":
 		return {}
 	for each: Dictionary in _acts:
@@ -2171,6 +2179,8 @@ func _examine(thing: AreaProp) -> void:
 		_try_once(thing)
 		return
 	_note(thing.line)
+	if thing.reads == "board":
+		_note(str(Database.world_rules.get("board", {}).get("bare_line", "Nothing pinned to it is for you today.")))
 	# A way in that is shut says why (the Tower's stair, sealed until the Guild's mark).
 	if thing.act != "":
 		for each: Dictionary in _acts:
@@ -3891,8 +3901,28 @@ func _open_the_map() -> void:
 func _acts_text() -> String:
 	var said: Array[String] = []
 	for each: Dictionary in _acts:
+		if _held_at_the_board(each):
+			continue
 		said.append(str(each.get("prompt", "")))
 	return "  ·  ".join(said)
+
+
+## The notice board on this ground, or null: a town's errands are read at it ([D359]).
+func _board() -> AreaProp:
+	for thing in _things:
+		if is_instance_valid(thing) and thing is AreaProp and (thing as AreaProp).reads == "board":
+			return thing as AreaProp
+	return null
+
+
+## Whether [param each] is the board's doing and the party is not standing at the board. Ewan's
+## play-test 3: the board is read at the board, not from anywhere in town. A place with no board
+## on its ground (a hut) is asked as before.
+func _held_at_the_board(each: Dictionary) -> bool:
+	if not AT_THE_BOARD.has(str(each.get("act", ""))):
+		return false
+	var board := _board()
+	return board != null and _nearby != board
 
 
 ## The doing a key asks for here, or an empty dictionary. Interact is the
@@ -3902,7 +3932,7 @@ func _act_for(event: InputEvent) -> Dictionary:
 		return {}
 	for each: Dictionary in _acts:
 		var key: Variant = each.get("key", "")
-		if str(each.get("act", "")) == "":
+		if str(each.get("act", "")) == "" or _held_at_the_board(each):
 			continue
 		if key is String and str(key) != "":
 			if event.is_action_pressed(str(key)) and not (str(key) == "interact" and _nearby != null):
@@ -3960,7 +3990,9 @@ func _lay_out_acts() -> void:
 		_act_bar = null
 	if not (Pace.is_touch_enabled() or Pad.using_pad):
 		return
-	var pressable: Array = _acts.filter(func(each: Dictionary) -> bool: return str(each.get("label", "")) != "")
+	# The board's doing is done at the board, by walking up to it (D359).
+	var pressable: Array = _acts.filter(func(each: Dictionary) -> bool:
+		return str(each.get("label", "")) != "" and not (AT_THE_BOARD.has(str(each.get("act", ""))) and _board() != null))
 	if pressable.is_empty():
 		return
 	_act_bar = HFlowContainer.new()

@@ -367,7 +367,7 @@ exits, spots, chests, seats, anyone standing there) is never blocked, whatever i
 A spot may carry `set_flag` too. A prop with `act` (a doing of the place's, such as `_climb_here`
 on the Tower's runes) is the way into it: standing at it the hint says that doing's prompt, and
 looking at it does it; while the place does not offer it, the line is said with the reason
-([D107](06-decisions.md)). A prop with `spire` (`width`, `storeys`, `step`, `build`) is the Tower's
+([D107](06-decisions.md)). A prop with `"reads": "board"` is the place's notice board ([D359](06-decisions.md)): the place's errands (`_errands_here`, J) are read and settled only standing at it, looking at it does the same, and with nothing on it `world_rules.json` → `board.bare_line` is said; a place whose ground has no board (a hut) is asked from anywhere, as before. Every village, keep and Stormreach's two grounds have one, beside the Guild's clerk. A prop with `spire` (`width`, `storeys`, `step`, `build`) is the Tower's
 stand-in, drawn tall in that wall build's stone from the top of its cell (`src/area/area_spire.gd`,
 [D108](06-decisions.md)).
 
