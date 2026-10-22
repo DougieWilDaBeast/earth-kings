@@ -72,6 +72,7 @@ A critical evaluation and comprehensive investigation plan conducted from the pe
 - [10 — Who wins? shows](investigation/10-who-wins-shows.md) — a channel of simulated "who wins?" fights, read off its frames, and the show built from it ([D180](06-decisions.md), 2026-10-16)
 - [11 — RimWorld's Play Screen, for Earth Kings](investigation/11-rimworld-play-screen.md)
 - [12 — A small on-device model for fight plans](investigation/12-a-small-model-for-fight-plans.md) — EmbeddingGemma 2, what would run it in Godot, what a native runtime costs the stack, and an offline table to try first ([D298](06-decisions.md), #385, 2026-10-20, **Inferred**)
+- [13 — How other mobile games do touch](investigation/13-mobile-controls.md) — seventeen phone games (_Into the Breach_, _FTL_, _Bad North_, _Divinity: Original Sin 2_, _Stardew Valley_ and more), what works on a thumb, and a ranked list of what Earth Kings could build now and after 1.0 ([D379](06-decisions.md), 2026-10-22, **Inferred**)
 
 ## Working rules
 
