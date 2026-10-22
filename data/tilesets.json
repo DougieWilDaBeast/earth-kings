@@ -480,6 +480,15 @@
 			"upper": "high",
 			"feature": "high"
 		},
+		"grove_moss": {
+			"_comment": "The grove's moss and leaf litter (A67, D371): the meadow's sheet until texture_wanted is in.",
+			"texture": "res://art/tilesets/meadow_grass.png",
+			"texture_wanted": "res://art/tilesets/grove_moss.png",
+			"tile_size": 64,
+			"lower": "grass",
+			"upper": "meadow",
+			"feature": "meadow"
+		},
 		"summit": {
 			"_comment": "The cloud peak's summit, on the snow sheet until A50 (texture_wanted, D369).",
 			"texture": "res://art/tilesets/biome/snow_ground.png",

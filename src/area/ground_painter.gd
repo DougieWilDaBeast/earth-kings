@@ -79,7 +79,8 @@ static func _fill(ground: PackedStringArray, layer: TileMapLayer, sheet: Diction
 ## nothing else: for a fight, where they are in the way but say nothing.
 static func dress(map: AreaMap, into: Node2D) -> void:
 	for entry: Dictionary in map.props:
-		if not AreaProp.has_art(str(entry.get("art", ""))):
+		# A picture still to be drawn stands as its stand-in here too ([D369]).
+		if not AreaProp.has_art(AreaProp.shown(str(entry.get("art", "")))):
 			continue
 		var prop := AreaProp.create(str(entry.get("art", "")))
 		prop.position = map.centre_of(entry.get("cell", Vector2i.ZERO))

@@ -52,6 +52,7 @@ func _ready() -> void:
 	viewer.free()
 	_check_moves()
 	_check_art_slots()
+	_check_redrawn()
 	_finish()
 
 
@@ -194,6 +195,35 @@ func _check_art_slots() -> void:
 			"art slots: a unit whose own picture is in is not drawn with it")
 	Database.units.erase("_drawn_test")
 	print("art slots: %d requests, %d files, each with a size and a place to land; %d units and %d props stand in until drawn" % [requests.size(), files, waiting, stand_ins.size() - 1])
+
+
+## A place redrawn ([D371]): each of its `redrawn` pictures is landed by a request and has a size,
+## and the old picture stands where it stood until the new one is in.
+func _check_redrawn() -> void:
+	var landing: Dictionary = {}
+	var slots: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/art_slots.json"))["requests"]
+	for id: String in slots:
+		for entry: Dictionary in slots[id].get("files", []):
+			for each: String in entry.get("each", [""]):
+				landing["res://" + str(entry.get("to", "")).replace("{each}", each)] = true
+	var checked := 0
+	for file: String in DirAccess.get_files_at("res://data/areas"):
+		if not file.ends_with(".json"):
+			continue
+		var data: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/areas/" + file))
+		if not data is Dictionary or not data.has("redrawn"):
+			continue
+		var map := AreaMap.load_area(file.trim_suffix(".json"))
+		for old: String in data["redrawn"]:
+			var wanted := str(data["redrawn"][old])
+			checked += 1
+			_expect(AreaProp.has_art(old), "redrawn: %s in %s redraws %s, which has no picture" % [wanted, file, old])
+			_expect(landing.has("res://art/props/%s.png" % wanted), "redrawn: %s in %s is landed by no request" % [wanted, file])
+			_expect(Database.props.get("art", {}).has(wanted), "redrawn: %s has no size in props.json" % wanted)
+			var shown := old if not AreaProp.has_art(wanted) else wanted
+			_expect(map.props.any(func(p: Dictionary) -> bool: return p.get("art") == shown), "redrawn: %s shows no %s" % [file, shown])
+	_expect(checked >= 2, "redrawn: the grove redraws nothing")
+	print("redrawn: %d pictures wait on their redraw where they stand" % checked)
 
 
 func _finish() -> void:

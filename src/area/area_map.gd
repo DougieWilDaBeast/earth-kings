@@ -128,6 +128,11 @@ static func load_area(area_id: String) -> AreaMap:
 			continue
 		var placed := prop.duplicate(true)
 		placed["cell"] = _to_cell(prop.get("cell", [0, 0]))
+		# A place redrawn (`redrawn`: picture → its own new picture, [D371]) shows the new one once
+		# it is in, wherever the old one stands, dressing included, so a re-dressing keeps it.
+		var redrawn := str(data.get("redrawn", {}).get(str(placed.get("art", "")), ""))
+		if redrawn != "" and AreaProp.has_art(redrawn):
+			placed["art"] = redrawn
 		if AreaProp.is_solid(placed):
 			for cell: Vector2i in base_cells(placed):
 				map._blocked[cell] = true

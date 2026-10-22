@@ -6,7 +6,7 @@
     },
     "layers": [
         "dirt",
-        "meadow"
+        "grove_moss"
     ],
     "hint": "WASD to walk  ·  E to examine or cut obstacles  ·  exits in all four directions",
     "legend": {
@@ -15,6 +15,11 @@
         "m": "meadow"
     },
     "tint": "#7f9e80",
+    "_comment_redrawn": "D371 (play-test 8, item 9: 'The groves just look a little bit basic. Make it look like a grove.'): the grove's own pictures, art request A67. Each great oak here, the dressing's too, is drawn as the grove's ancient tree once it is in (redrawn); the hollow sycamore, the mossed boulders and the barrow stand as their stand-ins until then (props.json stand_ins); the moss is the grove_moss sheet, the meadow's until its own is in.",
+    "redrawn": {
+        "nature/great_oak": "grove/ancient_tree",
+        "nature/great_oak_2": "grove/ancient_tree_2"
+    },
     "spawn": [
         14,
         10
@@ -323,6 +328,57 @@
                 15,
                 12
             ]
+        },
+        {
+            "art": "grove/hollow_sycamore",
+            "cell": [
+                26,
+                4
+            ],
+            "name": "a hollow sycamore"
+        },
+        {
+            "art": "grove/mossed_boulder",
+            "cell": [
+                4,
+                3
+            ]
+        },
+        {
+            "art": "grove/mossed_boulder",
+            "cell": [
+                6,
+                3
+            ]
+        },
+        {
+            "art": "grove/mossed_boulder",
+            "cell": [
+                6,
+                5
+            ]
+        },
+        {
+            "art": "grove/mossed_boulder",
+            "cell": [
+                13,
+                11
+            ]
+        },
+        {
+            "art": "grove/mossed_boulder",
+            "cell": [
+                17,
+                11
+            ]
+        },
+        {
+            "art": "grove/barrow",
+            "cell": [
+                26,
+                15
+            ],
+            "name": "the barrow"
         }
     ],
     "people": [
