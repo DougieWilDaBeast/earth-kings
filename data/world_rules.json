@@ -590,6 +590,7 @@
 		"first_strike_reach": 8,
 		"first_strike_seconds": 0.8,
 		"first_strike_hint": "G: strike first",
+		"first_strike_button": "Strike first",
 		"first_strike_title": "{band}, struck before they knew it"
 	},
 	"modes": {
