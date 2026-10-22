@@ -24,5 +24,21 @@
 		"It was their book. Somebody may as well carry it."
 	],
 	"reinforced": "You talk about them for a while. Everything you were carrying sits a little firmer.",
-	"lonely": "There is nobody left to say anything, so you say it yourself."
+	"lonely": "There is nobody left to say anything, so you say it yourself.",
+	"burial": {
+		"_comment": "D363 (doug-md's play-test 2 ask, D118: a companion's death shown, with a small burial). After a fight on the ground, each of the company who died for good is laid down where they fell under a cairn (`art`), with one `laid` line for them and one `said` by the lead; `after` closes it. {name} is the dead, {lead} the lead. Read by area_scene._bury. Inferred: every line, and the cairn standing in for a grave of its own (A66).",
+		"art": "biome/cairn",
+		"laid": [
+			"They lay {name} down where they fell, and raise what stones there are over them.",
+			"There is no time for more than a shallow grave and a few stones. {name} gets both.",
+			"They close {name}'s eyes, and dig with what they have, and pile the stones high enough to be found again."
+		],
+		"said": [
+			"Rest, {name}. We'll carry the rest of it.",
+			"We'll come back this way. We'll stop.",
+			"Somebody should say something. I don't know what. You'd have known.",
+			"You'd have hated this. Too quiet, and nobody arguing."
+		],
+		"after": "The grave is on the map now. Walking back to it is worth doing."
+	}
 }

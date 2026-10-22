@@ -417,6 +417,7 @@ Start a run (not the tutorial) and walk.
 | D5.85 | Walk into a village with work on its board, stand by the well, then walk up to the notice board beside the Guild's clerk | Away from it, the line at the bottom does not offer the board and J does nothing; at it, the line says "J to read the board", and J or E takes the work; at a board with nothing for you, it says so; in a hut, J still asks from anywhere ([D359](06-decisions.md)) | D359 |
 | D5.86 | On the land, walk until "Explore the grove" is offered and take it (Auto off); then again with Auto on | The company walks into the nearest trees and fades as the screen goes dark, and the grove comes up out of the dark; with Auto it goes straight in ([D360](06-decisions.md)) | D360 |
 | D5.87 | Climb to floor 5 with any lead and pick up the keepsake in the alcove; read the memory through | After the floor goes out from under the world, the ground gives way to a pale wash with the keepsake held up large, slowly closer; on "White." it goes white; the next line is back on the floor ([D361](06-decisions.md)) | D361 |
+| D5.88 | Walk the land with a companion until one of them dies in a fight (a strong band met at a low level); let the fight end | The company stands round a cairn where they fell; the box says they were laid there and the lead says a few words; walk two tiles off and come back: the cairn is still there and reads their epitaph ([D363](06-decisions.md)) | D363 |
 
 ## H — Conversation and the camp
 

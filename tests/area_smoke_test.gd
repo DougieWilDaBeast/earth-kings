@@ -103,6 +103,7 @@ func _ready() -> void:
 	_check_gates_grow()
 	await _check_people_on_the_land()
 	await _check_the_board()
+	await _check_the_burial()
 	await _check_the_land()
 	await _check_the_joined_land()
 	await _check_play_test_three()
@@ -2227,6 +2228,49 @@ func _check_tower_floor() -> void:
 ## The board is read at the board (D359, Ewan's play-test 3): every village, keep and Stormreach has a
 ## notice board on its ground that can be walked to, and J reads it only standing there; a hut,
 ## with no board, is asked as before.
+## A companion's death shown, with a small burial (D363, play-test 2): after the fight the dead are laid
+## under a cairn where they fell, the lead says a few words, and on the land the cairn is still there
+## when the tile is laid out again; on Auto it is only told.
+func _check_the_burial() -> void:
+	var kept_auto := Pace.auto
+	GameState.new_game(SEED, "atlas")
+	var world := GameState.world
+	var juno: Character = GameState.roster.add(Character.create("juno"))
+	juno.status = Fate.DEAD
+	Memorial.raise(world, juno, world.player_cell, "wolf", "a grey wolf")
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "land": true, "return_scene": "world", "planar_mode": true })
+	add_child(scene)
+	for i in 3:
+		await get_tree().process_frame
+	var heard: Array = []
+	var listen := func(lines: Array) -> void: heard.append(lines)
+	EventBus.conversation_requested.connect(listen)
+	Pace.auto = false
+	var leader: AreaActor = scene.get("_leader")
+	scene.call("_bury", [{ "who": juno, "at": leader.position + Vector2(AreaMap.CELL * 2, 0) }])
+	_expect(heard.size() == 1 and (heard[0] as Array).size() == 3, "burial: no words were said over Juno (%s)" % [heard])
+	if heard.size() == 1 and (heard[0] as Array).size() == 3:
+		_expect(str(heard[0][1]["speaker"]) == "Atlas" and str(heard[0][0]["text"]).contains("Juno"),
+				"burial: the lead did not speak, or Juno was not named (%s)" % [heard[0]])
+	var cairns: Array = (scene.get("_actors") as Node).get_children().filter(func(n: Node) -> bool:
+		return n is AreaProp and (n as AreaProp).display_name == "the grave of Juno")
+	_expect(cairns.size() == 1, "burial: no cairn stands over Juno (%d)" % cairns.size())
+	var grave: Site = world.sites_of_kind(Site.GRAVE).back()
+	var land := scene.get("map") as Land
+	var tile := land.tile_of(cairns[0].cell) if cairns.size() == 1 else world.player_cell
+	_expect(grave.data.has("ground_cell") and (scene.call("_graves_in", land.slot_rect(tile)) as Array).size() == 1,
+			"burial: the cairn would not be there when the land is laid out again")
+	Pace.auto = true
+	scene.call("_bury", [{ "who": juno, "at": leader.position }])
+	_expect(heard.size() == 1, "burial: on Auto the box was opened for it")
+	EventBus.conversation_requested.disconnect(listen)
+	scene.queue_free()
+	await get_tree().process_frame
+	Pace.auto = kept_auto
+	print("burial: Juno is laid under a cairn where she fell, and Atlas says a few words")
+
+
 func _check_the_board() -> void:
 	for area_id: String in ["village", "village_dune", "village_fen", "village_pines", "village_shore", "keep", "keep_thorn", "city", "city_streets"]:
 		var boards := (Database.area(area_id).get("props", []) as Array).filter(func(p: Dictionary) -> bool: return str(p.get("reads", "")) == "board")

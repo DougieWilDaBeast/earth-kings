@@ -513,6 +513,8 @@ each, each ending playable:
    A64's pictures are in. Not yet: more places to wear things (a helm and a coat at once), the art (A52, A64).
    Also built, from play-test 7's item 11 ([D361](06-decisions.md), 2026-10-22): a chapter's memory seen as a
    vision behind its lines, the keepsake held up until its own picture (A65) is drawn.
+   Also built, from `doug-md`'s play-test 2 asks ([D363](06-decisions.md), 2026-10-22, #240): a companion who dies
+   on the ground is buried where they fell under a cairn, with a few words from the lead; on the land it stays.
    Also built, outside the order, from `doug-md`'s older asks: the sword in the Tower's yard, one pull a run
    ([D318](06-decisions.md), #249), and a fight you can walk out of, at a cost ([D319](06-decisions.md), #243), both
    2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), after B and before C's rest

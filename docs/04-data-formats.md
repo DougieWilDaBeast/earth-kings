@@ -1183,6 +1183,13 @@ on the party's side, at the company's level, with `joined_line` in the log; won,
 ways a party walks itself (`aggressive`, `mixed`, `passive`; `Pace.auto_style`, kept in
 `settings.cfg` → `ui` → `auto_style`), shown in the menu and on the top bar's Auto button.
 
+## `memorials.json` → `burial` — a companion buried (D363)
+
+`art` (the cairn's prop picture), `laid` (a line for each of the company laid down where they fell),
+`said` (a few words from the lead), `after` (the last line), with `{name}` and `{lead}` filled in. Read
+by `area_scene._bury` after a fight on the ground. A grave raised on the land's own ground keeps
+`ground_cell` (`[x, y]`, a land cell) in its site's `data`, so its cairn is laid out with its tile again.
+
 ## `memories.json` — chapter memories (D103)
 
 Keyed by lead (`atlas`), a list of memories in chapter order: `id`, `chapter`, `title`, `object` (what

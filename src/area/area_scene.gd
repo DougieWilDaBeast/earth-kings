@@ -563,6 +563,8 @@ func _fill_jobs(tile: Vector2i) -> Array[Callable]:
 	var crater := str(Database.fall.get("siblings", {}).get("weapon", {}).get("crater_art", ""))
 	if crater != "" and GameState.world != null and Siblings.landed_weapons(GameState.world).has(tile):
 		jobs.append(_put_prop.bind({ "art": crater, "cell": area.get_center(), "solid": false, "name": "scorched ground" }))
+	for cairn: Dictionary in _graves_in(area):
+		jobs.append(_put_prop.bind(cairn))
 	_admit_the_others_to(tile)
 	_admit_the_road_watch(tile)
 	_admit_the_climbers(tile)
@@ -3616,6 +3618,7 @@ func _after_the_fight() -> void:
 			stood = to_local(_fight.to_global(unit.position))
 			if (f.get("unit").get("character") as Character) == _leader_character:
 				break
+	var dead := [] if sandbox else _the_dead_in_the_fight()
 	if not sandbox and _walked_floor():
 		_held_fight = "won" if bool(_fight.get("victory")) else ("fled" if bool(_fight.get("fled_field")) else "lost")
 	if _auto_after_fight:
@@ -3634,6 +3637,90 @@ func _after_the_fight() -> void:
 	if not sandbox:
 		_settling = true
 		_ask_the_continent({})
+		_bury(dead)
+
+
+## Whoever of the company died for good in the fight just over, and where on this ground they fell.
+func _the_dead_in_the_fight() -> Array:
+	var out: Array = []
+	for f: RefCounted in _fight.call("party_fighters"):
+		var unit := f.get("unit") as Node2D
+		var who := unit.get("character") as Character
+		if who != null and str((f.get("settled") as Dictionary).get("outcome", "")) == Fate.DEAD:
+			out.append({ "who": who, "at": to_local(_fight.to_global(unit.position)) })
+	return out
+
+
+## A companion's death shown, with a small burial (`doug-md`'s play-test 2 ask, [D118]; [D363]): when
+## the fight is over the company lays each of its dead down where they fell, a cairn goes up over them
+## on this ground, and the lead says a few words (`memorials.json` → `burial`). On the land the cairn
+## stays where it was raised, as long as the grave does ([method _graves_in]); on Auto it is only
+## told. A lead who fell ends the run instead, and has no one to bury them here.
+func _bury(dead: Array) -> void:
+	var lead := GameState.roster.player() if GameState.roster != null else null
+	if dead.is_empty() or lead == null or not lead.is_alive() or _leader == null or GameState.world == null:
+		return
+	var rules: Dictionary = Database.memorials.get("burial", {})
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.world_seed, GameState.world.steps, "burial"])
+	var lines: Array = []
+	var looked_at := Vector2.ZERO
+	for each: Dictionary in dead:
+		var who: Character = each["who"]
+		var at := _free_spot_near(map.cell_at(each["at"]))
+		var grave := _grave_of(who)
+		if grave != null and _land_mode:
+			grave.data["ground_cell"] = [at.x, at.y]
+		var node := _put_prop(_cairn(who.display_name, grave, at))
+		if node != null and _land_mode and _tile_things.has((map as Land).tile_of(at)):
+			_keep_made((map as Land).tile_of(at), node)
+		looked_at = map.centre_of(at)
+		var fill := { "name": who.display_name, "lead": lead.display_name }
+		lines.append({ "speaker": "", "text": _pick(rules.get("laid", []), rng).format(fill) })
+		lines.append({ "speaker": lead.display_name, "text": _pick(rules.get("said", []), rng).format(fill) })
+	lines.append({ "speaker": "", "text": str(rules.get("after", "")) })
+	_camera.focus_on(looked_at)
+	if Pace.auto:
+		for line: Dictionary in lines:
+			_note(("%s: %s" % [line["speaker"], line["text"]]) if str(line["speaker"]) != "" else str(line["text"]))
+		return
+	EventBus.conversation_requested.emit(lines)
+
+
+## A cairn over [param name], read as the grave's epitaph.
+func _cairn(name: String, grave: Site, at: Vector2i) -> Dictionary:
+	var rules: Dictionary = Database.memorials.get("burial", {})
+	return {
+		"art": str(rules.get("art", "")), "cell": at, "solid": false,
+		"name": "the grave of %s" % name,
+		"line": Memorial.epitaph(grave, GameState.world) if grave != null else "A cairn over %s." % name,
+	}
+
+
+## [param who]'s grave on the map, raised as they fell.
+func _grave_of(who: Character) -> Site:
+	if GameState.world == null:
+		return null
+	for site: Site in GameState.world.sites_of_kind(Site.GRAVE):
+		if str(site.data.get("character_id", "")) == str(who.id):
+			return site
+	return null
+
+
+## The graves raised on the land's own ground within [param area] ([method _bury]), as cairns.
+func _graves_in(area: Rect2i) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if GameState.world == null:
+		return out
+	for site: Site in GameState.world.sites_of_kind(Site.GRAVE):
+		var pair: Array = site.data.get("ground_cell", [])
+		if pair.size() == 2 and area.has_point(Vector2i(int(pair[0]), int(pair[1]))):
+			out.append(_cairn(str(site.data.get("name", "someone")), site, Vector2i(int(pair[0]), int(pair[1]))))
+	return out
+
+
+func _pick(pool: Array, rng: RandomNumberGenerator) -> String:
+	return "" if pool.is_empty() else str(pool[rng.randi() % pool.size()])
 
 
 ## Whoever has joined since the party was put down (one of the sixteen agreeing to walk with you)
