@@ -421,6 +421,7 @@ Start a run (not the tutorial) and walk.
 | D5.89 | Walk the land with a companion until one of them dies in a fight (a strong band met at a low level); let the fight end | The company stands round a cairn where they fell; the box says they were laid there and the lead says a few words; walk two tiles off and come back: the cairn is still there and reads their epitaph ([D363](06-decisions.md)) | D363 |
 | D5.90 | Climb to floor 5, beat its keeper and press E at the stair; then press E again. Climb on to floors 6 to 9 | The first press says that the stair closes chapter one and what that does (and that something of yours still lies here, if the keepsake is not picked up); the second climbs. Floor 6 is "the Frost Floor" in the corner, bluer, with a line about the cold and ice wolves and frozen wolfmen in its bands; 7 the Drowned Floor, 8 the Ember Floor, 9 the Warren ([D364](06-decisions.md)) | D364 |
 | D5.91 | Leave a gate open far from the company (more than 6 tiles) until a town near it comes under siege; ask a host for news straight away, then walk towards it | No word at first, at the hearth or on the road; a few days on (sooner the nearer you are) "Word reaches the company: Distant bells toll from ..." with how far and which way from where you stand, and the host speaks of it ([D365](06-decisions.md)) | D365 |
+| D5.92 | Start a run, walk out onto the land, then Esc → Copy play log | No "missing data file … land.json" error in the log ([D366](06-decisions.md)) | D366 |
 
 ## H — Conversation and the camp
 

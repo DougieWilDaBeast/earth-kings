@@ -348,7 +348,8 @@ func _ready() -> void:
 		if str(theme.get("tint", "")) != "":
 			map.tint = str(theme["tint"])
 	# A wild place is guarded by the land's own creatures ([D309]).
-	elif (map.id.begins_with("wild_") or Database.area(map.id).has("lure")) and GameState.world != null:
+	# The land is made, not written, so it is never looked up as a file ([D366]).
+	elif (map.id.begins_with("wild_") or not _land_mode and Database.area(map.id).has("lure")) and GameState.world != null:
 		map.bands = Wilds.stock(map, GameState.world, GameState.world.player_cell, GameState.party_characters(), map.bands)
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
