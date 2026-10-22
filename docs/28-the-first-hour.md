@@ -257,6 +257,24 @@ level 3. These runs had floor 5's keeper at level 6 and floors 6 up a level high
 past the first; `dougie` put both back as they were (keeper 9, floors flat), to revisit once a later lead carries
 strength from the worlds before ([D301](06-decisions.md)). Logs: `/mnt/project-files/simulations/2026-10-21-levelling-in-gates/`.
 
+**Floors 6 to 10 by a levelled party** (2026-10-22, main after [D371](06-decisions.md), [D372](06-decisions.md)): the
+soak started at floor 6 (`--from-floor=6 --level=L --party=3 --until-floor=10 --speed=5 --say-fights`), the lead
+the quiz deals and three of the inns' kinds at the same level, so the themed floors and the Keeper of the Tenth
+are played without living through the First Hour first.
+
+| Seed | Lead | Companions | Level 12 from floor 6 | Level 16 from floor 9 | Level 16 from floor 6 |
+| --- | --- | --- | --- | --- | --- |
+| 6 | Liber | Toln, Sera, Sera | Fell on floor 8 (Flame Tongue, Magma Lizard) | **Floor 10 won** | **Floor 10 won** (1:57) |
+| 77 | Diana | Sera, Bram, Toln | Fell on floor 9 (Blaze Lion, Sun King) | **Floor 10 won** | **Floor 10 won** (1:44) |
+| 303 | Saturn | Sera, Toln, Sera | Fell on floor 6 (Staff Panda) | **Floor 10 won** | **Floor 10 won** (7:18) |
+| 2026 | Ceres | Toln, Toln, Bram | cut short | Fell on floor 9 (Axe Bear Veteran) | **Floor 10 won** (6:50) |
+
+No script errors, no stalls, and every save round-trips clean. The themed floors' foes meet the party's own
+level ([D189](06-decisions.md)) and bite harder ([D222](06-decisions.md)), so a party of four at level 12 falls
+on floors 6 to 9 and one at 16 wins through; Auto stops for the Ogre-led bands and the Keeper as it should. One
+line read wrong: a company's possessive, "the Late Risers's Pyre" ([D373](06-decisions.md)). Logs:
+`/mnt/project-files/simulations/2026-10-22-second-hour/`.
+
 **How long the Second Hour took to build** (#234): the build half, floors 6 to 10, the sixteen chapter
 twos into the game, the Keeper of the Tenth, suites and docs ([D254](06-decisions.md), PR #324), took
 one Claude thread about 30 minutes (17:59 to 18:29 UTC, 2026-10-18), with the plan ([D196](06-decisions.md))
