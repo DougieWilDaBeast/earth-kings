@@ -538,7 +538,7 @@ loaded ahead. Some repeat earlier asks (noted).
 
 ### Play-test 9's brief
 
-`doug-md`'s ninth play-test is on build `c5b5ac1` (the itch table below). What he reads first is the
+`doug-md`'s ninth play-test is on build `0ca546a` (the itch table below). What he reads first is the
 onboarding pack in the project's files (`onboarding/cheat-sheet.md`, `what-you-can-do.md`,
 `starter-prompt.md`, brought up to date 2026-10-22) and [README](../README.md#playing-the-vertical-slice).
 What is new to him since play-test 8, with its key:
@@ -560,7 +560,7 @@ What is new to him since play-test 8, with its key:
 | Gates walked into ([D354](06-decisions.md)) | `E` beside a gate |
 | Creatures that fit their land, high ground ([D355](06-decisions.md), [D343](06-decisions.md)) | the open land; a fight on a rise |
 
-On main since `c5b5ac1`, so in the next build and not in his: boards read at the board
+Also in `0ca546a`, new since `c5b5ac1`: boards read at the board
 ([D359](06-decisions.md)), the grove walked into ([D360](06-decisions.md)), chapter visions as pictures
 ([D361](06-decisions.md)), the fallen on floors ([D362](06-decisions.md)), a companion's burial
 ([D363](06-decisions.md)), themed Tower floors and the floor-5 ask ([D364](06-decisions.md)), news at the
@@ -710,3 +710,4 @@ decision numbers. Whoever pushes drafts it with the build; it goes up with the b
 | 2026-10-21 10:05 | `6f8fcf6` | Play-test 8's build, main after #387: fights that run on the open land and first strike with G, five tiers of every monster, gates that grow, caves under the hills, your own people sent into gates from each card's Send button, moods and crafting, the climbers' stone, Sennet as a ghost, the journal at the side, a writers' pass and a seven-step tutorial (#331 to #387, meeting six's [D287](06-decisions.md) to [D299](06-decisions.md)) |
 | 2026-10-21 17:25 | `1548179` | Main after #432, the opening cinematic remade: three acts with the lead's chapter-one object falling with them and Bram's "Give me your hand." ([D328](06-decisions.md), [D340](06-decisions.md)); levels only from new foes in gates, with a log of foes for each of the company (milestone B, [D301](06-decisions.md)); formations, a leader who rises, the Tower past floor 10, heights, wild places and their quests, a fight you can walk out of ([D304](06-decisions.md) to [D321](06-decisions.md)); play-test 8's fixes and asks ([D324](06-decisions.md), [D326](06-decisions.md)); enchanting ([D327](06-decisions.md)); hand fights start at 2× at most ([D329](06-decisions.md)); the nemesis back ([D330](06-decisions.md)); hamlets, caravans, herbs, ladders and rope, Charisma and orders ([D332](06-decisions.md) to [D339](06-decisions.md)); the Tower's people's lines ([D341](06-decisions.md)); six more Stormreach doors ([D342](06-decisions.md)) |
 | 2026-10-22 00:10 | `c5b5ac1` | Main after #464, Will's push after the queue: high ground in a fight and heights on the map ([D343](06-decisions.md)); somewhere for PixelLab's art to land ([D344](06-decisions.md)); sellswords at the Gilded Flagon ([D345](06-decisions.md)); crafting by a fire and at a smithy ([D346](06-decisions.md)); deeper moods ([D347](06-decisions.md)); a band sent to clear a wild place ([D348](06-decisions.md)); hunger with a bar under every member ([D331](06-decisions.md)); Send on Auto ([D349](06-decisions.md)); the play screen arranged by hand ([D351](06-decisions.md)); the fallen searched after a fight ([D352](06-decisions.md)); wares with pictures ([D353](06-decisions.md)); gates walked into ([D354](06-decisions.md)); creatures that fit their land ([D355](06-decisions.md)); armour beside the weapon and an equipment screen ([D357](06-decisions.md)); the second writers' pass ([D350](06-decisions.md)) |
+| 2026-10-22 06:40 | `0ca546a` | Play-test 9's build, main after #492: the Guild board and boards read at the board ([D359](06-decisions.md)); the grove walked into ([D360](06-decisions.md)); chapter visions as pictures ([D361](06-decisions.md)); the fallen on gate and Tower floors ([D362](06-decisions.md)); a companion's burial ([D363](06-decisions.md)); themed Tower floors from 6 and the floor-5 "are you sure?" ([D364](06-decisions.md)); news at the speed of people ([D365](06-decisions.md)); the play log's false error gone ([D366](06-decisions.md)); Auto stays off in Atlas's Last Stand ([D367](06-decisions.md)); a siege seen at the town's gate ([D368](06-decisions.md)); art slots wired with stand-ins ([D369](06-decisions.md) to [D371](06-decisions.md)); the Late Risers' Pyre ([D373](06-decisions.md)) |
