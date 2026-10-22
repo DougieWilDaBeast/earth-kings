@@ -472,7 +472,9 @@ each, each ending playable:
       nothing until it is in ([D370](06-decisions.md), 2026-10-22). The grove's redraw is
       ready for its art: A67 named where each piece will stand ([D371](06-decisions.md), 2026-10-22). The soak plays the Second
       Hour from floor 6 with a levelled party; a party of four wins floor 10 at level 16 on four seeds of four ([D372](06-decisions.md)). A company's name
-      reads as many people in the fight log ("the Late Risers' Pyre", [D373](06-decisions.md)). Crafting grows: ore and ash staves to gather
+      reads as many people in the fight log ("the Late Risers' Pyre", [D373](06-decisions.md)). Play-test 9 is on build `c5b5ac1`; README's "Playing the vertical slice" and
+      `doug-md`'s onboarding pack carry everything built since 12 October, keys included, and
+      [28](28-the-first-hour.md#play-test-9s-brief) lists what is new to him (2026-10-22). Crafting grows: ore and ash staves to gather
       on the land, draughts brewed for less by a fire, and simple gear forged at a smithy out of them
       ([D346](06-decisions.md), 2026-10-21). Next: hills
       and mountains on the land more than a height up, town walls to scale, the brains climbing for high ground.

@@ -536,6 +536,37 @@ loaded ahead. Some repeat earlier asks (noted).
     and the formation closes round it. **Built** ([D326](06-decisions.md)): the nearest free member goes unasked, the rest
     turn on the foe nearest the fallen.
 
+### Play-test 9's brief
+
+`doug-md`'s ninth play-test is on build `c5b5ac1` (the itch table below). What he reads first is the
+onboarding pack in the project's files (`onboarding/cheat-sheet.md`, `what-you-can-do.md`,
+`starter-prompt.md`, brought up to date 2026-10-22) and [README](../README.md#playing-the-vertical-slice).
+What is new to him since play-test 8, with its key:
+
+| To try | Where, and the key |
+| --- | --- |
+| The quick wheel ([D326](06-decisions.md)) | hold the middle button (scroll wheel) still; Eat, Party, Send away, Formation, Map, Journal, Auto, Arrange; Eat, Stance, Auto in a fight |
+| Hunger ([D331](06-decisions.md)) | the thin bar under each health bar; food fills it, a bed is a meal, Auto eats |
+| Moods ([D347](06-decisions.md)) | each card on the party screen (`P`) |
+| Let go ([D326](06-decisions.md)) | the party screen, beside a card, pressed twice |
+| Gear and the equipment screen ([D357](06-decisions.md)) | `P` → Gear: weapon in hand and armour worn, Optimise, Stow, Take Off |
+| Arrange the Screen ([D351](06-decisions.md)) | `Esc` menu or Arrange on the wheel: drag, resize, wheel to scale; Done, Put It All Back |
+| Crafting ([D346](06-decisions.md)) | staves and ore on the land; `P` → Gear → Mixing by a fire; the smiths forge |
+| Runes ([D327](06-decisions.md)) | `P` → Gear → Enchanting |
+| Shop pictures ([D353](06-decisions.md)) | any seller's wares |
+| Sellswords ([D345](06-decisions.md)) | Varro in Stormreach's Gilded Flagon |
+| A band sent to clear a wild place, Send on Auto ([D348](06-decisions.md), [D349](06-decisions.md)) | `P` → Send beside a card |
+| The fallen ([D352](06-decisions.md)) | a beaten band's dead on the land, searched with `E` |
+| Gates walked into ([D354](06-decisions.md)) | `E` beside a gate |
+| Creatures that fit their land, high ground ([D355](06-decisions.md), [D343](06-decisions.md)) | the open land; a fight on a rise |
+
+On main since `c5b5ac1`, so in the next build and not in his: boards read at the board
+([D359](06-decisions.md)), the grove walked into ([D360](06-decisions.md)), chapter visions as pictures
+([D361](06-decisions.md)), the fallen on floors ([D362](06-decisions.md)), a companion's burial
+([D363](06-decisions.md)), themed Tower floors and the floor-5 ask ([D364](06-decisions.md)), news at the
+speed of people ([D365](06-decisions.md)), and a siege seen at the town's gate ([D368](06-decisions.md)).
+His notes and play log (`Esc` → Copy play log) come back as "Play-test 9's asks".
+
 ### Gates that grow
 
 Play-test 7's first ask, built ([D261](06-decisions.md), agenda 172). Inside, a gate is ground of its own

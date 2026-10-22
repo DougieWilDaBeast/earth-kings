@@ -21,7 +21,7 @@ roadmap and the decision log.
 
 ## Running it
 
-1. Install [Godot 4.4+](https://godotengine.org/download) (standard build, not .NET).
+1. Install [Godot 4.7.2](https://godotengine.org/download) (standard build, not .NET).
 2. Open Godot → **Import** → select `project.godot` in this folder.
 3. Press **F5**.
 
@@ -109,20 +109,25 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   out of what came through it; near a hearth it goes quiet.
 - **Sites** — step on a village, keep or hut to rest; a library to read; an open gate to fight it;
   the Tower to climb the next floor. In a settlement, `H` hires whoever is drinking there and `B`
-  buys the gear on the shelf. Where one of your people is being held, `R` ransoms them and `F`
+  buys the gear on the shelf, each ware with its picture ([D353](docs/06-decisions.md)); a town's
+  work is read at its notice board (`J` or `E` standing at it, [D359](docs/06-decisions.md)). Where one of your people is being held, `R` ransoms them and `F`
   takes them back by force.
 - **Once inside a gate there is no walking out.** Win a floor and every step is the next one, until
   the gate is beaten or you are.
 - **Gates never reopen once shut** — but one left standing open too long **breaks**, and what was
   behind it comes out. Danger near a broken gate jumps and its monsters come levelled up.
 - **Towns can be saved or taken.** A gate left open long enough puts the nearest settlement under
-  siege; walk in while it is happening and `V` fights the besiegers off for gold and goodwill.
+  siege, its besiegers standing at one of its gates with the town's bowmen on the towers beside it
+  ([D368](docs/06-decisions.md)); walk in while it is happening and `V` fights them off there, for
+  gold and goodwill.
   Leave it too long and the town falls on its own. `K` raids a town instead — you fight its people,
   empty its strongbox, and it never trades again.
 - **Word spreads from where it happened.** Every notable act is written down at the place you did
   it and travels outward about a tile every fourteen steps. A village on the far side of the map
   has not heard yet; one down the road has heard of nothing else. What they have heard sets what
-  they call you, and moves their prices up to 30% either way.
+  they call you, and moves their prices up to 30% either way. The realm's news walks the same way:
+  a siege, a fall or a broken gate further off than six tiles reaches you only when its word does
+  ("Word reaches the company: …", [D365](docs/06-decisions.md)).
 - **Chests, packs and stash.** Towns you walk around inside have chests worth finding, and open
   country sometimes has something buried in it. Gold goes in the purse; gear goes to whoever it
   actually improves; anything else worth keeping goes into the marching packs (`GameState.stores`),
@@ -171,9 +176,14 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   first, once; the second teaches nothing but practice. Help with five kills of a kind and you learn
   from it too, and a boss teaches everyone who was there. So the way to grow is to go and meet
   something new ([D37](docs/06-decisions.md)).
-- **Send companions away.** Take an errand, then on the party screen's Practice page send someone
-  off to do it. They walk it while you walk, and come back — or meet something on the road alone
-  ([D38](docs/06-decisions.md)).
+- **Send companions away.** **Send** beside a card on the party screen sends someone on an errand
+  you have taken, into a gate, or to clear a wild place whose guard still stands
+  ([D348](docs/06-decisions.md)); **on Auto** they pick their own work by their nature and mood
+  ([D349](docs/06-decisions.md)). They walk it while you walk, and come back — or meet something on
+  the road alone ([D38](docs/06-decisions.md)). Under the party's cards it says how far off they are
+  and how many steps until they are back. **Let go**, beside a card and pressed twice, parts with a
+  companion for good. Varro in Stormreach's Gilded Flagon hires out **sellswords** for one job
+  ([D345](docs/06-decisions.md)).
 - **A level gained** flickers gold on whoever gained it in a fight, and a line at the top right
   says so and what is now owed ([D77](docs/06-decisions.md)).
 - **Level 2 is a choice.** A lead may keep their own class or take another ([D64](docs/06-decisions.md));
@@ -186,6 +196,38 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
 - **Losing everyone ends the run** and returns you to the title.
 - **Training.** Title → Training → **Fight this** throws any unit at the party in a sandbox fight:
   the party walks off whole and nothing is written back.
+- **The quick wheel** — hold the middle mouse button (the scroll wheel) still for a moment and a ring
+  opens round the pointer ([D326](docs/06-decisions.md)): Eat, Party, Send away, Formation, Map,
+  Journal, Auto and Arrange on the ground; Eat, Stance and Auto in a fight. Let go on one to take it,
+  in the middle for nothing.
+- **Arrange the Screen** — in the `Esc` menu, or Arrange on the wheel ([D351](docs/06-decisions.md)):
+  drag any panel of the ground (where you are, the compass, the company, the corner map, the log, the
+  hint line, the talk box), drag the log's corner to resize it, turn the wheel over a panel to scale
+  it. **Done** keeps it for every later run; **Put It All Back** forgets it.
+- **Hunger and moods** — a thin bar under each member's health is how fed they are: amber when
+  hungry, red when starving, which hurts but never fells ([D331](docs/06-decisions.md)). Food fills
+  it, a bed is a full meal, and on Auto they eat by themselves. Each party-screen card names their
+  mood, lifted by a friend beside them, a rest or a kindness and weighed down by a fall seen or a
+  friend let go; it colours what they say ([D347](docs/06-decisions.md)).
+- **Gear** — `P` → Gear is the equipment screen: the fighter drawn large, a weapon in hand and armour
+  worn at once, the numbers they fight at, Optimise, Stow and Take Off ([D357](docs/06-decisions.md)).
+  Under it, **Mixing** brews draughts out of herbs (more for less beside a fire or in an inn) and
+  **Enchanting** lays one rune on the weapon ([D327](docs/06-decisions.md)). Ash staves and iron ore
+  lie on the land beside the herbs, and the smiths forge simple gear out of them for a fee
+  ([D346](docs/06-decisions.md)).
+- **The fallen and the dead** — a band beaten leaves its fallen where they dropped, on the land and
+  on a gate's or the Tower's floors; walk up (`E`) and search them ([D352](docs/06-decisions.md),
+  [D362](docs/06-decisions.md)). A companion who dies for good in a fight on the ground is laid under
+  a cairn where they fell, with a few words from the lead ([D363](docs/06-decisions.md)).
+- **Walked into, not cut to** — `E` beside a gate, or Explore at the grove, walks the company in and
+  fades it through ([D354](docs/06-decisions.md), [D360](docs/06-decisions.md)). A chapter's memory
+  picked up shows as a vision behind its lines ([D361](docs/06-decisions.md)).
+- **The Tower from floor 6** takes themes in turn: the Frost Floor, the Drowned Floor, the Ember Floor
+  and the Warren. The stair off a floor that closes a chapter (5, 10, …) asks first: press it again
+  within four seconds to climb ([D364](docs/06-decisions.md)).
+- **Play-testing** — the menu's _Copy play log_ and _Save play log_ hand a run over
+  ([D125](docs/06-decisions.md)); send it with your notes. What a tester reads first, and what is new
+  in each build, is in [docs/28](docs/28-the-first-hour.md) (play-test 9's brief).
 
 ## Project layout
 
