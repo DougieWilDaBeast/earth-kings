@@ -469,7 +469,8 @@ each, each ending playable:
       `tools/take_art.py take <id>` ([D344](06-decisions.md), 2026-10-21); since 2026-10-22 every open request, A2 to
       A66, has its slot and the game reads its place, stand-ins until drawn ([D369](06-decisions.md)), the walking
       animals (A29), the fight screen's UI (A2), the cloud sheet and the last six Second Hour pieces too, each showing
-      nothing until it is in ([D370](06-decisions.md), 2026-10-22). Next for the art: the groves redraw's code side. Crafting grows: ore and ash staves to gather
+      nothing until it is in ([D370](06-decisions.md), 2026-10-22). The grove's redraw is
+      ready for its art: A67 named where each piece will stand ([D371](06-decisions.md), 2026-10-22). Crafting grows: ore and ash staves to gather
       on the land, draughts brewed for less by a fire, and simple gear forged at a smithy out of them
       ([D346](06-decisions.md), 2026-10-21). Next: hills
       and mountains on the land more than a height up, town walls to scale, the brains climbing for high ground.

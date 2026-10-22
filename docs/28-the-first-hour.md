@@ -509,6 +509,9 @@ loaded ahead. Some repeat earlier asks (noted).
    doors open, the Cathedral of the Ascent (a blessing before the climb), the apothecary, the smithy (an edge
    on your weapons), the old shrine, the ruined bathhouse and the Sign of the Fish, each with its people.
 9. **Groves that look like groves**, hard to find, with good things in them, even if their keeper has to be fought.
+   **Ready for the art** ([D371](06-decisions.md)): art request A67 (two ancient trees, a hollow sycamore, a mossed
+   boulder, a barrow, a moss ground) is named where each will stand in the grove, stand-ins showing until the 27th;
+   hard to find and worth it are as built ([D309](06-decisions.md)).
 10. **A sent-away band seen on its way**: how far off and how long until it is back ([D294](06-decisions.md)'s band on the map).
     **Built** ([D326](06-decisions.md)): tiles off and steps to come, under the cards and beside its face on the map.
 11. **Getting the fallen up**: when one goes down, one of the rest goes to them while the others fight on,

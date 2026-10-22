@@ -1000,7 +1000,8 @@ bird's `<art>_fly/frame_NNN.png` wing-beat while it flies. Since [D370](06-decis
 → `animals` (`per_tile`, `kinds`, `folder` with `{kind}`, `roam_cells`, `names`, `scale`; a land's `life_art.animal`
 in biomes.json) lays animals whose set is in at `art/creatures/<kind>/` (idle facings, `walk/<heading>/frame_NNN.png`);
 the `cloud` sheet of `tilesets.json` is laid over cloud cells once its `texture_wanted` is in; and the fight screen
-reads `art/ui/fight/slot_frame.png`, `cooldown_sweep.png`, `paused_banner.png` and `speed_indicator.png`.
+reads `art/ui/fight/slot_frame.png`, `cooldown_sweep.png`, `paused_banner.png` and `speed_indicator.png`. An area's `redrawn` ([D371](06-decisions.md)) maps a picture
+to its own new picture, drawn wherever the old one stands (dressing too) once the new one is in.
 `data/palettes.json` (D358): colour lists a PixelLab picture is held to (`tools/pixellab.py object|building
 --palette <name>`, PixelLab's `target_palette`); `muted` is 48 colours taken from the art already in the game.
 Never read by the game.

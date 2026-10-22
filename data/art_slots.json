@@ -1722,6 +1722,52 @@
 				}
 			],
 			"shows": "Where a companion is buried after a fight (memorials.json -> burial.art; props.json stand_ins until drawn, D363, D369)."
+		},
+		"A67": {
+			"what": "The ancient grove redrawn",
+			"files": [
+				{
+					"each": [
+						"ancient_tree",
+						"ancient_tree_2"
+					],
+					"name": "{each}.png",
+					"to": "art/props/grove/{each}.png",
+					"size": "any",
+					"stand_in": "the land's great oaks"
+				},
+				{
+					"name": "hollow_sycamore.png",
+					"to": "art/props/grove/hollow_sycamore.png",
+					"size": "any",
+					"stand_in": "nature/sycamore_tree"
+				},
+				{
+					"name": "mossed_boulder.png",
+					"to": "art/props/grove/mossed_boulder.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "biome/boulder"
+				},
+				{
+					"name": "barrow.png",
+					"to": "art/props/grove/barrow.png",
+					"size": "any",
+					"stand_in": "biome/cairn"
+				},
+				{
+					"name": "grove_moss.png",
+					"to": "art/tilesets/grove_moss.png",
+					"size": [
+						1536,
+						512
+					],
+					"stand_in": "the meadow sheet"
+				}
+			],
+			"shows": "The ancient grove (data/areas/wild_grove.json, every grove on the map, D371): its great oaks, the dressing's too, drawn as the ancient trees once in (redrawn); the hollow sycamore by the strongbox, the mossed boulders round the glade's cache and the ring, and the barrow over the reliquary as their stand-ins until then (props.json stand_ins); its moss from the grove_moss sheet (texture_wanted in tilesets.json)."
 		}
 	}
 }
