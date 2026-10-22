@@ -472,16 +472,18 @@
 			"feature": "raised"
 		},
 		"high": {
-			"_comment": "The cloud peak's high rock, on the stone sheet until A50.",
+			"_comment": "The cloud peak's high rock, on the stone sheet until A50 (texture_wanted, D369).",
 			"texture": "res://art/tilesets/grass_stone.png",
+			"texture_wanted": "res://art/tilesets/high_rock.png",
 			"tile_size": 64,
 			"lower": "grass",
 			"upper": "high",
 			"feature": "high"
 		},
 		"summit": {
-			"_comment": "The cloud peak's summit, on the snow sheet until A50.",
+			"_comment": "The cloud peak's summit, on the snow sheet until A50 (texture_wanted, D369).",
 			"texture": "res://art/tilesets/biome/snow_ground.png",
+			"texture_wanted": "res://art/tilesets/summit.png",
 			"tile_size": 64,
 			"lower": "grass",
 			"upper": "summit",

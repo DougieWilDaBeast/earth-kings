@@ -104,10 +104,22 @@ static func has_art(art_id: String) -> bool:
 	return art_id != "" and ResourceLoader.exists("%s/%s.png" % [ART_ROOT, art_id])
 
 
+## The picture [param art_id] is drawn as: itself once it is in, else its stand-in (`stand_ins` in
+## data/props.json, [D369]): the art still to be made (docs/24) is named where the game reads it,
+## and the picture standing in for it shows until it is dropped in.
+static func shown(art_id: String) -> String:
+	if has_art(art_id):
+		return art_id
+	var stand_in := str(Database.props.get("stand_ins", {}).get(art_id, ""))
+	return stand_in if stand_in != "" else art_id
+
+
 ## Swap the picture in place, so a chest can be shown standing open.
 func set_art(art_id: String) -> void:
 	art = art_id
-	var resolved_id := art_id
+	var resolved_id := shown(art_id)
+	# A stand-in stands at its own size until the picture it stands in for is in.
+	var sized := resolved_id if resolved_id != art_id else art_id
 	if (art_id == "nature/clover" or art_id == "nature/clover_2" or art_id == "nature/seasonal_clover") and GameState.world != null:
 		var s := Season.current(GameState.world)
 		var seasonal_art := "nature/clover_%s" % s.get("clover", "green")
@@ -121,10 +133,10 @@ func set_art(art_id: String) -> void:
 	_frames = frames_of(resolved_id)
 	# Each starts somewhere of its own, so two portals in one place do not pulse in step.
 	_frame = randi() % maxi(1, _frames.size())
-	_frame_seconds = float(Database.prop_size(art_id).get("frame_seconds", FRAME_SECONDS))
+	_frame_seconds = float(Database.prop_size(sized).get("frame_seconds", FRAME_SECONDS))
 	_frame_left = _frame_seconds
 	set_process(not _frames.is_empty())
-	var size := scale_override if scale_override > 0.0 else float(Database.prop_size(art_id)["scale"])
+	var size := scale_override if scale_override > 0.0 else float(Database.prop_size(sized)["scale"])
 	var painted := painted_rect(resolved_id, texture)
 	_sprite.scale = Vector2(size, size)
 	# Stood on the bottom of what is painted, centred on it, so a tree three people tall

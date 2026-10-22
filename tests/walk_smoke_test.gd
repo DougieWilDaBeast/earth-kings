@@ -1099,15 +1099,16 @@ func _check_loot() -> void:
 	_expect(GameState.roster.player().charms.size() == charms + 1, "the charm went nowhere")
 
 	# A cache lying on the ground looks like what is in it (play-test 7: "when I click this gold
-	# pile ... it is a sword"): coin as the coin pile, a sword never as coin, a charm never as a sword.
+	# pile ... it is a sword"): coin as the coin pile, a sword never as coin, a charm never as a sword;
+	# each drawn, or standing in until A37 is (D369).
 	var coin_art := Loot.cache_art({ "gold": 90, "item": "" })
 	_expect(coin_art == "coin_pile", "a cache of coin is drawn as '%s'" % coin_art)
 	for sword: String in ["bone_sword", "iron_blade", "yew_longbow", "frost_staff"]:
 		var art := Loot.cache_art({ "gold": 90, "item": sword })
-		_expect(art != coin_art and AreaProp.has_art(art), "a cache holding the %s is drawn as '%s'" % [sword, art])
+		_expect(art != coin_art and AreaProp.has_art(AreaProp.shown(art)), "a cache holding the %s is drawn as '%s'" % [sword, art])
 	for other: String in ["grave_token", "padded_coat", "bread"]:
 		var art := Loot.cache_art({ "gold": 90, "item": other })
-		_expect(art != coin_art and art != Loot.cache_art({ "item": "iron_blade" }) and AreaProp.has_art(art),
+		_expect(art != coin_art and art != Loot.cache_art({ "item": "iron_blade" }) and AreaProp.has_art(AreaProp.shown(art)),
 				"a cache holding the %s is drawn as '%s'" % [other, art])
 
 	var haul := Loot.roll(world, 1.0)

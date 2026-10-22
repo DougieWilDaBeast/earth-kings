@@ -424,6 +424,7 @@ Start a run (not the tutorial) and walk.
 | D5.92 | Start a run, walk out onto the land, then Esc → Copy play log | No "missing data file … land.json" error in the log ([D366](06-decisions.md)) | D366 |
 | D5.93 | On a first life (or Atlas's Last Stand from the title), press T in Hearthwick | The party stays; the log says Auto walks on once you are out in the world ([D367](06-decisions.md)) | D367 |
 | D5.94 | Wait (or leave a gate open) until a town near the company comes under siege, and walk to it | Its besiegers stand outside one of its gates facing it and bowmen stand up on the towers either side; the log says it is under siege. Press Defend: the company runs to that gate, the fight is there with the bowmen shooting from the towers; win, and the gate is clear ([D368](06-decisions.md)) | D368 |
+| D5.95 | Run `python3 tools/take_art.py check`, then copy any 64 × 64 picture to `DROP-ZONE/A66/grave.png` and run `take_art.py take A66 --dry` | Every open request A2 to A66 is listed (A10 to A25 "made as A58"); the grave would move to `art/props/grave.png`. Without it, a buried companion still lies under the cairn, the climbers' stone and a cache's sword stand as before, and floor 6's banners and crates are where they were ([D369](06-decisions.md)) | D369 |
 
 ## H — Conversation and the camp
 

@@ -984,11 +984,18 @@ folder has no `south.png` yet draws nothing in hand.
 the body's size once that picture is in (A64); until then a plate of the armour's colour (`colours` by id, else
 `colour`, at `alpha`, outlined dark) over the chest: `band` its top and bottom as shares of the body's height and
 `width` its share of the width (`bands` and `widths` by armour id: the helm's is a cap over the head). The party screen's equipment figure is drawn the same way.
-`data/art_slots.json` (D344): the art still to be made (docs/24 from A51): for each request its `files`
-(`name` dropped, `to` under art/, `size` [w, h], `rotations` for a folder of facings, `each` to repeat one for a
-list, `prop: false` for a picture under art/props not laid as a prop, `stand_in`) and `shows`, and `also` for
-earlier requests the same files answer (A58's are A10 to A25's keepsakes, D358). Read by
+`data/art_slots.json` (D344, D369): every request open in docs/24: for each its `files`
+(`name` dropped, `to` under art/, `size` [w, h] or `"any"`, `rotations` for a folder of facings, `set` for a whole
+body's folder of states (idle in the eight facings, the moves as frames a heading; `size` its idle's), `frames` for a
+folder of numbered frames, `each` to repeat one for a list, `prop: false` for a picture under art/props not laid as a
+prop, `stand_in`) and `shows` (beginning "Planned" where the game is still to read it), `also` for earlier requests
+the same files answer (A58's are A10 to A25's keepsakes, D358) and `made_as` on those rows. Read by
 `tools/take_art.py` and `tests/art_smoke_test`, never by the game.
+**Art still to be made, named where it is read** ([D369](06-decisions.md)): `props.json` → `stand_ins` (a picture's
+id → the picture drawn until it is in, at the stand-in's size; `AreaProp.shown`), a unit's `art_wanted` in
+`units.json` (its own `sprite_dir` once `<dir>/south.png` is in; then its `tint` is dropped), a sheet's
+`texture_wanted` in `tilesets.json`, an item's own `art/items/<id>.png` before its `icon` (`Gear.icon`), and a
+bird's `<art>_fly/frame_NNN.png` wing-beat while it flies.
 `data/palettes.json` (D358): colour lists a PixelLab picture is held to (`tools/pixellab.py object|building
 --palette <name>`, PixelLab's `target_palette`); `muted` is 48 colours taken from the art already in the game.
 Never read by the game.

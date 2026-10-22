@@ -236,7 +236,7 @@
       }
     },
     {
-      "art": "biome/standing_stone",
+      "art": "landmark/climbers_stone",
       "cell": [
         10,
         8

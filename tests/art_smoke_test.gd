@@ -132,8 +132,15 @@ func _check_art_slots() -> void:
 	if not slots is Dictionary:
 		return
 	var requests: Dictionary = slots["requests"]
-	for id: String in ["A51", "A52", "A53", "A54", "A55", "A56", "A57", "A58", "A59", "A60", "A61"]:
-		_expect(requests.has(id), "art slots: no slot for %s" % id)
+	# Every request still open in docs/24 has a slot ([D369]).
+	var open_rows := FileAccess.get_file_as_string("res://docs/24-art-requests.md").get_slice("\n## Open", 1).get_slice("\n## ", 0)
+	var opened := 0
+	for line: String in open_rows.split("\n"):
+		if line.begins_with("| A"):
+			var id := line.get_slice("|", 1).strip_edges()
+			opened += 1
+			_expect(requests.has(id), "art slots: no slot for %s, open in docs/24" % id)
+	_expect(opened > 0, "art slots: docs/24 lists nothing open")
 	var files := 0
 	for id: String in requests:
 		_expect(str(requests[id].get("shows", "")) != "", "art slots: %s does not say where it shows" % id)
@@ -143,7 +150,8 @@ func _check_art_slots() -> void:
 				var to := str(entry.get("to", "")).replace("{each}", each)
 				files += 1
 				_expect(to.begins_with("art/"), "art slots: %s lands outside art/: %s" % [id, to])
-				_expect(entry.has("size") and (entry["size"] as Array).size() == 2, "art slots: %s's %s has no size" % [id, to])
+				var size: Variant = entry.get("size", null)
+				_expect(str(size) == "any" or (size is Array and (size as Array).size() == 2), "art slots: %s's %s has no size" % [id, to])
 				if to.begins_with("art/props/") and to.ends_with(".png") and bool(entry.get("prop", true)):
 					var art_id := to.trim_prefix("art/props/").trim_suffix(".png")
 					_expect(Database.props.get("art", {}).has(art_id), "art slots: %s has no size in props.json" % art_id)
@@ -158,7 +166,34 @@ func _check_art_slots() -> void:
 		_expect(chapter_one == ("memories/%s" % lead if drawn else "coin_pile"), "a chapter-one keepsake lies as %s" % chapter_one)
 		var chapter_two: String = memories.art_of({ "chapter": "2", "art": "coin_pile" }, lead)
 		_expect(chapter_two == "coin_pile" or chapter_two == "memories/%s_2" % lead, "a chapter-two keepsake lies as %s" % chapter_two)
-	print("art slots: %d requests, %d files, each with a size and a place to land" % [requests.size(), files])
+	# What waits on its picture names where it lands, and something stands in for it until then ([D369]).
+	var stand_ins: Dictionary = Database.props.get("stand_ins", {})
+	for wanted: String in stand_ins:
+		if wanted.begins_with("_"):
+			continue
+		_expect(AreaProp.has_art(str(stand_ins[wanted])), "stand-ins: %s stands in as %s, which has no picture" % [wanted, stand_ins[wanted]])
+		_expect(Database.props.get("art", {}).has(wanted), "stand-ins: %s has no size in props.json" % wanted)
+		_expect(AreaProp.has_art(AreaProp.shown(wanted)), "stand-ins: %s is drawn as nothing" % wanted)
+	var landing: Dictionary = {}
+	for id: String in requests:
+		for entry: Dictionary in requests[id].get("files", []):
+			for each: String in entry.get("each", [""]):
+				landing["res://" + str(entry.get("to", "")).replace("{each}", each)] = true
+	var waiting := 0
+	for unit_id: String in Database.units:
+		var wanted := str((Database.units[unit_id] as Dictionary).get("art_wanted", "")) if Database.units[unit_id] is Dictionary else ""
+		if wanted == "":
+			continue
+		waiting += 1
+		_expect(landing.has(wanted.get_base_dir()), "art slots: %s waits on %s, which no request lands" % [unit_id, wanted])
+		_expect(ResourceLoader.exists(str(Database.units[unit_id].get("sprite_dir", "")) + "/south.png"), "art slots: %s has nothing to stand in" % unit_id)
+	# Once a unit's own picture is in it is drawn with it, untinted: tried on a goblin's.
+	Database.units["_drawn_test"] = { "sprite_dir": "res://art/tier1/slime/idle", "tint": "#ff0000", "art_wanted": "res://art/tier1/goblin/idle" }
+	Database._take_own_pictures()
+	_expect(str(Database.units["_drawn_test"]["sprite_dir"]) == "res://art/tier1/goblin/idle" and not Database.units["_drawn_test"].has("tint"),
+			"art slots: a unit whose own picture is in is not drawn with it")
+	Database.units.erase("_drawn_test")
+	print("art slots: %d requests, %d files, each with a size and a place to land; %d units and %d props stand in until drawn" % [requests.size(), files, waiting, stand_ins.size() - 1])
 
 
 func _finish() -> void:
