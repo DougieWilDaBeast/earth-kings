@@ -632,5 +632,5 @@ reach it, wait here until it plays from the crater to floor 5. Nothing below is 
 - **Ewan's play-test 2 asks** ([D118](06-decisions.md), meeting 4), planned, in this order: a quest
   list you can cycle that points the compass (built, [D190](06-decisions.md)); coins in four metals at 100 to 1, with prices to
   match (built, [D253](06-decisions.md)); buildings you can walk into; the city on open ground (built, [D247](06-decisions.md)); a companion's death shown with a
-  small burial; news that travels at the speed of people; Atlas holding Sky's reins; an open fight
+  small burial (built, [D363](06-decisions.md)); news that travels at the speed of people; Atlas holding Sky's reins; an open fight
   you can walk out of in any direction (built, at a cost, [D319](06-decisions.md)).

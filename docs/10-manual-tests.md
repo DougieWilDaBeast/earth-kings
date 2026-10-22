@@ -418,6 +418,7 @@ Start a run (not the tutorial) and walk.
 | D5.86 | On the land, walk until "Explore the grove" is offered and take it (Auto off); then again with Auto on | The company walks into the nearest trees and fades as the screen goes dark, and the grove comes up out of the dark; with Auto it goes straight in ([D360](06-decisions.md)) | D360 |
 | D5.87 | Climb to floor 5 with any lead and pick up the keepsake in the alcove; read the memory through | After the floor goes out from under the world, the ground gives way to a pale wash with the keepsake held up large, slowly closer; on "White." it goes white; the next line is back on the floor ([D361](06-decisions.md)) | D361 |
 | D5.88 | Inside a gate (or on a Tower floor), beat a band on its floor and walk to where it stood | "The fallen" lie there; E searches them for coin and now and then a piece, once ([D362](06-decisions.md)) | D362 |
+| D5.89 | Walk the land with a companion until one of them dies in a fight (a strong band met at a low level); let the fight end | The company stands round a cairn where they fell; the box says they were laid there and the lead says a few words; walk two tiles off and come back: the cairn is still there and reads their epitaph ([D363](06-decisions.md)) | D363 |
 
 ## H — Conversation and the camp
 
