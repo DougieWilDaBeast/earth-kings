@@ -70,6 +70,7 @@ func _ready() -> void:
 	await _check_the_credits()
 	await _check_tips_and_how_to_play()
 	await _check_the_pad()
+	await _check_the_mouse_bar()
 	await _check_the_ground_is_the_game()
 	await _check_a_band_on_the_ground()
 	await _check_a_roadside_fight_on_the_ground()
@@ -1224,6 +1225,42 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 ## D246 (play-test 6): at 5x the camera's smoothing overshot, swung back further every frame
 ## ("Jumping the screen left and right") and flew off for good (a black screen). Followed back and
 ## forth at 5x, it stays on what it follows.
+## The PC pass ([D390]): with the touch controls off and no pad, the walk has a mouse bar whose
+## buttons do what their keys do and whose hovers name the keys; it steps aside for a screen and
+## for the touch bar.
+func _check_the_mouse_bar() -> void:
+	var bar: Node = _game.get_node("MouseBar")
+	var mode_was := Pace.touch_mode
+	Pad.set_using_pad(false)
+	Pace.touch_mode = "off"
+	await _enter("world")
+	await _clear_dialogue()
+	await _settle()
+	_expect(bar.is_showing(), "the mouse bar was not up on the walk with the touch controls off")
+	_expect(bar.button("party") != null and bar.button("party").tooltip_text.ends_with("(P)"),
+			"the mouse bar's Party does not name P")
+	_expect(bar.button("journal") != null and bar.button("journal").tooltip_text.ends_with("(N)"),
+			"the mouse bar's Journal does not name N")
+	bar.press("journal")
+	await _settle()
+	_expect(_journal.is_showing(), "the mouse bar's Journal did not open the journal")
+	_expect(not bar.is_showing() or not _journal.is_open(), "the mouse bar stayed over the journal")
+	_journal.close()
+	await _settle()
+	bar.press("party")
+	await _settle()
+	await _settle()
+	_expect(_party.is_open(), "the mouse bar's Party did not open the party screen")
+	_expect(not bar.is_showing(), "the mouse bar stayed over the party screen")
+	_party.close()
+	await _settle()
+	_expect(bar.is_showing(), "the mouse bar did not come back when the party screen shut")
+	Pace.touch_mode = "on"
+	await _settle()
+	_expect(not bar.is_showing(), "the mouse bar was up beside the touch bar")
+	Pace.touch_mode = mode_was
+
+
 func _check_the_camera_at_speed() -> void:
 	var rig: Camera2D = load("res://src/ui/camera_rig.gd").new()
 	rig.set("claims_the_view", false)

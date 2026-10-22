@@ -311,6 +311,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 285 | D382 | **Inferred.** The PC downloads as one itch channel per platform (Windows, Linux, macOS) beside the browser build. Recommended: `dougie` keeps it at the next push. |
 | 286 | D383 | **Inferred.** Milestone 4 (stakes) measured as sixteen runs on today's rules and recorded, not retuned, while nothing new starts until play-test 9's asks are in. Recommended: keep; the numbers come back to the founders with play-test 9. |
 | 287 | D384 | **Inferred.** Meeting 7's order: the touch and PC passes first and in parallel, then the push. Recommended: keep, or `dougie` says push first (question list, item 1). |
+| 294 | D390 | **Inferred.** The PC's mouse bar as built: eight buttons down the right edge under the corner map (Party, Journal, Map, Next lead, Auto, Speed, Quick wheel, Menu), hovers naming each key, and a place's doings as buttons on a PC too. Recommended: `doug-md` plays a stretch of play-test 9 with the mouse alone and says what he still reached for a key to do. |
 
 ## 2. Eleven Part I questions that need a straight answer
 

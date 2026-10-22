@@ -1593,7 +1593,8 @@ func _shows_actions() -> bool:
 	# The map is for looking at; the place's doings are offered on the ground.
 	if _view == View.MAP:
 		return false
-	return Pace.is_touch_enabled() or Pad.using_pad
+	# A mouse too ([D390]): every doing is one click away, its hover the line's words with the key.
+	return true
 
 
 ## A pad is choosing among the place's buttons rather than walking.
@@ -1658,6 +1659,7 @@ func _lay_out_actions(doable: Array[Dictionary]) -> void:
 			continue
 		var button := Button.new()
 		button.text = label
+		button.tooltip_text = str(doing.get("prompt", ""))
 		# Focus is how a pad presses one; anywhere else it would only let the
 		# arrow keys wander off the road and onto a button.
 		button.focus_mode = Control.FOCUS_ALL if Pad.using_pad else Control.FOCUS_NONE
