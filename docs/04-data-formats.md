@@ -894,7 +894,7 @@ talk in): `resize` `size` gives the frame a corner `handle` (pixels) that sizes 
 `user://settings.cfg` → `[layout]`, one entry an id (`x`, `y` as a share of the screen, `w`, `h`, `scale`),
 read by `src/ui/screen_layout.gd`; Put It All Back empties it. `arrange` on the quick wheel opens it.
 
-## `world_rules.json` → `quick_wheel` — the ring on a held middle button (D326)
+## `world_rules.json` → `quick_wheel` — the ring on a held middle button (D326), or the touch bar's More (D376)
 
 `on`; `hold`, the seconds the middle button is held still before the ring opens round the pointer (a
 press that moves first is the camera's drag); `walking`, the choices on the land, and `fighting`, while a

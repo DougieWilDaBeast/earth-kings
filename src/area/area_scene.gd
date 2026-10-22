@@ -4803,6 +4803,19 @@ func _quiet_while_spoken_to() -> void:
 
 ## The corner map and the large one ([D232]): the corner map in the top right, under the touch
 ## bar when there is one; a click on it opens the large map, which opens over the ground.
+## Under the touch bar, which held upright drops lower still, so its 1x and Menu do not lie over
+## the map ([D376]). Left be once the player has put it somewhere of their own.
+func _drop_the_corner_map() -> void:
+	if _corner_map == null or ScreenLayout.is_laid("map"):
+		return
+	var view := get_viewport().get_visible_rect().size
+	var drop := 0.0
+	if Pace.is_touch_enabled():
+		drop = TouchControls.BAR_DROP + (TouchControls.UPRIGHT_DROP if view.y > view.x else 0.0)
+	_corner_map.offset_top = 14.0 + drop
+	_corner_map.offset_bottom = _corner_map.offset_top + CORNER_MAP_SIZE
+
+
 func _put_up_the_maps() -> void:
 	_corner_map = LandMap.new()
 	_corner_map.full = false
@@ -4812,8 +4825,8 @@ func _put_up_the_maps() -> void:
 	_corner_map.anchor_right = 1.0
 	_corner_map.offset_left = -CORNER_MAP_SIZE - 14.0
 	_corner_map.offset_right = -14.0
-	_corner_map.offset_top = 14.0 + (TouchControls.BAR_DROP if Pace.is_touch_enabled() else 0.0)
-	_corner_map.offset_bottom = _corner_map.offset_top + CORNER_MAP_SIZE
+	_drop_the_corner_map()
+	get_viewport().size_changed.connect(_drop_the_corner_map)
 	_corner_map.tooltip_text = "Click to open the map (M). Right-click a place: Go here, or Place a marker."
 	_place.get_parent().add_child(_corner_map)
 	_corner_map.said.connect(_note)

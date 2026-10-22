@@ -25,6 +25,10 @@ var _items: Array = []
 var _centre := Vector2.ZERO
 var _pointing := -1
 var _ring: Control
+## Opened by the touch bar's More ([D376]): the next tap on the glass picks, and the press and
+## release the engine makes of it as a mouse are swallowed, so the tap does not walk the party there.
+var _tapped := false
+var _swallow_release := false
 
 
 func _ready() -> void:
@@ -35,6 +39,7 @@ func _ready() -> void:
 	_ring.draw.connect(_draw_ring)
 	_ring.hide()
 	add_child(_ring)
+	EventBus.quick_wheel_requested.connect(open_for_tap)
 
 
 static func rules() -> Dictionary:
@@ -56,7 +61,18 @@ func choices() -> Array:
 	return rules().get("fighting" if fighting else "walking", [])
 
 
+## Open the ring in the middle of the screen, for a finger to tap a choice on ([D376]).
+func open_for_tap() -> void:
+	if _open:
+		take(-1)
+		return
+	_tapped = open_at(_ring.get_viewport_rect().size * 0.5)
+
+
 func _input(event: InputEvent) -> void:
+	if _tap_input(event):
+		get_viewport().set_input_as_handled()
+		return
 	var press := event as InputEventMouseButton
 	if press != null and press.button_index == MOUSE_BUTTON_MIDDLE:
 		if press.pressed:
@@ -77,6 +93,38 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	elif _held and motion.position.distance_to(_pressed_at) > STILL:
 		_held = false
+
+
+## A finger on a ring opened for tapping: down points, up takes (outside the ring or in its middle,
+## nothing). Whether [param event] was the ring's.
+func _tap_input(event: InputEvent) -> bool:
+	var mouse := event as InputEventMouseButton
+	if _swallow_release and mouse != null and mouse.button_index == MOUSE_BUTTON_LEFT and not mouse.pressed:
+		_swallow_release = false
+		return true
+	if not (_open and _tapped):
+		return false
+	var touch := event as InputEventScreenTouch
+	if touch != null:
+		if touch.pressed:
+			_point_at(touch.position)
+		else:
+			_point_at(touch.position)
+			_tapped = false
+			_swallow_release = true
+			take(_pointing if touch.position.distance_to(_centre) <= RADIUS else -1)
+		return true
+	if event is InputEventScreenDrag:
+		_point_at((event as InputEventScreenDrag).position)
+		return true
+	# The mouse the engine makes of the finger, or a mouse on a touch screen: a left click picks.
+	if mouse != null and mouse.button_index == MOUSE_BUTTON_LEFT:
+		if not mouse.pressed and not _swallow_release:
+			_point_at(mouse.position)
+			_tapped = false
+			take(_pointing if mouse.position.distance_to(_centre) <= RADIUS else -1)
+		return true
+	return false
 
 
 func _process(delta: float) -> void:
@@ -121,6 +169,7 @@ static func sector_of(off: Vector2, count: int) -> int:
 func take(index: int) -> void:
 	var item: Dictionary = _items[index] if index >= 0 and index < _items.size() else {}
 	_open = false
+	_tapped = false
 	_items = []
 	_ring.hide()
 	if item.is_empty():

@@ -128,7 +128,7 @@ alignment = 2
 
 [node name="PartyButton" type="Button" parent="Root/Safe/TopBar"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 62)
+custom_minimum_size = Vector2(80, 62)
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 15
@@ -136,7 +136,7 @@ text = "Party"
 
 [node name="JournalButton" type="Button" parent="Root/Safe/TopBar"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 62)
+custom_minimum_size = Vector2(76, 62)
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 15
@@ -152,15 +152,23 @@ text = "Auto"
 
 [node name="SpeedButton" type="Button" parent="Root/Safe/TopBar"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 62)
+custom_minimum_size = Vector2(60, 62)
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 15
 text = "1x"
 
+[node name="MoreButton" type="Button" parent="Root/Safe/TopBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 62)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 15
+text = "More"
+
 [node name="MenuButton" type="Button" parent="Root/Safe/TopBar"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 62)
+custom_minimum_size = Vector2(80, 62)
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 15

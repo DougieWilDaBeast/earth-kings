@@ -53,6 +53,7 @@ const LEAN := 0.38
 @onready var _menu_btn: Button = %MenuButton
 @onready var _auto_btn: Button = %AutoButton
 @onready var _speed_btn: Button = %SpeedButton
+@onready var _more_btn: Button = %MoreButton
 
 ## The finger steering, if one is. Anything else on the glass is somebody
 ## else's — a second thumb on a button, or two fingers pinching the map.
@@ -60,12 +61,23 @@ var _finger: int = -1
 var _current_dir: Vector2i = Vector2i.ZERO
 var _held_actions: Array[String] = []
 var _scene_key: String = "title"
+## A fight on the ground is on ([D376]): nothing is walked, so the stick steps aside and the
+## fighter's card under it can be pressed. Act, Back and Next stay; the fight answers them.
+var _fighting := false
 
 
 func _ready() -> void:
 	_wire_buttons()
 	Pace.changed.connect(_restate)
 	EventBus.scene_changed.connect(_on_scene_changed)
+	EventBus.battle_started.connect(func(_map_id: String) -> void:
+		_fighting = true
+		_restate()
+	)
+	EventBus.battle_finished.connect(func(_result: Dictionary) -> void:
+		_fighting = false
+		_restate()
+	)
 
 	# Both edges of every overlay. Opening alone was never enough: the controls
 	# went away when a screen was asked for and never came back when it shut.
@@ -102,15 +114,18 @@ func _wire_buttons() -> void:
 		Pace.cycle_speed()
 		_restate()
 	)
+	# The quick wheel without a middle button ([D376]).
+	_more_btn.pressed.connect(func() -> void: EventBus.quick_wheel_requested.emit())
 	for button: Button in [
 		_interact_btn, _back_btn, _cycle_btn,
-		_party_btn, _journal_btn, _menu_btn, _auto_btn, _speed_btn,
+		_party_btn, _journal_btn, _menu_btn, _auto_btn, _speed_btn, _more_btn,
 	]:
 		Sfx.attend(button)
 
 
 func _on_scene_changed(scene_key: String) -> void:
 	_scene_key = scene_key
+	_fighting = false
 	_restate()
 
 
@@ -131,19 +146,28 @@ func _lay_out() -> void:
 	var walking := playing and WALK_SCENES.has(_scene_key)
 
 	_root.visible = playing
-	_steer.visible = walking
+	_top_bar.visible = not _book_beside()
+	_steer.visible = walking and not _fighting
 	_cluster.visible = walking
 	# A fight has its own auto and speed down the side of the board; two sets
 	# of them on one screen is worse than none.
 	_auto_btn.visible = walking
 	_speed_btn.visible = walking
 	_party_btn.visible = walking
+	_more_btn.visible = walking and bool(Database.world_rules.get("quick_wheel", {}).get("on", false))
 
-	if not walking:
+	if not walking or _fighting:
 		_release_steering()
 	# On, it says which way it walks (D216); the menu picks the way.
 	_auto_btn.text = "Auto: %s" % Pace.auto_style_name() if Pace.auto else "Auto"
 	_speed_btn.text = "%dx" % int(Pace.speed())
+
+
+func _book_beside() -> bool:
+	for node in get_tree().get_nodes_in_group(EventBus.MODAL_OVERLAY_GROUP):
+		if node.has_method("is_open_beside") and node.is_open_beside():
+			return true
+	return false
 
 
 func _overlay_open() -> bool:
@@ -229,7 +253,7 @@ func _on_drag(drag: InputEventScreenDrag) -> void:
 func _covers(point: Vector2) -> bool:
 	for button: Button in [
 		_interact_btn, _back_btn, _cycle_btn,
-		_party_btn, _journal_btn, _menu_btn, _auto_btn, _speed_btn,
+		_party_btn, _journal_btn, _menu_btn, _auto_btn, _speed_btn, _more_btn,
 	]:
 		if button.visible and button.is_visible_in_tree() \
 				and button.get_global_rect().has_point(point):

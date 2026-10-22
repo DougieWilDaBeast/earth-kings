@@ -52,6 +52,8 @@ signal party_screen_requested
 signal growth_choice_requested(character: RefCounted)
 ## Ask the always-present journal to open.
 signal journal_requested
+## Open the quick wheel in the middle of the screen, to be tapped ([D376]: the touch bar's More).
+signal quick_wheel_requested
 ## A choice taken on the quick wheel ([D326]): "eat", "stance", "party", "send", "formation" and so on.
 signal quick_wheel_chose(id: String)
 ## Arrange the play screen's panels ([D351]): the menu's Arrange the Screen, or Arrange on the wheel.
