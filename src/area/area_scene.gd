@@ -343,6 +343,10 @@ func _ready() -> void:
 	if _tower_floor > 0:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
 		_admit_climbers_to_the_floor()
+		# Its theme's light ([D364]); its name and line follow once the scene is up.
+		var theme := TowerFloors.Chapters.theme_of(_tower_floor)
+		if str(theme.get("tint", "")) != "":
+			map.tint = str(theme["tint"])
 	# A wild place is guarded by the land's own creatures ([D309]).
 	elif (map.id.begins_with("wild_") or Database.area(map.id).has("lure")) and GameState.world != null:
 		map.bands = Wilds.stock(map, GameState.world, GameState.world.player_cell, GameState.party_characters(), map.bands)
@@ -379,6 +383,10 @@ func _ready() -> void:
 		_camera.frame(map.rect())
 	_camera.focus_on(_leader.position, true)
 	_place.text = boot_payload.get("title", map.display_name)
+	var floor_theme := TowerFloors.Chapters.theme_of(_tower_floor) if _tower_floor > 0 else {}
+	if not floor_theme.is_empty():
+		_place.text = "%s: %s" % [_place.text, str(floor_theme.get("name", ""))]
+		_note(str(floor_theme.get("line", "")))
 	_idle_hint = map.hint if map.hint != "" else HINT
 	if _land_mode:
 		_idle_hint = _land_hint()
@@ -731,6 +739,31 @@ func _admit_the_climbers(tile: Vector2i) -> void:
 				  "line": str(lines[rng.randi() % lines.size()]) if i == 0 and not lines.is_empty() else "" },
 			],
 		})
+
+
+## Until when (ms) a second press climbs the stair that closes a chapter.
+var _stair_warned_until: int = 0
+
+
+## The stair off a floor that closes a chapter asks first ([D364]; play-test 3, item 9: "perhaps 'Are
+## you sure?' before leaving floor 5"): the first press says what closing it does, and names anything
+## of the lead's still lying here; the second, within a few seconds, climbs. Auto never asks.
+func _sure_of_the_stair() -> bool:
+	var world: World = GameState.world
+	if Pace.auto or world == null or _in_a_gate() or not _way_down_open() \
+			or not TowerFloors.Chapters.ends_chapter(world, _tower_floor):
+		return true
+	if Time.get_ticks_msec() < _stair_warned_until:
+		_stair_warned_until = 0
+		return true
+	var ask: Dictionary = Database.world_rules.get("tower", {}).get("chapter_ask", {})
+	_stair_warned_until = Time.get_ticks_msec() + int(float(ask.get("seconds", 4.0)) * 1000.0)
+	_note(str(ask.get("line", "")).format({
+		"floor": _tower_floor, "chapter": TowerFloors.Chapters.chapter_of(_tower_floor),
+		"left": str(ask.get("keepsake_left", "")) if not _memories.is_empty() else "",
+		"key": Pad.key("interact") if Pad.using_pad else "E",
+	}))
+	return false
 
 
 ## Until when (ms) a second press goes into the gate that was warned of.
@@ -4585,7 +4618,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Ahead of the pace keys, which used to share E with it.
 	if event.is_action_pressed("interact") and _at_the_stair() and not _talking and not _leaving:
 		get_viewport().set_input_as_handled()
-		_climb_the_stair()
+		if _sure_of_the_stair():
+			_climb_the_stair()
 		return
 	if event.is_action_pressed("interact") and _nearby != null and not _talking:
 		get_viewport().set_input_as_handled()

@@ -450,6 +450,10 @@ static func for_tower(world: World, site: Site, floor_number: int, party: Array,
 	var pool := Faction.pool(faction_tier, level)
 	if pool.is_empty():
 		pool = Database.encounters.get("tower", ["goblin"])
+	# A floor with a theme fields its own creatures ([D364]): the frost floor's are of the cold.
+	var theme := Chapters.theme_of(floor_number)
+	if not (theme.get("units", []) as Array).is_empty():
+		pool = theme["units"]
 
 	var bite := upper_bite(floor_number)
 	if floor_number >= world.tower_floors():

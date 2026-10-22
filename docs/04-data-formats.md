@@ -1115,6 +1115,13 @@ never below the party's average level when `meet_the_party` is true, and there a
 them, one more every `chapters_per_extra_foe` chapters, and one more for every member past
 `foes_per_member_past` (2), at most `foes_max` (6) ([D189](06-decisions.md)).
 
+A floor's theme ([D364](06-decisions.md)): `tower.themes` has `from` (6) and a `list`, each `{ name, units,
+tint, line }`; from `from`, every floor that does not close a chapter takes the next in turn
+(`Chapters.theme_of`). Its `units` are its foes instead of its cohort's, `tint` its light, `name` follows the
+floor's in the corner and `line` is said as the party comes up. `tower.chapter_ask` (`seconds`, `line`,
+`keepsake_left`) is what the stair off a chapter's last floor says before it climbs, a second press within
+`seconds` climbing.
+
 A gate's floors are walked the same way ([D248](06-decisions.md)): E at a gate on the ground opens the
 floor the party is on, laid out by `src/chronicle/gate_inside.gd` and registered as an area
 (`gate_inside_<x>_<y>_<depth>`; an area opened with `gate_cell`, `gate_depth`, `gate_final`, `gate_keeper`

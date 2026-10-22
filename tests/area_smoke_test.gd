@@ -104,6 +104,7 @@ func _ready() -> void:
 	await _check_people_on_the_land()
 	await _check_the_board()
 	await _check_the_burial()
+	await _check_floor_themes()
 	await _check_the_land()
 	await _check_the_joined_land()
 	await _check_play_test_three()
@@ -2247,6 +2248,47 @@ func _check_tower_floor() -> void:
 ## The board is read at the board (D359, Ewan's play-test 3): every village, keep and Stormreach has a
 ## notice board on its ground that can be walked to, and J reads it only standing there; a hut,
 ## with no board, is asked as before.
+## Floors with themes, and the stair that closes a chapter asks first (D364, play-test 3, item 9).
+func _check_floor_themes() -> void:
+	var Chapters := preload("res://src/chronicle/chapters.gd")
+	_expect(str(Chapters.theme_of(6).get("name", "")) == "the Frost Floor" and str(Chapters.theme_of(9).get("name", "")) == "the Warren",
+			"themes: floors 6 and 9 are not the frost floor and the warren")
+	_expect(Chapters.theme_of(5).is_empty() and Chapters.theme_of(10).is_empty() and Chapters.theme_of(3).is_empty(),
+			"themes: a keeper's floor, or one below the themes, has a theme")
+	_expect(str(Chapters.theme_of(11).get("name", "")) == "the Frost Floor", "themes: floor 11 does not take the first theme again")
+	GameState.new_game(SEED, "atlas")
+	var world := GameState.world
+	var cold: Array = Chapters.theme_of(6)["units"].map(func(u: String) -> String: return Tiers.family_of(u) if Tiers.family_of(u) != "" else u)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 6
+	for i in 4:
+		for foe: Dictionary in Encounter.for_tower(world, world.tower(), 6, GameState.party_characters(), rng).get("enemies", []):
+			var unit := str(foe.get("unit", ""))
+			var family := Tiers.family_of(unit) if Tiers.family_of(unit) != "" else unit
+			_expect(cold.has(family) or Chapters.theme_of(6)["units"].has(unit), "themes: %s on the frost floor" % unit)
+	var kept_auto := Pace.auto
+	Pace.auto = false
+	var five: Node = load("res://src/area/area_scene.tscn").instantiate()
+	five.set("boot_payload", { "area_id": "tower_floor_5", "return_scene": "world", "tower_floor": 5 })
+	add_child(five)
+	for i in 5:
+		await get_tree().process_frame
+	_expect(not bool(five.call("_sure_of_the_stair")), "chapter ask: the stair off floor 5 climbed without asking")
+	_expect(bool(five.call("_sure_of_the_stair")), "chapter ask: pressing again did not climb")
+	five.queue_free()
+	await get_tree().process_frame
+	var four: Node = load("res://src/area/area_scene.tscn").instantiate()
+	four.set("boot_payload", { "area_id": "tower_floor_4", "return_scene": "world", "tower_floor": 4 })
+	add_child(four)
+	for i in 3:
+		await get_tree().process_frame
+	_expect(bool(four.call("_sure_of_the_stair")), "chapter ask: floor 4's stair asked, and it closes no chapter")
+	four.queue_free()
+	await get_tree().process_frame
+	Pace.auto = kept_auto
+	print("themes: floor 6 is frost and fields the cold; the stair off floor 5 asks once before it climbs")
+
+
 ## A companion's death shown, with a small burial (D363, play-test 2): after the fight the dead are laid
 ## under a cairn where they fell, the lead says a few words, and on the land the cairn is still there
 ## when the tile is laid out again; on Auto it is only told.
