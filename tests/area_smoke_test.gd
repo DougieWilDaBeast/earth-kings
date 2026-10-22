@@ -2695,8 +2695,12 @@ func _check_the_joined_land() -> void:
 	EventBus.continent_requested.connect(listen)
 	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
 	scene.set("boot_payload", { "land": true, "return_scene": "world", "planar_mode": true })
+	(Database.get("_areas") as Dictionary).erase("land")
 	add_child(scene)
 	await get_tree().process_frame
+	# The land is made, not written: it is never looked for as a file, which wrote an error to every play log ([D366]).
+	if (Database.get("_areas") as Dictionary).has("land"):
+		_fail("land: the land was looked up as data/areas/land.json")
 	if scene._tile_ground.size() != 9:
 		_fail("land: %d tiles laid out round the party, not 9" % scene._tile_ground.size())
 	if scene.map.tile_of(scene.map.cell_at(scene._leader.position)) != here:
