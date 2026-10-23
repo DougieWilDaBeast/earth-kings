@@ -91,6 +91,28 @@ static func eat(character: Character, equipment_id: String) -> String:
 	return Gear.drink(character, equipment_id)
 
 
+## Food in the packs, counted.
+static func food_carried() -> int:
+	return GameState.stores.filter(func(id: String) -> bool: return feeds(id) > 0.0).size()
+
+
+## A party walking itself, resting at [param site], buys the food laid out until it carries
+## `auto_buys_up_to` ([D404]). Before, Auto never bought any: with nothing in the packs a belly
+## lasted 22 steps from a bed, and it walked back and forth between a village and a gate further off
+## than that, turning for bed each time. Returns the lines worth saying.
+static func stock_up(site: Site, world: World) -> Array[String]:
+	var lines: Array[String] = []
+	if not on() or not Pace.auto or GameState.roster == null:
+		return lines
+	var want := int(rules().get("auto_buys_up_to", 0))
+	while food_carried() < want:
+		var food: Array = Market.on_show(site).filter(func(id: String) -> bool: return feeds(id) > 0.0)
+		if food.is_empty() or not Market.buy(site, str(food[0]), GameState.roster.player(), world):
+			break
+		lines.append(str(rules().get("bought_line", "Bought {food} for the road.")).format({"food": Gear.display_name(str(food[0]))}))
+	return lines
+
+
 ## A bed is a meal too.
 static func fill(character: Character) -> void:
 	character.fed = 1.0
