@@ -227,6 +227,7 @@ static func cell_of(at: Variant) -> Vector2i:
 ## nearest gate still standing, then the Tower.
 static func errand(world: World) -> Vector2i:
 	_keep_to(world)
+	_try_the_tower_again(world)
 	var rest := rest_stop(world)
 	if rest.x >= 0:
 		return rest
@@ -265,6 +266,9 @@ static func errand(world: World) -> Vector2i:
 		if Pace.avoided.has(site.cell) or not Atlas.knows(world, site):
 			continue
 		if site.data.has("ward") and not Ward.is_site_open(site) and Ward.answer(site.data["ward"], GameState.party_characters()).is_empty():
+			continue
+		# Never gone into by a party walking itself ([D246]), so never walked to and stood at ([D432]).
+		if too_strong(site):
 			continue
 		var reach := Pathfinder.distance(site.cell, world.player_cell)
 		if reach < best:
@@ -371,6 +375,18 @@ static func _nearest_rest(world: World, known_only: bool, kinds: Array) -> Vecto
 ## Whether the party's health is under [param below] of its whole: `first_hour.auto_rest_below`
 ## ([D210]) on the land, `auto_climb_above` bound for the Tower and `auto_turn_back_below` on its
 ## floors ([D258]).
+## A floor of the Tower lost is not walked straight back into, but it is the way on: rested to
+## `auto_climb_above` of its health, a party walking itself goes back to it ([D432], found by bot
+## play: after one lost floor at level 4 the Tower stayed off Auto's way for good, and Auto stood
+## on a gate's tile it would never go into, the nearest gate standing, too strong for it).
+static func _try_the_tower_again(world: World) -> void:
+	var tower := world.tower()
+	if tower == null or not Pace.avoided.has(tower.cell):
+		return
+	if not hurt(float(_rules().get("auto_climb_above", 0.9))):
+		Pace.avoided.erase(tower.cell)
+
+
 static func hurt(below: float) -> bool:
 	if GameState.roster == null:
 		return false

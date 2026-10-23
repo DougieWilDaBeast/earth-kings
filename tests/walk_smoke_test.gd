@@ -2170,6 +2170,22 @@ func _check_auto_rests() -> void:
 	first_hour["auto_seeks_rest"] = false
 	_expect(AutoRoad.nearest_rest(world).x < 0, "auto rests: with auto_seeks_rest off, Auto still made for a place it does not know")
 	first_hour["auto_seeks_rest"] = true
+	# D432: a Tower floor lost is gone back to once the company is rested, not while it is hurt.
+	var tower := world.tower()
+	if tower != null:
+		Pace.avoided[tower.cell] = true
+		var whole: Dictionary = {}
+		for member: Character in GameState.party_characters():
+			whole[member] = member.hp
+			member.hp = maxi(1, member.max_hp() / 10)
+		AutoRoad.errand(world)
+		_expect(Pace.avoided.has(tower.cell), "auto tower: hurt after a lost floor, Auto made straight back for the Tower")
+		for member: Character in whole:
+			member.hp = -1
+		AutoRoad.errand(world)
+		_expect(not Pace.avoided.has(tower.cell), "auto tower: rested after a lost floor, Auto never went back to the Tower")
+		for member: Character in whole:
+			member.hp = whole[member]
 	Pace.avoided = avoided_were
 	var goal := AutoRoad.objective(world)
 	for gate: Site in gates:
