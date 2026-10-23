@@ -341,6 +341,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 322 | D422 | **Inferred.** With a mouse, a place's buttons sit in the bottom right corner under the mouse bar, leaving the middle of the screen for walking. Recommended: as built; `doug-md` says whether he finds them there. |
 | 324 | D424 | **Inferred.** The founders' Android test APK turns with the phone (sideways or upright, the rotation lock respected), runs on 64-bit ARM phones only (every Android phone from about 2017), and counts its version from main's commits so a new one installs over the old. The other ways were sideways only, and a build for older 32-bit phones too. Recommended: as built; `dougie` says if it should stay sideways. |
 | 330 | D430 | **Inferred.** A fight in which nobody has lost health for half a minute, with both sides still standing, is broken off: the company gets clear, parting blows and all, and the band stays out there. One who finds no way to a fallen friend waits three seconds before being sent again. The other ways were a longer wait, or the band going instead. Recommended: as built. |
+| 331 | D431 | **Inferred.** Anyone in a ground fight who would stand off its field, or a foe who would stand where the company cannot walk, is moved to the nearest cell they can stand on. The other way was laying the field again round them. Recommended: as built. |
 
 ## 2. Eleven Part I questions that need a straight answer
 

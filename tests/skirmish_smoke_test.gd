@@ -211,6 +211,7 @@ func _run() -> void:
 	await _check_walking_out()
 	await _check_reaching_the_fallen()
 	await _check_stalemate()
+	await _check_onto_the_field()
 	_check_hand_fight_speed()
 
 
@@ -2068,6 +2069,23 @@ func _check_stalemate() -> void:
 	fight._break_a_stalemate()
 	_expect(cato.fled, "a fight where nobody could come at anybody was never broken off (Cato %s)" % cato.activity())
 	fight.sandbox = true
+	fight.queue_free()
+	await get_tree().process_frame
+
+
+## D431 (a Second Hour soak, seed 7007): a company met off the field's edge is stood on it, and a
+## foe told to stand in a pocket nobody can walk into is stood where the company can reach.
+func _check_onto_the_field() -> void:
+	var fight := await _new_fight()
+	var rows: Array = ["..........", "....###...", "....#.#...", "....###...", ".........."]
+	var onto: Vector2i = fight._onto_field(rows, Vector2i(30, 3), {})
+	_expect(onto == Vector2i(9, 3), "a company met off the field's edge was not stood on it (%s)" % onto)
+	fight._party_cells.assign([Vector2i(0, 0)])
+	var laid: Array = fight._spread_out([{"cell": [5, 2]}], rows)
+	var at := Vector2i(int(laid[0]["cell"][0]), int(laid[0]["cell"][1]))
+	_expect(at != Vector2i(5, 2) and not fight._row_blocked(rows, at),
+			"a foe was stood in a pocket of the field nobody can walk into (%s)" % at)
+	fight._party_cells.clear()
 	fight.queue_free()
 	await get_tree().process_frame
 
