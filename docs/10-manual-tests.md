@@ -452,6 +452,7 @@ Start a run (not the tutorial) and walk.
 | D5.112 | On a new run, before seeing any village, get hurt to half health in a gate, then turn Auto on | Auto walks out of the city's land towards a village it has not seen and rests there before it goes up the Tower ([D402](06-decisions.md)) | D402 |
 | D5.113 | Walk into three villages and look at their wares | Nearly every one lays out a loaf, pie, cheese, apple or herbs among the three, and B buys it into the packs ([D403](06-decisions.md)) | D403 |
 | D5.114 | With Auto on and no food in the packs, let Auto rest at a village | It says "Bought … for the road." up to four times, the packs hold the food, and the company eats it on the road when hungry; with Auto off, resting buys nothing ([D404](06-decisions.md)) | D404 |
+| D5.115 | With Auto on, a lead too weak for the next floor and no gate at their rank, and health at four fifths | Auto walks on to the bands and gates instead of turning back to rest; at the Tower's door, able to climb, it rests first as before ([D405](06-decisions.md)) | D405 |
 
 ## H — Conversation and the camp
 

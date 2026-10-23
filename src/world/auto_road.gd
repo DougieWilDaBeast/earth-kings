@@ -299,8 +299,9 @@ static func goes_into(world: World, cell: Vector2i) -> bool:
 ## Hungry with no food in the packs is a reason too ([D401]): a bed is a meal.
 static func rest_stop(world: World) -> Vector2i:
 	var share := float(_rules().get("auto_rest_below", 0.0))
-	# Bound for the Tower, it goes up only near whole ([D258]).
-	if bool(objective(world).get("door", false)):
+	# Bound for the Tower, it goes up only near whole ([D258]); hunting gates because the stair is
+	# too hard ([D301]), it is not going up, and rests at the land's share ([D405]).
+	if bool(objective(world).get("door", false)) and not stair_too_hard(world):
 		share = maxf(share, float(_rules().get("auto_climb_above", 0.0)))
 	if not hurt(share) and not starving_ahead():
 		return Vector2i(-1, -1)
