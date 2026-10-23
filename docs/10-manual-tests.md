@@ -444,6 +444,7 @@ Start a run (not the tutorial) and walk.
 | D5.98 | On a Tower floor where a company joins the fight, watch the log | A company's skill that misses reads "the Late Risers' Pyre finds nobody there.", never "Risers's"; a person's still "Ceres's" ([D373](06-decisions.md)) | D373 |
 | D5.110 | With no food in the packs, climb two Tower floors in a row | The hunger bar under each health bar is where it was before the stair; nobody comes onto the next floor at 1 health ([D400](06-decisions.md)) | D400 |
 | D5.111 | With Auto on and no food in the packs, walk until someone's hunger bar turns amber | Auto turns for the nearest village, keep or hut and rests there, everyone's bar fills, and Auto then carries on; with bread in the packs it eats instead ([D401](06-decisions.md)) | D401 |
+| D5.112 | On a new run, before seeing any village, get hurt to half health in a gate, then turn Auto on | Auto walks out of the city's land towards a village it has not seen and rests there before it goes up the Tower ([D402](06-decisions.md)) | D402 |
 
 ## H — Conversation and the camp
 

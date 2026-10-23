@@ -323,8 +323,17 @@ static func starving_ahead() -> bool:
 	return false
 
 
-## The nearest place a party walking itself can rest at by arriving, or (-1, -1) when none is known.
+## The nearest place a party walking itself can rest at by arriving, or (-1, -1) when there is none.
+## One it knows first; knowing none, the nearest there is, as if it took the road out to find one
+## ([D402]: a lead who knew only the walled city they woke in climbed the Tower at half health).
 static func nearest_rest(world: World) -> Vector2i:
+	var stop := _nearest_rest(world, true)
+	if stop.x < 0 and bool(_rules().get("auto_seeks_rest", true)):
+		stop = _nearest_rest(world, false)
+	return stop
+
+
+static func _nearest_rest(world: World, known_only: bool) -> Vector2i:
 	var best := 1 << 30
 	var stop := Vector2i(-1, -1)
 	for site: Site in world.sites:
@@ -332,7 +341,7 @@ static func nearest_rest(world: World) -> Vector2i:
 			continue
 		if Town.is_ruined(site) or Town.is_threatened(site) or Pace.avoided.has(site.cell):
 			continue
-		if not Atlas.knows(world, site):
+		if known_only and not Atlas.knows(world, site):
 			continue
 		# A walled city laid on the land whole is walked into, not rested at by arriving on its
 		# tile: Auto paced its tiles hurt for good ([D258]).

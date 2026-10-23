@@ -2123,6 +2123,20 @@ func _check_auto_rests() -> void:
 	_expect(AutoRoad.rest_stop(world).x < 0, "auto rests: hungry with bread in the packs, Auto went to rest instead of eating")
 	hungry.fed = fed_was
 	GameState.stores = stores_were
+	# D402: knowing nowhere to rest by arriving (only a walled city, say), Auto makes for the nearest
+	# village, keep or hut there is; with `auto_seeks_rest` off, nowhere.
+	var avoided_were := Pace.avoided.duplicate()
+	for site: Site in world.sites:
+		if site.kind in [Site.VILLAGE, Site.KEEP, Site.HUT] and Atlas.knows(world, site):
+			Pace.avoided[site.cell] = true
+	var sought := world.site_at(AutoRoad.nearest_rest(world))
+	_expect(sought != null and sought.kind in [Site.VILLAGE, Site.KEEP, Site.HUT] and not Atlas.knows(world, sought),
+		"auto rests: knowing nowhere to rest, Auto did not set out for the nearest village (%s)" % sought)
+	var first_hour: Dictionary = Database.world_rules["first_hour"]
+	first_hour["auto_seeks_rest"] = false
+	_expect(AutoRoad.nearest_rest(world).x < 0, "auto rests: with auto_seeks_rest off, Auto still made for a place it does not know")
+	first_hour["auto_seeks_rest"] = true
+	Pace.avoided = avoided_were
 	var goal := AutoRoad.objective(world)
 	for gate: Site in gates:
 		if not goal.is_empty() and goal["cell"] != gate.cell:
