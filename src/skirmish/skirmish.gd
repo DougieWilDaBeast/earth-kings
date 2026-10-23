@@ -129,6 +129,9 @@ var manual: bool = false
 
 ## The quick slot waiting for a left-click to say where it goes; -1 when none.
 var armed_slot: int = -1
+## On touch, someone has been picked and not yet given an order: the fight runs at
+## `pick_pace` until they are ([D386]), so a thumb has time to choose.
+var picking: bool = false
 ## Played with a thumb. There is no right button, so a tap that is not picking
 ## somebody gives the order a right-click would, and the keys become buttons
 ## down the side of the screen. Follows the touch setting unless the boot
@@ -218,6 +221,8 @@ func _ready() -> void:
 	var party := party_fighters()
 	if not party.is_empty():
 		_select([party[0]])
+		# The lead is picked for you, not by a thumb choosing, so the fight starts at its speed.
+		picking = false
 	var begin := "tap Pause" if touch else (Pad.key("command_wait") if Pad.using_pad else "Space")
 	if str(boot_payload.get("auto_stopped", "")) != "":
 		_say(str(boot_payload["auto_stopped"]))
@@ -855,7 +860,7 @@ func _process(delta: float) -> void:
 			_started = true
 			EventBus.tip_moment.emit("facing", {})
 		# Engine.time_scale already folds the game speed into delta.
-		_accumulator += delta
+		_accumulator += delta * pick_pace()
 		var ticks := 0
 		while _accumulator >= SkirmishRules.TICK and ticks < MAX_TICKS_PER_FRAME and not paused:
 			tick()
@@ -885,6 +890,13 @@ func _feel(delta: float) -> void:
 	for f in fighters:
 		if f.bump > 0.0:
 			f.bump = maxf(0.0, f.bump - delta * 7.0)
+
+
+## The share of its speed the fight runs at: all of it, unless a thumb is choosing an order.
+func pick_pace() -> float:
+	if not (touch and picking) or selected.is_empty():
+		return 1.0
+	return clampf(float(SkirmishPassives.rule("pick_pace", 1.0)), 0.05, 1.0)
 
 
 ## The menu, the journal, a conversation: while one is open in front of a fight
@@ -2540,11 +2552,13 @@ func act(action: String) -> void:
 			for f in selected:
 				f.auto_skill = not f.auto_skill
 		"hold":
+			picking = false
 			# Hold again lets them go their own way.
 			var all_held := not selected.is_empty() and selected.all(func(f: Fighter) -> bool: return f.stance == "hold")
 			for f in selected:
 				set_stance(f, "own" if all_held else "hold")
 		_ when action.begins_with("stance_"):
+			picking = false
 			for f in selected:
 				set_stance(f, action.trim_prefix("stance_"))
 	hud.refresh()
@@ -2615,6 +2629,7 @@ func _on_left_click(cell: Vector2i, adding: bool) -> void:
 		if aimed_at_someone or aimed_at_ground:
 			order_cast(caster, armed_slot, who if aimed_at_someone else null, cell)
 			_disarm()
+			picking = false
 		return
 	var clicked := signatures.rider_of(fighter_of(who))
 	if clicked != null and clicked.is_party() and clicked.is_standing():
@@ -2646,6 +2661,7 @@ func _on_right_click(cell: Vector2i) -> void:
 		return
 	if selected.is_empty():
 		return
+	picking = false
 	for f in selected:
 		f.remove_meta("fleeing")
 	if in_place and not grid.in_bounds(cell):
@@ -2704,6 +2720,7 @@ func _arm(slot: int) -> void:
 		return
 	if str(ability.get("target", "enemy")) == "self":
 		order_cast(caster, slot, caster.unit, caster.unit.cell)
+		picking = false
 		return
 	armed_slot = slot
 	overlay.clear()
@@ -2724,6 +2741,7 @@ func _select(group: Array) -> void:
 		if f != null and f.is_party() and f.is_standing() and not clean.has(f):
 			clean.append(f)
 	selected = clean
+	picking = not clean.is_empty()
 	if armed_slot >= 0:
 		_disarm()
 

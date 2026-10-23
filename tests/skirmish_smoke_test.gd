@@ -286,10 +286,15 @@ func _check_touch() -> void:
 	var party: Array[Fighter] = fight.party_fighters()
 	var foe: Fighter = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())[0]
 	var lead: Fighter = party[0]
+	_expect(is_equal_approx(fight.pick_pace(), 1.0), "the fight starts slow on touch with the lead picked for you (D386)")
 	fight.hud.card_clicked.emit(0)
 	_expect(fight.selected == [lead], "tapping a card did not pick that fighter")
+	var slow := float(SkirmishPassives.rule("pick_pace", 1.0))
+	_expect(slow < 1.0 and is_equal_approx(fight.pick_pace(), slow),
+		"picking a fighter on touch did not slow the fight to pick_pace (D386): %s" % fight.pick_pace())
 	fight._on_left_click(foe.unit.cell, false)
 	_expect(lead.order == Fighter.Order.ATTACK and lead.order_target == foe.unit, "tapping an enemy did not send the picked fighter at it")
+	_expect(is_equal_approx(fight.pick_pace(), 1.0), "the fight stayed slow after the order was given (D386)")
 	var free := _free_cell_near(lead)
 	fight._on_left_click(free, false)
 	_expect(lead.order == Fighter.Order.MOVE and lead.order_cell == free, "tapping the ground did not send them there")
@@ -318,6 +323,8 @@ func _check_box_select() -> void:
 	add_child(fight)
 	await get_tree().process_frame
 	var party: Array[Fighter] = fight.party_fighters()
+	fight._select([party[0]])
+	_expect(is_equal_approx(fight.pick_pace(), 1.0), "a pick with the mouse slowed the fight; pick_pace is touch only (D386)")
 	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
 	var all := Rect2(fight.units_root.position + party[0].unit.position, Vector2.ZERO)
 	for f: Fighter in party:
