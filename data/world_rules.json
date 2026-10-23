@@ -64,6 +64,8 @@
 		"_comment_auto_climb": "D258: a party walking itself goes up the Tower only with its health at auto_climb_above of its whole or more, resting first (AutoRoad.rest_stop), and turns back down a floor to rest when under auto_turn_back_below (area_scene._auto_axis); the floors it won stay won. Before, the bots climbed on hurt and fell on floors 1 to 4 in every run. **Inferred**: both shares.",
 		"auto_climb_above": 0.9,
 		"auto_turn_back_below": 0.6,
+		"_comment_auto_seeks_rest": "D402 (found by bot play, 2026-10-23): knowing no village, keep or hut it can rest at by arriving (only the walled city it woke in, which is walked into, not rested at), a party walking itself makes for the nearest one there is, as if it took the road out to find one. Before, it had nowhere to rest, so it climbed the Tower at half health and fell on floor 2. **Inferred**: that Auto may head for a place it has not seen.",
+		"auto_seeks_rest": true,
 		"_comment_auto_hearthwick": "D367 (found by the bot, 2026-10-22): in a place that goes back to the title when left (Atlas's Last Stand in Hearthwick, never saved), Auto does not walk: pressed, it says auto_hearthwick_line and stays off. Before, it walked the two cells to the road south and the tutorial ended at the title. **Inferred**: the words.",
 		"auto_hearthwick_line": "Auto walks the company on once you are out in the world. Here, walk Hearthwick yourself.",
 		"_comment_auto_hunt": "D301: with levels only in gates, a party walking itself goes to the easiest gate standing instead of the Tower while the next floor's foes stand more than auto_hunt_gates_over levels above the company, or its keeper more than auto_hunt_keepers_over (AutoRoad.stair_too_hard). **Inferred**: both margins.",
