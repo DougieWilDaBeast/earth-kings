@@ -41,7 +41,8 @@ broken gate that the company cannot beat; when that fight ends Atlas falls for g
 record of the fallen as the first world that ended, and the quiz picks who comes next. The opening
 then shows his world going dark. Nothing else in it is saved. Someone who has played it through is
 asked on a later New Game (while nobody has fallen) whether to play it again or skip it; skipped,
-Atlas still falls. The title's **Atlas's Last Stand** button plays it again once he has fallen, as a
+Atlas still falls. Leaving it for the title before the fall (the road south, or the menu) counts as
+having played it, so the next New Game asks too ([D408](06-decisions.md)). The title's **Atlas's Last Stand** button plays it again once he has fallen, as a
 replay that writes nothing.
 
 ## Characters
