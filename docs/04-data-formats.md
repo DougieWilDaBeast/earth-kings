@@ -797,7 +797,9 @@ bar under their health on the walking panel); at nothing they lose `starving_hur
 the last point. Food (`taken: "eat"` in `equipment.json`) fills `feeds_per_mend` for each point it `mends`, and can
 be eaten at full health when hungry; a rest in a bed fills everyone. With Auto on, anyone under `auto_eat_below`
 eats the least food in the packs. Read by `src/chronicle/hunger.gd`. `tower_floor_counts` ([D400](06-decisions.md)): false, so
-the world's steps a Tower floor adds (30) and a chapter's close adds do not empty the company (`Hunger.pass_over`).
+the world's steps a Tower floor adds (30) and a chapter's close adds do not empty the company (`Hunger.pass_over`). `auto_rests_hungry`
+([D401](06-decisions.md)): true, so a party walking itself makes for the nearest bed when anyone is hungry and the packs hold no
+food (`AutoRoad.starving_ahead`).
 
 ## `world_rules.json` → `loot.fallen` — the fallen searched (D352)
 
