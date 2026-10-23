@@ -328,6 +328,7 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 | D3.68 | On a phone held upright, with three companions, start a fight | Each card's name is whole on one line with the stance word under it, and a tap on the word still steps the stance (D415) |
 | D3.69 | On a phone, open the journal from Book on the touch bar | The tabs name no keys: the last reads "The Map"; on a computer it reads "The Map (M)" (D416) |
+| D3.70 | On a phone held upright, open the journal from Book | The title reads "The Journal of" and the lead's name in full, the count beside it wrapping if it must (D417) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
 
