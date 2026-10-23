@@ -1103,6 +1103,11 @@ func _ask_to_fit_the_page() -> void:
 	if _fitting_asked:
 		return
 	_fitting_asked = true
+	# Held upright the page is unseen until it is fitted: it was drawn its wide way for the two
+	# frames the fitting waits, a jump on every tab ([D418]).
+	var view := get_viewport().get_visible_rect().size
+	if view.x < view.y:
+		_page_scroll.modulate.a = 0.0
 	_fit_the_page.call_deferred()
 
 
@@ -1113,14 +1118,17 @@ func _ask_to_fit_the_page() -> void:
 func _fit_the_page() -> void:
 	_fitting_asked = false
 	if not is_inside_tree() or not _backdrop.visible:
+		_page_scroll.modulate.a = 1.0
 		return
 	var view := get_viewport().get_visible_rect().size
 	if view.x >= view.y:
+		_page_scroll.modulate.a = 1.0
 		return
 	# The leaf's width as laid out, less the scroll bar, once the book has been laid out this way up.
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if not is_inside_tree() or not _backdrop.visible:
+		_page_scroll.modulate.a = 1.0
 		return
 	var room := _page_scroll.size.x - 16.0
 	for label: Node in _page.find_children("*", "Label", true, false):
@@ -1135,6 +1143,8 @@ func _fit_the_page() -> void:
 		var box := row as HBoxContainer
 		if box.get_combined_minimum_size().x > room:
 			_stand_up(box)
+	if not _fitting_asked:
+		_page_scroll.modulate.a = 1.0
 
 
 ## [param row]'s things one above the other: an HBoxContainer cannot be turned, so a VBoxContainer

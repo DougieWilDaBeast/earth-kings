@@ -330,6 +330,7 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.69 | On a phone, open the journal from Book on the touch bar | The tabs name no keys: the last reads "The Map"; on a computer it reads "The Map (M)" (D416) |
 | D3.70 | On a phone held upright, open the journal from Book | The title reads "The Journal of" and the lead's name in full, the count beside it wrapping if it must (D417) |
 | D3.71 | On an Android phone, install the test APK by its note (`/mnt/project-files/builds/android/install-note.md`), open it, turn the phone, play to the first fight | It installs after "Allow from this source", opens full screen, lays out sideways and upright as the browser does, and the touch bar, stick and fight buttons work (D424) |
+| D3.72 | On a phone held upright, open the journal from Book and tap through its tabs | Each page appears already fitted (face over the name, nothing off the right edge); it never shows wide first and jumps (D418) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
 
