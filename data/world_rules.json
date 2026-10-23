@@ -1082,7 +1082,7 @@
 			["\\b[PN] or Esc to close", "Close shuts it"],
 			["\\bM for the map", "The Map tab for the map"],
 			["\\bP party  ·  N journal  ·  Esc menu", "Party, Book and Menu on the top bar"],
-			["\\bP for the party", "Party on the top bar"],
+			["\\bP for the party", "Party on the top bar"], ["\\(P\\)", "(Party)"],
 			["\\bTab to take the lead", "Next to take the lead"],
 			["\\bpress [A-Z]\\b", "tap its button"],
 			["\\bE to\\b", "Act to"],
