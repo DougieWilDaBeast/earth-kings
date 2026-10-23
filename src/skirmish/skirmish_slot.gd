@@ -91,8 +91,15 @@ func _draw() -> void:
 		_draw_sweep(rect, clampf(left / total, 0.0, 1.0))
 		var seconds := "%.1f" % left if left < 10.0 else "%d" % ceili(left)
 		var at := Vector2(0, size.y * 0.5 + 6)
-		draw_string_outline(font, at, seconds, HORIZONTAL_ALIGNMENT_CENTER, size.x, 15, 3, Color(0, 0, 0, 0.9))
-		draw_string(font, at, seconds, HORIZONTAL_ALIGNMENT_CENTER, size.x, 15, Color.WHITE)
+		var align := HORIZONTAL_ALIGNMENT_CENTER
+		var width := size.x
+		if overlay_only:
+			# Over a touch button the middle is the skill's name ([D387]): the seconds go in its top corner ([D410]).
+			at = Vector2(0, 15)
+			align = HORIZONTAL_ALIGNMENT_RIGHT
+			width = size.x - 6.0
+		draw_string_outline(font, at, seconds, align, width, 15, 3, Color(0, 0, 0, 0.9))
+		draw_string(font, at, seconds, align, width, 15, Color.WHITE)
 	if not overlay_only:
 		draw_string(font, Vector2(4, 13), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, KEY)
 		if left <= 0.0:
@@ -152,4 +159,5 @@ func _draw_sweep(rect: Rect2, share: float) -> void:
 			uvs.append((point - rect.position) / rect.size)
 		draw_colored_polygon(points, Color.WHITE, uvs, _sweep)
 	else:
-		draw_colored_polygon(points, SWEEP)
+		# Lighter over a touch button, whose name lies under it.
+		draw_colored_polygon(points, Color(SWEEP, 0.4) if overlay_only else SWEEP)
