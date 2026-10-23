@@ -31,8 +31,16 @@ static func wares(site: Site) -> Array:
 
 
 ## D146: the wares laid out at once, up to `wares_on_show`, so buying is a choice among them.
+## Of those, up to `food_on_show` are food when the place has any ([D403]): wares are stocked in
+## the order `equipment.json` lists them, so the first three were always arms and the bread at
+## the back of the list was never laid out, and nobody could buy a meal.
 static func on_show(site: Site) -> Array:
-	return wares(site).slice(0, maxi(1, int(rules().get("wares_on_show", 1))))
+	var count := maxi(1, int(rules().get("wares_on_show", 1)))
+	var all := wares(site)
+	var food: Array = all.filter(func(id: String) -> bool: return Gear.taken(id) == "eat") \
+		.slice(0, mini(count, int(rules().get("food_on_show", 0))))
+	var rest: Array = all.filter(func(id: String) -> bool: return not food.has(id))
+	return rest.slice(0, count - food.size()) + food
 
 
 ## The ware in hand among those laid out, or "" when there is nothing to sell.
