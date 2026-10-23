@@ -2299,11 +2299,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	# be taken back until it was over.
 	if Pace.auto and not (event is InputEventMouse) and event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
-		Pace.auto = false
-		# Paused, as a fight played by hand opens, so the first order can be
-		# given before anything else happens.
-		set_paused(true)
-		_say("You take the party back.")
+		_take_back()
 		return
 	# Back, from a key, a pad or the touch bar's button: a readied skill is put
 	# away, and with nothing readied it is the menu.
@@ -2576,11 +2572,30 @@ func act(action: String) -> void:
 			var all_held := not selected.is_empty() and selected.all(func(f: Fighter) -> bool: return f.stance == "hold")
 			for f in selected:
 				set_stance(f, "own" if all_held else "hold")
+		# The mouse's own buttons on a computer ([D391]), as Q, N, K and Esc.
+		"auto" when Pace.auto:
+			_take_back()
+		"auto":
+			Pace.auto = true
+		"journal":
+			EventBus.journal_requested.emit()
+		"keys":
+			EventBus.how_to_play_requested.emit()
+		"menu":
+			EventBus.system_menu_requested.emit()
 		_ when action.begins_with("stance_"):
 			picking = false
 			for f in selected:
 				set_stance(f, action.trim_prefix("stance_"))
 	hud.refresh()
+
+
+## The party is taken back from the game playing itself: paused, as a fight played by hand
+## opens, so the first order can be given before anything else happens.
+func _take_back() -> void:
+	Pace.auto = false
+	set_paused(true)
+	_say("You take the party back.")
 
 
 ## [param f] takes up [param stance] ([D195]), says so over their head, and keeps it

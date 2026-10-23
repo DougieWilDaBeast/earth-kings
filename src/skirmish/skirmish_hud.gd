@@ -50,7 +50,23 @@ const TOUCH_TIPS := {
 ## One of those buttons, and the gap between two: 58 tall is about 44 points on a phone, where the
 ## game is 1.32 of its pixels to a point, the least a thumb hits reliably ([D387]).
 const TOUCH_BUTTON := Vector2(128, 58)
+## What the mouse's own buttons do that the touch column has not got ([D391]).
+const MOUSE_TIPS := {
+	"auto": "Let the game fight for you, or take the party back.",
+	"journal": "The journal: people, places, powers and what has been learned.",
+	"keys": "How to Play, with every key.",
+	"menu": "Save, sound, the keys and How to Play.",
+}
 const TOUCH_GAP := 4.0
+## On a computer with the mouse ([D391]): the fight's keys as a column of buttons at the bottom right,
+## each hover naming its key (a rebindable action's as rebound, else the bare key). The skills are the
+## cards' own tiles, and a card's stance word steps through the stances, so neither is here.
+const MOUSE_BUTTONS := [
+	["auto", "Auto", "battle_auto"], ["pause", "Pause", "command_wait"], ["speed", "Speed", "battle_speed"], ["all", "All", "Tab"],
+	["auto_skill", "Auto skills", "A"], ["hold", "Hold", "stance_hold"], ["auto_pause", "Auto-pause", "Z"],
+	["journal", "Journal", "N"], ["keys", "Keys", "K"], ["menu", "Menu", "Esc"],
+]
+const MOUSE_BUTTON := Vector2(124, 30)
 const READY := Color(0.62, 0.92, 0.62)
 const WAITING := Color(0.62, 0.66, 0.74)
 const PANEL := Color(0.08, 0.09, 0.12, 0.86)
@@ -89,6 +105,9 @@ var _inspect_text: RichTextLabel
 var _inspected: Fighter = null
 var _lines: Array[String] = []
 var _buttons: Dictionary = {}
+## The mouse's buttons on a computer ([constant MOUSE_BUTTONS]), by action; empty on touch.
+var _mouse_buttons: Dictionary = {}
+var _mouse_column: VBoxContainer = null
 ## How many of the touch buttons were showing when the grid was last laid out.
 var _shown_buttons: int = 0
 ## The touch buttons' grid down the right edge ([method _fit_touch_buttons]).
@@ -270,6 +289,8 @@ func setup(skirmish: Node2D) -> void:
 
 	if skirmish.touch:
 		_add_touch_buttons()
+	else:
+		_add_mouse_buttons()
 
 	_result = Label.new()
 	_result.anchor_left = 0.5
@@ -345,6 +366,62 @@ func _add_touch_buttons() -> void:
 	_fit_touch_buttons()
 
 
+## The fight's keys as buttons for the mouse ([D391]), stacked up from the bottom-right corner, clear
+## of the party cards along the bottom left and the hover card along the top right. A pad in hand
+## puts them away, as it puts the hint's keys away.
+func _add_mouse_buttons() -> void:
+	_mouse_column = VBoxContainer.new()
+	_mouse_column.anchor_left = 1.0
+	_mouse_column.anchor_right = 1.0
+	_mouse_column.anchor_top = 1.0
+	_mouse_column.anchor_bottom = 1.0
+	_mouse_column.offset_left = -MOUSE_BUTTON.x - 14
+	_mouse_column.offset_right = -14
+	_mouse_column.offset_bottom = -14
+	_mouse_column.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_mouse_column.add_theme_constant_override("separation", 4)
+	_mouse_column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_mouse_column)
+	for entry: Array in MOUSE_BUTTONS:
+		var action: String = entry[0]
+		if action == "keys" and not _skirmish.in_place:
+			# A fight with a screen of its own has the keys written along its top.
+			continue
+		var button := Button.new()
+		button.custom_minimum_size = MOUSE_BUTTON
+		button.text = entry[1]
+		button.focus_mode = Control.FOCUS_NONE
+		button.add_theme_font_size_override("font_size", 14)
+		button.pressed.connect(func() -> void: action_pressed.emit(action))
+		Sfx.attend(button)
+		_mouse_column.add_child(button)
+		_mouse_buttons[action] = button
+	Pad.changed.connect(_refresh_mouse_buttons)
+
+
+## The mouse's button for [param action] ("pause", "speed" …), for the suites; null if there is none.
+func mouse_button(action: String) -> Button:
+	return _mouse_buttons.get(action, null)
+
+
+func _refresh_mouse_buttons() -> void:
+	if _mouse_column == null:
+		return
+	_mouse_column.visible = not Pad.using_pad and not _skirmish.over
+	for entry: Array in MOUSE_BUTTONS:
+		var button: Button = _mouse_buttons.get(entry[0], null)
+		if button == null:
+			continue
+		var key := str(entry[2])
+		if InputMap.has_action(key):
+			key = Pad.key_text(key)
+		var what := str(TOUCH_TIPS.get(entry[0], MOUSE_TIPS.get(entry[0], "")))
+		button.tooltip_text = "%s (%s)" % [what, key] if key != "" else what
+	(_mouse_buttons["auto"] as Button).text = "Auto: %s" % Pace.auto_style_name() if Pace.auto else "Auto"
+	(_mouse_buttons["pause"] as Button).text = "Resume" if _skirmish.paused else "Pause"
+	(_mouse_buttons["speed"] as Button).text = "Speed x%s" % String.num(Pace.speed(), 1).trim_suffix(".0")
+
+
 ## The buttons go down the right edge, and into a second or third column when the screen is too
 ## short for one. A phone on its side is 540 tall, and itch.io's full-screen button turns it so:
 ## one column ran down under the stick's Act, Back and Next, and Hold and Auto-pause were lost
@@ -377,6 +454,7 @@ func refresh() -> void:
 	if _skirmish == null:
 		return
 	_refresh_buttons()
+	_refresh_mouse_buttons()
 	var resume := "tap Pause" if _skirmish.touch else "Space"
 	if Pad.using_pad and not _skirmish.touch:
 		resume = Pad.key("command_wait")

@@ -1263,6 +1263,10 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 	# Counted now: the fight clears the scene away, and with it this list.
 	var staged_count := staged.size()
 	var asked := _requests.size()
+	# Stepped into with the mouse, as on a computer ([D391]).
+	var mode_was := Pace.touch_mode
+	Pace.touch_mode = "off"
+	Pad.set_using_pad(false)
 	ground.call("_do_act", { "act": "_step_into_the_road" })
 	var waited := 0.0
 	while waited < 3.0 and ground.get("_fight") == null:
@@ -1273,9 +1277,12 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 	_expect(not _requests.slice(asked).has("skirmish") and _current_scene() == ground,
 		"the roadside fight changed the screen")
 	if fight == null:
+		Pace.touch_mode = mode_was
 		return
 	var foes := (fight.get("ground_field") as Dictionary).get("foes", []) as Array
 	_expect(foes.size() == staged_count, "the roadside fight did not put the attackers where they stood")
+	await _check_the_fight_by_mouse(fight)
+	Pace.touch_mode = mode_was
 	fight.call("emit_signal", "gone")
 	await _settle()
 	await _clear_dialogue()
@@ -1283,9 +1290,26 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 	print("roadside: stepped in and fought on the ground where it was staged")
 
 
-## D246 (play-test 6): at 5x the camera's smoothing overshot, swung back further every frame
-## ("Jumping the screen left and right") and flew off for good (a black screen). Followed back and
-## forth at 5x, it stays on what it follows.
+## The PC pass, the fight ([D391]): on a computer a fight on the ground has its keys as buttons, each
+## hover naming its key, and the walk's mouse bar steps aside for it.
+func _check_the_fight_by_mouse(fight: Node2D) -> void:
+	var hud: Node = fight.get("hud")
+	var bar: Node = _game.get_node("MouseBar")
+	await _settle()
+	_expect(not bar.is_showing(), "the walk's mouse bar stayed up over a fight on the ground")
+	var pause: Button = hud.mouse_button("pause")
+	_expect(pause != null and pause.is_visible_in_tree(), "a fight by mouse has no Pause button")
+	if pause == null:
+		return
+	_expect(pause.tooltip_text.ends_with("(%s)" % Pad.key_text("command_wait")), "the fight's Pause does not name its key")
+	_expect(hud.mouse_button("all").tooltip_text.ends_with("(Tab)"), "the fight's All does not name Tab")
+	var was: bool = fight.get("paused")
+	pause.pressed.emit()
+	_expect(bool(fight.get("paused")) != was, "the fight's Pause button did not pause")
+	pause.pressed.emit()
+	print("fight by mouse: Pause, All and the rest are buttons, each naming its key")
+
+
 ## The PC pass ([D390]): with the touch controls off and no pad, the walk has a mouse bar whose
 ## buttons do what their keys do and whose hovers name the keys; it steps aside for a screen and
 ## for the touch bar.
@@ -1320,8 +1344,16 @@ func _check_the_mouse_bar() -> void:
 	await _settle()
 	_expect(not bar.is_showing(), "the mouse bar was up beside the touch bar")
 	Pace.touch_mode = mode_was
+	# No key is a key alone ([D391]): every action the menu lets you rebind is a button on the bar
+	# or has a mouse route written down.
+	for entry: Dictionary in (load("res://src/ui/system_menu.gd") as GDScript).get_script_constant_map()["MAPPABLE_ACTIONS"]:
+		_expect(bar.route(str(entry["action"])) != "",
+				"%s (%s) can only be done with a key" % [entry["label"], entry["action"]])
 
 
+## D246 (play-test 6): at 5x the camera's smoothing overshot, swung back further every frame
+## ("Jumping the screen left and right") and flew off for good (a black screen). Followed back and
+## forth at 5x, it stays on what it follows.
 func _check_the_camera_at_speed() -> void:
 	var rig: Camera2D = load("res://src/ui/camera_rig.gd").new()
 	rig.set("claims_the_view", false)
