@@ -57,6 +57,10 @@ static func reach_rules() -> Dictionary:
 	return Database.skirmish.get("rules", {}).get("reach_the_fallen", {})
 
 
+static func stalemate_rules() -> Dictionary:
+	return Database.skirmish.get("rules", {}).get("stalemate", {})
+
+
 static func flee_rules() -> Dictionary:
 	return Database.skirmish.get("rules", {}).get("flee", {})
 

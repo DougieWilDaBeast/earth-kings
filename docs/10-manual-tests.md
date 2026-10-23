@@ -463,6 +463,7 @@ Start a run (not the tutorial) and walk.
 | D5.117 | With Auto on and companions, hungry with no food, a hut nearer than a village | Auto walks on to the village, rests, and buys three foods for each of the company there before setting out ([D407](06-decisions.md)) | D407 |
 | D5.118 | On a fresh install, New Game, then walk the road south out of Hearthwick before the last fight, then New Game again | The title asks whether to play Atlas's last stand again or skip it; Skip it goes to the quiz ([D408](06-decisions.md)) | D408 |
 | D5.119 | On a computer with the touch controls off, play Atlas's last stand to step 5 (the party screen) | The card stands left of the button column; Party, Journal, Map and Auto can all be clicked ([D409](06-decisions.md)) | D409 |
+| D5.120 | In a ground fight, walk the company to where no foe can reach it and none of it can reach a foe (behind water, up a crag), and wait | After half a minute with nobody hurt the log says neither side can come at the other and the company gets clear; a fallen friend nobody can reach is not "gone to" over and over ([D430](06-decisions.md)) | D430 |
 
 ## H — Conversation and the camp
 

@@ -1594,7 +1594,10 @@ clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`); whoe
 `fade` seconds under `cleared_word` ([D324](06-decisions.md)). `hand_fight_speed` (D329): the most a fight
 played by hand starts at (`Pace.ease_to`), the walking speed given back when it ends. `reach_the_fallen` (D326): with `on`, one of
 the company down with nobody on the way is gone to by the nearest member under no order and not busy
-(`line`, `{who}` and `{name}`); with `close_round`, the rest who are free turn on the foe nearest the fallen. `swings_per_practice` — landed basic swings that count as one use toward proficiency;
+(`line`, `{who}` and `{name}`); with `close_round`, the rest who are free turn on the foe nearest the fallen; one who finds no way to them is
+not sent again for `retry_after` seconds ([D430](06-decisions.md)). `stalemate` (D430): when nobody on the field has
+lost health for `seconds` and both sides stand, the company gets clear (`line`); 0 turns it off; never in a
+sandbox or a bout. `swings_per_practice` — landed basic swings that count as one use toward proficiency;
   every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
 - `decor` — the props (`art/props/<id>.png`, sized by `props.json`'s `battle_scale`) planted on a
   field: `trees` on crags, walls and a third of the edge, `bushes` in the brush. Scenery only.

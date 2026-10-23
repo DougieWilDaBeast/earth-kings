@@ -210,6 +210,7 @@ func _run() -> void:
 	await _check_scars()
 	await _check_walking_out()
 	await _check_reaching_the_fallen()
+	await _check_stalemate()
 	_check_hand_fight_speed()
 
 
@@ -2037,6 +2038,36 @@ func _check_reaching_the_fallen() -> void:
 	var was := cato.stance
 	EventBus.quick_wheel_chose.emit("stance")
 	_expect(cato.stance != was, "the wheel's Stance left Cato's stance as it was")
+	fight.queue_free()
+	await get_tree().process_frame
+
+
+## D430 (a Second Hour soak, seed 3101): one who found no way to a fallen friend is not sent again
+## every tick, and a fight where nobody has lost health for stalemate.seconds is broken off.
+func _check_stalemate() -> void:
+	var fight := await _new_fight()
+	var cato := _by_template(fight, "cato")
+	var vesta := _by_template(fight, "vesta")
+	vesta.unit.take_damage(vesta.unit.hp)
+	fight._drop(vesta)
+	cato.clear_order()
+	cato.set_meta("no_way_to", vesta.unit)
+	cato.set_meta("no_way_until", fight.sim_time + 3.0)
+	fight._reach_the_fallen()
+	_expect(cato.order != Fighter.Order.AID, "Cato was sent again to Vesta with no way to her")
+	for f: Fighter in fight.party_fighters():
+		f.clear_order()
+	cato.set_meta("no_way_until", fight.sim_time - 1.0)
+	fight._reach_the_fallen()
+	_expect(fight._on_the_way_to(vesta), "nobody was sent to Vesta again once a way could open")
+	# The breaker: out of the sandbox, nobody hurt for the limit, both sides standing.
+	fight.sandbox = false
+	fight._break_a_stalemate()
+	_expect(not cato.fled, "a fight was broken off before anybody had stood still")
+	fight._last_blow_at = fight.sim_time - float(SkirmishRules.stalemate_rules().get("seconds", 30.0)) - 1.0
+	fight._break_a_stalemate()
+	_expect(cato.fled, "a fight where nobody could come at anybody was never broken off (Cato %s)" % cato.activity())
+	fight.sandbox = true
 	fight.queue_free()
 	await get_tree().process_frame
 

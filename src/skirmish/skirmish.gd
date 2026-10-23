@@ -129,6 +129,10 @@ var over: bool = false
 var victory: bool = false
 ## Seconds of fight that have actually been simulated.
 var sim_time: float = 0.0
+## When anyone on the field last lost health, and what each had then ([D430]): a fight in which
+## nobody can come at anybody is broken off rather than left standing for ever.
+var _last_blow_at: float = 0.0
+var _hp_seen: Dictionary = {}
 ## Set by tests, which call [method tick] themselves instead of waiting on frames.
 var manual: bool = false
 
@@ -944,7 +948,35 @@ func tick() -> void:
 	signatures.flush()
 	if in_place:
 		_see_who_got_clear()
+	_break_a_stalemate()
 	_check_end()
+
+
+## [D430] (a Second Hour soak, seed 3101: two of the company and two foes who could not come at
+## each other stood for ever after the rest fell, and the run never reached its summary): when
+## nobody on the field has lost health for stalemate.seconds and both sides still stand, the
+## company gets clear and the band is left where it is. A sandbox and a bout keep their own ends.
+func _break_a_stalemate() -> void:
+	var rules: Dictionary = SkirmishRules.stalemate_rules()
+	var limit := float(rules.get("seconds", 0.0))
+	if limit <= 0.0 or sandbox or bout or over:
+		return
+	for f in fighters:
+		var hp := f.unit.hp
+		if hp < int(_hp_seen.get(f, hp + 1)) or not _hp_seen.has(f):
+			_last_blow_at = sim_time
+		_hp_seen[f] = hp
+	if sim_time - _last_blow_at < limit:
+		return
+	var foes_up := fighters.any(func(f: Fighter) -> bool:
+		return not f.unit.sides_with_party() and f.is_standing())
+	var standing := party_fighters().filter(func(f: Fighter) -> bool:
+		return f.is_standing() and f.aboard == null)
+	if not foes_up or standing.is_empty():
+		return
+	_say(str(rules.get("line", "Neither side can come at the other. The company gets clear.")))
+	for f: Fighter in standing:
+		_get_clear(f)
 
 
 ## Units between tiles are drawn part-way along, using whatever part of a tick
@@ -1464,6 +1496,9 @@ func _pursue_aid(f: Fighter) -> void:
 		return
 	var at := patient.unit.cell
 	if not _step_towards(f, func(c: Vector2i) -> bool: return Pathfinder.distance(c, at) == 1):
+		# No way to them from here ([D430]): not sent again, or said again, for a few seconds.
+		f.set_meta("no_way_to", patient.unit)
+		f.set_meta("no_way_until", sim_time + float(SkirmishRules.reach_rules().get("retry_after", 3.0)))
 		f.clear_order()
 
 
@@ -1481,7 +1516,7 @@ func _reach_the_fallen() -> void:
 		var nearest: Fighter = null
 		var best := 1 << 30
 		for f: Fighter in party_fighters():
-			if f == patient or not _free_to_reach(f):
+			if f == patient or not _free_to_reach(f) or _no_way(f, patient):
 				continue
 			var d := Pathfinder.distance(f.unit.cell, patient.unit.cell)
 			if d < best:
@@ -1498,6 +1533,11 @@ func _reach_the_fallen() -> void:
 				for f: Fighter in party_fighters():
 					if f != nearest and _free_to_reach(f) and not f.holding():
 						f.target = threat.unit
+
+
+## Whether [param f] found no way to [param patient] a moment ago ([D430]).
+func _no_way(f: Fighter, patient: Fighter) -> bool:
+	return f.get_meta("no_way_to", null) == patient.unit and sim_time < float(f.get_meta("no_way_until", 0.0))
 
 
 func _on_the_way_to(patient: Fighter) -> bool:
