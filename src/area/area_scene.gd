@@ -200,6 +200,9 @@ var _act_bar: HFlowContainer = null
 ## Strike first on a thumb or a pad, which have no G ([D374]): in the act bar, shown while a band
 ## could be struck.
 var _strike_btn: Button = null
+## The stair's own button, up while the leader stands at a way up or down that is open ([D421]): on a
+## PC with the mouse alone, climbing, going down a gate and shutting it were E's and nothing else's.
+var _stair_btn: Button = null
 ## What the land does to whoever walks this ground (see [method Biome.effects]);
 ## the neutral one for a place that is not open country.
 var _land: Dictionary = {}
@@ -2115,6 +2118,25 @@ func _show_prompt() -> void:
 	_hint.text = Pad.say(_prompt_text())
 	if _strike_btn != null:
 		_strike_btn.visible = _strike_target() != null
+	_show_the_stair()
+
+
+## The stair's button: up, and saying where it goes, while the leader is at an open way up or down.
+func _show_the_stair() -> void:
+	if _stair_btn == null:
+		return
+	var up := _at_the_stair() and _way_down_open() and not _talking and not _leaving
+	_stair_btn.visible = up
+	if up:
+		var line := _stair_line()
+		_stair_btn.text = line.substr(0, 1).to_upper() + line.substr(1)
+		_stair_btn.tooltip_text = "%s to %s" % [_act_key(), line]
+
+
+## The stair taken from its button, as E takes it.
+func _take_the_stair() -> void:
+	if _at_the_stair() and not _talking and not _leaving and _sure_of_the_stair():
+		_climb_the_stair()
 
 
 ## What presses E, said for whoever is playing: the pad's button, the touch bar's Act, or E.
@@ -4494,11 +4516,12 @@ func _lay_out_acts() -> void:
 		_act_bar.queue_free()
 		_act_bar = null
 	_strike_btn = null
+	_stair_btn = null
 	# The board's doing is done at the board, by walking up to it (D359).
 	var pressable: Array = _acts.filter(func(each: Dictionary) -> bool:
 		return str(each.get("label", "")) != "" and not (AT_THE_BOARD.has(str(each.get("act", ""))) and _board() != null))
 	var strike_label := str(AreaWatch.rule("first_strike_button", ""))
-	if pressable.is_empty() and strike_label == "":
+	if pressable.is_empty() and strike_label == "" and not _walked_floor():
 		return
 	_act_bar = HFlowContainer.new()
 	_act_bar.anchor_left = 0.5
@@ -4546,6 +4569,14 @@ func _lay_out_acts() -> void:
 		_strike_btn.visible = _strike_target() != null
 		Sfx.attend(_strike_btn)
 		_act_bar.add_child(_strike_btn)
+	_stair_btn = Button.new()
+	_stair_btn.focus_mode = Control.FOCUS_ALL if Pad.using_pad else Control.FOCUS_NONE
+	_stair_btn.custom_minimum_size = Vector2(0, 56)
+	_stair_btn.add_theme_font_size_override("font_size", 16)
+	_stair_btn.pressed.connect(_take_the_stair)
+	Sfx.attend(_stair_btn)
+	_act_bar.add_child(_stair_btn)
+	_show_the_stair()
 
 
 ## G's work, for the Strike first button.
