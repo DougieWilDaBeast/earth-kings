@@ -1,7 +1,7 @@
 extends CanvasLayer
-## A level gained or a path taken, said in a line at the top right of the
-## screen and gone again: "Bram reached level 6". It sits out of the way, takes
-## no clicks, and never covers the fight ([D77], replacing [D67]'s banner, which
+## A level gained or a path taken, said in a line at the top right of the screen (a third of the
+## way down on a phone held upright, [D412]) and gone again: "Bram reached level 6". It sits out
+## of the way, takes no clicks, and never covers the fight ([D77], replacing [D67]'s banner, which
 ## `doug-md` found was in the way). In a fight the one who levelled also
 ## flickers gold where they stand (see [method Skirmish._on_levelled_up]).
 ##
@@ -22,6 +22,8 @@ const MOST := 4
 const WIDTH := 380.0
 ## Clear of the touch column down the right of a fight.
 const TOUCH_CLEARANCE := 160.0
+## How far down the screen the line comes, held upright on a phone ([D412]).
+const UPRIGHT_DOWN := 0.36
 
 const GOLD := Color(0.965, 0.827, 0.443)
 const QUIET := Color(0.86, 0.84, 0.78)
@@ -59,6 +61,11 @@ func clear() -> void:
 	for row in _column.get_children():
 		_column.remove_child(row)
 		row.queue_free()
+
+
+func _upright_touch() -> bool:
+	var view := get_viewport().get_visible_rect().size
+	return Pace.is_touch_enabled() and view.y > view.x
 
 
 # --- what is worth a line ---------------------------------------------------------
@@ -126,27 +133,47 @@ func _line(text: String, owed: String, colour: Color) -> Control:
 	label.bbcode_enabled = true
 	label.fit_content = true
 	label.scroll_active = false
-	label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label.custom_minimum_size = Vector2(WIDTH, 0)
+	if _upright_touch():
+		# Too narrow for the whole line: it wraps under itself instead.
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	else:
+		label.autowrap_mode = TextServer.AUTOWRAP_OFF
+		label.custom_minimum_size = Vector2(WIDTH, 0)
 	label.add_theme_font_size_override("normal_font_size", 15)
 	label.add_theme_constant_override("outline_size", 5)
 	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
 	var said := "[right][color=#%s]✦ %s[/color]" % [colour.to_html(false), text]
 	if owed != "":
-		said += "[color=#%s]  ·  %s[/color]" % [QUIET.to_html(false), owed]
+		# "(P)" is a key; a phone says the touch bar's button ([D412]).
+		said += "[color=#%s]  ·  %s[/color]" % [QUIET.to_html(false), Pad.say(owed)]
 	label.text = said + "[/right]"
 	return label
 
 
 func _build() -> void:
 	_column = VBoxContainer.new()
-	_column.anchor_left = 1.0
 	_column.anchor_right = 1.0
-	_column.offset_right = -16.0 - (TOUCH_CLEARANCE if Pace.is_touch_enabled() else 0.0)
-	_column.offset_left = _column.offset_right - WIDTH
-	_column.offset_top = 56.0
 	_column.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	_column.add_theme_constant_override("separation", 2)
 	_column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_column)
+	get_viewport().size_changed.connect(_fit)
+	_fit()
+
+
+## Held upright on a phone the top is full: the compass and its objective, the touch bar, the party
+## card and the corner map. Kept clear of the touch column there the line ran over the compass and
+## the objective's words ([D412]), so upright it comes a third of the way down instead, over the
+## ground or the board and clear of the fight's touch column down the right.
+func _fit() -> void:
+	if _upright_touch():
+		_column.anchor_left = 0.0
+		_column.offset_left = 16.0
+		_column.offset_right = -16.0 - TOUCH_CLEARANCE
+		_column.offset_top = get_viewport().get_visible_rect().size.y * UPRIGHT_DOWN
+	else:
+		_column.offset_top = 56.0
+		_column.anchor_left = 1.0
+		_column.offset_right = -16.0 - (TOUCH_CLEARANCE if Pace.is_touch_enabled() else 0.0)
+		_column.offset_left = _column.offset_right - WIDTH
