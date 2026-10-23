@@ -50,6 +50,8 @@ const TOUCH_TIPS := {
 ## One of those buttons, and the gap between two: 58 tall is about 44 points on a phone, where the
 ## game is 1.32 of its pixels to a point, the least a thumb hits reliably ([D387]).
 const TOUCH_BUTTON := Vector2(128, 58)
+## Narrower than this, a card puts its stance word under the name instead of beside it ([D415]).
+const NARROW_CARD := 150.0
 ## What the mouse's own buttons do that the touch column has not got ([D391]).
 const MOUSE_TIPS := {
 	"auto": "Let the game fight for you, or take the party back.",
@@ -192,8 +194,10 @@ func setup(skirmish: Node2D) -> void:
 		card.add_child(column)
 		# The name, and beside it the stance as a word ([D195]): a click (a tap) steps
 		# to the next one. Up there it costs the card no height and is never clipped.
-		var head := HBoxContainer.new()
-		head.add_theme_constant_override("separation", 4)
+		# On a card too narrow for both (four across a phone held upright) the stance goes under
+		# the name, or the name broke mid-word: "Bellon", "a" ([D415]).
+		var head: BoxContainer = HBoxContainer.new() if card_width >= NARROW_CARD else VBoxContainer.new()
+		head.add_theme_constant_override("separation", 4 if card_width >= NARROW_CARD else 0)
 		column.add_child(head)
 		var name_text := _card_label()
 		name_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -202,6 +206,9 @@ func setup(skirmish: Node2D) -> void:
 		stance.focus_mode = Control.FOCUS_NONE
 		stance.flat = true
 		stance.add_theme_font_size_override("font_size", 12 if not skirmish.touch else 13)
+		if card_width < NARROW_CARD:
+			stance.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			stance.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 		# No taller than the name, so the card keeps its height and its draughts stay in view.
 		for look: String in ["normal", "hover", "pressed", "disabled", "focus"]:
 			stance.add_theme_stylebox_override(look, _tight)

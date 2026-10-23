@@ -94,6 +94,7 @@ const FOOTER := "M for the map  ·  N or Esc to close"
 @onready var _annals_btn: Button = %AnnalsButton
 @onready var _quests_btn: Button = %QuestsButton
 @onready var _map_btn: Button = %MapButton
+const MAP_TAB := "The Map (M)"
 @onready var _close_btn: Button = %CloseButton
 @onready var _page_scroll: ScrollContainer = $Backdrop/Margin/Book/Column/Spread/RightLeaf/PageScroll
 @onready var _spread: BoxContainer = $Backdrop/Margin/Book/Column/Spread
@@ -203,6 +204,8 @@ func open() -> void:
 	_backdrop.show()
 	# On a phone, its tabs and Close rather than M, N and Esc ([D377]).
 	_footer.text = Pad.say(FOOTER)
+	# A phone has no M key: the tab is just The Map there ([D416]).
+	_map_btn.text = Pad.say(MAP_TAB)
 	_fit_to_screen()
 	_rebuild()
 
@@ -1087,7 +1090,10 @@ func _fit_to_screen() -> void:
 	_fullness.visible = not side_on
 	_title.clip_text = side_on
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_title.add_theme_font_size_override("font_size", 21 if side_on else 26)
+	_title.add_theme_font_size_override("font_size", 21 if side_on else (23 if upright else 26))
+	# Held upright the count shared the header half and half with the title, which was cut to
+	# "The Journal o…" ([D417]): the title takes two shares of it, and the count wraps in one.
+	_title.size_flags_stretch_ratio = 2.0 if upright else 1.0
 
 
 var _fitting_asked := false
