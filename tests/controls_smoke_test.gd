@@ -888,6 +888,9 @@ func _check_tips_and_how_to_play() -> void:
 	_expect(thumb == "The stick walks  ·  Act to talk  ·  Tap to hire Ganel  ·  tap anyone marked  ·  Close shuts it",
 			"a line said for a thumb read \"%s\"" % thumb)
 	_expect(Pad.key("open_party") == "Party" and Pad.walk_text() == "The stick", "the touch bar's names were not used")
+	# Keys in brackets ([D412], [D416]): the party's is the touch bar's button, the map's goes.
+	_expect(Pad.say("a path to choose (P)") == "a path to choose (Party)" and Pad.say("The Map (M)") == "The Map",
+			"a bracketed key was said on a phone: \"%s\", \"%s\"" % [Pad.say("a path to choose (P)"), Pad.say("The Map (M)")])
 	for tip: Dictionary in tips.all():
 		var words := str(tip.get("touch", ""))
 		var check := words if words != "" else Pad.say(str(tip.get("text", "")))

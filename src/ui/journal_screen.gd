@@ -94,6 +94,7 @@ const FOOTER := "M for the map  ·  N or Esc to close"
 @onready var _annals_btn: Button = %AnnalsButton
 @onready var _quests_btn: Button = %QuestsButton
 @onready var _map_btn: Button = %MapButton
+const MAP_TAB := "The Map (M)"
 @onready var _close_btn: Button = %CloseButton
 @onready var _page_scroll: ScrollContainer = $Backdrop/Margin/Book/Column/Spread/RightLeaf/PageScroll
 @onready var _spread: BoxContainer = $Backdrop/Margin/Book/Column/Spread
@@ -203,6 +204,8 @@ func open() -> void:
 	_backdrop.show()
 	# On a phone, its tabs and Close rather than M, N and Esc ([D377]).
 	_footer.text = Pad.say(FOOTER)
+	# A phone has no M key: the tab is just The Map there ([D416]).
+	_map_btn.text = Pad.say(MAP_TAB)
 	_fit_to_screen()
 	_rebuild()
 
