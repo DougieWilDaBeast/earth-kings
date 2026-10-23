@@ -324,6 +324,7 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 | D3.61 | On a phone held sideways, walk the ground until the log has a few lines and the hint line says what Act does | Both start right of the stick and stop short of Back, Next and Act; no word is under them (D411) |
 | D3.62 | On a phone held upright, win the fight that takes the lead to level 2 | "… reached level 2 · a path to choose (Party)" shows a third of the way down, clear of the compass, the touch bar and the fight's buttons, and fades (D412) |
+| D3.63 | On a phone held upright, walk the ground until the log holds three long notes | The newest lines show below the stick's circle and Act, Back and Next; none is under them (D413) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
 
