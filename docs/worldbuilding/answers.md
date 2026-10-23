@@ -319,6 +319,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 295 | D391 | **Inferred.** A fight by mouse as built: ten buttons at the bottom right (Auto, Pause, Speed, All, Auto skills, Hold, Auto-pause, Journal, Keys on the ground, Menu), hovers naming each key; the walk's bar gone during a fight on the ground; Centre added to the walk's bar; every rebindable key given a mouse route in `mouse_bar` → `routes`. Recommended: `doug-md` fights a few battles of play-test 9 with the mouse alone and says what he still reached for a key to do. |
 | 300 | D400 | **Inferred.** The time the world moves on while the company climbs a Tower floor (or closes a chapter) is not time they go hungry in; the other ways were capping the hurt or Auto buying bread in the city. Recommended: keep; a founder says if the Tower should cost food. |
 | 301 | D401 | **Inferred.** A party walking itself that is hungry with no food in the packs makes for the nearest bed (a meal), rather than buying bread in a town or market. Recommended: keep; a founder says if Auto should shop for food instead. |
+| 320 | D420 | **Inferred.** A fight laid ahead (a raid, guards, keepers) puts each foe on its own cell the company can walk to in at most 8 steps; in a narrow place like a wall gap that is beside the company, not five strides ahead. Recommended: as built. |
 
 ## 2. Eleven Part I questions that need a straight answer
 
