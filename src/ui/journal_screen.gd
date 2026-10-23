@@ -1090,7 +1090,10 @@ func _fit_to_screen() -> void:
 	_fullness.visible = not side_on
 	_title.clip_text = side_on
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_title.add_theme_font_size_override("font_size", 21 if side_on else 26)
+	_title.add_theme_font_size_override("font_size", 21 if side_on else (23 if upright else 26))
+	# Held upright the count shared the header half and half with the title, which was cut to
+	# "The Journal o…" ([D417]): the title takes two shares of it, and the count wraps in one.
+	_title.size_flags_stretch_ratio = 2.0 if upright else 1.0
 
 
 var _fitting_asked := false
