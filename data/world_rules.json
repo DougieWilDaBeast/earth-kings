@@ -1034,7 +1034,7 @@
 			"move_down": "left-click the ground to walk there",
 			"move_left": "left-click the ground to walk there",
 			"move_right": "left-click the ground to walk there",
-			"interact": "left-click a person, a door or a thing; a place's doings are buttons",
+			"interact": "left-click a person, a door or a thing; a place's doings and an open stair are buttons",
 			"site_errands": "the place's Read the board button",
 			"site_guild": "the place's Guild button",
 			"site_grimoire": "the place's book button",
