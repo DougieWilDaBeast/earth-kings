@@ -1267,6 +1267,14 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 	var mode_was := Pace.touch_mode
 	Pace.touch_mode = "off"
 	Pad.set_using_pad(false)
+	# The place's buttons sit in the bottom right with a mouse, not a stride below the leader where a
+	# click to walk lands ([D422]).
+	ground.call("_lay_out_acts")
+	await get_tree().process_frame
+	var acts: Control = ground.get("_act_bar")
+	var view := get_viewport().get_visible_rect().size
+	_expect(acts != null and acts.get_global_rect().end.x > view.x - 40.0 and acts.get_global_rect().position.y > view.y * 0.6,
+			"with a mouse the place's buttons are not in the bottom right (%s)" % (acts.get_global_rect() if acts != null else "none"))
 	ground.call("_do_act", { "act": "_step_into_the_road" })
 	var waited := 0.0
 	while waited < 3.0 and ground.get("_fight") == null:

@@ -4328,6 +4328,10 @@ func _field_ahead() -> Dictionary:
 	return _field_round(foes, false)
 
 
+## How wide the place's buttons may run along the bottom right with a mouse ([D422]).
+const MOUSE_ACTS_WIDTH := 440.0
+
+
 ## How far, in steps, a fight laid ahead looks for ground its foes can stand on.
 const FIELD_REACH := 8
 
@@ -4542,8 +4546,19 @@ func _lay_out_acts() -> void:
 		_act_bar.offset_top = -lift - 180.0
 		_act_bar.offset_left = -minf(320.0, view.x * 0.5 - TouchControls.EDGE_PAD)
 		_act_bar.offset_right = -_act_bar.offset_left
+	elif not Pad.using_pad:
+		# With a mouse, in the bottom right corner under the mouse bar, beside the bottom line ([D422]).
+		# In the middle they stood a stride below the leader, and a click meant to walk that way
+		# pressed The Guild instead; lower down they covered the notes.
+		_act_bar.anchor_left = 1.0
+		_act_bar.anchor_right = 1.0
+		_act_bar.offset_right = -14.0
+		_act_bar.offset_left = -14.0 - MOUSE_ACTS_WIDTH
+		_act_bar.offset_top = -20.0
+		_act_bar.offset_bottom = -20.0
 	_act_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	_act_bar.alignment = FlowContainer.ALIGNMENT_CENTER
+	_act_bar.alignment = FlowContainer.ALIGNMENT_CENTER if Pace.is_touch_enabled() or Pad.using_pad \
+			else FlowContainer.ALIGNMENT_END
 	_act_bar.add_theme_constant_override("h_separation", 8)
 	_act_bar.add_theme_constant_override("v_separation", 8)
 	_hint.get_parent().add_child(_act_bar)
