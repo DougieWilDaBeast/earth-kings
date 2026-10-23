@@ -19,6 +19,7 @@ const DATA_PATH := "res://data/tutorial.json"
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
+const MouseBar := preload("res://src/ui/mouse_bar.gd")
 ## Where the player's own settings live; finishing the last stand is remembered there. Tests
 ## point it somewhere else so a player's own settings are never touched.
 static var settings_path := "user://settings.cfg"
@@ -222,8 +223,11 @@ func _dock(scene_key: String) -> void:
 	var width := FIGHT_WIDTH if in_a_fight else WIDTH
 	_panel.anchor_left = 0.0 if in_a_fight else 1.0
 	_panel.anchor_right = 0.0 if in_a_fight else 1.0
-	_panel.offset_left = 12.0 if in_a_fight else -width - 16.0
-	_panel.offset_right = width + 12.0 if in_a_fight else -16.0
+	# In a town it stands left of the mouse bar's column ([D409]): over it, it hid Party, Journal, Map
+	# and Auto while it asked for the party screen.
+	var right := 16.0 if Pace.is_touch_enabled() else MouseBar.WIDTH + MouseBar.EDGE * 2.0
+	_panel.offset_left = 12.0 if in_a_fight else -width - right
+	_panel.offset_right = width + 12.0 if in_a_fight else -right
 	# The touch overlay keeps a bar of buttons along the top.
 	_panel.offset_top = 70.0 if in_a_fight else (84.0 if Pace.is_touch_enabled() else 16.0)
 	_panel.offset_bottom = _panel.offset_top
@@ -269,8 +273,13 @@ func _show(index: int) -> void:
 ## Wrapped words are measured narrow first, which leaves the card too tall; once they are laid out
 ## at the card's width it is shrunk back to them.
 func _fit() -> void:
+	var right := _panel.offset_right
 	_panel.offset_bottom = _panel.offset_top
 	_panel.reset_size()
+	# Docked to the right edge, a card wider than its width grows leftward, not over what is beside it.
+	if _panel.anchor_left >= 1.0 and _panel.offset_right > right:
+		_panel.offset_left -= _panel.offset_right - right
+		_panel.offset_right = right
 
 
 ## Atlas falls for good. Written down as the first world that ended (unless he already has, when

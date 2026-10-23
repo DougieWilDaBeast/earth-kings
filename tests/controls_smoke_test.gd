@@ -1353,6 +1353,14 @@ func _check_the_mouse_bar() -> void:
 			"the mouse bar's Party does not name P")
 	_expect(bar.button("journal") != null and bar.button("journal").tooltip_text.ends_with("(N)"),
 			"the mouse bar's Journal does not name N")
+	# D409: the last stand's card stands clear of the bar, not over Party and Journal.
+	var guide: Node = _game.get_node("TutorialGuide")
+	guide.call("_dock", "area")
+	await _settle()
+	var card: Control = guide.get("_panel")
+	var column: Control = bar.get("_column")
+	_expect(card.get_global_rect().end.x <= column.get_global_rect().position.x,
+			"the last stand's card (to %.0f) covers the mouse bar (from %.0f)" % [card.get_global_rect().end.x, column.get_global_rect().position.x])
 	bar.press("journal")
 	await _settle()
 	_expect(_journal.is_showing(), "the mouse bar's Journal did not open the journal")
