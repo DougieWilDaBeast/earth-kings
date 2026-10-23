@@ -2107,6 +2107,36 @@ func _check_auto_rests() -> void:
 		_expect(not AutoRoad.goes_into(world, gate.cell), "auto rests: hurt, Auto would go into %s" % gate.display_name)
 	for member: Character in kept:
 		member.hp = kept[member]
+	# D401: whole but hungry with nothing to eat, Auto makes for a bed (a meal); with food, it eats.
+	var stores_were = GameState.stores.duplicate()
+	var hungry: Character = GameState.party_characters().back()
+	var fed_was := hungry.fed
+	GameState.stores.clear()
+	for member: Character in kept:
+		member.hp = -1
+	hungry.fed = 0.1
+	var meal := AutoRoad.rest_stop(world)
+	_expect(meal.x >= 0 and world.site_at(meal) != null and world.site_at(meal).kind in [Site.VILLAGE, Site.KEEP, Site.HUT],
+		"auto rests: one of the company hungry with no food in the packs, Auto did not make for a bed (%s)" % meal)
+	GameState.stores = stores_were.duplicate()
+	GameState.stores.append("bread")
+	_expect(AutoRoad.rest_stop(world).x < 0, "auto rests: hungry with bread in the packs, Auto went to rest instead of eating")
+	hungry.fed = fed_was
+	GameState.stores = stores_were
+	# D402: knowing nowhere to rest by arriving (only a walled city, say), Auto makes for the nearest
+	# village, keep or hut there is; with `auto_seeks_rest` off, nowhere.
+	var avoided_were := Pace.avoided.duplicate()
+	for site: Site in world.sites:
+		if site.kind in [Site.VILLAGE, Site.KEEP, Site.HUT] and Atlas.knows(world, site):
+			Pace.avoided[site.cell] = true
+	var sought := world.site_at(AutoRoad.nearest_rest(world))
+	_expect(sought != null and sought.kind in [Site.VILLAGE, Site.KEEP, Site.HUT] and not Atlas.knows(world, sought),
+		"auto rests: knowing nowhere to rest, Auto did not set out for the nearest village (%s)" % sought)
+	var first_hour: Dictionary = Database.world_rules["first_hour"]
+	first_hour["auto_seeks_rest"] = false
+	_expect(AutoRoad.nearest_rest(world).x < 0, "auto rests: with auto_seeks_rest off, Auto still made for a place it does not know")
+	first_hour["auto_seeks_rest"] = true
+	Pace.avoided = avoided_were
 	var goal := AutoRoad.objective(world)
 	for gate: Site in gates:
 		if not goal.is_empty() and goal["cell"] != gate.cell:

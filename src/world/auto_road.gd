@@ -15,6 +15,7 @@ const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Quests := preload("res://src/world/quests.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
+const Hunger := preload("res://src/chronicle/hunger.gd")
 
 ## Set the first time the party stands in a town: the First Hour's first leg is done.
 const TOWN_REACHED := "objective:town"
@@ -295,18 +296,44 @@ static func goes_into(world: World, cell: Vector2i) -> bool:
 ## after a lost fight Auto walked into the next one at a quarter of its health, and dealt leads fell
 ## on the road in 6 of 8 self-played runs). Hurt is the party's health under
 ## `first_hour.auto_rest_below` of its whole; (-1, -1) when it is not, or there is nowhere known.
+## Hungry with no food in the packs is a reason too ([D401]): a bed is a meal.
 static func rest_stop(world: World) -> Vector2i:
 	var share := float(_rules().get("auto_rest_below", 0.0))
 	# Bound for the Tower, it goes up only near whole ([D258]).
 	if bool(objective(world).get("door", false)):
 		share = maxf(share, float(_rules().get("auto_climb_above", 0.0)))
-	if not hurt(share):
+	if not hurt(share) and not starving_ahead():
 		return Vector2i(-1, -1)
 	return nearest_rest(world)
 
 
-## The nearest place a party walking itself can rest at by arriving, or (-1, -1) when none is known.
+## Whether someone walking itself is hungry with nothing in the packs to eat ([D401], found by bot
+## play, 2026-10-23). Auto eats only food it carries, and never buys any, so a company of four walked
+## on while one of them starved down to a single point of health (the company's whole stayed over
+## half, so it never rested) and fell to the next blow. Off with `hunger.auto_rests_hungry`.
+static func starving_ahead() -> bool:
+	if GameState.roster == null or not Hunger.on() or not bool(Hunger.rules().get("auto_rests_hungry", true)):
+		return false
+	for id: String in Gear.draughts():
+		if Hunger.feeds(id) > 0.0:
+			return false
+	for member: Character in GameState.party_characters():
+		if member.current_hp() > 0 and Hunger.is_hungry(member):
+			return true
+	return false
+
+
+## The nearest place a party walking itself can rest at by arriving, or (-1, -1) when there is none.
+## One it knows first; knowing none, the nearest there is, as if it took the road out to find one
+## ([D402]: a lead who knew only the walled city they woke in climbed the Tower at half health).
 static func nearest_rest(world: World) -> Vector2i:
+	var stop := _nearest_rest(world, true)
+	if stop.x < 0 and bool(_rules().get("auto_seeks_rest", true)):
+		stop = _nearest_rest(world, false)
+	return stop
+
+
+static func _nearest_rest(world: World, known_only: bool) -> Vector2i:
 	var best := 1 << 30
 	var stop := Vector2i(-1, -1)
 	for site: Site in world.sites:
@@ -314,7 +341,7 @@ static func nearest_rest(world: World) -> Vector2i:
 			continue
 		if Town.is_ruined(site) or Town.is_threatened(site) or Pace.avoided.has(site.cell):
 			continue
-		if not Atlas.knows(world, site):
+		if known_only and not Atlas.knows(world, site):
 			continue
 		# A walled city laid on the land whole is walked into, not rested at by arriving on its
 		# tile: Auto paced its tiles hurt for good ([D258]).

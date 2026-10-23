@@ -187,7 +187,7 @@ static func for_siege(world: World, site: Site, party: Array, rng: RandomNumberG
 	)
 
 
-## The band at a threatened town's gate ([DNEW]): dealt the same every time it is asked for while
+## The band at a threatened town's gate ([D368]): dealt the same every time it is asked for while
 ## the siege lasts, so the besiegers seen standing at the gate on the land are the ones fought.
 static func siege_band(world: World, site: Site, party: Array) -> Array:
 	var pool: Array = Database.encounters.get("siege", ["brigand", "goblin"])

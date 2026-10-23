@@ -200,6 +200,9 @@ var _act_bar: HFlowContainer = null
 ## Strike first on a thumb or a pad, which have no G ([D374]): in the act bar, shown while a band
 ## could be struck.
 var _strike_btn: Button = null
+## The stair's own button, up while the leader stands at a way up or down that is open ([D421]): on a
+## PC with the mouse alone, climbing, going down a gate and shutting it were E's and nothing else's.
+var _stair_btn: Button = null
 ## What the land does to whoever walks this ground (see [method Biome.effects]);
 ## the neutral one for a place that is not open country.
 var _land: Dictionary = {}
@@ -221,7 +224,7 @@ var _fight: Node2D = null
 var _fight_watch: Node2D = null
 ## The Watch off the road fighting beside the party just now (D236), out of their walk until it ends.
 var _watch_fighting: Array[AreaActor] = []
-## A threatened town's siege laid on the land ([DNEW]), by tile: the site's cell, the siege it is
+## A threatened town's siege laid on the land ([D368]), by tile: the site's cell, the siege it is
 ## (`threatened_at`), the gate it is at and which way is out, the besiegers and the bowmen standing.
 var _sieges: Dictionary = {}
 ## The sieges the company has been told it can see, by site cell and siege.
@@ -748,7 +751,7 @@ func _admit_the_road_watch(tile: Vector2i) -> void:
 		})
 
 
-## A town under siege seen where it is ([DNEW]; play-test 3: "defending a town under siege (Coldrun,
+## A town under siege seen where it is ([D368]; play-test 3: "defending a town under siege (Coldrun,
 ## with archers on its towers)"; play-test 4: "when Stormreach is attacked and defended, see the fight
 ## there, not be taken somewhere else and put back"): while [param tile]'s town is threatened, the band
 ## that holds it ([method Encounter.siege_band], the one its defence is fought against) stands outside
@@ -896,7 +899,7 @@ func _mind_the_sieges() -> void:
 					(actor as Node2D).visible = true
 
 
-## The company runs for the gate its town's besiegers are at, to the inside of it ([DNEW]): over
+## The company runs for the gate its town's besiegers are at, to the inside of it ([D368]): over
 ## `siege.run_seconds`, at once on Auto. Nothing when no siege stands here.
 func _run_to_the_gate() -> void:
 	var siege: Dictionary = _sieges.get(GameState.world.player_cell, {})
@@ -922,7 +925,7 @@ func _run_to_the_gate() -> void:
 		await run.finished
 
 
-## The ground a town's defence is fought on ([DNEW]): the company inside the gate, the besiegers where
+## The ground a town's defence is fought on ([D368]): the company inside the gate, the besiegers where
 ## they stood outside it, and the bowmen on their towers fighting beside the company, from up there.
 func _siege_field() -> Dictionary:
 	var siege: Dictionary = _sieges.get(GameState.world.player_cell, {})
@@ -2115,6 +2118,25 @@ func _show_prompt() -> void:
 	_hint.text = Pad.say(_prompt_text())
 	if _strike_btn != null:
 		_strike_btn.visible = _strike_target() != null
+	_show_the_stair()
+
+
+## The stair's button: up, and saying where it goes, while the leader is at an open way up or down.
+func _show_the_stair() -> void:
+	if _stair_btn == null:
+		return
+	var up := _at_the_stair() and _way_down_open() and not _talking and not _leaving
+	_stair_btn.visible = up
+	if up:
+		var line := _stair_line()
+		_stair_btn.text = line.substr(0, 1).to_upper() + line.substr(1)
+		_stair_btn.tooltip_text = "%s to %s" % [_act_key(), line]
+
+
+## The stair taken from its button, as E takes it.
+func _take_the_stair() -> void:
+	if _at_the_stair() and not _talking and not _leaving and _sure_of_the_stair():
+		_climb_the_stair()
 
 
 ## What presses E, said for whoever is playing: the pad's button, the touch bar's Act, or E.
@@ -4287,17 +4309,65 @@ func _roadside_field() -> Dictionary:
 
 ## The patch of ground a fight with nobody yet standing on it is fought on ([D207]): a town's raiders,
 ## its guards, a captive's keepers. The party where it stands, and them a few strides ahead of it.
+## Each foe on a cell of its own the company can walk to from where it stands ([D420]): a raid on
+## Stormreach from inside its wall gap laid all four on one cell, round the wall fifty steps off and
+## outside the fight's field, so nobody could reach anybody and the fight never ended.
 func _field_ahead() -> Dictionary:
 	var here := map.cell_at(_leader.position)
 	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
 	if ahead == Vector2i.ZERO:
 		ahead = Vector2i.DOWN
 	var front := here + ahead * 5
+	var near := _cells_walked_to(here, FIELD_REACH)
+	var taken := { here: true }
 	var foes: Array = []
-	for side: Vector2i in [Vector2i.ZERO, Vector2i(ahead.y, ahead.x), Vector2i(-ahead.y, -ahead.x), ahead]:
-		var c := _free_spot_near(front + side)
+	for side: Vector2i in [Vector2i.ZERO, Vector2i(-ahead.y, ahead.x), Vector2i(ahead.y, -ahead.x), ahead]:
+		var c := _nearest_of(near, front + side, taken)
+		taken[c] = true
 		foes.append([c.x, c.y])
 	return _field_round(foes, false)
+
+
+## How wide the place's buttons may run along the bottom right with a mouse ([D422]).
+const MOUSE_ACTS_WIDTH := 440.0
+
+
+## How far, in steps, a fight laid ahead looks for ground its foes can stand on.
+const FIELD_REACH := 8
+
+
+## The cells walked to from [param from] in at most [param steps] steps (up, down and across).
+func _cells_walked_to(from: Vector2i, steps: int) -> Array[Vector2i]:
+	var seen := { from: 0 }
+	var out: Array[Vector2i] = [from]
+	var head := 0
+	while head < out.size():
+		var at := out[head]
+		head += 1
+		if int(seen[at]) >= steps:
+			continue
+		for way: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			var next := at + way
+			if seen.has(next) or not map.is_walkable(next):
+				continue
+			seen[next] = int(seen[at]) + 1
+			out.append(next)
+	return out
+
+
+## Of [param cells], the one nearest [param aim] not in [param taken]; [param aim]'s nearest free
+## spot if there is none.
+func _nearest_of(cells: Array[Vector2i], aim: Vector2i, taken: Dictionary) -> Vector2i:
+	var best := Vector2i(-1, -1)
+	var best_d := INF
+	for c: Vector2i in cells:
+		if taken.has(c):
+			continue
+		var d := Vector2(c - aim).length_squared()
+		if d < best_d:
+			best_d = d
+			best = c
+	return best if best.x >= 0 else _free_spot_near(aim, taken)
 
 
 func _field_round(foes: Array, ambush: bool) -> Dictionary:
@@ -4422,7 +4492,7 @@ func _do_act(each: Dictionary) -> void:
 		if not _asking:
 			_awaiting_fight = true
 			_talking = true
-			# A town's defence is fought at the gate its besiegers are at ([DNEW]).
+			# A town's defence is fought at the gate its besiegers are at ([D368]).
 			if act == "_defend_here":
 				await _run_to_the_gate()
 			var field := _gate_field() if act == "_enter_gate_here" \
@@ -4450,11 +4520,12 @@ func _lay_out_acts() -> void:
 		_act_bar.queue_free()
 		_act_bar = null
 	_strike_btn = null
+	_stair_btn = null
 	# The board's doing is done at the board, by walking up to it (D359).
 	var pressable: Array = _acts.filter(func(each: Dictionary) -> bool:
 		return str(each.get("label", "")) != "" and not (AT_THE_BOARD.has(str(each.get("act", ""))) and _board() != null))
 	var strike_label := str(AreaWatch.rule("first_strike_button", ""))
-	if pressable.is_empty() and strike_label == "":
+	if pressable.is_empty() and strike_label == "" and not _walked_floor():
 		return
 	_act_bar = HFlowContainer.new()
 	_act_bar.anchor_left = 0.5
@@ -4475,8 +4546,19 @@ func _lay_out_acts() -> void:
 		_act_bar.offset_top = -lift - 180.0
 		_act_bar.offset_left = -minf(320.0, view.x * 0.5 - TouchControls.EDGE_PAD)
 		_act_bar.offset_right = -_act_bar.offset_left
+	elif not Pad.using_pad:
+		# With a mouse, in the bottom right corner under the mouse bar, beside the bottom line ([D422]).
+		# In the middle they stood a stride below the leader, and a click meant to walk that way
+		# pressed The Guild instead; lower down they covered the notes.
+		_act_bar.anchor_left = 1.0
+		_act_bar.anchor_right = 1.0
+		_act_bar.offset_right = -14.0
+		_act_bar.offset_left = -14.0 - MOUSE_ACTS_WIDTH
+		_act_bar.offset_top = -20.0
+		_act_bar.offset_bottom = -20.0
 	_act_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	_act_bar.alignment = FlowContainer.ALIGNMENT_CENTER
+	_act_bar.alignment = FlowContainer.ALIGNMENT_CENTER if Pace.is_touch_enabled() or Pad.using_pad \
+			else FlowContainer.ALIGNMENT_END
 	_act_bar.add_theme_constant_override("h_separation", 8)
 	_act_bar.add_theme_constant_override("v_separation", 8)
 	_hint.get_parent().add_child(_act_bar)
@@ -4502,6 +4584,14 @@ func _lay_out_acts() -> void:
 		_strike_btn.visible = _strike_target() != null
 		Sfx.attend(_strike_btn)
 		_act_bar.add_child(_strike_btn)
+	_stair_btn = Button.new()
+	_stair_btn.focus_mode = Control.FOCUS_ALL if Pad.using_pad else Control.FOCUS_NONE
+	_stair_btn.custom_minimum_size = Vector2(0, 56)
+	_stair_btn.add_theme_font_size_override("font_size", 16)
+	_stair_btn.pressed.connect(_take_the_stair)
+	Sfx.attend(_stair_btn)
+	_act_bar.add_child(_stair_btn)
+	_show_the_stair()
 
 
 ## G's work, for the Strike first button.

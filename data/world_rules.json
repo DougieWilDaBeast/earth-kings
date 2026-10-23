@@ -64,6 +64,8 @@
 		"_comment_auto_climb": "D258: a party walking itself goes up the Tower only with its health at auto_climb_above of its whole or more, resting first (AutoRoad.rest_stop), and turns back down a floor to rest when under auto_turn_back_below (area_scene._auto_axis); the floors it won stay won. Before, the bots climbed on hurt and fell on floors 1 to 4 in every run. **Inferred**: both shares.",
 		"auto_climb_above": 0.9,
 		"auto_turn_back_below": 0.6,
+		"_comment_auto_seeks_rest": "D402 (found by bot play, 2026-10-23): knowing no village, keep or hut it can rest at by arriving (only the walled city it woke in, which is walked into, not rested at), a party walking itself makes for the nearest one there is, as if it took the road out to find one. Before, it had nowhere to rest, so it climbed the Tower at half health and fell on floor 2. **Inferred**: that Auto may head for a place it has not seen.",
+		"auto_seeks_rest": true,
 		"_comment_auto_hearthwick": "D367 (found by the bot, 2026-10-22): in a place that goes back to the title when left (Atlas's Last Stand in Hearthwick, never saved), Auto does not walk: pressed, it says auto_hearthwick_line and stays off. Before, it walked the two cells to the road south and the tutorial ended at the title. **Inferred**: the words.",
 		"auto_hearthwick_line": "Auto walks the company on once you are out in the world. Here, walk Hearthwick yourself.",
 		"_comment_auto_hunt": "D301: with levels only in gates, a party walking itself goes to the easiest gate standing instead of the Tower while the next floor's foes stand more than auto_hunt_gates_over levels above the company, or its keeper more than auto_hunt_keepers_over (AutoRoad.stair_too_hard). **Inferred**: both margins.",
@@ -987,7 +989,9 @@
 		"auto_eat_below": 0.4,
 		"hungry_line": "{name} is hungry.",
 		"_comment_tower_floor": "D400 (found by bot play, 2026-10-22): the world's steps a Tower floor adds (World.UPKEEP_INTERVAL, 30) do not empty the company (Hunger.pass_over), unless tower_floor_counts. Before, a floor ate 0.75 of a full belly and, once empty, 90% of everyone's health in one lump, so a lead won floor 1 near whole and walked onto floor 2 at 1 HP. Inferred: that the Tower's time is not the company's.",
-		"tower_floor_counts": false
+		"tower_floor_counts": false,
+		"_comment_auto_rests_hungry": "D401 (found by bot play, 2026-10-23): a party walking itself makes for the nearest bed (a meal) when anyone is hungry and the packs hold no food. Before, Auto never bought food, a company of four kept walking while one of them starved to 1 HP (the company's whole stayed over auto_rest_below) and the lead fell to the next blow. Inferred: resting, not buying bread.",
+		"auto_rests_hungry": true
 	},
 	"_comment_nemesis": "D330 (call BX; Ewan's play-test 8, after Shadow of Mordor's nemesis system: 'Characters will remember that, and people might hold a grudge'). Out of the First Hour's cut list. A band broken leaves one survivor on survive_chance (never a non_sentient kind), named with an epithet; a band met on the road is led by one on return_chance, level_per_return levels up for each time they have come back, saying the confront_lines (the first, then the second...); beaten again they are finished (finished_line, a deed). thanks: a settled errand's giver remembers it on chance, and a traveller on the road's clock is one of them on meet_share, giving gift_share of the errand's pay. Inferred: every number and line.",
 	"nemesis": {
@@ -1034,7 +1038,7 @@
 			"move_down": "left-click the ground to walk there",
 			"move_left": "left-click the ground to walk there",
 			"move_right": "left-click the ground to walk there",
-			"interact": "left-click a person, a door or a thing; a place's doings are buttons",
+			"interact": "left-click a person, a door or a thing; a place's doings and an open stair are buttons",
 			"site_errands": "the place's Read the board button",
 			"site_guild": "the place's Guild button",
 			"site_grimoire": "the place's book button",

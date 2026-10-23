@@ -36,7 +36,7 @@ var chatter: Array = []
 ## How tall they stand against an ordinary body (`body_scale` in `data/units.json`): the axe bear
 ## towers over the village, the fox does not. The feet stay where anyone else's are.
 var body_scale: float = 1.0
-## How far up off the ground their picture stands, in pixels: a bowman on a town's tower ([DNEW]).
+## How far up off the ground their picture stands, in pixels: a bowman on a town's tower ([D368]).
 ## Their feet, and so who stands in front of whom, stay on the cell.
 var perch: float = 0.0:
 	set(value):
