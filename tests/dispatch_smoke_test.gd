@@ -779,7 +779,8 @@ func _check_hunger(world: World, roster: Roster) -> void:
 	_expect(Hunger.stock_up(stall, world).is_empty() and Hunger.food_carried() == 0, "steered by hand, the company bought food by itself")
 	Pace.auto = true
 	var bought := Hunger.stock_up(stall, world)
-	var want := int(Hunger.rules().get("auto_buys_up_to", 0))
+	# D407: so many for each of the company, as far as the stall's six go.
+	var want := mini(6, int(Hunger.rules().get("auto_buys_per_head", 0)) * GameState.party_characters().size())
 	_expect(want > 0 and Hunger.food_carried() == want and bought.size() == want and GameState.gold < 100000,
 			"walking itself, the company did not buy %d food for the road (%d, %s)" % [want, Hunger.food_carried(), bought])
 	_expect(Hunger.stock_up(stall, world).is_empty(), "carrying enough, the company bought more food")

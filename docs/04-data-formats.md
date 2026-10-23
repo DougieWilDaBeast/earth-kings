@@ -797,7 +797,9 @@ bar under their health on the walking panel); at nothing they lose `starving_hur
 the last point. Food (`taken: "eat"` in `equipment.json`) fills `feeds_per_mend` for each point it `mends`, and can
 be eaten at full health when hungry; a rest in a bed fills everyone. A market lays out one food among its three wares when it
 stocks any (`recruit.food_on_show`, [D403](06-decisions.md)). With Auto on, resting at a village or keep buys the food laid out until the
-packs hold `auto_buys_up_to` (4), saying `bought_line` ([D404](06-decisions.md)). With Auto on, anyone under `auto_eat_below`
+packs hold `auto_buys_per_head` (3) for each of the company, saying `bought_line` ([D404](06-decisions.md), [D407](06-decisions.md)); resting because
+it is hungry, Auto makes for a village or keep before a hut, which sells nothing, unless what it is making for is nearer; a market keeps
+`recruit.food_stocked` (4) of each food it stocks ([D407](06-decisions.md)). With Auto on, anyone under `auto_eat_below`
 eats the least food in the packs. Read by `src/chronicle/hunger.gd`. `tower_floor_counts` ([D400](06-decisions.md)): false, so
 the world's steps a Tower floor adds (30) and a chapter's close adds do not empty the company (`Hunger.pass_over`). `auto_rests_hungry`
 ([D401](06-decisions.md)): true, so a party walking itself makes for the nearest bed when anyone is hungry and the packs hold no

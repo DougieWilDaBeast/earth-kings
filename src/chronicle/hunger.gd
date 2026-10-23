@@ -97,14 +97,15 @@ static func food_carried() -> int:
 
 
 ## A party walking itself, resting at [param site], buys the food laid out until it carries
-## `auto_buys_up_to` ([D404]). Before, Auto never bought any: with nothing in the packs a belly
-## lasted 22 steps from a bed, and it walked back and forth between a village and a gate further off
-## than that, turning for bed each time. Returns the lines worth saying.
+## `auto_buys_per_head` for each of the company ([D404], [D407]: four for the whole company was
+## one meal each, and a company of four still went back and forth). Before, Auto never bought any:
+## with nothing in the packs a belly lasted 22 steps from a bed, and it walked back and forth between
+## a village and a gate further off than that, turning for bed each time. Returns the lines worth saying.
 static func stock_up(site: Site, world: World) -> Array[String]:
 	var lines: Array[String] = []
 	if not on() or not Pace.auto or GameState.roster == null:
 		return lines
-	var want := int(rules().get("auto_buys_up_to", 0))
+	var want := int(rules().get("auto_buys_per_head", 0)) * GameState.party_characters().size()
 	while food_carried() < want:
 		var food: Array = Market.on_show(site).filter(func(id: String) -> bool: return feeds(id) > 0.0)
 		if food.is_empty() or not Market.buy(site, str(food[0]), GameState.roster.player(), world):
