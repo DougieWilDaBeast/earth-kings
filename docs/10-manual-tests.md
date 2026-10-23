@@ -322,6 +322,7 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.66 | On a PC with the mouse alone, clear a gate's first floor and walk onto its way down; on its last floor, beat the keeper and walk onto the way out | A button "Go down to floor 2 of N" comes up among the place's buttons and takes you down; on the last floor "Shut <gate>" shuts it; neither shows while the way is shut (D421) |
 | D3.67 | On a PC (Touch Controls: Off), stand in Stormreach's square and click on the ground just below the leader | The leader walks there; The Guild and Raid are buttons in the bottom right corner under the mouse bar, not under the leader (D422) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
+| D3.61 | On a phone held sideways, walk the ground until the log has a few lines and the hint line says what Act does | Both start right of the stick and stop short of Back, Next and Act; no word is under them (D411) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
 

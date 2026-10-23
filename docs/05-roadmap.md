@@ -553,7 +553,7 @@ each, each ending playable:
    3. Consolidation until play-test 9's write-up: bot-tests on seeds, one PR per bug, the board swept, milestone 4
       measured as sixteen runs and recorded (#230); the writers draft G's words ([D383](06-decisions.md)).
       Hand-played (mouse, not Auto) First Hour runs: a raid pressed from a wall gap no longer stalls ([D420](06-decisions.md)); the stair is a button for a mouse ([D421](06-decisions.md)); a place's buttons sit in the bottom right with a mouse ([D422](06-decisions.md)).
-      Fixed so far from bot play at phone size: a cooling skill's seconds sit in its touch button's corner ([D410](06-decisions.md)).
+      Fixed so far from bot play at phone size: a cooling skill's seconds sit in its touch button's corner ([D410](06-decisions.md)); on its side, the ground's log and hint keep between the stick and the buttons ([D411](06-decisions.md)).
    4. Play-test 9's asks, in `doug-md`'s order.
    5. From 27 October, art in [D356](06-decisions.md)'s order, A2 beside D299's short list.
    6. G after the guild day; tricks ([D285](06-decisions.md)) after G. Questions 47 and 48 are with the founders ([D385](06-decisions.md)).
