@@ -1192,6 +1192,8 @@
 		"refresh_steps": 400,
 		"_comment_wares_on_show": "D146 (the designers' fortnight, F4): how many of a place's wares are laid out at once; Z turns to the next and B buys the one in hand.",
 		"wares_on_show": 3,
+		"_comment_food_on_show": "D403 (found by bot play, 2026-10-23): of the wares laid out, up to this many are food when the place stocks any. Wares are stocked in equipment.json's order, so the three laid out were always the first arms on the list and food (D331) was never on sale. **Inferred**: one of the three.",
+		"food_on_show": 1,
 		"templates": ["bram", "sera", "toln"]
 	},
 	"_comment_sellswords": "D295 (meeting six: mercenaries hired for gold who stay until the job is done; built as the Gilded Flagon's book, src/chronicle/sellswords.gd): `board_size` sellswords offered at once, dealt again every `refresh_steps` world steps; each one of `templates` at the lead's level give or take one, for one of `jobs` (gate: until the next gate is shut; chapter: until the next chapter of the Tower closes), at cost_base + cost_per_level a level, times the job's `price`, the difficulty's prices and the lead's haggling. They bond with nobody and are not among the 32 (D303). Inferred: every number, name and line.",

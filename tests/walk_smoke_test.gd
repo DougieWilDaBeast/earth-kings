@@ -997,6 +997,11 @@ func _check_town_and_captives() -> void:
 		if not Database.equipment[id].has("signature") and id not in Market.wares(town):
 			(town.data["wares"] as Array).append(id)
 	_expect(Market.on_show(town).size() == 3, "the market laid out %d wares, not 3" % Market.on_show(town).size())
+	# D403: food at the back of the stock is laid out among the three, not left behind the arms.
+	if not "bread" in Market.wares(town):
+		(town.data["wares"] as Array).append("bread")
+	_expect(Market.on_show(town).size() == 3 and Market.on_show(town).any(func(id: String) -> bool: return Gear.taken(id) == "eat"),
+		"a market stocking food did not lay any out (%s)" % [Market.on_show(town)])
 	var first_in_hand := Market.in_hand(town)
 	Market.next_ware(town)
 	_expect(Market.in_hand(town) != first_in_hand and Market.on_show(town).has(Market.in_hand(town)),
