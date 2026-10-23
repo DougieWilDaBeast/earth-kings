@@ -321,6 +321,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 301 | D401 | **Inferred.** A party walking itself that is hungry with no food in the packs makes for the nearest bed (a meal), rather than buying bread in a town or market. Recommended: keep; a founder says if Auto should shop for food instead. |
 | 320 | D420 | **Inferred.** A fight laid ahead (a raid, guards, keepers) puts each foe on its own cell the company can walk to in at most 8 steps; in a narrow place like a wall gap that is beside the company, not five strides ahead. Recommended: as built. |
 | 321 | D421 | **Inferred.** At an open stair, a button among the place's own ("Climb to floor 3", "Go down to floor 2 of 5", "Shut Greyhollow") on every device, its hover the key. Recommended: as built. |
+| 322 | D422 | **Inferred.** With a mouse, a place's buttons sit in the bottom right corner under the mouse bar, leaving the middle of the screen for walking. Recommended: as built; `doug-md` says whether he finds them there. |
 
 ## 2. Eleven Part I questions that need a straight answer
 
