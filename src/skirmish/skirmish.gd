@@ -518,7 +518,7 @@ func _ground_field() -> Dictionary:
 	var ground := _the_ground()
 	var origin := _to_cell(ground_field.get("origin", [0, 0]))
 	var size := _to_cell(ground_field.get("size", [16, 11]))
-	# A threatened town's towers its bowmen stand on ([DNEW]): higher, and nobody climbs onto them.
+	# A threatened town's towers its bowmen stand on ([D368]): higher, and nobody climbs onto them.
 	var ramparts: Dictionary = {}
 	for pair: Array in ground_field.get("ramparts", []):
 		ramparts[_to_cell(pair)] = true
@@ -586,7 +586,7 @@ func _ground_field() -> Dictionary:
 	var perched: Array = []
 	for each: Variant in ground_field.get("allies", []):
 		var ally: Dictionary = (each as Dictionary).duplicate()
-		# A town's bowman stands on the tower they were seen on ([DNEW]).
+		# A town's bowman stands on the tower they were seen on ([D368]).
 		if ally.has("perch"):
 			var on := _to_cell(ally["perch"]) - origin
 			ally.erase("perch")

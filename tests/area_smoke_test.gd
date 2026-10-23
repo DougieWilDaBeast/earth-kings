@@ -1574,12 +1574,22 @@ func _check_inside_a_gate() -> void:
 	(again.get("_leader") as Node2D).position = down.centre_of(down.stairs[0] + Vector2i(0, 1))
 	# D261 (play-test 7): every band on the floor first, then the way down.
 	_expect(str(again.call("_prompt_text")).contains("will not open"), "inside a gate: the way down is open with the floor's bands standing (%s)" % again.call("_prompt_text"))
+	again.call("_show_prompt")
+	var stair_btn: Button = again.get("_stair_btn")
+	_expect(stair_btn != null and not stair_btn.visible, "inside a gate: the stair's button is up while the way down is shut")
 	_expect(again.call("_keeper_cell") != Vector2i(-1, -1), "inside a gate: Auto would not know which band to go for first")
 	for band: Dictionary in down.bands:
 		GameState.set_flag("done:%s" % str(band.get("key", "")))
 	_expect(str(again.call("_prompt_text")).ends_with("to go down to floor 2 of %d" % deep.floors()),
 		"inside a gate: at the way down nothing says how to take it (%s)" % again.call("_prompt_text"))
-	again.call("_climb_the_stair")
+	# A mouse takes it too ([D421]): a button at the stair, saying where it goes.
+	again.call("_show_prompt")
+	_expect(stair_btn != null and stair_btn.visible and stair_btn.text == "Go down to floor 2 of %d" % deep.floors(),
+		"inside a gate: at the way down there is no button for a mouse (%s)" % (stair_btn.text if stair_btn != null else "none"))
+	if stair_btn != null:
+		stair_btn.pressed.emit()
+	else:
+		again.call("_climb_the_stair")
 	var on: Array = _requests.filter(func(r: Dictionary) -> bool: return r["key"] == "world")
 	_expect(not on.is_empty() and bool((on[0]["payload"] as Dictionary).get("gate_on", false)), "inside a gate: the way down went nowhere")
 	_expect(str(GameState.pending_outcome.get("kind", "")) == "gate" and not bool(GameState.pending_outcome.get("final", true))
@@ -2307,7 +2317,7 @@ func _check_floor_themes() -> void:
 ## A companion's death shown, with a small burial (D363, play-test 2): after the fight the dead are laid
 ## under a cairn where they fell, the lead says a few words, and on the land the cairn is still there
 ## when the tile is laid out again; on Auto it is only told.
-## [DNEW]: a threatened village's besiegers stand outside one of its gates on the land, the band its
+## [D368]: a threatened village's besiegers stand outside one of its gates on the land, the band its
 ## defence is fought against, and its bowmen on the towers by that gate; the defence is fought there,
 ## the bowmen from their towers; saved, the siege is gone from the ground.
 func _check_the_siege() -> void:
