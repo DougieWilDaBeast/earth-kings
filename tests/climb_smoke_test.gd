@@ -85,6 +85,9 @@ func _outmatched_hunts_gates() -> void:
 	lead.hp = roundi(lead.max_hp() * 0.8)
 	_expect(AutoRoad.stair_too_hard(world) and AutoRoad.rest_stop(world).x < 0,
 		"outmatched: not going up the stair, at 8 tenths of its health Auto still turned back to rest")
+	# D406: but never under the share a floor turns it back at, or it walks in and straight back out.
+	lead.hp = roundi(lead.max_hp() * 0.55)
+	_expect(AutoRoad.rest_stop(world).x >= 0, "outmatched: at 55 hundredths, under a floor's turn-back share, Auto did not rest first")
 	lead.hp = -1
 	world.tower_floor = floor_was
 

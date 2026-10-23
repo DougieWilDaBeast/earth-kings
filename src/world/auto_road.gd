@@ -299,10 +299,12 @@ static func goes_into(world: World, cell: Vector2i) -> bool:
 ## Hungry with no food in the packs is a reason too ([D401]): a bed is a meal.
 static func rest_stop(world: World) -> Vector2i:
 	var share := float(_rules().get("auto_rest_below", 0.0))
-	# Bound for the Tower, it goes up only near whole ([D258]); hunting gates because the stair is
-	# too hard ([D301]), it is not going up, and rests at the land's share ([D405]).
-	if bool(objective(world).get("door", false)) and not stair_too_hard(world):
-		share = maxf(share, float(_rules().get("auto_climb_above", 0.0)))
+	# Bound for the Tower, it goes up only near whole ([D258]). With the stair too hard ([D301]) it
+	# hunts gates and needs no more than the land's share ([D405]), but with no gate at its rank it
+	# may still go in at the door, and a floor sends it back down under `auto_turn_back_below`: it
+	# rests to that first, or it walked in and straight back out for good ([D406]).
+	if bool(objective(world).get("door", false)):
+		share = maxf(share, float(_rules().get("auto_turn_back_below" if stair_too_hard(world) else "auto_climb_above", 0.0)))
 	if not hurt(share) and not starving_ahead():
 		return Vector2i(-1, -1)
 	return nearest_rest(world)
