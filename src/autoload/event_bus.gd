@@ -106,6 +106,9 @@ signal battle_log(line: String)
 signal ground_shaken(seconds: float, pixels: float)
 ## A line for the bottom of an area's screen: something handed over in a conversation, say.
 signal area_note(line: String)
+## A finger held still on [param position] (screen pixels) long enough to ask what is there rather
+## than press it ([D388]): the touch overlay shows a button's tip; a fight shows who stands there.
+signal touch_held(position: Vector2)
 ## Something the player did, for whatever is watching for it (the tutorial, D73): "walked",
 ## "talked:<name>", "examined:<name>", "chest", "door:<name>", "fight_won", "fight_lost".
 signal player_did(what: String)

@@ -303,8 +303,38 @@ func _check_touch() -> void:
 		_expect(fight.selected == [party[1]], "tapping a companion gave an order instead of picking them")
 		fight.hud.card_clicked.emit(0)
 
+	# On touch the order is given as the finger lifts: a drag of the camera gives none, nor does a
+	# finger held to ask who stands there (D388).
+	var order_before: int = lead.order
+	var press := InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.pressed = true
+	press.position = Vector2(300, 300)
+	fight._unhandled_input(press)
+	var lift := InputEventMouseButton.new()
+	lift.button_index = MOUSE_BUTTON_LEFT
+	lift.position = Vector2(380, 300)
+	fight._unhandled_input(lift)
+	_expect(lead.order == order_before and fight.selected == [lead], "a finger dragged across the board gave an order (D388)")
+	fight._unhandled_input(press)
+	EventBus.touch_held.emit(press.position)
+	lift.position = press.position
+	fight._unhandled_input(lift)
+	_expect(lead.order == order_before and fight.selected == [lead], "a finger held to ask gave an order as it lifted (D388)")
 	(buttons["hold"] as Button).pressed.emit()
 	_expect(lead.hold, "the Hold button did nothing")
+	# About 44 points under a thumb, and a skill said by its name, not a key (D387).
+	_expect((buttons["pause"] as Button).size.y >= 58.0, "a fight's touch button is under 58 pixels tall: %s" % (buttons["pause"] as Button).size)
+	fight._select([lead])
+	fight.hud.refresh()
+	for slot in 4:
+		var skill: Button = buttons["slot%d" % slot]
+		if slot < lead.slots.size():
+			var name := str(lead.slot_ability(slot).get("display_name", ""))
+			_expect(skill.visible and skill.text.ends_with(name) and not skill.text.begins_with(str(SkirmishRules.SLOT_LABELS[slot]) + " "),
+				"skill button %d says %s, not the skill's name %s (D387)" % [slot, skill.text, name])
+		else:
+			_expect(not skill.visible, "skill button %d is up for a skill %s has not got (D387)" % [slot, lead.unit.display_name])
 	var caster := _first_with_slots(party)
 	if caster != null and str(caster.slot_ability(0).get("target", "enemy")) != "self":
 		fight._select([caster])
@@ -312,6 +342,22 @@ func _check_touch() -> void:
 		_expect(fight.armed_slot == 0, "the first skill button did not ready the skill")
 		(buttons["slot0"] as Button).pressed.emit()
 		_expect(fight.armed_slot == -1, "tapping the skill again did not put it away")
+		# A first tap on a target aims and shows who it would catch; the second casts (D389).
+		var target: Fighter = null
+		for f: Fighter in fight.fighters:
+			if f.is_standing() and AbilityResolver.is_valid_target(caster.unit, caster.slot_ability(0), f.unit):
+				target = f
+				break
+		if target != null:
+			(buttons["slot0"] as Button).pressed.emit()
+			fight._on_left_click(target.unit.cell, false)
+			_expect(fight.armed_slot == 0 and fight.aim_cell == target.unit.cell and caster.order != Fighter.Order.CAST,
+				"a first tap on a target cast the skill instead of aiming it (D389)")
+			_expect(not fight.overlay.preview_cells.is_empty(), "an aimed skill lit nothing (D389)")
+			fight._on_left_click(target.unit.cell, false)
+			_expect(fight.armed_slot == -1 and caster.order == Fighter.Order.CAST,
+				"a second tap on the aimed target did not cast (D389)")
+			_expect(fight.overlay.preview_cells.is_empty(), "the aim stayed lit after the cast (D389)")
 	fight.queue_free()
 
 

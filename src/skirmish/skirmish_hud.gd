@@ -28,7 +28,7 @@ const COMPACT_KEYS := "K: keys"
 const HINT := "Right-click: move · attack · help the fallen    Left-click / drag: select    1–4 / Tab: pick    " \
 		+ "Q W E R: skills    A: auto skills    O F B G H: own way · close in · keep away · guard · hold    Space: pause    T: speed    Z: auto-pause    N: journal"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
-		+ "a skill, then its target · tap the skill again to put it away · the fight slows while you choose"
+		+ "a skill, then its target, and the target again to cast · tap the skill again to put it away · the fight slows while you choose · hold a finger on anything to read it"
 ## The same, on a pad: the stick walks a cursor and A gives the order there.
 const PAD_HINT := "Stick: cursor    %s: pick · move · attack · help the fallen    %s: next fighter    %s: everyone    " \
 		+ "%s: next skill    %s: pause    %s: speed    %s: put a skill away"
@@ -38,8 +38,18 @@ const TOUCH_BUTTONS := [
 	["slot0", "Q"], ["slot1", "W"], ["slot2", "E"], ["slot3", "R"],
 	["auto_skill", "Auto skills"], ["hold", "Hold"], ["auto_pause", "Auto-pause"],
 ]
-## One of those buttons, and the gap between two.
-const TOUCH_BUTTON := Vector2(138, 40)
+## What each of them does, read with a long press on a phone ([D388]); a skill's own is its tooltip.
+const TOUCH_TIPS := {
+	"pause": "Stop the fight, or start it again. Orders can be given while it is stopped.",
+	"speed": "The fight's speed, round from 1x to 5x.",
+	"all": "Pick the whole company, so one tap sends them all.",
+	"auto_skill": "Whoever is picked uses their skills by themselves, or stops.",
+	"hold": "Whoever is picked stands their ground, or goes their own way again.",
+	"auto_pause": "When the fight stops by itself: never, when someone goes down, or also when a skill is ready.",
+}
+## One of those buttons, and the gap between two: 58 tall is about 44 points on a phone, where the
+## game is 1.32 of its pixels to a point, the least a thumb hits reliably ([D387]).
+const TOUCH_BUTTON := Vector2(128, 58)
 const TOUCH_GAP := 4.0
 const READY := Color(0.62, 0.92, 0.62)
 const WAITING := Color(0.62, 0.66, 0.74)
@@ -79,6 +89,8 @@ var _inspect_text: RichTextLabel
 var _inspected: Fighter = null
 var _lines: Array[String] = []
 var _buttons: Dictionary = {}
+## How many of the touch buttons were showing when the grid was last laid out.
+var _shown_buttons: int = 0
 ## The touch buttons' grid down the right edge ([method _fit_touch_buttons]).
 var _column: GridContainer = null
 var _plain := _panel_style(PANEL)
@@ -303,6 +315,7 @@ func _add_touch_buttons() -> void:
 		var button := Button.new()
 		button.custom_minimum_size = TOUCH_BUTTON
 		button.text = entry[1]
+		button.tooltip_text = str(TOUCH_TIPS.get(entry[0], ""))
 		button.focus_mode = Control.FOCUS_NONE
 		button.add_theme_font_size_override("font_size", 17)
 		var action: String = entry[0]
@@ -352,7 +365,9 @@ func _fit_touch_buttons() -> void:
 		if view.y > view.x:
 			bottom += TouchControls.UPRIGHT_LIFT
 	var rows := maxi(1, floori((view.y - top - bottom + TOUCH_GAP) / (TOUCH_BUTTON.y + TOUCH_GAP)))
-	var columns := ceili(float(TOUCH_BUTTONS.size()) / rows)
+	var shown := _column.get_children().filter(func(b: Control) -> bool: return b.visible).size()
+	_shown_buttons = shown
+	var columns := maxi(1, ceili(float(shown) / rows))
 	_column.columns = columns
 	_column.offset_top = top
 	_column.offset_left = -12 - columns * TOUCH_BUTTON.x - (columns - 1) * TOUCH_GAP
@@ -376,7 +391,7 @@ func refresh() -> void:
 	if _skirmish.armed_slot >= 0 and not _skirmish.selected.is_empty():
 		var caster: Fighter = _skirmish.selected[0]
 		var ability := caster.slot_ability(_skirmish.armed_slot)
-		var how := "tap a target, or the skill again to cancel" if _skirmish.touch \
+		var how := "tap a target, then it again to cast, or the skill again to cancel" if _skirmish.touch \
 				else "left-click a target, right-click to cancel"
 		if Pad.using_pad and not _skirmish.touch:
 			how = "%s at the target, %s to cancel" % [Pad.key("ui_accept"), Pad.key("ui_cancel")]
@@ -563,6 +578,8 @@ func _refresh_buttons() -> void:
 		return
 	(_buttons["pause"] as Button).text = "Resume" if _skirmish.paused else "Pause"
 	(_buttons["speed"] as Button).text = "Speed x%s" % String.num(Pace.speed(), 1).trim_suffix(".0")
+	# On the ground the touch bar's own speed button is up, and it is the same speed (D387).
+	(_buttons["speed"] as Button).visible = not _skirmish.in_place
 	var caster: Fighter = _skirmish.selected[0] if not _skirmish.selected.is_empty() else null
 	for slot in SkirmishRules.SLOT_LABELS.size():
 		var button: Button = _buttons.get("slot%d" % slot)
@@ -570,11 +587,15 @@ func _refresh_buttons() -> void:
 			continue
 		var has := caster != null and slot < caster.slots.size()
 		button.disabled = not has
-		var label := str(SkirmishRules.SLOT_LABELS[slot])
+		# A skill the picked fighter has not got is left out, not greyed, so the rest can be big.
+		button.visible = has
+		# A thumb has no Q, W, E or R: the button is the skill's name ([D387]).
+		var label := "Skill %d" % (slot + 1)
 		if has:
-			var name := str(caster.slot_ability(slot).get("display_name", "?"))
 			# Whole: the button trims it with an ellipsis only if it cannot fit.
-			label = "%s %s" % [label, name]
+			label = str(caster.slot_ability(slot).get("display_name", "?"))
+			# Read with a long press on a phone ([D388]).
+			button.tooltip_text = _ability_tooltip(caster.slot_ability(slot))
 			if _skirmish.armed_slot == slot:
 				label = "» " + label
 		button.text = label
@@ -583,6 +604,8 @@ func _refresh_buttons() -> void:
 			var wait := caster.cooldowns[slot] if has else 0.0
 			var total := SkirmishRules.cooldown(caster.slot_ability(slot)) if has else 1.0
 			sweep.call("show_slot", "", "", wait, total, false)
+	if _column != null and _column.get_children().filter(func(b: Control) -> bool: return b.visible).size() != _shown_buttons:
+		_fit_touch_buttons()
 
 
 static func _panel_style(colour: Color) -> StyleBoxFlat:
