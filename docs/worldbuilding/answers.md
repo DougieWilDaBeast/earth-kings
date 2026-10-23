@@ -318,6 +318,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 294 | D390 | **Inferred.** The PC's mouse bar as built: eight buttons down the right edge under the corner map (Party, Journal, Map, Next lead, Auto, Speed, Quick wheel, Menu), hovers naming each key, and a place's doings as buttons on a PC too. Recommended: `doug-md` plays a stretch of play-test 9 with the mouse alone and says what he still reached for a key to do. |
 | 295 | D391 | **Inferred.** A fight by mouse as built: ten buttons at the bottom right (Auto, Pause, Speed, All, Auto skills, Hold, Auto-pause, Journal, Keys on the ground, Menu), hovers naming each key; the walk's bar gone during a fight on the ground; Centre added to the walk's bar; every rebindable key given a mouse route in `mouse_bar` → `routes`. Recommended: `doug-md` fights a few battles of play-test 9 with the mouse alone and says what he still reached for a key to do. |
 | 300 | D400 | **Inferred.** The time the world moves on while the company climbs a Tower floor (or closes a chapter) is not time they go hungry in; the other ways were capping the hurt or Auto buying bread in the city. Recommended: keep; a founder says if the Tower should cost food. |
+| 310 | D410 | **Inferred.** A cooling skill's seconds go in its touch button's top right corner, the name left readable under a lighter sweep; the other way was greying the whole button. Recommended: keep. |
 
 ## 2. Eleven Part I questions that need a straight answer
 
