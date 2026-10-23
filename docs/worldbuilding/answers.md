@@ -344,7 +344,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 330 | D430 | **Inferred.** A fight in which nobody has lost health for half a minute, with both sides still standing, is broken off: the company gets clear, parting blows and all, and the band stays out there. One who finds no way to a fallen friend waits three seconds before being sent again. The other ways were a longer wait, or the band going instead. Recommended: as built. |
 | 331 | D431 | **Inferred.** Anyone in a ground fight who would stand off its field, or a foe who would stand where the company cannot walk, is moved to the nearest cell they can stand on. The other way was laying the field again round them. Recommended: as built. |
 | 332 | D432 | **Inferred.** A party walking itself that loses a floor of the Tower goes back to it once rested to nine tenths of its health, even when it is likely to lose again (a lead alone at level 4 fell on floor 5 going back). The other way was to send it off to level in gates first, but the gates at its rank may be none. Recommended: as built. |
-| 326 | D427 | ~~The ChatGPT Go and Perplexity Pro plan~~ **Parked** by Will 2026-10-23 ([D428](../06-decisions.md)); nothing to decide unless the idea comes back ([investigation 15](../investigation/15-chatgpt-go-and-perplexity-pro.md)). |
+| 326 | D427 | The ChatGPT Go and Perplexity Pro plan: **Investigation, no decision taken** (Will, 2026-10-23, [D428](../06-decisions.md)); nothing to decide unless the idea comes back ([investigation 15](../investigation/15-chatgpt-go-and-perplexity-pro.md)). |
 
 ## 2. Eleven Part I questions that need a straight answer
 
