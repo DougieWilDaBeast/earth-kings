@@ -34,6 +34,10 @@ const EDGE_PAD := 14.0
 ## How tall the Act, Back and Next cluster stands in the bottom corner (its scene's offsets), so a
 ## fight's own buttons can keep above it.
 const CLUSTER_HEIGHT := 212.0
+## How wide the Act, Back and Next cluster stands in the bottom right, and the stick's square in the
+## bottom left, so a scene's bottom lines can keep clear of both on a phone on its side ([D411]).
+const CLUSTER_WIDTH := 310.0
+const STICK_WIDTH := 210.0
 ## A finger held still this long asks what a thing is instead of pressing it ([D388]): a phone
 ## has no hover, so a long press is where a computer's tooltips and hover cards are read.
 const HOLD_TIME := 0.45

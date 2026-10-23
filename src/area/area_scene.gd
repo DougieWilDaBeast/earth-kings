@@ -4855,7 +4855,19 @@ func _hold_the_panels() -> void:
 func _fit_the_log() -> void:
 	if not is_inside_tree() or ScreenLayout.is_laid("log"):
 		return
-	_log.offset_right = minf(LOG_WIDTH, get_viewport().get_visible_rect().size.x - 16.0)
+	var room := _bottom_room()
+	_log.offset_left = room.x
+	_log.offset_right = minf(room.x + LOG_WIDTH, room.y)
+
+
+## Where the bottom lines (the log, the hint) may run, left to right. On a phone on its side the
+## stick stands in the bottom left corner and Act, Back and Next in the bottom right, and both lay
+## over the lines' ends ([D411]); held upright the stick and buttons are lifted above them (D163).
+func _bottom_room() -> Vector2:
+	var view := get_viewport().get_visible_rect().size
+	if Pace.is_touch_enabled() and view.x > view.y:
+		return Vector2(16.0 + TouchControls.STICK_WIDTH, view.x - TouchControls.CLUSTER_WIDTH - TouchControls.EDGE_PAD - 8.0)
+	return Vector2(16.0, view.x - 16.0)
 
 
 ## The hint line's strip is as long as what it says (play-test 7: "the text boxes around the text
@@ -4868,7 +4880,9 @@ func _fit_the_hint() -> void:
 	var font := _hint.get_theme_font("font")
 	var wanted := font.get_string_size(_hint.text, HORIZONTAL_ALIGNMENT_LEFT, -1, _hint.get_theme_font_size("font_size")).x
 	wanted += _quiet_backing().get_minimum_size().x + 2.0
-	var room := get_viewport().get_visible_rect().size.x - _hint.offset_left - 16.0
+	var bottom := _bottom_room()
+	_hint.offset_left = bottom.x
+	var room := bottom.y - _hint.offset_left
 	_hint.anchor_right = 0.0
 	_hint.offset_right = _hint.offset_left + minf(wanted, room)
 
