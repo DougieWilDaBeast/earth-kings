@@ -333,6 +333,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 315 | D415 | **Inferred.** On a narrow fighter's card (four on a phone held upright) the stance word goes under the name; the other way was a smaller name. Recommended: keep. |
 | 316 | D416 | **Inferred.** On a phone the journal's map tab drops its "(M)"; the other way was "The Map (tap)". Recommended: keep. |
 | 317 | D417 | **Inferred.** Held upright, the journal's title takes two shares of its header and is a little smaller, so "The Journal of …" is whole; the other way was moving the count under the title. Recommended: keep. |
+| 318 | D418 | **Inferred.** Held upright, a journal page stays blank for the few frames it takes to fit to the phone, rather than showing its wide layout and jumping. Recommended: keep. |
 | 320 | D420 | **Inferred.** A fight laid ahead (a raid, guards, keepers) puts each foe on its own cell the company can walk to in at most 8 steps; in a narrow place like a wall gap that is beside the company, not five strides ahead. Recommended: as built. |
 | 321 | D421 | **Inferred.** At an open stair, a button among the place's own ("Climb to floor 3", "Go down to floor 2 of 5", "Shut Greyhollow") on every device, its hover the key. Recommended: as built. |
 | 322 | D422 | **Inferred.** With a mouse, a place's buttons sit in the bottom right corner under the mouse bar, leaving the middle of the screen for walking. Recommended: as built; `doug-md` says whether he finds them there. |
