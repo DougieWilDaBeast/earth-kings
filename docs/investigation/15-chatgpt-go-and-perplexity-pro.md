@@ -1,6 +1,6 @@
 # 15 — ChatGPT Go and Perplexity Pro: what they can do for us
 
-**Inferred**, waits on Will: every proposal below is a recommendation until Will answers.
+**Parked** by Will on 2026-10-23 ([D428](../06-decisions.md)): nothing below is set up or built, and the `AGENTS.md` review rules it mentions were taken out again. Kept as the record in case the idea comes back.
 
 Will, 2026-10-23 18:43 and 18:52: "it's a pure financial decision. We have this opportunity and it's
 for free. Figure out how you can use it." Setup only; nothing new is built (D383), and call CG's

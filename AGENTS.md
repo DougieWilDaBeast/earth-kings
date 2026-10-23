@@ -43,17 +43,6 @@ And for the worldbuilding ledger (`docs/worldbuilding/`):
 - Only a founder settles a question. A source, a draft or a model can propose; it cannot answer.
 - Anything inferred is written `**Inferred.**` and goes back to the founders to confirm.
 
-## Code Review Rules
-Read by an outside reviewer (Codex code review, on trial, [D427](docs/06-decisions.md)); its comments
-are advice, never a required check. Flag, as P1, a change that:
-- puts content (numbers, names, lines, tables) in code instead of `data/`;
-- has one system call another directly instead of going through `EventBus`;
-- settles something without a numbered entry in `docs/06-decisions.md`, or edits or renumbers an old one;
-- changes behaviour without updating the doc it touches, or writes planned work as built;
-- edits a voice-note quote, or writes an **Inferred** answer as if a founder had settled it;
-- adds art without a provenance line, or any key, token or password;
-- skips, disables or loosens a test to get CI green.
-
 ## Art requests
 Only `dougie` generates art (PixelLab). When a change needs art that does not exist yet, add a row to
 **Open** in [docs/24-art-requests.md](docs/24-art-requests.md) in the same change — what it is, size
