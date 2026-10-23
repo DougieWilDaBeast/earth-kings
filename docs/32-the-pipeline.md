@@ -73,7 +73,7 @@ Every piece of work, from a voice note to a bug found by the soak, goes round th
 | Music | `doug-md`, in-house stand-ins meanwhile ([D185](06-decisions.md)) | Ewan's time | [31](31-music.md) |
 | Words and lore | Drafted by Claude and meetings, settled only by a founder | The founders' answers | The agenda ([answers.md](worldbuilding/answers.md#what-is-still-to-decide)), [30](30-questions-for-the-founders.md) |
 | Business | `dougie` | Nothing is started | Milestone 13 below |
-| Second opinions (**Planned**, [D427](06-decisions.md)) | Codex review on PRs, advisory; Perplexity research pasted back by `dougie` | Will turning them on | A thread reads them; real findings become issues labelled `codex-review` |
+| Second opinions (**Planned**, [D427](06-decisions.md)) | Codex review on PRs, advisory; Perplexity's API answering `research` issues | `dougie` turning them on once | A thread reads them on GitHub; real findings become issues labelled `codex-review` |
 
 ### Bugs: four severities
 
