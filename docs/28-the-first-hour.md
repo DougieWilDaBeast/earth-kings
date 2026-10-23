@@ -545,9 +545,10 @@ loaded ahead. Some repeat earlier asks (noted).
 
 ### Play-test 9's brief
 
-`doug-md`'s ninth play-test is on build `0ca546a` (the itch table below). What he reads first is the
+`doug-md`'s ninth play-test is on build `b0e9770` (the itch table below; it was `0ca546a` until
+2026-10-23). What he reads first is the
 onboarding pack in the project's files (`onboarding/cheat-sheet.md`, `what-you-can-do.md`,
-`starter-prompt.md`, brought up to date 2026-10-22) and [README](../README.md#playing-the-vertical-slice).
+`starter-prompt.md`, brought up to date 2026-10-23) and [README](../README.md#playing-the-vertical-slice).
 What is new to him since play-test 8, with its key:
 
 | To try | Where, and the key |
@@ -572,6 +573,12 @@ Also in `0ca546a`, new since `c5b5ac1`: boards read at the board
 ([D361](06-decisions.md)), the fallen on floors ([D362](06-decisions.md)), a companion's burial
 ([D363](06-decisions.md)), themed Tower floors and the floor-5 ask ([D364](06-decisions.md)), news at the
 speed of people ([D365](06-decisions.md)), and a siege seen at the town's gate ([D368](06-decisions.md)).
+Also in `b0e9770`, new since `0ca546a`: a mouse bar with every walking key as a button, a fight's keys
+as a column of buttons, and a place's buttons bottom right ([D390](06-decisions.md), [D391](06-decisions.md),
+[D422](06-decisions.md)); the stair a button ([D421](06-decisions.md)); hunger that no longer empties on a
+floor's step and Auto that eats, buys food and finds a bed ([D400](06-decisions.md) to [D407](06-decisions.md));
+the touch pass for a phone ([D386](06-decisions.md) to [D389](06-decisions.md)); and the game as a download
+for Windows, Linux and macOS on the same page ([D424](06-decisions.md)).
 His notes and play log (`Esc` → Copy play log) come back as "Play-test 9's asks".
 
 ### Gates that grow
@@ -693,7 +700,9 @@ The whole game's list, these six placed by how long a player hears each, is [31]
 ## Builds on itch.io
 
 The browser build goes to `dougie`'s itch.io page (both the `html5` and `web` channels) only on
-`dougie`'s word. The commit is the version, and this table is the marker for which build a play-test
+`dougie`'s word. From `b0e9770` each push also carries the PC downloads, a zip each on the `windows`,
+`linux` and `mac` channels, exported from `export_presets.cfg` the way the release workflow does
+([D382](06-decisions.md), [D424](06-decisions.md)). The commit is the version, and this table is the marker for which build a play-test
 played: `git checkout <commit>` gives it back.
 
 **A devlog with each push** ([D148](06-decisions.md)). Every push carries a short devlog post on the
@@ -718,3 +727,4 @@ decision numbers. Whoever pushes drafts it with the build; it goes up with the b
 | 2026-10-21 17:25 | `1548179` | Main after #432, the opening cinematic remade: three acts with the lead's chapter-one object falling with them and Bram's "Give me your hand." ([D328](06-decisions.md), [D340](06-decisions.md)); levels only from new foes in gates, with a log of foes for each of the company (milestone B, [D301](06-decisions.md)); formations, a leader who rises, the Tower past floor 10, heights, wild places and their quests, a fight you can walk out of ([D304](06-decisions.md) to [D321](06-decisions.md)); play-test 8's fixes and asks ([D324](06-decisions.md), [D326](06-decisions.md)); enchanting ([D327](06-decisions.md)); hand fights start at 2× at most ([D329](06-decisions.md)); the nemesis back ([D330](06-decisions.md)); hamlets, caravans, herbs, ladders and rope, Charisma and orders ([D332](06-decisions.md) to [D339](06-decisions.md)); the Tower's people's lines ([D341](06-decisions.md)); six more Stormreach doors ([D342](06-decisions.md)) |
 | 2026-10-22 00:10 | `c5b5ac1` | Main after #464, Will's push after the queue: high ground in a fight and heights on the map ([D343](06-decisions.md)); somewhere for PixelLab's art to land ([D344](06-decisions.md)); sellswords at the Gilded Flagon ([D345](06-decisions.md)); crafting by a fire and at a smithy ([D346](06-decisions.md)); deeper moods ([D347](06-decisions.md)); a band sent to clear a wild place ([D348](06-decisions.md)); hunger with a bar under every member ([D331](06-decisions.md)); Send on Auto ([D349](06-decisions.md)); the play screen arranged by hand ([D351](06-decisions.md)); the fallen searched after a fight ([D352](06-decisions.md)); wares with pictures ([D353](06-decisions.md)); gates walked into ([D354](06-decisions.md)); creatures that fit their land ([D355](06-decisions.md)); armour beside the weapon and an equipment screen ([D357](06-decisions.md)); the second writers' pass ([D350](06-decisions.md)) |
 | 2026-10-22 06:40 | `0ca546a` | Play-test 9's build, main after #492: the Guild board and boards read at the board ([D359](06-decisions.md)); the grove walked into ([D360](06-decisions.md)); chapter visions as pictures ([D361](06-decisions.md)); the fallen on gate and Tower floors ([D362](06-decisions.md)); a companion's burial ([D363](06-decisions.md)); themed Tower floors from 6 and the floor-5 "are you sure?" ([D364](06-decisions.md)); news at the speed of people ([D365](06-decisions.md)); the play log's false error gone ([D366](06-decisions.md)); Auto stays off in Atlas's Last Stand ([D367](06-decisions.md)); a siege seen at the town's gate ([D368](06-decisions.md)); art slots wired with stand-ins ([D369](06-decisions.md) to [D371](06-decisions.md)); the Late Risers' Pyre ([D373](06-decisions.md)) |
+| 2026-10-23 PUSHTIME | `b0e9770` | Main after #548, the two passes and the first PC downloads ([D382](06-decisions.md), [D424](06-decisions.md)): Windows, Linux and macOS zips on the page beside the browser build; on touch, a finger held still asks what a thing is, a picked fighter slows the fight, a skill is aimed with one tap and cast with a second, and the fight's buttons are big enough for a thumb ([D386](06-decisions.md) to [D389](06-decisions.md)); on a PC every key is a click too, with a place's buttons bottom right and the stair a button ([D390](06-decisions.md), [D391](06-decisions.md), [D421](06-decisions.md), [D422](06-decisions.md)); phone basics and layouts ([D374](06-decisions.md) to [D378](06-decisions.md), [D410](06-decisions.md) to [D417](06-decisions.md)); hunger fixed on the floors and a party walking itself that eats, buys food, rests and finds a bed ([D400](06-decisions.md) to [D407](06-decisions.md)); a fight laid ahead within reach ([D420](06-decisions.md)) |
