@@ -66,7 +66,27 @@ func _outmatched_hunts_gates() -> void:
 		"outmatched: a level 1 lead with a gate at its rank was sent to the Tower")
 	lead.level = 8
 	_expect(not AutoRoad.stair_too_hard(world), "outmatched: floor 1 is too hard for a level 8 lead")
+	# D405: a little hurt, bound up the stair it rests first (D258); outmatched by the stair, it is
+	# not going up, and walks on at the land's share.
+	var floor_was := world.tower_floor
+	GameState.set_flag(AutoRoad.TOWN_REACHED)
+	GameState.set_flag(Guild.VISITED)
+	for gate: Site in world.sites_of_kind(Site.GATE):
+		gate.cleared = true
+	lead.level = 30
+	for climbed in range(0, 10):
+		world.tower_floor = climbed
+		if bool(AutoRoad.objective(world).get("door", false)):
+			break
+	_expect(bool(AutoRoad.objective(world).get("door", false)), "outmatched: the Tower's door was never the objective (%s)" % [AutoRoad.objective(world)])
+	lead.hp = roundi(lead.max_hp() * 0.8)
+	_expect(AutoRoad.rest_stop(world).x >= 0, "outmatched: bound up the stair at 8 tenths of its health, Auto did not rest first")
 	lead.level = 1
+	lead.hp = roundi(lead.max_hp() * 0.8)
+	_expect(AutoRoad.stair_too_hard(world) and AutoRoad.rest_stop(world).x < 0,
+		"outmatched: not going up the stair, at 8 tenths of its health Auto still turned back to rest")
+	lead.hp = -1
+	world.tower_floor = floor_was
 
 
 ## Atlas, alone, at the Tower's foot with the Guild's mark (a gate already shut, D101).
