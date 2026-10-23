@@ -441,6 +441,7 @@ Start a run (not the tutorial) and walk.
 | D5.97 | Walk into an ancient grove (any on the map) | Mossed boulders (the land's boulder for now) round the glade's stone cache and beside the ring, a sycamore by the hollow's strongbox, a cairn over the barrow's reliquary; nothing blocks the ways between the four exits. Once A67's pictures are taken (`take_art.py take A67`) the great oaks are the ancient trees and the ground is moss, with no code change ([D371](06-decisions.md)) | D371 |
 | D5.98 | On a Tower floor where a company joins the fight, watch the log | A company's skill that misses reads "the Late Risers' Pyre finds nobody there.", never "Risers's"; a person's still "Ceres's" ([D373](06-decisions.md)) | D373 |
 | D5.110 | With no food in the packs, climb two Tower floors in a row | The hunger bar under each health bar is where it was before the stair; nobody comes onto the next floor at 1 health ([D400](06-decisions.md)) | D400 |
+| D5.111 | With Auto on and no food in the packs, walk until someone's hunger bar turns amber | Auto turns for the nearest village, keep or hut and rests there, everyone's bar fills, and Auto then carries on; with bread in the packs it eats instead ([D401](06-decisions.md)) | D401 |
 
 ## H — Conversation and the camp
 
