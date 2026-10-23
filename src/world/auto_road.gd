@@ -305,9 +305,20 @@ static func rest_stop(world: World) -> Vector2i:
 	# rests to that first, or it walked in and straight back out for good ([D406]).
 	if bool(objective(world).get("door", false)):
 		share = maxf(share, float(_rules().get("auto_turn_back_below" if stair_too_hard(world) else "auto_climb_above", 0.0)))
-	if not hurt(share) and not starving_ahead():
+	if hurt(share):
+		return nearest_rest(world)
+	if not starving_ahead():
 		return Vector2i(-1, -1)
-	return nearest_rest(world)
+	# Hungry, it makes for a place that sells food as well as a bed, so it leaves with some ([D407]):
+	# a hut fed it and sent it off empty-handed, hungry again before the gate it was making for.
+	var market := nearest_rest(world, [Site.VILLAGE, Site.KEEP])
+	var stop := market if market.x >= 0 else nearest_rest(world)
+	# Nearer what it is making for than a meal, it goes on hungry: a belly at nothing hurts but never
+	# kills, and turning back nine tiles short of a gate, every time, it never got there ([D407]).
+	var goal := objective(world)
+	if stop.x >= 0 and goal.has("cell") and Pathfinder.distance(world.player_cell, goal["cell"]) < Pathfinder.distance(world.player_cell, stop):
+		return Vector2i(-1, -1)
+	return stop
 
 
 ## Whether someone walking itself is hungry with nothing in the packs to eat ([D401], found by bot
@@ -329,18 +340,18 @@ static func starving_ahead() -> bool:
 ## The nearest place a party walking itself can rest at by arriving, or (-1, -1) when there is none.
 ## One it knows first; knowing none, the nearest there is, as if it took the road out to find one
 ## ([D402]: a lead who knew only the walled city they woke in climbed the Tower at half health).
-static func nearest_rest(world: World) -> Vector2i:
-	var stop := _nearest_rest(world, true)
+static func nearest_rest(world: World, kinds: Array = [Site.VILLAGE, Site.KEEP, Site.HUT]) -> Vector2i:
+	var stop := _nearest_rest(world, true, kinds)
 	if stop.x < 0 and bool(_rules().get("auto_seeks_rest", true)):
-		stop = _nearest_rest(world, false)
+		stop = _nearest_rest(world, false, kinds)
 	return stop
 
 
-static func _nearest_rest(world: World, known_only: bool) -> Vector2i:
+static func _nearest_rest(world: World, known_only: bool, kinds: Array) -> Vector2i:
 	var best := 1 << 30
 	var stop := Vector2i(-1, -1)
 	for site: Site in world.sites:
-		if not site.kind in [Site.VILLAGE, Site.KEEP, Site.HUT]:
+		if not site.kind in kinds:
 			continue
 		if Town.is_ruined(site) or Town.is_threatened(site) or Pace.avoided.has(site.cell):
 			continue

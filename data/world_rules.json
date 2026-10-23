@@ -992,8 +992,9 @@
 		"tower_floor_counts": false,
 		"_comment_auto_rests_hungry": "D401 (found by bot play, 2026-10-23): a party walking itself makes for the nearest bed (a meal) when anyone is hungry and the packs hold no food. Before, Auto never bought food, a company of four kept walking while one of them starved to 1 HP (the company's whole stayed over auto_rest_below) and the lead fell to the next blow. Inferred: resting, not buying bread.",
 		"auto_rests_hungry": true,
-		"_comment_auto_buys": "D404 (found by bot play, 2026-10-23): a party walking itself, resting at a village or keep, buys the food laid out (D403) until it carries auto_buys_up_to pieces, saying bought_line. Before, Auto never bought food and went back and forth between a village and a gate further off than a belly lasts. **Inferred**: the number and the words.",
-		"auto_buys_up_to": 4,
+		"_comment_auto_buys": "D404 (found by bot play, 2026-10-23): a party walking itself, resting at a village or keep, buys the food laid out (D403) until it carries auto_buys_per_head pieces for each of the company (D407), saying bought_line. Before, Auto never bought food and went back and forth between a village and a gate further off than a belly lasts. **Inferred**: the number and the words.",
+		"_comment_auto_buys_per_head": "D407 (found by bot play, 2026-10-23): auto_buys_up_to (4 for the whole company) became this many for each of the company. With four in the company the four pieces were one meal each, and on seed 77 Auto still went back and forth between a bed and a gate 65 tiles off. **Inferred**: three each.",
+		"auto_buys_per_head": 3,
 		"bought_line": "Bought {food} for the road."
 	},
 	"_comment_nemesis": "D330 (call BX; Ewan's play-test 8, after Shadow of Mordor's nemesis system: 'Characters will remember that, and people might hold a grudge'). Out of the First Hour's cut list. A band broken leaves one survivor on survive_chance (never a non_sentient kind), named with an epithet; a band met on the road is led by one on return_chance, level_per_return levels up for each time they have come back, saying the confront_lines (the first, then the second...); beaten again they are finished (finished_line, a deed). thanks: a settled errand's giver remembers it on chance, and a traveller on the road's clock is one of them on meet_share, giving gift_share of the errand's pay. Inferred: every number and line.",
@@ -1197,6 +1198,8 @@
 		"wares_on_show": 3,
 		"_comment_food_on_show": "D403 (found by bot play, 2026-10-23): of the wares laid out, up to this many are food when the place stocks any. Wares are stocked in equipment.json's order, so the three laid out were always the first arms on the list and food (D331) was never on sale. **Inferred**: one of the three.",
 		"food_on_show": 1,
+		"_comment_food_stocked": "D407 (found by bot play, 2026-10-23): a market keeps this many of each food it stocks. With one of each, a stall held some four meals, a company of four bought it out at one rest, and walked itself back and forth hungry until it restocked. **Inferred**: four.",
+		"food_stocked": 4,
 		"templates": ["bram", "sera", "toln"]
 	},
 	"_comment_sellswords": "D295 (meeting six: mercenaries hired for gold who stay until the job is done; built as the Gilded Flagon's book, src/chronicle/sellswords.gd): `board_size` sellswords offered at once, dealt again every `refresh_steps` world steps; each one of `templates` at the lead's level give or take one, for one of `jobs` (gate: until the next gate is shut; chapter: until the next chapter of the Tower closes), at cost_base + cost_per_level a level, times the job's `price`, the difficulty's prices and the lead's haggling. They bond with nobody and are not among the 32 (D303). Inferred: every number, name and line.",

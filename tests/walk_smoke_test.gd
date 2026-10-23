@@ -1014,9 +1014,10 @@ func _check_town_and_captives() -> void:
 	if not goods.is_empty():
 		var equipment_id: String = Market.in_hand(town)
 		var purse := GameState.gold
+		var kept := Market.wares(town).count(equipment_id)
 		_expect(Market.buy(town, equipment_id, GameState.roster.player(), world), "could not buy with 20 gold")
 		_expect(GameState.gold < purse, "buying cost nothing")
-		_expect(equipment_id not in Market.wares(town), "the shop still has the thing it sold")
+		_expect(Market.wares(town).count(equipment_id) == kept - 1, "the shop still has the thing it sold")
 		print("market: bought %s for %d gold" % [equipment_id, purse - GameState.gold])
 
 	# Captives: buyable, and on a clock.
@@ -2123,6 +2124,34 @@ func _check_auto_rests() -> void:
 	var meal := AutoRoad.rest_stop(world)
 	_expect(meal.x >= 0 and world.site_at(meal) != null and world.site_at(meal).kind in [Site.VILLAGE, Site.KEEP, Site.HUT],
 		"auto rests: one of the company hungry with no food in the packs, Auto did not make for a bed (%s)" % meal)
+	# D407: and for a place that sells food, not a hut, when there is one to make for.
+	# Stood beside a hut, it walks past it to a village or keep.
+	var stood := world.player_cell
+	var beside_hut := false
+	for hut: Site in world.sites_of_kind(Site.HUT):
+		for offset: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			if world.is_walkable(hut.cell + offset) and world.site_at(hut.cell + offset) == null and not beside_hut:
+				world.player_cell = hut.cell + offset
+				beside_hut = world.site_at(AutoRoad.nearest_rest(world)).kind == Site.HUT
+	_expect(beside_hut, "auto rests: found no hut to stand beside that Auto would rest at")
+	if beside_hut and AutoRoad.nearest_rest(world, [Site.VILLAGE, Site.KEEP]).x >= 0:
+		var fed_at := world.site_at(AutoRoad.rest_stop(world))
+		_expect(fed_at != null and fed_at.kind != Site.HUT, "auto rests: hungry beside a hut, Auto made for it, with no food to sell (%s)" % (fed_at.display_name if fed_at else "nowhere"))
+	# Nearer what it is making for than any meal, it goes on hungry.
+	var aim := AutoRoad.objective(world)
+	if aim.has("cell"):
+		for offset: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			if world.is_walkable(aim["cell"] + offset) and world.site_at(aim["cell"] + offset) == null:
+				world.player_cell = aim["cell"] + offset
+				break
+		if Pathfinder.distance(world.player_cell, aim["cell"]) < Pathfinder.distance(world.player_cell, AutoRoad.nearest_rest(world)):
+			_expect(AutoRoad.rest_stop(world).x < 0, "auto rests: hungry beside %s, Auto turned back for a meal" % aim.get("label", ""))
+	world.player_cell = stood
+	# And a market keeps food in a few of each, so a company can eat from one stall.
+	var rolled: Array = Market._roll_wares(world)
+	for id: String in rolled:
+		if Gear.taken(id) == "eat":
+			_expect(rolled.count(id) == int(Market.rules().get("food_stocked", 1)), "a market stocked %d of %s" % [rolled.count(id), id])
 	GameState.stores = stores_were.duplicate()
 	GameState.stores.append("bread")
 	_expect(AutoRoad.rest_stop(world).x < 0, "auto rests: hungry with bread in the packs, Auto went to rest instead of eating")

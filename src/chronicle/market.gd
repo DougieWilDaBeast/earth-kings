@@ -101,7 +101,9 @@ static func _roll_wares(world: World) -> Array:
 		if Database.equipment[equipment_id].has("signature"):
 			continue
 		if world.rng.randf() < 0.5:
-			stock.append(equipment_id)
+			# Food is kept in a few of each, so a company of four can eat from one stall ([D407]).
+			for i in int(rules().get("food_stocked", 1)) if Gear.taken(equipment_id) == "eat" else 1:
+				stock.append(equipment_id)
 	return stock
 
 
