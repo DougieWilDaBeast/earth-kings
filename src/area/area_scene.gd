@@ -4383,10 +4383,13 @@ func _field_round(foes: Array, ambush: bool) -> Dictionary:
 	for pair: Array in party + foes:
 		lo = Vector2i(mini(lo.x, int(pair[0])), mini(lo.y, int(pair[1])))
 		hi = Vector2i(maxi(hi.x, int(pair[0])), maxi(hi.y, int(pair[1])))
+	# The ground's edges, and never short of anyone in the fight ([D431]): on the land the tiles
+	# round the company may not all be laid yet, and a field cut to those laid stood the company
+	# off its edge, where nobody could take a step.
+	var room := map.bounds().merge(Rect2i(lo, hi - lo + Vector2i.ONE))
 	lo -= Vector2i.ONE * margin
 	hi += Vector2i.ONE * margin
 	var size := (hi - lo + Vector2i.ONE).clamp(smallest, largest)
-	var room := map.bounds()
 	size = Vector2i(mini(size.x, room.size.x), mini(size.y, room.size.y))
 	var centre := (lo + hi) / 2
 	var origin := (centre - size / 2).clamp(room.position, room.end - size)

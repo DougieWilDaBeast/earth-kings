@@ -540,9 +540,16 @@ func _ground_field() -> Dictionary:
 			else:
 				row += "."
 		rows.append(row)
+	# Everyone stands on the field ([D431], a Second Hour soak: the field was cut round the
+	# midpoint of a company and a band too far apart for it, so the company stood off its edge
+	# and could not take a step, nor the band come at them).
 	var spawns: Array = []
+	_party_cells.clear()
+	var stood: Dictionary = {}
 	for pair: Array in ground_field.get("party", []):
-		var c := _to_cell(pair) - origin
+		var c := _onto_field(rows, _to_cell(pair) - origin, stood)
+		stood[c] = true
+		_party_cells.append(c)
 		spawns.append([c.x, c.y])
 	var foe_cells: Array[Vector2i] = []
 	for pair: Array in ground_field.get("foes", []):
@@ -612,19 +619,68 @@ func _ground_field() -> Dictionary:
 ## Two of them told to stand on one cell: the second takes the nearest free one.
 func _spread_out(enemies: Array, rows: Array, standing: Array = []) -> Array:
 	var taken: Dictionary = {}
-	for pair: Array in ground_field.get("party", []):
-		taken[_to_cell(pair) - _to_cell(ground_field.get("origin", [0, 0]))] = true
+	var party: Array[Vector2i] = _party_cells.duplicate()
+	for cell in party:
+		taken[cell] = true
 	for entry: Dictionary in standing:
 		taken[_to_cell(entry["cell"])] = true
+	# Only ground the company can walk to ([D431], a Second Hour soak: one of a band out of cover
+	# was put down in a pocket of trees, where nobody could come at it nor it at anybody).
+	var open := _open_from(rows, party)
+	var bad := func(at: Vector2i) -> bool:
+		return taken.has(at) or _row_blocked(rows, at) or (not open.is_empty() and not open.has(at))
 	for entry: Dictionary in enemies:
-		var at := _to_cell(entry["cell"])
+		var wanted := _to_cell(entry["cell"])
+		var at := wanted
 		var tries := 0
-		while (taken.has(at) or _row_blocked(rows, at)) and tries < 60:
+		while bad.call(at) and tries < 60:
 			tries += 1
-			at = _to_cell(entry["cell"]) + Vector2i(tries % 5 - 2, tries / 5 % 5 - 2)
+			at = wanted + Vector2i(tries % 5 - 2, tries / 5 % 5 - 2)
+		if bad.call(at):
+			var best := 1 << 30
+			for cell: Vector2i in open:
+				var d := Pathfinder.distance(cell, wanted)
+				if d < best and not taken.has(cell):
+					best = d
+					at = cell
 		taken[at] = true
 		entry["cell"] = [at.x, at.y]
 	return enemies
+
+
+## [param at], or the nearest cell of the field to it that can be stood on and is not in
+## [param taken] ([D431]).
+func _onto_field(rows: Array, at: Vector2i, taken: Dictionary) -> Vector2i:
+	if not _row_blocked(rows, at) and not taken.has(at):
+		return at
+	var best := at
+	var best_d := 1 << 30
+	for y in rows.size():
+		for x in str(rows[y]).length():
+			var cell := Vector2i(x, y)
+			var d := Pathfinder.distance(cell, at)
+			if d < best_d and not taken.has(cell) and not _row_blocked(rows, cell):
+				best_d = d
+				best = cell
+	return best
+
+
+## Every cell of [param rows] that can be walked to from [param from], walls and ramparts aside.
+func _open_from(rows: Array, from: Array[Vector2i]) -> Dictionary:
+	var open: Dictionary = {}
+	var queue: Array[Vector2i] = []
+	for cell in from:
+		if not _row_blocked(rows, cell) and not open.has(cell):
+			open[cell] = true
+			queue.append(cell)
+	while not queue.is_empty():
+		var cell: Vector2i = queue.pop_back()
+		for step: Vector2i in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+			var next := cell + step
+			if not open.has(next) and not _row_blocked(rows, next):
+				open[next] = true
+				queue.append(next)
+	return open
 
 
 func _row_blocked(rows: Array, at: Vector2i) -> bool:
@@ -657,6 +713,8 @@ func _the_ground() -> AreaMap:
 
 
 var _ground: AreaMap = null
+## Where the company stands on the field laid by [method _ground_field], every one on it.
+var _party_cells: Array[Vector2i] = []
 
 
 ## The fight opens on exactly what the ground was showing (`view` in the field: the camera's centre
