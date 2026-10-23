@@ -4795,6 +4795,24 @@ func _note(line: String) -> void:
 func _show_the_log() -> void:
 	_log.text = "\n".join(_notes)
 	_log.add_theme_stylebox_override("normal", _quiet_backing() if not _notes.is_empty() else StyleBoxEmpty.new())
+	_trim_the_log.call_deferred()
+
+
+## Held upright on a phone the stick and Act, Back and Next stand just above the bottom lines
+## (D163), and three notes wrapped to the narrow screen grew up under the stick's circle ([D413]).
+## There the log shows only its newest lines that fit below them.
+func _trim_the_log() -> void:
+	if not is_inside_tree():
+		return
+	_log.lines_skipped = 0
+	_log.max_lines_visible = -1
+	var view := get_viewport().get_visible_rect().size
+	if not Pace.is_touch_enabled() or view.y <= view.x or ScreenLayout.is_laid("log"):
+		return
+	var room := TouchControls.UPRIGHT_LIFT + TouchControls.EDGE_PAD + _log.offset_bottom - 6.0
+	var most := maxi(2, floori(room / float(_log.get_line_height())))
+	_log.lines_skipped = maxi(0, _log.get_line_count() - most)
+	_log.max_lines_visible = most
 
 
 ## Lines that have been up `NOTE_SECONDS` of the player's time go ([D246], play-test 6: "you get
@@ -4858,6 +4876,7 @@ func _fit_the_log() -> void:
 	var room := _bottom_room()
 	_log.offset_left = room.x
 	_log.offset_right = minf(room.x + LOG_WIDTH, room.y)
+	_trim_the_log.call_deferred()
 
 
 ## Where the bottom lines (the log, the hint) may run, left to right. On a phone on its side the
