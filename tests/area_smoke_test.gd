@@ -1360,6 +1360,17 @@ func _check_last_stand() -> void:
 	if Sixteen.worlds().size() != 1 or not bool(Sixteen.worlds()[0].get("last_stand", false)):
 		_fail("last stand: skipping it did not write Atlas's fall down once (%s)" % [Sixteen.worlds()])
 
+	# D408: walked out of Hearthwick to the title before the fall, New Game offers the skip.
+	if FileAccess.file_exists(TutorialGuide.settings_path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(TutorialGuide.settings_path))
+	guide = TutorialGuide.new()
+	add_child(guide)
+	guide.call("start")
+	EventBus.scene_changed.emit("title")
+	if not TutorialGuide.finished_once():
+		_fail("last stand: left for the title before the fall, New Game would lead back into Hearthwick")
+	guide.queue_free()
+
 	for each in [Sixteen.path, TutorialGuide.settings_path]:
 		if FileAccess.file_exists(each):
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(each))

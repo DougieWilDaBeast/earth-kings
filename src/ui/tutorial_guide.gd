@@ -204,6 +204,11 @@ func _on_scene_changed(scene_key: String) -> void:
 		_fall_layer.queue_free()
 		_fall_layer = null
 	if _active and not ITS_SCENES.has(scene_key):
+		# Left for the title before the fall (the road south, or the menu), it still counts as played,
+		# so New Game offers to skip it: before, it led straight back into Hearthwick, and a new player
+		# who took the road south went round the village and the title for good ([D408]).
+		if scene_key == "title" and not _done:
+			_mark_finished()
 		stop()
 		return
 	_dock(scene_key)

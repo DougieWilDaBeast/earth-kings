@@ -342,7 +342,7 @@ Delete `settings.cfg`, `earth-kings.sixteen.json` and the save from the user fol
 | D4.2 | Follow every card                                     | Each step ticks "done" and the next comes up; the card never sits on the conversation box |
 | D4.3 | Press Esc → Save during it                            | "Nothing in the tutorial is saved."; Continue on the title still loads your own run      |
 | D4.4 | Reach the fight step, find the sparring pair south of the square, step into their red | Before the step they are not there; then they patrol with red ground. Stepping in opens a fight on the village ground, the card on the left; after it, back on the same spot and the pair gone |
-| D4.5 | Walk the road south out of Hearthwick                 | Back at the title, the card gone; New Game starts the last stand again                  |
+| D4.5 | Walk the road south out of Hearthwick                 | Back at the title, the card gone; New Game asks whether to play the last stand again or skip it ([D408](06-decisions.md)) |
 | D4.6 | Reach the last card, _The gate in the hills breaks_   | A band from the broken gate (the Frostbitten and two ice wolves) stands where the sparring pair stood, its red ground showing; no **Skip this step** |
 | D4.7 | Step into the band's red                              | The card moves left; the company is down within seconds; the screen goes black and Atlas's fall is told, ending "Fifteen are left." and **Choose who comes next** |
 | D4.8 | Press **Choose who comes next**, answer, pick         | The quiz never deals Atlas; the whole opening plays, its ending shot "Atlas fell in Hearthwick…", his ghost at the fire; you land on the road to the great city |
@@ -461,6 +461,7 @@ Start a run (not the tutorial) and walk.
 | D5.115 | With Auto on, a lead too weak for the next floor and no gate at their rank, and health at four fifths | Auto walks on to the bands and gates instead of turning back to rest; at the Tower's door, able to climb, it rests first as before ([D405](06-decisions.md)) | D405 |
 | D5.116 | With Auto on, a lead too weak for the next floor, no gate at their rank, and health just over half | Auto rests before going in at the Tower's door, instead of going up a floor and straight back down over and over ([D406](06-decisions.md)) | D406 |
 | D5.117 | With Auto on and companions, hungry with no food, a hut nearer than a village | Auto walks on to the village, rests, and buys three foods for each of the company there before setting out ([D407](06-decisions.md)) | D407 |
+| D5.118 | On a fresh install, New Game, then walk the road south out of Hearthwick before the last fight, then New Game again | The title asks whether to play Atlas's last stand again or skip it; Skip it goes to the quiz ([D408](06-decisions.md)) | D408 |
 
 ## H — Conversation and the camp
 
