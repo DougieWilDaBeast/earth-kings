@@ -105,6 +105,7 @@ func _ready() -> void:
 	await _check_the_board()
 	await _check_the_burial()
 	await _check_the_siege()
+	await _check_a_raid_from_the_wall_gap()
 	await _check_floor_themes()
 	await _check_the_land()
 	await _check_the_joined_land()
@@ -2369,6 +2370,50 @@ func _check_the_siege() -> void:
 	await get_tree().process_frame
 	Pace.auto = kept_auto
 	print("siege: %d besiegers at %s's gate, %d bowmen on its towers, fought there" % [band.size(), village.display_name, perched.size()])
+
+
+## [D420] (found hand-playing seed 1022): a raid on Stormreach pressed from inside its wall gap,
+## facing down and across, laid all four defenders on one cell round the wall, fifty steps off and
+## outside the fight's field: nobody could reach anybody and the fight never ended. Now each stands
+## on a cell of its own the company walks to in a few steps.
+func _check_a_raid_from_the_wall_gap() -> void:
+	var kept_auto := Pace.auto
+	Pace.auto = false
+	GameState.new_game(1022, "saturn")
+	var world := GameState.world
+	var city: Site = null
+	for site: Site in world.sites:
+		if site.display_name == "Stormreach":
+			city = site
+	_expect(city != null, "raid: seed 1022 has no Stormreach")
+	if city == null:
+		Pace.auto = kept_auto
+		return
+	world.player_cell = city.cell
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "land": true, "return_scene": "world", "planar_mode": true })
+	add_child(scene)
+	for i in 30:
+		await get_tree().process_frame
+	var ground: AreaMap = scene.get("map")
+	var leader: AreaActor = scene.get("_leader")
+	var gap := Vector2i(2058, 1431)
+	_expect(ground.is_walkable(gap), "raid: Stormreach's wall gap on seed 1022 has moved; find it again")
+	leader.position = ground.centre_of(gap)
+	leader.set("_facing", Vector2(1, 1).normalized())
+	var field: Dictionary = scene.call("_field_ahead")
+	var cells := {}
+	for pair: Array in field.get("foes", []):
+		var c := Vector2i(int(pair[0]), int(pair[1]))
+		cells[c] = true
+		var steps := ground.find_cell_path(gap, c).size() - 1
+		_expect(steps >= 1 and steps <= int(scene.get("FIELD_REACH")) + 2,
+				"raid: a defender stands %d steps from the company (%s)" % [steps, c])
+	_expect(cells.size() == (field.get("foes", []) as Array).size(), "raid: defenders share a cell (%s)" % [field.get("foes")])
+	scene.queue_free()
+	await get_tree().process_frame
+	Pace.auto = kept_auto
+	print("raid: from Stormreach's wall gap, %d defenders each on their own cell, a few steps off" % cells.size())
 
 
 func _check_the_burial() -> void:

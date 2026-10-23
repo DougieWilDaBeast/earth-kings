@@ -552,6 +552,7 @@ each, each ending playable:
    2. An itch push of main with Windows, Linux and macOS downloads beside the browser build ([D382](06-decisions.md), #503), on `dougie`'s word.
    3. Consolidation until play-test 9's write-up: bot-tests on seeds, one PR per bug, the board swept, milestone 4
       measured as sixteen runs and recorded (#230); the writers draft G's words ([D383](06-decisions.md)).
+      Hand-played (mouse, not Auto) First Hour runs: a raid pressed from a wall gap no longer stalls ([D420](06-decisions.md)).
    4. Play-test 9's asks, in `doug-md`'s order.
    5. From 27 October, art in [D356](06-decisions.md)'s order, A2 beside D299's short list.
    6. G after the guild day; tricks ([D285](06-decisions.md)) after G. Questions 47 and 48 are with the founders ([D385](06-decisions.md)).

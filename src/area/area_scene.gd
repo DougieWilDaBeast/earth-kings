@@ -4287,17 +4287,61 @@ func _roadside_field() -> Dictionary:
 
 ## The patch of ground a fight with nobody yet standing on it is fought on ([D207]): a town's raiders,
 ## its guards, a captive's keepers. The party where it stands, and them a few strides ahead of it.
+## Each foe on a cell of its own the company can walk to from where it stands ([D420]): a raid on
+## Stormreach from inside its wall gap laid all four on one cell, round the wall fifty steps off and
+## outside the fight's field, so nobody could reach anybody and the fight never ended.
 func _field_ahead() -> Dictionary:
 	var here := map.cell_at(_leader.position)
 	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
 	if ahead == Vector2i.ZERO:
 		ahead = Vector2i.DOWN
 	var front := here + ahead * 5
+	var near := _cells_walked_to(here, FIELD_REACH)
+	var taken := { here: true }
 	var foes: Array = []
-	for side: Vector2i in [Vector2i.ZERO, Vector2i(ahead.y, ahead.x), Vector2i(-ahead.y, -ahead.x), ahead]:
-		var c := _free_spot_near(front + side)
+	for side: Vector2i in [Vector2i.ZERO, Vector2i(-ahead.y, ahead.x), Vector2i(ahead.y, -ahead.x), ahead]:
+		var c := _nearest_of(near, front + side, taken)
+		taken[c] = true
 		foes.append([c.x, c.y])
 	return _field_round(foes, false)
+
+
+## How far, in steps, a fight laid ahead looks for ground its foes can stand on.
+const FIELD_REACH := 8
+
+
+## The cells walked to from [param from] in at most [param steps] steps (up, down and across).
+func _cells_walked_to(from: Vector2i, steps: int) -> Array[Vector2i]:
+	var seen := { from: 0 }
+	var out: Array[Vector2i] = [from]
+	var head := 0
+	while head < out.size():
+		var at := out[head]
+		head += 1
+		if int(seen[at]) >= steps:
+			continue
+		for way: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			var next := at + way
+			if seen.has(next) or not map.is_walkable(next):
+				continue
+			seen[next] = int(seen[at]) + 1
+			out.append(next)
+	return out
+
+
+## Of [param cells], the one nearest [param aim] not in [param taken]; [param aim]'s nearest free
+## spot if there is none.
+func _nearest_of(cells: Array[Vector2i], aim: Vector2i, taken: Dictionary) -> Vector2i:
+	var best := Vector2i(-1, -1)
+	var best_d := INF
+	for c: Vector2i in cells:
+		if taken.has(c):
+			continue
+		var d := Vector2(c - aim).length_squared()
+		if d < best_d:
+			best_d = d
+			best = c
+	return best if best.x >= 0 else _free_spot_near(aim, taken)
 
 
 func _field_round(foes: Array, ambush: bool) -> Dictionary:
