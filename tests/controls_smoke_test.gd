@@ -450,6 +450,22 @@ func _check_the_overlay_reads_the_scene() -> void:
 		if bool(expected[1]):
 			_check_the_overlay_keeps_off_the_hud(scene_key)
 
+	# A fight on the ground ([D376], [D414]): the stick, Act and Next step aside, since the fight
+	# answers none of them, and Back stays to put a readied skill away.
+	var act: Button = cluster.find_child("InteractButton", false, false)
+	var next: Button = cluster.find_child("CycleButton", false, false)
+	var back: Button = cluster.find_child("BackButton", false, false)
+	EventBus.battle_started.emit("test_map")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_expect(not steer.visible and not act.visible and not next.visible and back.visible and cluster.visible,
+			"in a fight on the ground the stick, Act and Next should step aside and Back stay (D414)")
+	EventBus.battle_finished.emit({})
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_expect(steer.visible and act.visible and next.visible and back.visible,
+			"after a fight on the ground the stick, Act and Next did not come back (D414)")
+
 
 # --- the party screen ---------------------------------------------------------
 
