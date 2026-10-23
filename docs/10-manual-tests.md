@@ -465,6 +465,7 @@ Start a run (not the tutorial) and walk.
 | D5.119 | On a computer with the touch controls off, play Atlas's last stand to step 5 (the party screen) | The card stands left of the button column; Party, Journal, Map and Auto can all be clicked ([D409](06-decisions.md)) | D409 |
 | D5.120 | In a ground fight, walk the company to where no foe can reach it and none of it can reach a foe (behind water, up a crag), and wait | After half a minute with nobody hurt the log says neither side can come at the other and the company gets clear; a fallen friend nobody can reach is not "gone to" over and over ([D430](06-decisions.md)) | D430 |
 | D5.121 | On the land, meet a band just after walking into a new tile, with a company of four | Every one of the company and the band stands inside the fight's edge and can be walked; nobody is stuck outside it ([D431](06-decisions.md)) | D431 |
+| D5.122 | With Auto on and a lead alone, lose a floor of the Tower, then let Auto walk | Auto rests, and once the company is near whole it walks back to the Tower's door; it never stands about a gate it will not go into ([D432](06-decisions.md)) | D432 |
 
 ## H — Conversation and the camp
 
