@@ -1067,6 +1067,9 @@ func _rest_at(site: Site) -> void:
 		_talk(Banter.REST, true)
 	if site.kind != Site.HUT:
 		Market.refresh(site, world)
+		# A party walking itself buys a few meals for the road ([D404]).
+		for line: String in Hunger.stock_up(site, world):
+			_note(line)
 	Errand.refresh(site, world)
 	Grimoire.stock(site, world)
 	# Settlements talk, and some of what they say is about the others who fell.

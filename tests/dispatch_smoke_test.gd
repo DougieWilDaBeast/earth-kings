@@ -769,6 +769,21 @@ func _check_hunger(world: World, roster: Roster) -> void:
 	world.steps += 4
 	Hunger.tick(world, roster)
 	_expect(lead.fed < floor_fed, "after a Tower floor the land's own steps no longer empty the lead")
+	# D404: walking itself, a party resting where food is laid out buys some for the road; steered, it does not.
+	var stall := Site.create(Site.VILLAGE, Vector2i(2, 2), "Stall")
+	stall.data["wares"] = ["iron_blade", "bread", "cheese", "apple", "herbs", "meat_pie", "honey_cake"]
+	var gold_was := GameState.gold
+	GameState.gold = 100000
+	GameState.stores = []
+	Pace.auto = false
+	_expect(Hunger.stock_up(stall, world).is_empty() and Hunger.food_carried() == 0, "steered by hand, the company bought food by itself")
+	Pace.auto = true
+	var bought := Hunger.stock_up(stall, world)
+	var want := int(Hunger.rules().get("auto_buys_up_to", 0))
+	_expect(want > 0 and Hunger.food_carried() == want and bought.size() == want and GameState.gold < 100000,
+			"walking itself, the company did not buy %d food for the road (%d, %s)" % [want, Hunger.food_carried(), bought])
+	_expect(Hunger.stock_up(stall, world).is_empty(), "carrying enough, the company bought more food")
+	GameState.gold = gold_was
 	Pace.auto = kept_auto
 	GameState.stores = kept_stores
 

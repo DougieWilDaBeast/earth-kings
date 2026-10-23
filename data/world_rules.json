@@ -991,7 +991,10 @@
 		"_comment_tower_floor": "D400 (found by bot play, 2026-10-22): the world's steps a Tower floor adds (World.UPKEEP_INTERVAL, 30) do not empty the company (Hunger.pass_over), unless tower_floor_counts. Before, a floor ate 0.75 of a full belly and, once empty, 90% of everyone's health in one lump, so a lead won floor 1 near whole and walked onto floor 2 at 1 HP. Inferred: that the Tower's time is not the company's.",
 		"tower_floor_counts": false,
 		"_comment_auto_rests_hungry": "D401 (found by bot play, 2026-10-23): a party walking itself makes for the nearest bed (a meal) when anyone is hungry and the packs hold no food. Before, Auto never bought food, a company of four kept walking while one of them starved to 1 HP (the company's whole stayed over auto_rest_below) and the lead fell to the next blow. Inferred: resting, not buying bread.",
-		"auto_rests_hungry": true
+		"auto_rests_hungry": true,
+		"_comment_auto_buys": "D404 (found by bot play, 2026-10-23): a party walking itself, resting at a village or keep, buys the food laid out (D403) until it carries auto_buys_up_to pieces, saying bought_line. Before, Auto never bought food and went back and forth between a village and a gate further off than a belly lasts. **Inferred**: the number and the words.",
+		"auto_buys_up_to": 4,
+		"bought_line": "Bought {food} for the road."
 	},
 	"_comment_nemesis": "D330 (call BX; Ewan's play-test 8, after Shadow of Mordor's nemesis system: 'Characters will remember that, and people might hold a grudge'). Out of the First Hour's cut list. A band broken leaves one survivor on survive_chance (never a non_sentient kind), named with an epithet; a band met on the road is led by one on return_chance, level_per_return levels up for each time they have come back, saying the confront_lines (the first, then the second...); beaten again they are finished (finished_line, a deed). thanks: a settled errand's giver remembers it on chance, and a traveller on the road's clock is one of them on meet_share, giving gift_share of the errand's pay. Inferred: every number and line.",
 	"nemesis": {
