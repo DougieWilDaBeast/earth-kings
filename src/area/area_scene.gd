@@ -224,7 +224,7 @@ var _fight: Node2D = null
 var _fight_watch: Node2D = null
 ## The Watch off the road fighting beside the party just now (D236), out of their walk until it ends.
 var _watch_fighting: Array[AreaActor] = []
-## A threatened town's siege laid on the land ([DNEW]), by tile: the site's cell, the siege it is
+## A threatened town's siege laid on the land ([D368]), by tile: the site's cell, the siege it is
 ## (`threatened_at`), the gate it is at and which way is out, the besiegers and the bowmen standing.
 var _sieges: Dictionary = {}
 ## The sieges the company has been told it can see, by site cell and siege.
@@ -751,7 +751,7 @@ func _admit_the_road_watch(tile: Vector2i) -> void:
 		})
 
 
-## A town under siege seen where it is ([DNEW]; play-test 3: "defending a town under siege (Coldrun,
+## A town under siege seen where it is ([D368]; play-test 3: "defending a town under siege (Coldrun,
 ## with archers on its towers)"; play-test 4: "when Stormreach is attacked and defended, see the fight
 ## there, not be taken somewhere else and put back"): while [param tile]'s town is threatened, the band
 ## that holds it ([method Encounter.siege_band], the one its defence is fought against) stands outside
@@ -899,7 +899,7 @@ func _mind_the_sieges() -> void:
 					(actor as Node2D).visible = true
 
 
-## The company runs for the gate its town's besiegers are at, to the inside of it ([DNEW]): over
+## The company runs for the gate its town's besiegers are at, to the inside of it ([D368]): over
 ## `siege.run_seconds`, at once on Auto. Nothing when no siege stands here.
 func _run_to_the_gate() -> void:
 	var siege: Dictionary = _sieges.get(GameState.world.player_cell, {})
@@ -925,7 +925,7 @@ func _run_to_the_gate() -> void:
 		await run.finished
 
 
-## The ground a town's defence is fought on ([DNEW]): the company inside the gate, the besiegers where
+## The ground a town's defence is fought on ([D368]): the company inside the gate, the besiegers where
 ## they stood outside it, and the bowmen on their towers fighting beside the company, from up there.
 func _siege_field() -> Dictionary:
 	var siege: Dictionary = _sieges.get(GameState.world.player_cell, {})
@@ -4488,7 +4488,7 @@ func _do_act(each: Dictionary) -> void:
 		if not _asking:
 			_awaiting_fight = true
 			_talking = true
-			# A town's defence is fought at the gate its besiegers are at ([DNEW]).
+			# A town's defence is fought at the gate its besiegers are at ([D368]).
 			if act == "_defend_here":
 				await _run_to_the_gate()
 			var field := _gate_field() if act == "_enter_gate_here" \

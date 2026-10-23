@@ -2317,7 +2317,7 @@ func _check_floor_themes() -> void:
 ## A companion's death shown, with a small burial (D363, play-test 2): after the fight the dead are laid
 ## under a cairn where they fell, the lead says a few words, and on the land the cairn is still there
 ## when the tile is laid out again; on Auto it is only told.
-## [DNEW]: a threatened village's besiegers stand outside one of its gates on the land, the band its
+## [D368]: a threatened village's besiegers stand outside one of its gates on the land, the band its
 ## defence is fought against, and its bowmen on the towers by that gate; the defence is fought there,
 ## the bowmen from their towers; saved, the siege is gone from the ground.
 func _check_the_siege() -> void:
