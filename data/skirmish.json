@@ -45,7 +45,13 @@
 		"reach_the_fallen": {
 			"on": true,
 			"close_round": true,
-			"line": "{who} goes to {name}."
+			"line": "{who} goes to {name}.",
+			"retry_after": 3.0
+		},
+		"_comment_stalemate": "D430 (a Second Hour soak, seed 3101: two of the company and two foes who could not come at each other stood for ever, and the run never reached its summary). When nobody on the field has lost health for `seconds` and both sides still stand, the company gets clear (line) and the band is left where it is; no parting blow is spared. A coliseum or training fight and a bout keep their own ends; 0 turns it off. reach_the_fallen.retry_after: one who found no way to a fallen friend is not sent again (nor the line said again) for that many seconds. Inferred: 30 and 3.",
+		"stalemate": {
+			"seconds": 30.0,
+			"line": "Neither side can come at the other. The company gets clear."
 		},
 		"_comment_hand_fight_speed": "D329 (Ewan's play-test 8: four wolves at 5x took three of the company before he could answer; held behind milestone B, call BW, then call BX). A fight played by hand starts no faster than this; the walking speed comes back when it ends, unless the player picked another speed in it. A party playing itself keeps its speed. Inferred: 2x.",
 		"hand_fight_speed": 2.0,
