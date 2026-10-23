@@ -991,6 +991,7 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 - Code signing and notarization for Windows and macOS — planned; needs paid certificates
 - An itch.io page for the browser build ✅ (2026-10-13, `dougie`'s, still a draft): pushed only on
   `dougie`'s word; every push and play-test build is listed in [28](28-the-first-hour.md#builds-on-itch-io)
+- Outside assets and services — planned, waits on `dougie` ([D426](06-decisions.md), [investigation 14](investigation/14-outside-assets-and-services.md)): trace the art and sound of unknown origin, a licence rule, free button prompts, UI pieces and a pixel font, a sound pass, then Steam's account, Auto-Cloud saves, achievements and leaderboards through GodotSteam, and the AI disclosure. Nothing before play-test 9's asks ([D383](06-decisions.md))
 - A Steam page with the First Hour as a free demo — planned, once the hour plays and the music is
   clean ([D100](06-decisions.md)); the founders come back to it later ([D169](06-decisions.md))
 
