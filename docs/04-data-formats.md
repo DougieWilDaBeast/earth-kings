@@ -911,7 +911,11 @@ next). A choice is said on `EventBus.quick_wheel_chose` (`src/ui/quick_wheel.gd`
 "hover", "action" | "signal", "key" }`: `action` is the input action the button presses (its key, as
 rebound, is named on the hover); `signal` asks for a screen on `EventBus` instead (`party`, `journal`,
 `map`, `wheel`, `menu`), with `key` naming the bare key it stands for. Shown on the walked ground
-with the touch controls off and no pad in hand (`src/ui/mouse_bar.gd`).
+with the touch controls off and no pad in hand (`src/ui/mouse_bar.gd`); it steps aside in a fight on
+the ground, which has its own column of the fight's keys at the bottom right (D391,
+`MOUSE_BUTTONS` in `src/skirmish/skirmish_hud.gd`). `routes` names, for every rebindable action the bar
+has no button for, where the mouse does it ("left-click the compass"); the controls suite fails if an
+action in the menu's key list has neither (D391).
 
 ## `world_rules.json` → `touch_words` — the lines said for a thumb (D377)
 

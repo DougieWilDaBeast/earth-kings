@@ -18,6 +18,8 @@ const BUTTON_HEIGHT := 34.0
 var _column: VBoxContainer
 var _buttons: Dictionary = {}
 var _scene_key := "title"
+## A fight is on the ground: it has its own column of the fight's keys ([D391]), so this one steps aside.
+var _fighting := false
 
 
 static func rules() -> Dictionary:
@@ -50,6 +52,7 @@ func _ready() -> void:
 
 	EventBus.scene_changed.connect(func(key: String) -> void:
 		_scene_key = key
+		_fighting = false
 		_restate())
 	for opening: Signal in [
 		EventBus.system_menu_requested, EventBus.party_screen_requested,
@@ -61,6 +64,12 @@ func _ready() -> void:
 	EventBus.dialogue_requested.connect(func(_id: String) -> void: _restate())
 	EventBus.dialogue_finished.connect(func(_id: String) -> void: _restate())
 	EventBus.conversation_requested.connect(func(_lines: Array) -> void: _restate())
+	EventBus.battle_started.connect(func(_map_id: String) -> void:
+		_fighting = true
+		_restate())
+	EventBus.battle_finished.connect(func(_result: Dictionary) -> void:
+		_fighting = false
+		_restate())
 	Pace.changed.connect(_restate)
 	Pad.changed.connect(_restate)
 	_restate()
@@ -82,6 +91,14 @@ static func actions() -> Array:
 		if str(each.get("action", "")) != "":
 			out.append(str(each["action"]))
 	return out
+
+
+## Where the mouse does [param action] when it is not one of the bar's buttons ([D391]), from
+## `mouse_bar` → `routes`; "" if nowhere, which the controls suite fails.
+static func route(action: String) -> String:
+	if actions().has(action):
+		return "the mouse bar"
+	return str(rules().get("routes", {}).get(action, ""))
 
 
 ## Do what the button [param id] stands for, as its key would.
@@ -129,7 +146,7 @@ func _lay_out() -> void:
 	if not is_inside_tree():
 		return
 	_column.visible = bool(rules().get("on", false)) and not Pace.is_touch_enabled() and not Pad.using_pad \
-			and PLAY_SCENES.has(_scene_key) and not _something_open()
+			and PLAY_SCENES.has(_scene_key) and not _fighting and not _something_open()
 	for each: Dictionary in rules().get("buttons", []):
 		var id := str(each.get("id", ""))
 		var shown: Button = _buttons.get(id, null)

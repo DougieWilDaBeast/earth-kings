@@ -1015,7 +1015,7 @@
 	},
 	"_comment_quick_wheel": "D326 (call BX; Ewan's play-test 8, after Ark Survival Evolved: hold the scroll wheel for a quick menu). Holding the middle button still for `hold` seconds opens a ring round the pointer; point and let go to take one, let go in the middle for nothing. `walking` is the ring on the land, `fighting` while a fight is on (eat: the picked fighter takes the least food that mends them; stance: the picked fighters' next stance). Inferred: what the ring holds and the hold time.",
 	"mouse_bar": {
-		"_comment": "The mouse bar on a computer (D390): every key the walk answers as a button down the right edge, under the corner map, each hover naming its key. `action` is pressed as that input action and its key (as rebound) is named on the hover; `signal` asks for a screen on EventBus instead (`party`, `journal`, `map`, `wheel`, `menu`), and `key` names a bare key.",
+		"_comment": "The mouse bar on a computer (D390): every key the walk answers as a button down the right edge, under the corner map, each hover naming its key. `action` is pressed as that input action and its key (as rebound) is named on the hover; `signal` asks for a screen on EventBus instead (`party`, `journal`, `map`, `wheel`, `menu`), and `key` names a bare key. It steps aside in a fight on the ground, which has its own column (D391).",
 		"on": true,
 		"buttons": [
 			{ "id": "party", "label": "Party", "hover": "The party screen", "signal": "party", "action": "open_party" },
@@ -1025,8 +1025,33 @@
 			{ "id": "auto", "label": "Auto", "hover": "Let the game walk and fight for you", "action": "battle_auto" },
 			{ "id": "speed", "label": "Speed", "hover": "The game's speed", "action": "battle_speed" },
 			{ "id": "wheel", "label": "Quick wheel", "hover": "Eat, formation, send away, arrange the screen", "signal": "wheel", "key": "hold the middle button" },
+			{ "id": "centre", "label": "Centre", "hover": "Bring the view back to the party", "action": "camera_recentre" },
 			{ "id": "menu", "label": "Menu", "hover": "Save, sound, keys and How to Play", "signal": "menu", "key": "Esc" }
-		]
+		],
+		"routes": {
+			"_comment": "Where the mouse does each rebindable action the bar has no button for (D391). The controls suite fails if a key in the menu's key list has neither a button here nor a route.",
+			"move_up": "left-click the ground to walk there",
+			"move_down": "left-click the ground to walk there",
+			"move_left": "left-click the ground to walk there",
+			"move_right": "left-click the ground to walk there",
+			"interact": "left-click a person, a door or a thing; a place's doings are buttons",
+			"site_errands": "the place's Read the board button",
+			"site_guild": "the place's Guild button",
+			"site_grimoire": "the place's book button",
+			"command_wait": "a fight's Pause button",
+			"stance_own": "a fighter's card: click the stance word for the next",
+			"stance_close": "a fighter's card: click the stance word for the next",
+			"stance_away": "a fighter's card: click the stance word for the next",
+			"stance_guard": "a fighter's card: click the stance word for the next",
+			"stance_hold": "a fight's Hold button, or the card's stance word",
+			"cycle_quest": "left-click the compass",
+			"camera_zoom_in": "the mouse wheel",
+			"camera_zoom_out": "the mouse wheel",
+			"toggle_fullscreen": "the menu's Fullscreen",
+			"open_menu": "the mouse bar's Menu",
+			"open_actions": "the place's buttons along the bottom",
+			"open_journal": "the mouse bar's Journal"
+		}
 	},
 	"touch_words": {
 		"_comment": "What the lines say on a phone (D377): a keyboard's keys said as the touch bar's buttons. `names` is what the touch bar calls an action; `walk` says the stick; `swaps` are [regex, replacement] pairs run in order over any line written for a keyboard (hints, footers, a tip without its own `touch` words) while the touch controls are on and no pad is in hand.",
