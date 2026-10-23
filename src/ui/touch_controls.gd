@@ -77,7 +77,8 @@ var _current_dir: Vector2i = Vector2i.ZERO
 var _held_actions: Array[String] = []
 var _scene_key: String = "title"
 ## A fight on the ground is on ([D376]): nothing is walked, so the stick steps aside and the
-## fighter's card under it can be pressed. Act, Back and Next stay; the fight answers them.
+## fighter's card under it can be pressed. Back stays, the fight answers it; Act and Next step
+## aside too ([D414]).
 var _fighting := false
 ## The finger being held still, if one is, where it went down and when (real milliseconds).
 var _hold_finger: int = -1
@@ -178,6 +179,10 @@ func _lay_out() -> void:
 	_top_bar.visible = not _book_beside()
 	_steer.visible = walking and not _fighting
 	_cluster.visible = walking
+	# The fight answers Back (a readied skill put away) but not Act or Next, and held upright
+	# they lay over the third and fourth fighters' cards ([D414]).
+	_interact_btn.visible = not _fighting
+	_cycle_btn.visible = not _fighting
 	# A fight has its own auto and speed down the side of the board; two sets
 	# of them on one screen is worse than none.
 	_auto_btn.visible = walking
