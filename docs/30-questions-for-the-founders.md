@@ -35,8 +35,7 @@ and Early Access (32); on 30 both lean to a one-off price with a free demo, and 
 | 44. The Forgotten Order's names | Ewan | Six drafted (2026-10-20); Ewan picks or changes | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 45. The guild day | Both | Ten questions, by voice note, before any guild building | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 46. The world's history | Both | Eleven questions, by voice note this week | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
-| 47. Keep the Inferred rows as built | Both | Rows 200 to 287 (2026-10-22) | [#504](https://github.com/DougieWilDaBeast/earth-kings/issues/504) |
-| 48. A private Android test build | Will | Yes or no (2026-10-22) | [#504](https://github.com/DougieWilDaBeast/earth-kings/issues/504) |
+| 47. Keep the Inferred rows as built | Ewan | Will kept rows 200 to 287 (2026-10-23, [D423](06-decisions.md)); Ewan may still name any | [#504](https://github.com/DougieWilDaBeast/earth-kings/issues/504) (closed on Will's half) |
 
 **Added 2026-10-17 by design meeting 5** ([D200](06-decisions.md)): three more, 25 to 27, at the end; two
 for Ewan, one for Ewan with Will's half already given. Each has the room's recommendation as its default.
@@ -514,16 +513,18 @@ _Answered (how) 2026-10-20:_ **Will:** "All recommended" ([D303](06-decisions.md
 Added 2026-10-22 by design meeting 7 ([D385](06-decisions.md)), which took stock and put phone and PC
 play first ([D381](06-decisions.md)). Each has the room's recommendation as its default.
 
-**47. Keep the Inferred rows as built?** (Both) Since meeting six almost every agenda row from 200 to 287 is
+~~**47. Keep the Inferred rows as built?**~~ (Both) Since meeting six almost every agenda row from 200 to 287 is
 something built on a guess and never confirmed ([D380](06-decisions.md)); question 24 settled rows 79 to 98 the
 same way. _Default:_ every **Inferred** row from 200 to 287 stands as built unless a founder names it while
 playing; a named row comes back as its own question.
+_Answered 2026-10-23:_ **Will:** "It would go with all the recommended" (call CF, [D423](06-decisions.md)): every row from 200 to 287 kept as built; Ewan may still name any.
 
-**48. A private Android test build?** (Will) The browser on a phone downloads 42 MB each visit, runs on one
+~~**48. A private Android test build?**~~ (Will) The browser on a phone downloads 42 MB each visit, runs on one
 thread and keeps its save in the browser. An Android build installed by hand loads once, keeps its save and
 runs native; one PR (the Android export template, a JDK and the SDK in the release workflow, a debug key).
 Native Android waits until after release ([D169](06-decisions.md), [D255](06-decisions.md)). _Default:_ yes, after
 the second touch pass, for the two founders only, not on itch or a store; phones after release stands.
+_Answered 2026-10-23:_ **Will:** "It would go with all the recommended" (call CF, [D423](06-decisions.md)): yes, a private Android test build for the two founders; phones after release stands.
 
 ## Will's to-dos (not questions)
 
