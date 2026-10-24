@@ -12,13 +12,13 @@
 		"Sennet": { "unit": "timeless_one", "tint": "#6fb4ff", "alpha": 0.8, "beside": 1.4, "fade": 0.6, "flicker": 0.2 }
 	},
 	"climbers_stone": {
-		"_comment": "The stone at the Tower's door with the names of those who climbed and how high each got (play-test 7, doug-md: 'names of climbers on the Tower', call BR3). Read by src/chronicle/climbers.gd: every lead fallen in the sixteen's worlds before this one (Sixteen.worlds), highest first, then this lead while they climb. `top` is the line over them all: **Inferred** (agenda 177), the legendary company of six who climbed long ago (call BR1), unnamed until doug-md names them.",
+		"_comment": "The stone at the Tower's door with the names of those who climbed and how high each got (play-test 7, doug-md: 'names of climbers on the Tower', call BR3). Read by src/chronicle/climbers.gd: every lead fallen in the sixteen's worlds before this one (Sixteen.worlds), highest first, then this lead while they climb. `top` is the line over them all: **Inferred** (agenda 177), the legendary company of six who climbed long ago (call BR1), cut in by the names the fables give them (D429, kept by dougie in call CI, D444); their true names stay kept back (D291).",
 		"heading": "Names are cut into the stone, one under another, each with how high they got.",
 		"fallen": "{name}, floor {floor}.",
 		"not_up": "{name}, who never climbed.",
 		"living": "{name}, floor {floor}, and still climbing.",
 		"none": "Under them, the stone is smooth and waiting.",
-		"top": "At the top, cut deeper and older than the rest, six names worn too smooth to read."
+		"top": "At the top, cut deeper and older than the rest, the six the fables call the Forgotten Order: Babylon, Orion, Atalanta, Castor, Carthage, Ur."
 	},
 	"first_hour": {
 		"_comment": "The First Hour's cut list (D95, D97): systems built but hidden until the First Hour plays from the crater to floor 5. Read by src/chronicle/first_hour.gd. Take a name out of `hidden` to bring its system back. coliseum: the Extras entry and the keep doors; training: the Extras entry (the suites still use it); museum: the Extras entry; trivia: no facts found; grimoires: no books for sale; ferries: no sailing; captivity: nobody is taken alive; nemesis: no foe remembers you (back since D330, call BX); dispatch: nobody is sent on errands from the party screen; seasons: no season on the bar, in the journal or the news; beds: no bed to buy in the crater, which is where the lead fell, not a home (D178); The roadside scenes (D121) came back once drawn and stood on the ground (D131).",
