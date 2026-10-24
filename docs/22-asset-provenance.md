@@ -18,6 +18,10 @@ When a row here changes status, change the credits to match.
 | **to confirm** | Source not recorded, or recorded but its terms not checked. A founder fills in the gap |
 | **dev only** | Known third-party material in the game for development. **Must be replaced or licensed before any public release** |
 
+## Taking anything from outside
+
+Settled by call CG ([D450](06-decisions.md)). Anything not made by the team or generated on the founders' PixelLab plan is taken in only if its licence is **CC0**, **MIT**, **OFL** or **CC-BY** (the author named on the Credits screen), or it is a **paid pack whose licence allows commercial games**. Never non-commercial (NC), no-derivatives (ND), GPL inside the game, "personal use only", ripped from another game, or a fan work. The licence page is saved beside the files, and the same change adds the file's row here and in `data/credits.json`. Outside art is used only for UI, icons, button prompts, fonts, particles and effects; bodies, monsters and the land stay PixelLab and in-house. Where to look: [investigation 14](investigation/14-outside-assets-and-services.md). P3 and P4 below are named by the founders (question 66 in [30](30-questions-for-the-founders.md)); whatever is still untraced is replaced from 27 October.
+
 ## Open items
 
 What stands between this audit and a public release, in order of weight.
