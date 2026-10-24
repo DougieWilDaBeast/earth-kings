@@ -623,6 +623,21 @@ half was right about, in what this run did, and asks the closing question. The o
 how the player played the arc, and can be lost. And with it: read the sixteen paired goals and change any (agenda 346).
 _Answered 2026-10-24:_ **Will:** "All recommended" (call CK, [D443](06-decisions.md)): the default.
 
+## 14. Asked by call CG (2026-10-24)
+
+Added 2026-10-24 with call CG ([D450](06-decisions.md), [investigation 14](investigation/14-outside-assets-and-services.md)). A Steam release needs a known source and licence for every file it ships ([22](22-asset-provenance.md)); these have none written down. The checklist is also in the project's shared files (`reviews/outside-assets/2026-10-24-what-to-name.md`).
+
+**66. Where did these come from?** (Both) For each group, say where it came from (made by you, a PixelLab export, a pack and which, a website) and, if a pack, where its licence is. "Don't know" is an answer: that group is replaced.
+- The item icons in `art/items/` (food and potions 16, `armour/` 16, `blade/` 9, `kit/` 16, `staff/` 12); `bone_sword` is known (PixelLab).
+- The props in `art/props/`: 38 furnishings, `camp/` 17, `nature/` 63, `village/` 16.
+- The 23 buildings in `art/buildings/` and the `village_house` rotations (named the PixelLab way).
+- The 30 holds in `art/world/` (`hold_*.png`).
+- The eight ground sheets in `art/tilesets/`: `battle_ground`, `dirt_grass`, `grass_earth`, `grass_raised`, `grass_stone`, `meadow_grass`, `thunderstone`, `water_grass`.
+- The menu frames `art/ui/frame_bar.png`, `frame_panel.png`, `emblem.png`, and the four clover icons in `art/ui/seasons/`.
+- The two menu sounds `audio/sfx/hover.wav` and `select.wav`.
+
+_Default:_ anything not named by the time the PixelLab credits come back (27 October) is replaced, by PixelLab or a CC0 piece under the licence rule.
+
 ## Will's to-dos (not questions)
 
 These need Will's own GitHub account; nothing waits on them except tidiness. Will said on 2026-10-17 he will do them (call BG, [D201](06-decisions.md)).

@@ -1003,7 +1003,7 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 - Code signing and notarization for Windows and macOS — planned; needs paid certificates
 - An itch.io page for the browser build ✅ (2026-10-13, `dougie`'s, still a draft): pushed only on
   `dougie`'s word; every push and play-test build is listed in [28](28-the-first-hour.md#builds-on-itch-io)
-- Outside assets and services — planned, waits on `dougie` ([D426](06-decisions.md), [investigation 14](investigation/14-outside-assets-and-services.md)): trace the art and sound of unknown origin, a licence rule, free button prompts, UI pieces and a pixel font, a sound pass, then Steam's account, Auto-Cloud saves, achievements and leaderboards through GodotSteam, and the AI disclosure. Nothing before play-test 9's asks ([D383](06-decisions.md))
+- Outside assets and services — settled, planned ([D450](06-decisions.md), call CG; [investigation 14](investigation/14-outside-assets-and-services.md)): the licence rule is in [22](22-asset-provenance.md); queued after play-test 9's asks ([D383](06-decisions.md)): the founders name the art and sound of unknown origin (question 66) and the rest is replaced from 27 October, a sound-effects pass from free libraries, and Steam page prep once `doug-md` gives a date (the account, Auto-Cloud saves, the AI disclosure, then GodotSteam and Sentry, the only plugins allowed). No multiplayer for 1.0; Steam leaderboards later
 - A Steam page with the First Hour as a free demo — planned, once the hour plays and the music is
   clean ([D100](06-decisions.md)); the founders come back to it later ([D169](06-decisions.md))
 

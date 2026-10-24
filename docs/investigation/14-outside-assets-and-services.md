@@ -2,6 +2,8 @@
 
 2026-10-23. Asked by Will: "give me some indication of what you think that this project would need, what's actually already available out there ... consult the team as well, and we're going to start pulling from open source." Grounded in main `669f992` (after #564), meeting seven's notes, the art plan for 27 October, [22](../22-asset-provenance.md), [24](../24-art-requests.md), [28](../28-the-first-hour.md), [31](../31-music.md) and the roadmap's **Launch readiness**. Decision [D426](../06-decisions.md), agenda row 325.
 
+**Settled 2026-10-24:** Will took every recommendation (call CG, [D450](../06-decisions.md)); the licence rule now lives in [22](../22-asset-provenance.md), the follow-ups are queued (agenda 355 to 357), and the founders name the unknown files in question 66.
+
 **This is a review, not a build.** Nothing here is taken in or wired until Will decides, and nothing new is started before play-test 9's asks are in ([D383](../06-decisions.md)). Every licence below is as the source states it in its own words, read from what the team knew before today unless marked *(checked today)*. Before anything is taken in, its licence page is read again and saved beside the files, and [22](../22-asset-provenance.md) and `data/credits.json` get its row.
 
 ## The short answer
