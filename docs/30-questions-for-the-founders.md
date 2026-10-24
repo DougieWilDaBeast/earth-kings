@@ -34,6 +34,7 @@ and Early Access (32); on 30 both lean to a one-off price with a free demo, and 
 | 31. When? | Ewan | His word on January or February 2027, asked again on 2026-10-31; Will confirmed the year on 2026-10-18 ([D255](06-decisions.md)) | [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213) (closed on Will's half) |
 | 49 to 65. The ending frame (Pangaea), the last act and the split | Both | Will's word is canon ([D440](06-decisions.md) to [D442](06-decisions.md)); all answered (53, 55 and 56 by Will's own words, 60 to 65 by call CK, [D443](06-decisions.md), the rest by calls CI and CJ, [D444](06-decisions.md)); Ewan may still change any | [#568](https://github.com/DougieWilDaBeast/earth-kings/issues/568), [#570](https://github.com/DougieWilDaBeast/earth-kings/issues/570) |
 | 67 to 73. The story across the hundred floors (call CL) | Both | Seven, each with a default ([33](33-the-story-spine.md), [D445](06-decisions.md)) | docs-only |
+| 74 to 82. The climb's blanks, by voice note | Will (74 to 79), Ewan (80, 81), Both (82) | Plain questions, no defaults needed ([the climb's arcs](worldbuilding/the-climb-arcs.md), [D446](06-decisions.md)) | docs-only |
 | 45. The guild day | Both | Ten questions, by voice note, before any guild building | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 46. The world's history | Both | Eleven questions, by voice note this week | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 47. Keep the Inferred rows as built | Ewan | Will kept rows 200 to 287 (2026-10-23, [D423](06-decisions.md)); Ewan may still name any | [#504](https://github.com/DougieWilDaBeast/earth-kings/issues/504) (closed on Will's half) |
@@ -681,6 +682,45 @@ for; the four go back to being met in the world. The other way: keep the four.
 can answer (who broke the one land, the gods above and who runs the contest, the shared mark's form), while the
 writers draft chapters three and four and the floor-25 people from what there is. The other way: the writers draft
 everything first, and the founders edit.
+
+## 16. Asked by the climb's arcs (2026-10-24)
+
+Added 2026-10-24 with [the climb's arcs](worldbuilding/the-climb-arcs.md) and [the sixteen's storylines](worldbuilding/the-sixteen-storylines.md)
+([D446](06-decisions.md)). These are the blanks only a founder can fill. Each is a plain question: read the number aloud and
+talk, as long or short as you like; "skip" leaves it open and the writers draft round it. They go beside question 46
+(the world's history), which they do not repeat.
+
+**74. Who or what broke the one land?** (Will) The worlds are one land split apart ([D440](06-decisions.md)); question 46.3
+asks why sixteen. This asks who did it, or what, and whether they meant to. Lands after floor 100; hinted from floor 41.
+
+**75. The gods above, and whoever runs the contest.** (Will) Who are they, what do they want with one world left, and is
+either ever seen? Will's volumes offer _God Game_'s god, felt and never shown. Lands at floor 100.
+
+**76. The faceless voices.** (Will) Every memory has a voice whose face will not come, and each is that lead's own person
+(call AI). Who are they? Start with the ties: Bellona and Ultor, Cassius and Caesar, Ares and Liber, and Cato. Lands at
+floor 50, if call CL's fourth answer stands.
+
+**77. Why does the Heart Empire hold the top floors?** (Will) From floor 71 only the Heart Empire's people are met in the
+Tower. What do they guard, and for whom? Lands in floors 71 to 99.
+
+**78. Who do the keepers count for?** (Will) The Warden of the Fifth and the Keeper of the Tenth know the lead's face and
+count the challengers. For whom, and why? Lands at floors 20, 50 and 100.
+
+**79. The leads' gaps only you know.** (Will) Any you like, one at a time: who wrote Atlas's book, and who gave him Sky;
+what Janus's key opens; who was outside Bellona's gate; who the smallest child was in Cassius's festival; who Saturn's
+empty place was, and who sold the light; who came back to Vesta; what game Iris passed in; whether Pluto's contest was
+the first one; how many children Ceres kept, and what walked the fields; what Cato's wiped line said; who protected Ultor
+on the road. Each fills a row of [the sixteen's storylines](worldbuilding/the-sixteen-storylines.md).
+
+**80. The Tales of the Forgotten Order.** (Ewan) The six's names come down through fables ([D291](06-decisions.md)). One
+short fable for each of Babylon, Orion, Atalanta, Castor, Carthage and Ur: what the land tells of them. They go on the
+monuments below and the Tower's walls from floor 51.
+
+**81. Which of the sixteen will not climb?** (Ewan) Question 5 left it to you ([D172](06-decisions.md)): Liber was Will's
+example. Who, and what is their run instead?
+
+**82. The shared mark.** (Both) All sixteen share one mark, in the same place, a tattoo or glowing eyes
+([17](17-the-sixteen-worlds.md#the-fall)); nothing is chosen. What is it, and where? It waits on art too.
 
 ## Will's to-dos (not questions)
 
