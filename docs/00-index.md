@@ -36,6 +36,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 30  | [Questions for the founders](30-questions-for-the-founders.md) | **What only Will and Ewan can answer**, read aloud and answered by voice note: who, why it matters, and the default |
 | 31  | [What needs music](31-music.md)                  | **Planned**: which scenes need music and in what order, the memory theme first, for when the music is made |
 | 32  | [How work moves](32-the-pipeline.md)                 | **The stages and the pipeline**: where the game stands in the stages of making a game, what is still expensive to change, and the loop every piece of work goes round, with the milestones from here |
+| 33  | [The story spine](33-the-story-spine.md)              | **Planned**: every story beat laid against floors 1 to 100, built, drafted, settled or blank, the acts proposed, and the arcs and history still to supply |
 
 ## Deciding the world
 

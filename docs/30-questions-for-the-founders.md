@@ -33,6 +33,7 @@ and Early Access (32); on 30 both lean to a one-off price with a free demo, and 
 | --- | --- | --- | --- |
 | 31. When? | Ewan | His word on January or February 2027, asked again on 2026-10-31; Will confirmed the year on 2026-10-18 ([D255](06-decisions.md)) | [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213) (closed on Will's half) |
 | 49 to 65. The ending frame (Pangaea), the last act and the split | Both | Will's word is canon ([D440](06-decisions.md) to [D442](06-decisions.md)); all answered (53, 55 and 56 by Will's own words, 60 to 65 by call CK, [D443](06-decisions.md), the rest by calls CI and CJ, [D444](06-decisions.md)); Ewan may still change any | [#568](https://github.com/DougieWilDaBeast/earth-kings/issues/568), [#570](https://github.com/DougieWilDaBeast/earth-kings/issues/570) |
+| 67 to 73. The story across the hundred floors (call CL) | Both | Seven, each with a default ([33](33-the-story-spine.md), [D445](06-decisions.md)) | docs-only |
 | 45. The guild day | Both | Ten questions, by voice note, before any guild building | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 46. The world's history | Both | Eleven questions, by voice note this week | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 47. Keep the Inferred rows as built | Ewan | Will kept rows 200 to 287 (2026-10-23, [D423](06-decisions.md)); Ewan may still name any | [#504](https://github.com/DougieWilDaBeast/earth-kings/issues/504) (closed on Will's half) |
@@ -645,6 +646,41 @@ Added 2026-10-24 with call CG ([D450](06-decisions.md), [investigation 14](inves
 - The two menu sounds `audio/sfx/hover.wav` and `select.wav`.
 
 _Default:_ anything not named by the time the PixelLab credits come back (27 October) is replaced, by PixelLab or a CC0 piece under the licence rule.
+
+## 15. Asked by the story spine (2026-10-24)
+
+Added 2026-10-24 with [33 — the story spine](33-the-story-spine.md) ([D445](06-decisions.md)), from Will's question
+of that afternoon: how is the story arranged alongside the hundred floors, and what still needs substance? Floors 1 to
+10 are full; from 11 to 99 the world keeps moving but the Tower's own story is empty. Each has the writers' and
+designers' reading as its default (agenda 349 to 354). Design only; nothing is built before play-test 9.
+
+**67. Five acts?** (Both) _Default:_ the climb is written in five acts of four chapters: the Fall (1 to 20), the
+Climbers (21 to 40), the Seams (41 to 60), the Order (61 to 80), the Top (81 to 100), each with one turn (floors 20,
+30, 50, 70, 100). A writing tool; the player sees only chapters. The other ways: four acts of 25; no acts.
+
+**68. How many memories past chapter two?** (Will) A full scene every chapter is 288 more scenes. _Default:_ a full
+scene at chapters 3, 4, 6, 10, 14 and 20 (96 scenes) and a one-line fragment at every other chapter, all of them
+making the whole-story cinematic. The other ways: a full scene every chapter; full scenes only at the act turns.
+
+**69. Does each chapter ask for something of its own?** (Both) Today any gate shut or town saved opens the next
+chapter. _Default:_ from chapter 3 the seal names its key (a gate of a rank, someone to find, a place to hold), and
+any gate or town still opens it after a while, so nobody is stuck. The other way: keep any gate or town.
+
+**70. What happens at floor 50?** (Will) _Default:_ the faces that would not come in every memory come back at once,
+and the lead knows who was with them above. The other way: the faces stay blank until the merge.
+
+**71. What happens at floor 70, with the Forgotten Order?** (Ewan, with Will) _Default:_ they are met, not fought to
+the death: one fight that cannot kill, as Halloran's kind would test a newcomer; they say what they climbed for; one
+says something that only makes sense after the merge; they do not join. The other ways: fought as keepers; one joins.
+
+**72. Who holds floor 100?** (Will) Today the apex is four of the twelve story people (Dirte, the Tattered One, Oran,
+Vane), a stand-in. _Default:_ a keeper of the Tower's own, the last of the Warden's line, who says whom the count was
+for; the four go back to being met in the world. The other way: keep the four.
+
+**73. How does the history come?** (Both) _Default:_ question 46's eleven by voice note, plus three more only Will
+can answer (who broke the one land, the gods above and who runs the contest, the shared mark's form), while the
+writers draft chapters three and four and the floor-25 people from what there is. The other way: the writers draft
+everything first, and the founders edit.
 
 ## Will's to-dos (not questions)
 

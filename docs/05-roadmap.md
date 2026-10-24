@@ -602,7 +602,9 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    someone who fell) still holds the writing for M13, and items 20 and 57 the end of the step clock (M18).
 5. **First writing sitting for the sixteen** — names, seeds and fighting styles are drafted in
    [21](21-the-sixteen-first-draft.md) and built as the leads ([D78](06-decisions.md)); their
-   memories, shared mark and own quest lines (M13) are not written.
+   memories, shared mark and own quest lines (M13) are not written. Chapters one and two are; the
+   [story spine](33-the-story-spine.md) ([D445](06-decisions.md)) lays out what floors 11 to 99 still need
+   (planned, call CL, questions 67 to 73), design only until play-test 9.
 6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
    `healer_assists_needed`, the Tower's curve and cohorts (`world_rules.tower`), the
    `dispatch` odds, `data/sfx.json`, and `names.json` are all in `data/` and one number each.
@@ -754,7 +756,8 @@ sitting, and the reading of a hearth on agenda item 15.
 - The first four of the sixteen written, with fixed god-style names and signature weapons
 - The shared mark on every one of the sixteen — spoken of when two meet; its form is not chosen
 - Memories returned by the chapter, written per lead, and the whole story as a cinematic once every
-  fragment is found ([D53](06-decisions.md))
+  fragment is found ([D53](06-decisions.md)); chapters one and two built, chapters three to twenty planned in the
+  [story spine](33-the-story-spine.md) ([D445](06-decisions.md))
 - The standing quest every lead carries from landing: "Ascend to heaven" ([D53](06-decisions.md)) ✅
   (2026-10-12): in the journal's _Quests & the Fallen_ page with the Tower's floor and chapter, and
   ASCEND on the Tower. It never completes; that is item 22 and M17
