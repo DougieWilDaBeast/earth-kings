@@ -7,8 +7,9 @@ issue #568). **Direction, not the build.** Nothing here is in the game, and noth
 code waits on play-test 9 in any case ([D383](../06-decisions.md)).
 
 What is `dougie`'s word is marked as his and is canon. What the writers and designers read into it,
-to make it fit what exists, is written **Inferred.** and is on the agenda (rows 340 to 348) and in
-[30](../30-questions-for-the-founders.md) as questions 49 to 65, each with a default. The last act, which `dougie`
+to make it fit what exists, was written **Inferred.** and put on the agenda (rows 340 to 348) and in
+[30](../30-questions-for-the-founders.md) as questions 49 to 65, each with a default; **every one is now answered**, all as recommended (calls CI, CJ and CK, [D443](../06-decisions.md),
+[D444](../06-decisions.md)). The last act, which `dougie`
 added at 12:16 the same day, is [its own section](#the-last-act-earth-kings-or-demon-kings) ([D441](../06-decisions.md)), refined at 12:36 by
 [the split](#the-split-one-lead-two-halves) ([D442](../06-decisions.md)).
 
@@ -195,8 +196,7 @@ the kept three, each keeping the fable's by-name of the one it replaces:
 6. **Ur, the Mender** (was Asclepius): kept the six alive for a hundred years; some say he is why none
    of them has aged.
 
-**Inferred** (agenda 327): the three picks and their by-names. Alternates, for `dougie` to swap in:
-**Atlantis** (the one he named first, left out only because it sits close to Atalanta on the ear)
-and **Nineveh**. `doug-md` may still change any. The climbers' stone keeps "six names worn too smooth
-to read" ([D266](../06-decisions.md)) until the founders want them cut in; that is a change to
-`data/world_rules.json` for after play-test 9.
+**Kept by `dougie`**, 2026-10-24 (call CI, [D444](../06-decisions.md)), over the alternates Atlantis and Nineveh;
+`doug-md` may still change any. The six are cut into the top of the climbers' stone ([D266](../06-decisions.md)) by these
+names: "At the top, cut deeper and older than the rest, the six the fables call the Forgotten Order: Babylon, Orion,
+Atalanta, Castor, Carthage, Ur." (`data/world_rules.json` → `climbers_stone.top`).
