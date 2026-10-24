@@ -32,7 +32,7 @@ and Early Access (32); on 30 both lean to a one-off price with a free demo, and 
 | Question | Whose | What is left | Issue |
 | --- | --- | --- | --- |
 | 31. When? | Ewan | His word on January or February 2027, asked again on 2026-10-31; Will confirmed the year on 2026-10-18 ([D255](06-decisions.md)) | [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213) (closed on Will's half) |
-| 49 to 54. The ending frame (Pangaea) | Both | Will's word is canon ([D440](06-decisions.md)); six questions on its shape, each with a default | [#568](https://github.com/DougieWilDaBeast/earth-kings/issues/568) |
+| 49 to 59. The ending frame (Pangaea) and the last act | Both | Will's word is canon ([D440](06-decisions.md), [D441](06-decisions.md)); 53 answered, ten questions on its shape, each with a default | [#568](https://github.com/DougieWilDaBeast/earth-kings/issues/568) |
 | 45. The guild day | Both | Ten questions, by voice note, before any guild building | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 46. The world's history | Both | Eleven questions, by voice note this week | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 47. Keep the Inferred rows as built | Ewan | Will kept rows 200 to 287 (2026-10-23, [D423](06-decisions.md)); Ewan may still name any | [#504](https://github.com/DougieWilDaBeast/earth-kings/issues/504) (closed on Will's half) |
@@ -553,13 +553,39 @@ they cannot be fought, only met and heard.
 _Default:_ yes: the merge is the last chapter; the lead gets every world's memories at once and the whole-story
 cinematic of [D53](06-decisions.md) plays there. The other way: only the others remember, and the lead stays partial until the true end.
 
-**53. Is the merge the end, or the turn into the last act?** (Both) [D171](06-decisions.md) plans "more story" after the contest.
+~~**53. Is the merge the end, or the turn into the last act?**~~ (Both) [D171](06-decisions.md) plans "more story" after the contest.
 _Default:_ the turn: the game goes on in the merged land, after whoever split it. The other way: the merge is the ending and the credits.
+_Answered 2026-10-24:_ **Will** (12:16, [D441](06-decisions.md)): the turn. The merge moves the game into a new arc, played as an Earth King or a demon king; questions 55 to 59.
 
 **54. How is it foreshadowed, and is the one land called Pangaea?** (Both)
 _Default:_ quietly, through what already leaks between worlds (the crossing, a word carried, the dream, the census)
 and the Forgotten Order's lost-place names; the one land is called **Pangaea** in the world (Greek, "all the earth"),
 a word never said before floor 100. The other way: another name for it, or say it early.
+
+**The last act** (Will, 12:16 the same day, [D441](06-decisions.md), canon): after the merge the player chooses who
+they play for the new arc, from the living Earth Kings or the fallen demon kings; the choice comes naturally with a
+clear warning that it fixes their side; a death does not end the world, and the next lead comes only from that side.
+Five more on its shape ([the ending frame](worldbuilding/the-ending-frame.md#the-last-act-earth-kings-or-demon-kings), agenda 343 to 345):
+
+**55. How does the choice come?** (Both) _Default:_ the merge ends in the opening's ring of sixteen, standing in the one
+land, the living on one side and the demon kings on the other; the player walks to one and takes their hand, and one
+plain card warns: "Who you choose now decides your side for the rest of the game. There is no crossing back." The other
+way: a roster screen with the warning.
+
+**56. Who stands on each side?** (Both) _Default:_ Earth Kings, every lead alive at the merge, the lead who beat floor
+100 among them; demon kings, every lead who fell while played, so a first-life win has no demon side to choose. The other
+way: the lead who beat floor 100 steps aside and cannot be chosen.
+
+**57. What is the demon kings' storyline for?** (Both) _Default:_ their own arc, played knowing everything and still
+unable to stop being what they are (no redemption, as Will said); what they want in the one land is the story. The other
+way: their arc seeks an end to the curse, which softens the tragedy.
+
+**58. What happens when a last-act lead falls?** (Both) _Default:_ the world goes on and the picker shows the chosen side
+only; an Earth King who falls turns demon king, one more foe; a demon king who falls is gone; when a side has nobody
+left, the other side holds the land and the game ends. The other way: the fallen are simply gone, on either side.
+
+**59. At what strength is the last act played?** (Both) _Default:_ everyone at the strength they reached, a demon king at
+the level they fell at with a demon king's strength; no quiz, no level 1. The other way: back to level 1, as every new life is.
 
 ## Will's to-dos (not questions)
 

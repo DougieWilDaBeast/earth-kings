@@ -7,8 +7,9 @@ issue #568). **Direction, not the build.** Nothing here is in the game, and noth
 code waits on play-test 9 in any case ([D383](../06-decisions.md)).
 
 What is `dougie`'s word is marked as his and is canon. What the writers and designers read into it,
-to make it fit what exists, is written **Inferred.** and is on the agenda (rows 340 to 342) and in
-[30](../30-questions-for-the-founders.md) as questions 49 to 54, each with a default.
+to make it fit what exists, is written **Inferred.** and is on the agenda (rows 340 to 345) and in
+[30](../30-questions-for-the-founders.md) as questions 49 to 59, each with a default. The last act, which `dougie`
+added at 12:16 the same day, is [its own section](#the-last-act-earth-kings-or-demon-kings) ([D441](../06-decisions.md)).
 
 ## What `dougie` said
 
@@ -43,7 +44,7 @@ Read by the writers and the designers on 2026-10-24 (not a numbered meeting, no 
 | **The contest past the top** ([D34](../06-decisions.md), [D171](../06-decisions.md), [17](../17-the-sixteen-worlds.md#past-the-top)): everyone who reached floor 100 fights, "only one world is going to be left standing", the winner is the Earth King | **Inferred.** The contest is "the bosses" `dougie` names: the floor-100 apex, then the knockout between those who made it. The winner expects their world to be the one left; instead all sixteen merge, which is true to the prophecy (one world left) and nothing like what anyone meant by it (question 49) |
 | **Unpicked leads make it up by default** ([D171](../06-decisions.md)) | They are the living who merge aware. A lead the player never picked arrives at the merge whole, now remembering being a stranger, an ally or a rival in every world the player played |
 | **Memory by the chapter** ([D53](../06-decisions.md)): every chapter returns fragments; all of them play the whole story as a cinematic | **Inferred.** The merge is the last chapter: the lead gets every life back at once, the chapter memories of all their worlds, and the whole-story cinematic plays here (question 52) |
-| **"After it, more story"** ([D171](../06-decisions.md)): going after whoever put the sixteen down, alliances or war | **Inferred.** The remerged land is where that story is played: the merge is the turn into the last act, not the credits (question 53) |
+| **"After it, more story"** ([D171](../06-decisions.md)): going after whoever put the sixteen down, alliances or war | `dougie` (12:16): the merge moves the game into a new arc, the world dealing with what happened, played from either side ([below](#the-last-act-earth-kings-or-demon-kings)). Question 53 is answered |
 | **The Forgotten Order** ([D291](../06-decisions.md), [D429](../06-decisions.md)): three of the six named after lost places | **Inferred.** Places that are on no map of any world: the fables' tellers cannot say where Babylon, Carthage or Ur stood. A small seed of "something is missing from the land" for a careful player |
 
 Nothing built changes. Gates, demon king keepers, the copies met as people, the ghost, the weapon,
@@ -68,6 +69,36 @@ the crossing and the census all stay as they are; the frame is what they turn ou
 - **A name the register already holds.** **Inferred.** The one land before the split is called
   Pangaea in the world too: Greek, "all the earth", beside the sixteen's Roman and Greek names and
   the game's title (question 54). The word is never said before floor 100.
+
+## The last act: Earth Kings or demon kings
+
+`dougie`, 12:16 the same day ([transcript](voice-notes/2026-10-24-dougie-lost-places-and-pangaea.md#1216-the-last-act),
+[D441](../06-decisions.md)), canon:
+
+- After the merge the game moves into **a new arc**: the one world deals with the consequences of what happened.
+- The player chooses **who they play for it**, and can choose **any of the leads who fell and became demon kings**,
+  to play the demon king storyline.
+- The choice comes **naturally**, but with **a clear message** that who they choose now decides their choices for the
+  rest of the game.
+- Choosing fixes the side for the final arc: **the demon king roster or the Earth King roster**.
+- **A death in the last act does not end the world.** The world goes on and the player picks another lead, **only
+  from the side they chose**.
+
+How the writers and designers read it onto what exists (**Inferred.**, agenda 343 to 345, questions 55 to 59):
+
+| Piece | Reading |
+| --- | --- |
+| **How the choice is staged** | The merge ends where the opening began: the ring of sixteen ([D340](../06-decisions.md)), now standing in the one land, the living lit in their colours on one side, the demon kings in black and red on the other, the dead of the player's own lives among them. The lead who beat floor 100 stands in the middle. The player walks to one and takes their hand (Bram's "Give me your hand" turned round). Before it holds, one plain card: "Who you choose now decides your side for the rest of the game. There is no crossing back." Choose, or step away and look again (question 55) |
+| **Who stands on each side** | **Earth Kings**: every lead alive at the merge, the unpicked who made it up by default ([D171](../06-decisions.md)) and the lead who beat floor 100. **Demon kings**: every lead who fell while the player played them ([D293](../06-decisions.md)). A first-life win has fifteen Earth Kings and no demon kings, so the demon side opens only after at least one fall (question 56) |
+| **What each side's arc is** | **Earth Kings**: hold the one land against the demon kings and the broken worlds' consequences, then go after whoever split it ([D171](../06-decisions.md)'s "more story"). **Demon kings**: their own storyline, played knowing everything and unable to stop being what they are (`dougie`'s tragedy holds: no redemption); what they want is theirs to choose, which is the arc (question 57) |
+| **Deaths and the next pick** | The world does not burn or end ([17](../17-the-sixteen-worlds.md#when-the-lead-dies) no longer applies here). The picker opens on the chosen side only, the fallen greyed. An Earth King who falls in the last act becomes a demon king, on the other side, one more foe; a demon king who falls is ash and gone. When a side has nobody left, the other side holds the one land and the game ends (question 58) |
+| **The quiz, the roster screens, levels** | No quiz in the last act: the choice at the merge is its front door ([D44](../06-decisions.md)), and every later pick is the roster of the chosen side, the other side shown across from it and closed. Everyone plays at the full strength they reached, not from level 1, because the world goes on; a demon king at the level they fell at plus the strength a demon king gains ([D304](../06-decisions.md)) (question 59) |
+| **The contest** | Unchanged: it comes before the merge (question 49). Its winner is simply one more Earth King to choose, or to turn from |
+| **The rest of questions 49 to 54** | Question 51 (are demon kings fought) now holds for the Earth King side; on the demon side the Earth Kings are the ones fought. 52 (the lead remembers every life) holds for whoever the player chooses: everyone at the merge remembers |
+
+What it unlocks: a second full playthrough of the last act from the other side; every lead the player lost becomes
+someone they can play again, as the person they could not stop becoming; and the roster of a late run is shaped by
+every choice before it.
 
 ## What it does not settle
 

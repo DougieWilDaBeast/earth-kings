@@ -883,6 +883,8 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
   land they were split from (Pangaea); the fallen leads are there as demon kings who know every life they had, and the
   living merge aware. Its shape is questions 49 to 54 in [30](30-questions-for-the-founders.md); written up in
   [the ending frame](worldbuilding/the-ending-frame.md). Design only
+- The last act ([D441](06-decisions.md)): after the merge the player chooses a side, an Earth King or a demon king, for
+  the rest of the game; a death there picks the next lead from the same side. Questions 55 to 59. Design only
 - ✅ Done when: there is a design doc both founders have signed off. Nothing is built before that
 
 ### M18 — One view, and no step clock — IN PROGRESS
