@@ -604,7 +604,8 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    [21](21-the-sixteen-first-draft.md) and built as the leads ([D78](06-decisions.md)); their
    memories, shared mark and own quest lines (M13) are not written. Chapters one and two are; the
    [story spine](33-the-story-spine.md) ([D445](06-decisions.md)) lays out what floors 11 to 99 still need
-   (planned, call CL, questions 67 to 73), design only until play-test 9.
+   (planned, call CL, questions 67 to 73), broken into arcs by act and a storyline per lead
+   ([D446](06-decisions.md), questions 74 to 82), design only until play-test 9.
 6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
    `healer_assists_needed`, the Tower's curve and cohorts (`world_rules.tower`), the
    `dispatch` odds, `data/sfx.json`, and `names.json` are all in `data/` and one number each.

@@ -13,6 +13,10 @@ Nothing here is built, and no code starts before `doug-md`'s play-test 9 ([D383]
 every **Proposed** beat are the writers' and designers' reading, **Inferred.**, on the agenda (rows 349 to 354) and
 asked as call CL, questions 67 to 73 in [30](30-questions-for-the-founders.md).
 
+The arcs are broken into sections in [the climb's arcs](worldbuilding/the-climb-arcs.md), and the storyline each of the
+sixteen makes is in [the sixteen's storylines](worldbuilding/the-sixteen-storylines.md) ([D446](06-decisions.md)); the
+blanks only a founder can fill are questions 74 to 82 in [30](30-questions-for-the-founders.md).
+
 ## The shape in one paragraph
 
 The climb is twenty chapters of five floors ([D48](06-decisions.md)), and each chapter's close moves the world on
