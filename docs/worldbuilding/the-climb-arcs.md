@@ -63,7 +63,7 @@ they are one of sixteen who fell, and that the climb is a count.
 
 | Beat | Carried by | State |
 | --- | --- | --- |
-| **Chapter three, a full scene**: the first memory from above, before anything went wrong. The ring of sixteen, at peace; each lead remembers one of the others there without a face | The lead | **Proposed** |
+| **Chapter three, a full scene**: the first memory from above, before anything went wrong. The ring of sixteen, at peace; each lead remembers one of the others there without a face | The lead | **Drafted** for all sixteen ([D447](../06-decisions.md)) |
 | A **third stage** for every companion story: the ties' second meeting where both live (Caesar's knock at Cassius's door; Ultor hears the whistle at a gate; Ares sent after an outlaw) | The four ties | **Proposed** |
 | Shared floors 12 and 15: the first **rival company**, named, met again | A company from the road ([D215](../06-decisions.md)) | Floors **built**; rivals **Proposed** |
 
@@ -71,8 +71,8 @@ they are one of sixteen who fell, and that the climb is a count.
 
 | Beat | Carried by | State |
 | --- | --- | --- |
-| **Chapter four, a full scene**: the lead remembers there were sixteen, and that the fall was not an accident. The census they have read since floor 5 means something now | The lead | **Proposed** |
-| The keeper at floor 20 is the third of the Warden's line and says, for the first time, that it counts **for someone** | The Keeper of the Twentieth | **Proposed** |
+| **Chapter four, a full scene**: the lead remembers there were sixteen, and that the fall was not an accident. The census they have read since floor 5 means something now | The lead | **Drafted** for all sixteen ([D447](../06-decisions.md)) |
+| The keeper at floor 20 is the third of the Warden's line and says, for the first time, that it counts **for someone** | The Keeper of the Twentieth | **Drafted** (its line, [D447](../06-decisions.md)) |
 | The rival company again on floor 18, and at 20 either beside or against the party | The rivals | **Proposed** |
 | Old Halloran's own story: the strongest in the city, who never climbed past 20, and why | Halloran | **Blank** (us) |
 | The four new people of the thirty-two met in the world (question 42) | Four, drafted by us | **Blank** (us to draft, Both to name) |
@@ -99,8 +99,8 @@ world that ended, and knows what a fall costs.
 | Beat | Carried by | State |
 | --- | --- | --- |
 | Floor 25, the first living floor: a host, a trader, people who stopped ([D317](../06-decisions.md)) | The floor's people | **Built** |
-| They are the first to speak of the Order as people, not fables: "they went past us before my grandmother was born" | The floor's people | **Proposed** |
-| Each living floor holds one story person with a short arc of their own, finished on the next living floor | One per floor (us) | **Proposed** |
+| They are the first to speak of the Order as people, not fables: Old Senna's grandmother saw the six go in "like people going home" | The Lampwrights of floor 25 | **Drafted** ([D447](../06-decisions.md)) |
+| Each living floor holds one story person with a short arc of their own, finished on the next living floor | Floor 25's is Corwen Ashe, looking for his sister's blue lamp, finished on 30; the rest us | 25 **Drafted** ([D447](../06-decisions.md)); the rest **Proposed** |
 
 ### Arc II.2 — The burned world (floor 30, chapter six)
 

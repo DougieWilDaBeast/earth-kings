@@ -15,7 +15,7 @@ asked as call CL, questions 67 to 73 in [30](30-questions-for-the-founders.md).
 
 The arcs are broken into sections in [the climb's arcs](worldbuilding/the-climb-arcs.md), and the storyline each of the
 sixteen makes is in [the sixteen's storylines](worldbuilding/the-sixteen-storylines.md) ([D446](06-decisions.md)); the
-blanks only a founder can fill are questions 74 to 82 in [30](30-questions-for-the-founders.md).
+blanks only a founder can fill are questions 74 to 82 in [30](30-questions-for-the-founders.md). Chapters three and four and floor 25's people are drafted ([D447](06-decisions.md)).
 
 ## The shape in one paragraph
 
