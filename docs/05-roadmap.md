@@ -887,7 +887,8 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
   the rest of the game; a death there picks the next lead from the same side. Questions 55 to 59. Design only
 - The split ([D442](06-decisions.md)): at the choice the lead faces both halves of themselves and splits in two; the
   chosen half is the unplayable main lead of the final arc, played round from that side's roster; each of the sixteen
-  has an Earth King goal and a demon king goal (first draft in the ending frame). Questions 60 to 65. Design only
+  has an Earth King goal and a demon king goal (first draft in the ending frame). Questions 60 to 65, all taken as
+  recommended ([D443](06-decisions.md)). Design only
 - ✅ Done when: there is a design doc both founders have signed off. Nothing is built before that
 
 ### M18 — One view, and no step clock — IN PROGRESS

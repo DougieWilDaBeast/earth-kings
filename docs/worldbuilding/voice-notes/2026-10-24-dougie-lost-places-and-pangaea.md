@@ -10,7 +10,7 @@ transcribed: as it arrived in the chat, kept as given
 > Will answering question 44 in [30 — Questions for the founders](../../30-questions-for-the-founders.md)
 > (the Forgotten Order's six names, drafted 2026-10-20 for Ewan to pick) and adding a new frame for the
 > end of the climb. "Atlanta" is Atalanta, the third of the drafted six. What it settled is in
-> [06 — Decisions](../../06-decisions.md), D429 (the names), D440 (the ending frame) D441 (the last act, 12:16) and D442 (the split, 12:36), written up in
+> [06 — Decisions](../../06-decisions.md), D429 (the names), D440 (the ending frame), D441 (the last act, 12:16) and D442 (the split, 12:36; its shape kept at 13:50, D443), written up in
 > [the ending frame](../the-ending-frame.md), and on the agenda ([answers.md](../answers.md), rows 327
 > and 340 to 348). Issues #568 and #570.
 
