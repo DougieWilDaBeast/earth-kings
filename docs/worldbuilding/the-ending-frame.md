@@ -124,7 +124,9 @@ every choice before it.
 `dougie`'s 12:16 rules stand inside it: the side is fixed, and a death in the last act picks the next lead from that
 side only ([D441](../06-decisions.md)).
 
-How the writers and designers read it onto what exists (**Inferred.**, agenda 346 to 348, questions 60 to 65):
+How the writers and designers read it onto what exists (agenda 346 to 348, questions 60 to 65). **Kept by `dougie`**,
+2026-10-24 13:50, "All recommended" (call CK, [D443](../06-decisions.md)), with the sixteen's goals below as the
+first draft for both founders to change; `doug-md` may still change any of it:
 
 | Piece | Reading |
 | --- | --- |
