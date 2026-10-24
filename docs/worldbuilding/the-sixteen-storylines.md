@@ -11,6 +11,11 @@ goals and the merge ([the ending frame](the-ending-frame.md)).
 (the project's `story/chapter-two/`), Will's three volumes and the paired goals. Each sheet ends with its gaps and who
 fills them. Nothing is built before play-test 9 ([D383](../06-decisions.md)).
 
+**Drafted since** ([D447](../06-decisions.md)): rows 3 and 4 are written as full scenes for all sixteen, in the chapter ones'
+and twos' shape, kept in the project's shared files (`story/chapter-three/`, `story/chapter-four/`) and not in this
+repository until floors 15 and 20 have hand-laid alcoves to hold them, as the chapter twos were ([D182](../06-decisions.md)).
+Where a draft differs from a row below, the draft is newer.
+
 ## The rows
 
 | Row | Floor | What it is |
