@@ -49,6 +49,7 @@ book, answered by voice note and reconciled into canon:
 - [Voice notes](worldbuilding/voice-notes/) — raw transcripts, kept as spoken, including
   [joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md) — both founders, 2026-09-24
 - [Lineage entries](16-lineage/00-index.md) — 143 drafted answers from the sixteen works that shaped this
+- [The ending frame](worldbuilding/the-ending-frame.md) — Pangaea: the sixteen worlds remerge at floor 100 (planned, design only)
 - [Process](worldbuilding/00-process.md) — how the sittings and merge sessions run
 - [Divergence ledger](worldbuilding/divergence-ledger.md) — forks, resolutions, and what the
   losing answers become
