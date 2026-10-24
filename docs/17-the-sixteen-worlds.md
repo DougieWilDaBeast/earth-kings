@@ -27,6 +27,10 @@ Something goes wrong up there. All sixteen are thrown down to **Earth**.
 
 Why the disaster happened, and who caused it, is found out at the end.
 
+**What the copies really are** ([D440](06-decisions.md), 2026-10-24, `dougie`): not copies. The sixteen worlds are
+one land split apart, like Pangaea, and beating floor 100 remerges them. Everyone believes in copies until then.
+Planned, nothing built: [the ending frame](worldbuilding/the-ending-frame.md).
+
 ## One of the sixteen is you
 
 The player is one of the sixteen. The intro shows the fall, so **the player knows what the lead has
@@ -151,6 +155,11 @@ where **time has stopped** for everyone who finished first, so nobody is kept wa
 
 How the contest itself is fought — duels, a bracket, alliances — is open.
 
+**After it, the worlds remerge** ([D440](06-decisions.md)): the one world left standing is all sixteen, made one again.
+The fallen leads are there as the demon kings, knowing every life they had and powerless to change; the living
+merge aware of theirs. Then the last act ([D441](06-decisions.md)): the player chooses a side, Earth Kings or demon
+kings, for the rest of the game. Planned, design only: [the ending frame](worldbuilding/the-ending-frame.md).
+
 ## Names
 
 The sixteen carry **fixed, god-style names in a Roman and Greek register**, the same every run.
@@ -179,7 +188,7 @@ The fight is the thing that has to be right — see [18 — Combat direction](18
 | Sibling worlds, the world ending, the next lead | **Yes** (2026-10-12): the end shown on the map, the next lead from level 1 in a sibling world. See [below](#sixteen-worlds-as-built) |
 | Memories by chapter, "Ascend to heaven", the earlier lead as an NPC | **"Ascend to heaven", yes** (2026-10-12): carried from landing, shown in the journal and on the Tower; it never completes. **The earlier lead, yes** (2026-10-12), waiting near where the next lead fell. Memories, no |
 | Ghosts, the journal, signature weapons | **Yes, simply** (2026-10-12): the journal kept at death as a line per thing done, the ghost at the fire sharing it, and a signature weapon for each stand-in that falls near the next crash site. No meditating yet |
-| The contest past the top | No |
+| The contest past the top, and the merge after it ([D440](06-decisions.md)) | No |
 | Regional names and earned titles | No. `Renown` already tracks standing per place, which is where a title would come from |
 
 ## The others, as built

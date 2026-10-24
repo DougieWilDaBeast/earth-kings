@@ -556,6 +556,8 @@ each, each ending playable:
       Hand-played (mouse, not Auto) First Hour runs: a raid pressed from a wall gap no longer stalls ([D420](06-decisions.md)); the stair is a button for a mouse ([D421](06-decisions.md)); a place's buttons sit in the bottom right with a mouse ([D422](06-decisions.md)).
       Fixed so far from bot play at phone size: a cooling skill's seconds sit in its touch button's corner ([D410](06-decisions.md)); on its side, the ground's log and hint keep between the stick and the buttons ([D411](06-decisions.md)); upright, the level-up line comes a third of the way down and names the Party button ([D412](06-decisions.md)); upright, the ground's log keeps under the stick ([D413](06-decisions.md)); in a ground fight Act and Next step aside with the stick ([D414](06-decisions.md)); a narrow card puts its stance word under the name ([D415](06-decisions.md)); the journal's map tab names no key on a phone ([D416](06-decisions.md)); upright, the journal's title is whole ([D417](06-decisions.md)); upright, a journal page no longer jumps from wide to fitted ([D418](06-decisions.md)).
    4. Play-test 9's asks, in `doug-md`'s order.
+      Meanwhile, words only: the Forgotten Order's six names are settled ([D429](06-decisions.md): Babylon, Orion, Atalanta,
+      Castor, Carthage and Ur), and the ending frame, Pangaea, is written up for M17 ([D440](06-decisions.md)); neither is built.
    5. From 27 October, art in [D356](06-decisions.md)'s order, A2 beside D299's short list.
    6. G after the guild day; tricks ([D285](06-decisions.md)) after G. Questions 47 and 48 answered by `dougie` on 2026-10-23 ([D423](06-decisions.md)): the Inferred rows 200 to 287 kept, a private Android test build for the founders, and main pushed to itch with the PC downloads. The Android test build is built ([D424](06-decisions.md), first `b0e9770`); next, they install it by its note and play.
 
@@ -877,6 +879,12 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
 
 - How the contest between the surviving leads is fought
 - Who, or what, decided only one world survives, and how the last fight asks you to stop it
+- The ending frame ([D440](06-decisions.md), 2026-10-24): beating floor 100 remerges the sixteen worlds into the one
+  land they were split from (Pangaea); the fallen leads are there as demon kings who know every life they had, and the
+  living merge aware. Its shape is questions 49 to 54 in [30](30-questions-for-the-founders.md); written up in
+  [the ending frame](worldbuilding/the-ending-frame.md). Design only
+- The last act ([D441](06-decisions.md)): after the merge the player chooses a side, an Earth King or a demon king, for
+  the rest of the game; a death there picks the next lead from the same side. Questions 55 to 59. Design only
 - ✅ Done when: there is a design doc both founders have signed off. Nothing is built before that
 
 ### M18 — One view, and no step clock — IN PROGRESS

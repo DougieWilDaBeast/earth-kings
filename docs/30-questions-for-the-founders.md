@@ -27,12 +27,12 @@ who the five real players are ([D217](06-decisions.md)), and sent them to Will t
 ([D212](06-decisions.md), [D213](06-decisions.md), [D228](06-decisions.md) to [D230](06-decisions.md)): both say 50/50 (28)
 and Early Access (32); on 30 both lean to a one-off price with a free demo, and Will took the team's price and platforms on 2026-10-18 ([D255](06-decisions.md)); on 31 Will says January or February and Ewan has no plans yet, so it is asked again on 2026-10-31.
 
-**Still open (2026-10-20).** Everything else here is answered and struck through.
+**Still open (2026-10-24).** Everything else here is answered and struck through. Question 44, the Forgotten Order's names, was answered by Will on 2026-10-24 ([D429](06-decisions.md)).
 
 | Question | Whose | What is left | Issue |
 | --- | --- | --- | --- |
 | 31. When? | Ewan | His word on January or February 2027, asked again on 2026-10-31; Will confirmed the year on 2026-10-18 ([D255](06-decisions.md)) | [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213) (closed on Will's half) |
-| 44. The Forgotten Order's names | Ewan | Six drafted (2026-10-20); Ewan picks or changes | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
+| 49 to 59. The ending frame (Pangaea) and the last act | Both | Will's word is canon ([D440](06-decisions.md), [D441](06-decisions.md)); 53 answered, ten questions on its shape, each with a default | [#568](https://github.com/DougieWilDaBeast/earth-kings/issues/568) |
 | 45. The guild day | Both | Ten questions, by voice note, before any guild building | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 46. The world's history | Both | Eleven questions, by voice note this week | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 47. Keep the Inferred rows as built | Ewan | Will kept rows 200 to 287 (2026-10-23, [D423](06-decisions.md)); Ewan may still name any | [#504](https://github.com/DougieWilDaBeast/earth-kings/issues/504) (closed on Will's half) |
@@ -466,7 +466,7 @@ should be able to recruit absolutely everybody, maybe not all". _Default:_ they 
 but once you have a guild they can come and work on your land.
 _Answered 2026-10-20:_ **Will:** "All recommended" (call BV, [D303](06-decisions.md)): they do not join the company; once you have a guild they can come and work on your land.
 
-**44. The Forgotten Order's six: what are they called?** (Ewan) Follows 39 and [D291](06-decisions.md).
+~~**44. The Forgotten Order's six: what are they called?**~~ (Ewan) Follows 39 and [D291](06-decisions.md).
 _Default:_ the writers draft six by-names as the fables tell them (demigod-like, beside the sixteen's gods),
 true names kept for later like the Order's own, and Ewan picks or changes them.
 _Answered 2026-10-20:_ **Will:** "All recommended" (call BV, [D303](06-decisions.md)): the writers draft, Ewan picks or changes. **Drafted 2026-10-20** (agenda 210), each as the fables call them, true names kept back like the Order's own:
@@ -477,6 +477,7 @@ _Answered 2026-10-20:_ **Will:** "All recommended" (call BV, [D303](06-decisions
 5. **Penthesilea, the Spear Queen**: the one the land's monuments show, spear down, facing the Tower.
 6. **Asclepius, the Mender**: kept the six alive for a hundred years; some say he is why none of them has aged.
 **Ewan:** keep, change or replace any; say "skip" to leave a name open.
+_Answered 2026-10-24:_ **Will** ([transcript](worldbuilding/voice-notes/2026-10-24-dougie-lost-places-and-pangaea.md), [D429](06-decisions.md)): "I like Orion, I like Atlanta, I like Castor, but what about ancient place names?" Kept: Orion, Atalanta, Castor. The writers picked three lost places for the other three, each keeping its by-name: **Babylon, the Last Out of the Fire**; **Carthage, the Spear Queen**; **Ur, the Mender** (agenda 327). Alternates for Will to swap in: Atlantis, Nineveh. Ewan may still change any.
 
 **45. The guild day.** (Both) Ewan asked for a day on the guild alone, from a list of questions
 ([D294](06-decisions.md)). Nothing of companies of your own or the guild is built before it. The list:
@@ -525,6 +526,66 @@ runs native; one PR (the Android export template, a JDK and the SDK in the relea
 Native Android waits until after release ([D169](06-decisions.md), [D255](06-decisions.md)). _Default:_ yes, after
 the second touch pass, for the two founders only, not on itch or a store; phones after release stands.
 _Answered 2026-10-23:_ **Will:** "It would go with all the recommended" (call CF, [D423](06-decisions.md)): yes, a private Android test build for the two founders; phones after release stands.
+
+## 13. Asked by the ending frame (2026-10-24)
+
+Added 2026-10-24 with [the ending frame](worldbuilding/the-ending-frame.md) ([D440](06-decisions.md), issue
+[#568](https://github.com/DougieWilDaBeast/earth-kings/issues/568)). Will's word is canon: the sixteen worlds are one land split
+apart, like Pangaea; beating floor 100 remerges them; the fallen leads are the demon kings, knowing every life they
+had and powerless to change; the living unpicked leads merge aware. These six ask how it is shaped. Each has the
+writers' and designers' reading as its default (agenda 340 to 342); nothing is built before M17's design.
+
+**49. When do the worlds merge?** (Both) Will: after floor 100's "bosses and/or what they think is the final level".
+The contest between everyone who reaches the top is already planned ([D171](06-decisions.md)).
+_Default:_ the floor-100 apex, then the contest; the winner expects their world to be the one left standing, and
+instead all sixteen merge. The other ways: the merge replaces the contest, or the contest is fought after it, in the merged land.
+
+**50. What is the merged world?** (Both) Every world is the same map ([D91](06-decisions.md)).
+_Default:_ the one map with every world's marks on it at once (burned shards where demon kings rule, what each lead
+did). The other way: sixteen lands joined edge to edge into a larger Pangaea, which needs a new, bigger map and its art.
+
+**51. Are the demon kings fought after the merge?** (Both) Will: aware, and powerless to change.
+_Default:_ yes: each still holds their burned shard and must be beaten there, speaking as themselves while they fight,
+remembering the copy who joined you, the ghost at your fire and the weapon in your hand; never redeemed. The other way:
+they cannot be fought, only met and heard.
+
+**52. Does the lead remember every life too?** (Both) Will said it of the fallen and of the unpicked.
+_Default:_ yes: the merge is the last chapter; the lead gets every world's memories at once and the whole-story
+cinematic of [D53](06-decisions.md) plays there. The other way: only the others remember, and the lead stays partial until the true end.
+
+~~**53. Is the merge the end, or the turn into the last act?**~~ (Both) [D171](06-decisions.md) plans "more story" after the contest.
+_Default:_ the turn: the game goes on in the merged land, after whoever split it. The other way: the merge is the ending and the credits.
+_Answered 2026-10-24:_ **Will** (12:16, [D441](06-decisions.md)): the turn. The merge moves the game into a new arc, played as an Earth King or a demon king; questions 55 to 59.
+
+**54. How is it foreshadowed, and is the one land called Pangaea?** (Both)
+_Default:_ quietly, through what already leaks between worlds (the crossing, a word carried, the dream, the census)
+and the Forgotten Order's lost-place names; the one land is called **Pangaea** in the world (Greek, "all the earth"),
+a word never said before floor 100. The other way: another name for it, or say it early.
+
+**The last act** (Will, 12:16 the same day, [D441](06-decisions.md), canon): after the merge the player chooses who
+they play for the new arc, from the living Earth Kings or the fallen demon kings; the choice comes naturally with a
+clear warning that it fixes their side; a death does not end the world, and the next lead comes only from that side.
+Five more on its shape ([the ending frame](worldbuilding/the-ending-frame.md#the-last-act-earth-kings-or-demon-kings), agenda 343 to 345):
+
+**55. How does the choice come?** (Both) _Default:_ the merge ends in the opening's ring of sixteen, standing in the one
+land, the living on one side and the demon kings on the other; the player walks to one and takes their hand, and one
+plain card warns: "Who you choose now decides your side for the rest of the game. There is no crossing back." The other
+way: a roster screen with the warning.
+
+**56. Who stands on each side?** (Both) _Default:_ Earth Kings, every lead alive at the merge, the lead who beat floor
+100 among them; demon kings, every lead who fell while played, so a first-life win has no demon side to choose. The other
+way: the lead who beat floor 100 steps aside and cannot be chosen.
+
+**57. What is the demon kings' storyline for?** (Both) _Default:_ their own arc, played knowing everything and still
+unable to stop being what they are (no redemption, as Will said); what they want in the one land is the story. The other
+way: their arc seeks an end to the curse, which softens the tragedy.
+
+**58. What happens when a last-act lead falls?** (Both) _Default:_ the world goes on and the picker shows the chosen side
+only; an Earth King who falls turns demon king, one more foe; a demon king who falls is gone; when a side has nobody
+left, the other side holds the land and the game ends. The other way: the fallen are simply gone, on either side.
+
+**59. At what strength is the last act played?** (Both) _Default:_ everyone at the strength they reached, a demon king at
+the level they fell at with a demon king's strength; no quiz, no level 1. The other way: back to level 1, as every new life is.
 
 ## Will's to-dos (not questions)
 
