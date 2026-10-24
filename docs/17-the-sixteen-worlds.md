@@ -158,7 +158,8 @@ How the contest itself is fought — duels, a bracket, alliances — is open.
 **After it, the worlds remerge** ([D440](06-decisions.md)): the one world left standing is all sixteen, made one again.
 The fallen leads are there as the demon kings, knowing every life they had and powerless to change; the living
 merge aware of theirs. Then the last act ([D441](06-decisions.md)): the player chooses a side, Earth Kings or demon
-kings, for the rest of the game. Planned, design only: [the ending frame](worldbuilding/the-ending-frame.md).
+kings, for the rest of the game, by splitting the lead in two and following one half ([D442](06-decisions.md)).
+Planned, design only: [the ending frame](worldbuilding/the-ending-frame.md).
 
 ## Names
 

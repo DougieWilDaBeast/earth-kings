@@ -7,9 +7,10 @@ issue #568). **Direction, not the build.** Nothing here is in the game, and noth
 code waits on play-test 9 in any case ([D383](../06-decisions.md)).
 
 What is `dougie`'s word is marked as his and is canon. What the writers and designers read into it,
-to make it fit what exists, is written **Inferred.** and is on the agenda (rows 340 to 345) and in
-[30](../30-questions-for-the-founders.md) as questions 49 to 59, each with a default. The last act, which `dougie`
-added at 12:16 the same day, is [its own section](#the-last-act-earth-kings-or-demon-kings) ([D441](../06-decisions.md)).
+to make it fit what exists, is written **Inferred.** and is on the agenda (rows 340 to 348) and in
+[30](../30-questions-for-the-founders.md) as questions 49 to 65, each with a default. The last act, which `dougie`
+added at 12:16 the same day, is [its own section](#the-last-act-earth-kings-or-demon-kings) ([D441](../06-decisions.md)), refined at 12:36 by
+[the split](#the-split-one-lead-two-halves) ([D442](../06-decisions.md)).
 
 ## What `dougie` said
 
@@ -88,9 +89,9 @@ How the writers and designers read it onto what exists (**Inferred.**, agenda 34
 
 | Piece | Reading |
 | --- | --- |
-| **How the choice is staged** | The merge ends where the opening began: the ring of sixteen ([D340](../06-decisions.md)), now standing in the one land, the living lit in their colours on one side, the demon kings in black and red on the other, the dead of the player's own lives among them. The lead who beat floor 100 stands in the middle. The player walks to one and takes their hand (Bram's "Give me your hand" turned round). Before it holds, one plain card: "Who you choose now decides your side for the rest of the game. There is no crossing back." Choose, or step away and look again (question 55) |
-| **Who stands on each side** | **Earth Kings**: every lead alive at the merge, the unpicked who made it up by default ([D171](../06-decisions.md)) and the lead who beat floor 100. **Demon kings**: every lead who fell while the player played them ([D293](../06-decisions.md)). A first-life win has fifteen Earth Kings and no demon kings, so the demon side opens only after at least one fall (question 56) |
-| **What each side's arc is** | **Earth Kings**: hold the one land against the demon kings and the broken worlds' consequences, then go after whoever split it ([D171](../06-decisions.md)'s "more story"). **Demon kings**: their own storyline, played knowing everything and unable to stop being what they are (`dougie`'s tragedy holds: no redemption); what they want is theirs to choose, which is the arc (question 57) |
+| ~~**How the choice is staged**~~ | **Superseded** by [the split](#the-split-one-lead-two-halves) ([D442](../06-decisions.md)): the choice is the lead's own, alone with both halves of themselves. ~~The merge ends where the opening began: the ring of sixteen ([D340](../06-decisions.md)), now standing in the one land, the living lit in their colours on one side, the demon kings in black and red on the other, the dead of the player's own lives among them. The lead who beat floor 100 stands in the middle. The player walks to one and takes their hand (Bram's "Give me your hand" turned round). Before it holds, one plain card: "Who you choose now decides your side for the rest of the game. There is no crossing back." Choose, or step away and look again (question 55)~~ |
+| **Who stands on each side** | **Earth Kings**: every lead alive at the merge, the unpicked who made it up by default ([D171](../06-decisions.md)); ~~and the lead who beat floor 100~~ (**superseded** by [the split](#the-split-one-lead-two-halves): that lead splits in two and leads the arc, unplayable). **Demon kings**: every lead who fell while the player played them ([D293](../06-decisions.md)). A first-life win has fifteen Earth Kings and no demon kings, so the demon side opens only after at least one fall (question 56) |
+| **What each side's arc is** | **Earth Kings**: hold the one land against the demon kings and the broken worlds' consequences, then go after whoever split it ([D171](../06-decisions.md)'s "more story"). **Demon kings**: their own storyline, played knowing everything and unable to stop being what they are (`dougie`'s tragedy holds: no redemption); what they want is theirs to choose, which is the arc (question 57). **Reshaped** by [the split](#the-split-one-lead-two-halves): each of the sixteen has an Earth King goal and a demon king goal, and the arc is theirs interlinking round the split lead |
 | **Deaths and the next pick** | The world does not burn or end ([17](../17-the-sixteen-worlds.md#when-the-lead-dies) no longer applies here). The picker opens on the chosen side only, the fallen greyed. An Earth King who falls in the last act becomes a demon king, on the other side, one more foe; a demon king who falls is ash and gone. When a side has nobody left, the other side holds the one land and the game ends (question 58) |
 | **The quiz, the roster screens, levels** | No quiz in the last act: the choice at the merge is its front door ([D44](../06-decisions.md)), and every later pick is the roster of the chosen side, the other side shown across from it and closed. Everyone plays at the full strength they reached, not from level 1, because the world goes on; a demon king at the level they fell at plus the strength a demon king gains ([D304](../06-decisions.md)) (question 59) |
 | **The contest** | Unchanged: it comes before the merge (question 49). Its winner is simply one more Earth King to choose, or to turn from |
@@ -100,14 +101,77 @@ What it unlocks: a second full playthrough of the last act from the other side; 
 someone they can play again, as the person they could not stop becoming; and the roster of a late run is shaped by
 every choice before it.
 
+## The split: one lead, two halves
+
+`dougie`, 12:36 the same day ([transcript](voice-notes/2026-10-24-dougie-lost-places-and-pangaea.md#1236-the-split),
+[D442](../06-decisions.md), issue #570), canon, refining the last act:
+
+- **Every one of the sixteen has an Earth King goal and a demon king goal.** The goals interlink by the side each
+  stands on when the merge comes. It is most tragic for the characters the player spent the most time with, who
+  fell and so stand with the demon kings.
+- **The choice is a moment alone.** The lead the player finished with comes face to face with who they are
+  completely: the Earth King on one side, the demon king on the other. Their soul is half Earth King and half
+  demon king, and there is a compelling reason to choose either.
+- **Choosing splits that lead in two.** The roster becomes **seventeen**: the lead is now two people, and the half
+  the player chose becomes **the main lead of that final arc**. The choice is whether to side with the Earth King's
+  view or the demon king's view of the character they finished the game with.
+- **The main lead is not playable.** The player chooses from the roster available on that side and watches the
+  main lead's story play out through the characters who surround and support them: perspective, and a story the
+  player drives.
+- **The two halves fight out their ideals.** The player should come away thinking "wow, that was such an
+  experience", and the game ends on: **were the choices I made truly what I wanted?**
+
+`dougie`'s 12:16 rules stand inside it: the side is fixed, and a death in the last act picks the next lead from that
+side only ([D441](../06-decisions.md)).
+
+How the writers and designers read it onto what exists (**Inferred.**, agenda 346 to 348, questions 60 to 65):
+
+| Piece | Reading |
+| --- | --- |
+| **The moment alone** | The merge's light fades to one place only the lead can stand in: the Tower's top room, the alcove where the chapter-one object lay, or the crater they fell into ([D103](../06-decisions.md)). The two halves stand either side, in the lead's own body: one in their colour, one in black and red. Each speaks once, in the lead's voice, making the best case for itself out of what this run actually did (gates shut, people saved, towns burned, who fell and how). Then one plain line: "Half of you goes on. Whoever you stand with now, you stand with to the end." The player walks to one. Nothing moves until they do (question 60) |
+| **The seventeen** | The chosen half leads the chosen side; **the other half leads the other side**, so each side has a head, and the two are the same person. Earth King side: the living sixteen and the Earth King half. Demon side: the fallen and the demon king half (question 61) |
+| **Playing the arc** | The main lead walks with the player's company as a companion who cannot be steered and cannot be sent away; their story beats play as scenes. Every lead on that side can be chosen, and each sees the main lead from where they stand: an old friend, a rival, someone they never met (question 62) |
+| **The main lead's life** | The main lead cannot fall before the end: beaten, they are carried off and come back. Only the halves' last fight decides them (question 63) |
+| **A side with none of the sixteen** | A first-life win leaves no fallen leads, so the demon king half would lead nobody. **Inferred.** The demon half's call reaches the living whose demon goal this run fed most, and they cross; or the side is closed on a first-life win (question 64) |
+| **The last fight and the end** | The player's lead and company fight beside their main lead through the other half's champions; the last exchange is the two halves alone, ideal against ideal, and the player's main lead wins it. Then the ending shows what the other half was right about, in what this run did, and asks the closing question in the lead's voice (question 65) |
+| **Deaths, levels, the quiz** | As the last act: a fallen lead's next pick is from the same side; an Earth King who falls turns demon king; everyone at full strength; no quiz (questions 58, 59 stand) |
+
+### The sixteen's two goals (first draft)
+
+**Inferred.** Drafted by the writers on 2026-10-24 from each lead's seed ([21](../21-the-sixteen-first-draft.md)): the same
+want, bent two ways. The founders change any. The "interlinks with" column is who each one's goal runs into, on
+the same side or across.
+
+| Lead | Earth King goal | Demon king goal | Interlinks with |
+| --- | --- | --- | --- |
+| **Atlas** | Write the ending where everyone who carried him lives, at any cost to himself | He has read every ending in every world and none saves everyone, so he chooses one: the one land held still, nothing lost again, a whole world carried like him | Whoever was his bearer; whoever holds the ending he foresaw |
+| **Janus** | Find whoever broke the land and shut the door they came through: the hardest question there is | Open every door at once and keep the land breaking and rejoining, because a world that is solved is not worth waking for | Holds the key: whichever side has him has the gates |
+| **Bellona** | Be the one land's last wall again: she cannot save everyone, so she saves as many as she can | Her forgotten sin, remembered whole: she becomes the tyrant she was above, and spends lives on purpose | Ultor, who came to kill her for it |
+| **Cassius** | Speak for the demon kings: make the living see the fallen as people, and argue for a peace | Be the monster they named him: prove heroes are the crowd's lie by breaking Caesar where everyone can see | Caesar |
+| **Saturn** | Gather the grieving of sixteen worlds and keep them together, without pain | The merge gave him every loss of every world: everyone will feel everyone else's pain, and he will make them | His creed: whoever he gathered fills the other side's ranks |
+| **Vesta** | Keep the fire lit in the one land and refuse to trade it for heaven | Her fire burns only the dead, and the burned worlds are dead: she keeps her one fire and lets the rest burn, and nobody goes back up | The ghosts she will not hear; the fallen she knew |
+| **Caesar** | Protect the weak of every world, and get back up every time | Protect only his own: the fallen, against a living world that let them burn; the shield turned outward | Cassius |
+| **Iris** | Take the shot herself at last: strike whoever broke the land | Carry the demon kings' word everywhere, the rumour that turns the land, handing the moment to the worst of them again | Whoever she marks; the messenger between the sides |
+| **Pluto** | Keep his people safe in the merged land, and climb back to the top for them | The dead are his people now: raise the souls of the burned worlds into an army and take back the top he once held | The fallen leads, whom he could raise |
+| **Ceres** | Feed the one land: turn its scars into fields | Her village burned with her world: grow thorns over the living land, so nothing can be taken from anyone again | Juno |
+| **Cato** | Write the one land's rules so they stop crushing the people they land on | Give the demon kings a law and keep it to the letter, without mercy | Ultor, the bandit he hunts |
+| **Juno** | Lay one table where Earth King and demon king sit together | Nobody goes hungry: feed the burned worlds' people and their kings, whatever the living go without | Knows where everyone is; Ceres |
+| **Ultor** | Choose a captain over vengeance and put his hate for Bellona down | Kill Bellona, in every world he now remembers, whatever it costs | Bellona; Cato |
+| **Diana** | Become, for real, the one they fear, to guard the one land's wild places | The wolf burned with her world: she becomes the beast they always said she was | Liber |
+| **Ares** | Champion of the one land, loyal while seeing its faults; at last hunting the right outlaw, whoever split it | Loyal to the fallen as he was to his kingdom: he hunts his kin Liber, and this time does not let him go | Liber |
+| **Liber** | Free everyone, the fallen too: no chains and no sides | Free from everything: tear down the Tower, the gods and every rule, and call the ruin freedom | Ares; Diana, Cassius and Ultor, his friends |
+
+The split lead's two halves are their own two goals made into two people: the half the player chooses carries one
+goal as the arc's main story, and the other half carries the other as its enemy.
+
 ## What it does not settle
 
 Who or what broke the land, and why (question 46.3); who rules the one land, and whether "Earth King"
 still means the contest's winner; what becomes of the people of each world (sixteen innkeepers of the
 same inn, or one); whether the Forgotten Order, unaged in a Tower that is frozen in time
 ([D293](../06-decisions.md)), were ever split at all; and whether a demon king can be laid to rest
-once beaten, if never redeemed. These are for the founders when M17's design is written; the six
-that shape it now are questions 49 to 54 in [30](../30-questions-for-the-founders.md).
+once beaten, if never redeemed. These are for the founders when M17's design is written; the ones
+that shape it now are questions 49 to 65 in [30](../30-questions-for-the-founders.md).
 
 ## The Forgotten Order's six names
 

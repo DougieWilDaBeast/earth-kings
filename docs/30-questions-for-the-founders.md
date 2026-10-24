@@ -32,7 +32,7 @@ and Early Access (32); on 30 both lean to a one-off price with a free demo, and 
 | Question | Whose | What is left | Issue |
 | --- | --- | --- | --- |
 | 31. When? | Ewan | His word on January or February 2027, asked again on 2026-10-31; Will confirmed the year on 2026-10-18 ([D255](06-decisions.md)) | [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213) (closed on Will's half) |
-| 49 to 59. The ending frame (Pangaea) and the last act | Both | Will's word is canon ([D440](06-decisions.md), [D441](06-decisions.md)); 53 answered, ten questions on its shape, each with a default | [#568](https://github.com/DougieWilDaBeast/earth-kings/issues/568) |
+| 49 to 65. The ending frame (Pangaea), the last act and the split | Both | Will's word is canon ([D440](06-decisions.md) to [D442](06-decisions.md)); 53, 55 and 56 answered, the rest each with a default | [#568](https://github.com/DougieWilDaBeast/earth-kings/issues/568), [#570](https://github.com/DougieWilDaBeast/earth-kings/issues/570) |
 | 45. The guild day | Both | Ten questions, by voice note, before any guild building | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 46. The world's history | Both | Eleven questions, by voice note this week | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 | 47. Keep the Inferred rows as built | Ewan | Will kept rows 200 to 287 (2026-10-23, [D423](06-decisions.md)); Ewan may still name any | [#504](https://github.com/DougieWilDaBeast/earth-kings/issues/504) (closed on Will's half) |
@@ -567,14 +567,16 @@ they play for the new arc, from the living Earth Kings or the fallen demon kings
 clear warning that it fixes their side; a death does not end the world, and the next lead comes only from that side.
 Five more on its shape ([the ending frame](worldbuilding/the-ending-frame.md#the-last-act-earth-kings-or-demon-kings), agenda 343 to 345):
 
-**55. How does the choice come?** (Both) _Default:_ the merge ends in the opening's ring of sixteen, standing in the one
+~~**55. How does the choice come?**~~ (Both) _Default:_ the merge ends in the opening's ring of sixteen, standing in the one
 land, the living on one side and the demon kings on the other; the player walks to one and takes their hand, and one
 plain card warns: "Who you choose now decides your side for the rest of the game. There is no crossing back." The other
 way: a roster screen with the warning.
+_Answered 2026-10-24:_ **Will** (12:36, [D442](06-decisions.md)): neither. The lead faces both halves of themselves alone and chooses one; questions 60 to 65.
 
-**56. Who stands on each side?** (Both) _Default:_ Earth Kings, every lead alive at the merge, the lead who beat floor
+~~**56. Who stands on each side?**~~ (Both) _Default:_ Earth Kings, every lead alive at the merge, the lead who beat floor
 100 among them; demon kings, every lead who fell while played, so a first-life win has no demon side to choose. The other
 way: the lead who beat floor 100 steps aside and cannot be chosen.
+_Answered 2026-10-24:_ **Will** (12:36, [D442](06-decisions.md)): the lead who beat floor 100 splits in two and becomes the unplayable main lead of the chosen side; the living stand with the Earth Kings and the fallen with the demon kings, seventeen in all.
 
 **57. What is the demon kings' storyline for?** (Both) _Default:_ their own arc, played knowing everything and still
 unable to stop being what they are (no redemption, as Will said); what they want in the one land is the story. The other
@@ -586,6 +588,34 @@ left, the other side holds the land and the game ends. The other way: the fallen
 
 **59. At what strength is the last act played?** (Both) _Default:_ everyone at the strength they reached, a demon king at
 the level they fell at with a demon king's strength; no quiz, no level 1. The other way: back to level 1, as every new life is.
+
+**The split** (Will, 12:36 the same day, [D442](06-decisions.md), canon): each of the sixteen has an Earth King goal and
+a demon king goal; at the choice the lead faces both halves of themselves alone; choosing splits them, the roster becomes
+seventeen, and the chosen half is the unplayable main lead of the final arc, watched through the supporting roster; the
+halves fight out their ideals; the game ends on "were the choices I made truly what I wanted?" Six more
+([the ending frame](worldbuilding/the-ending-frame.md#the-split-one-lead-two-halves), agenda 346 to 348):
+
+**60. Where does the lead face their two halves?** (Both) _Default:_ somewhere only they can stand (the Tower's top room,
+the alcove where their chapter-one object lay, or their crater), each half in the lead's own body making the best case
+from what this run did, then "Half of you goes on. Whoever you stand with now, you stand with to the end." The other
+way: in the merged land, with everyone watching.
+
+**61. Who leads the side the player did not choose?** (Both) _Default:_ the other half: each side is led by one half of
+the same person. The other way: the other half fades, and the other side is led by its strongest.
+
+**62. How does the main lead travel with you?** (Both) _Default:_ as a companion in the company who cannot be steered or
+sent away, their story beats played as scenes. The other way: met only at story moments, not in the company.
+
+**63. Can the main lead fall before the end?** (Both) _Default:_ no: beaten, they are carried off and come back; only the
+halves' last fight decides them. The other way: they can fall, and the arc ends there.
+
+**64. A first-life win has no fallen leads: who is on the demon side?** (Both) _Default:_ the demon half's call reaches
+the living whose demon goal the run fed most, and they cross. The other way: the demon side is closed on a first-life win.
+
+**65. How does the last fight end?** (Both) _Default:_ the player's lead fights beside their main lead through the other
+half's champions; the last exchange is the halves alone and the main lead wins it; then the ending shows what the other
+half was right about, in what this run did, and asks the closing question. The other way: the last exchange is decided by
+how the player played the arc, and can be lost. And with it: read the sixteen paired goals and change any (agenda 346).
 
 ## Will's to-dos (not questions)
 
